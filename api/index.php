@@ -92,13 +92,14 @@ try {
     if (ob_get_level()) {
         ob_end_clean();
     }
-    http_response_code(500);
     error_log((string) $e);
 
     if (isset($_GET['__debug'])) {
+        http_response_code(200);
         header('Content-Type: text/plain; charset=utf-8');
         echo get_class($e) . ': ' . $e->getMessage() . "\n in " . $e->getFile() . ':' . $e->getLine() . "\n\n" . $e->getTraceAsString();
     } else {
+        http_response_code(500);
         echo 'Server Error';
     }
 }
