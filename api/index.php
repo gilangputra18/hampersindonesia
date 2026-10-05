@@ -13,9 +13,13 @@ if ($debug) {
     register_shutdown_function(function () {
         $e = error_get_last();
         if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+            http_response_code(200);
             echo "\n[FATAL] {$e['message']}\n in {$e['file']}:{$e['line']}\n";
         }
     });
+    echo 'PHP ' . PHP_VERSION . ' | sqlite=' . (extension_loaded('pdo_sqlite') ? 'yes' : 'NO')
+        . ' | mbstring=' . (extension_loaded('mbstring') ? 'yes' : 'NO')
+        . ' | intl=' . (extension_loaded('intl') ? 'yes' : 'NO') . "\n\n";
 }
 
 try {
@@ -100,10 +104,12 @@ try {
     // 7. Handle the HTTP request
     $app->handleRequest(Request::capture());
 } catch (\Throwable $e) {
-    http_response_code(500);
     if ($debug) {
+        // 200 on purpose: lets browsers/tools show the body instead of a blank 500 page.
+        http_response_code(200);
         echo get_class($e) . ': ' . $e->getMessage() . "\n in " . $e->getFile() . ':' . $e->getLine() . "\n\n" . $e->getTraceAsString();
     } else {
+        http_response_code(500);
         error_log((string) $e);
         echo 'Server Error';
     }
