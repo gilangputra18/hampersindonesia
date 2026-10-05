@@ -141,6 +141,22 @@
       width: 100%;
       text-align-last: center;
     }
+    .shop-sidebar {
+      background: #ffffff;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      margin-bottom: 24px;
+    }
+    .accordion-header {
+      font-size: 12px;
+      letter-spacing: 2px;
+      padding: 14px 0;
+    }
+    .filter-checkbox-label {
+      font-size: 12.5px;
+    }
   }
 
   /* Main Shop Content: Sidebar + Grid */
@@ -218,18 +234,29 @@
   }
   .price-inputs {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
     margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .price-input {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #b5c7c0;
-    background: #f4f7f6;
-    border-radius: 4px;
-    font-size: 12px;
+    flex: 1;
+    min-width: 0;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    border-radius: 6px;
+    font-size: 12.5px;
     color: #1e2d27;
+    transition: all 0.2s ease;
+  }
+  .price-input:focus {
+    outline: none;
+    border-color: #d97706;
+    box-shadow: 0 0 8px rgba(217, 119, 6, 0.2);
   }
 
   /* Product Grid Layout Options */

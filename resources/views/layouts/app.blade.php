@@ -689,10 +689,23 @@
   }
   @media (max-width: 768px) {
     .footer-main-content {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      text-align: left;
-      padding: 28px 20px 20px;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 24px 14px !important;
+      text-align: left !important;
+      padding: 28px 16px 20px !important;
+    }
+    .footer-col:last-child {
+      grid-column: 1 / -1 !important;
+    }
+    .footer-col h4 {
+      font-size: 13.5px !important;
+      letter-spacing: 1.5px !important;
+      margin-bottom: 10px !important;
+    }
+    .footer-col p, .footer-col a {
+      font-size: 11.5px !important;
+      line-height: 1.6 !important;
+      margin-bottom: 5px !important;
     }
   }
 
