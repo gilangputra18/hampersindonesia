@@ -61,6 +61,11 @@ try {
     $setEnv('APP_STORAGE_PATH', '/tmp/storage');
     $setEnv('VIEW_COMPILED_PATH', '/tmp/storage/framework/views');
 
+    // Diagnostic mode only: let Laravel render the real exception instead of a generic 500 page.
+    if ($debug) {
+        $setEnv('APP_DEBUG', 'true');
+    }
+
     // Keep Laravel's bootstrap caches writable too
     $setEnv('APP_SERVICES_CACHE', '/tmp/bootstrap/cache/services.php');
     $setEnv('APP_PACKAGES_CACHE', '/tmp/bootstrap/cache/packages.php');
