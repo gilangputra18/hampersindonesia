@@ -602,222 +602,186 @@
     margin-top: 2px;
   }
 
-  /* Newsletter VIP Privilege Banner */
-  .footer-newsletter-banner {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 45px 40px;
-    background: rgba(13, 23, 19, 0.7);
-    backdrop-filter: blur(5px);
+  /* Ultra-Luxurious Minimalist Royal Footer */
+  .luxury-footer {
+    background: #09120e;
+    color: #cad8d1;
+    border-top: 2px solid #b45309;
+    font-family: 'Outfit', sans-serif;
   }
-  .newsletter-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 30px;
-    flex-wrap: wrap;
+  .footer-royal-crest {
+    text-align: center;
+    padding: 36px 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
-  .newsletter-brand h3 {
+  .royal-crest-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    letter-spacing: 3px;
+    font-size: 22px;
+    letter-spacing: 4px;
     color: #fef08a;
-    margin-bottom: 4px;
-    font-weight: 600;
-    text-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
+    font-weight: 700;
+    text-transform: uppercase;
   }
-  .newsletter-brand p {
-    font-size: 13px;
-    color: #9cb3a8;
+  .royal-crest-tag {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #854d0e;
+    text-transform: uppercase;
+    margin-top: 4px;
   }
-  .newsletter-form {
-    display: flex;
-    gap: 12px;
-    width: 100%;
+  .footer-newsletter-compact {
     max-width: 480px;
+    margin: 20px auto 0;
+    text-align: center;
   }
-  .newsletter-input {
+  .footer-newsletter-compact p {
+    font-size: 12px;
+    color: #9cb3a8;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+  .newsletter-form-simple {
+    display: flex;
+    gap: 8px;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .newsletter-form-simple input {
     flex: 1;
-    padding: 14px 20px;
+    padding: 10px 14px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(217, 119, 6, 0.3);
-    border-radius: 6px;
+    border-radius: 4px;
     color: #fff;
+    font-size: 12px;
     font-family: inherit;
-    font-size: 13px;
-    transition: all 0.25s ease;
   }
-  .newsletter-input:focus {
+  .newsletter-form-simple input:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.08);
     border-color: #f59e0b;
-    box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    background: rgba(255, 255, 255, 0.08);
   }
-  .newsletter-btn {
-    padding: 14px 28px;
-    background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #f59e0b 100%);
-    color: #0d1713;
+  .newsletter-form-simple button {
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #b45309, #d97706);
+    color: #fff;
     border: none;
-    border-radius: 6px;
-    font-size: 11px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    font-weight: 800;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(180, 83, 9, 0.35);
+    white-space: nowrap;
+    transition: all 0.2s ease;
   }
-  .newsletter-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
-    background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fef08a 100%);
+  .newsletter-form-simple button:hover {
+    background: linear-gradient(135deg, #d97706, #f59e0b);
+    color: #0d1713;
   }
 
-  /* Main Footer Columns */
   .footer-main-content {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 60px 40px;
+    padding: 36px 30px 28px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 45px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
   }
-  @media (max-width: 960px) {
-    .footer-main-content {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 40px;
-    }
-  }
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     .footer-main-content {
       grid-template-columns: 1fr;
+      gap: 24px;
       text-align: center;
-      padding: 40px 24px;
+      padding: 28px 20px 20px;
     }
   }
 
   .footer-col h4 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 17px;
+    font-size: 15px;
     letter-spacing: 2.5px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     color: #fef08a;
-    margin-bottom: 22px;
-    position: relative;
+    margin-bottom: 14px;
     display: inline-block;
   }
-  .footer-col h4::after {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 2px;
-    background: linear-gradient(90deg, #f59e0b, rgba(245, 158, 11, 0));
-    margin-top: 8px;
-  }
-  @media (max-width: 600px) {
-    .footer-col h4::after {
-      margin: 8px auto 0 auto;
-    }
-  }
-
   .footer-col p {
-    color: #a7bbb0;
-    margin-bottom: 14px;
-    font-size: 13px;
+    color: #9cb3a8;
+    margin-bottom: 8px;
+    font-size: 12.5px;
+    line-height: 1.7;
   }
   .footer-col a {
-    color: #a7bbb0;
+    color: #9cb3a8;
     text-decoration: none;
-    transition: all 0.2s ease;
-    display: inline-block;
-    margin-bottom: 10px;
-    position: relative;
+    transition: color 0.2s ease;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12.5px;
   }
   .footer-col a:hover {
-    color: #fef08a;
-    transform: translateX(4px);
-  }
-  @media (max-width: 600px) {
-    .footer-col a:hover {
-      transform: translateY(-2px);
-    }
-  }
-
-  .footer-badge-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.25);
-    color: #fef08a !important;
-    padding: 8px 14px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    margin-top: 10px;
-    transition: all 0.2s;
-  }
-  .footer-badge-link:hover {
-    background: #d97706;
-    color: #0d1713 !important;
-    border-color: #d97706;
-    transform: none !important;
+    color: #f59e0b;
   }
 
   .social-icons-row {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-top: 24px;
+    gap: 10px;
+    margin-top: 12px;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     .social-icons-row {
       justify-content: center;
     }
   }
   .social-icon {
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(245, 158, 11, 0.35);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(217, 119, 6, 0.3);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: #f59e0b;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     text-decoration: none !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
   .social-icon svg {
-    width: 18px;
-    height: 18px;
-    transition: transform 0.25s ease, stroke 0.25s ease;
+    width: 16px;
+    height: 16px;
   }
   .social-icon:hover {
-    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+    background: #d97706;
     color: #0d1713;
-    border-color: #fef08a;
-    transform: translateY(-4px) scale(1.08);
-    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.45);
-  }
-  .social-icon:hover svg {
-    transform: scale(1.1);
-    stroke: #0d1713;
+    border-color: #f59e0b;
   }
 
   .footer-bottom-bar {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 26px 40px;
-    background: #09120e;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 18px 24px;
+    background: #060c09;
+    font-size: 11px;
+    color: #64748b;
   }
   .bottom-inner {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 768px) {
+    .bottom-inner {
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+  }
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
@@ -1065,136 +1029,67 @@
   <!-- Royal Crest Header Bar -->
   <div class="footer-royal-crest">
     <div class="royal-crest-title">⚜️ PUSAT HAMPERS INDONESIA ⚜️</div>
-    <div class="royal-crest-tag">Pusat Hampers, Gift Box & Parcel Gourmet • Indonesia</div>
-  </div>
+    <div class="royal-crest-tag">Pusat Hampers, Gift Box & Parcel Gourmet Terlengkap</div>
 
-  <!-- Newsletter Banner -->
-  <div class="footer-newsletter-banner">
-    <div class="newsletter-inner">
-      <div class="newsletter-brand">
-        <h3>KLUB PRIVILESE PUSAT HAMPERS INDONESIA</h3>
-        <p>Berlangganan untuk menerima penawaran spesial, katalog produk musiman terbaru, dan pratinjau hampers VIP.</p>
-      </div>
-
-      <form action="{{ route('contact.send') }}" method="POST" class="newsletter-form">
+    <div class="footer-newsletter-compact">
+      <p>Berlangganan Penawaran Eksklusif & Katalog Hampers Terbaru</p>
+      <form action="{{ route('contact.send') }}" method="POST" class="newsletter-form-simple">
         @csrf
         <input type="hidden" name="subject" value="Pendaftaran Klub Privilese VIP">
-        <input type="email" name="email" class="newsletter-input" placeholder="Masukkan alamat email Anda..." required>
-        <button type="submit" class="newsletter-btn">GABUNG VIP</button>
+        <input type="email" name="email" placeholder="Alamat Email Anda..." required>
+        <button type="submit">GABUNG VIP</button>
       </form>
     </div>
   </div>
 
-  <!-- Main Footer Columns -->
+  <!-- Main Footer Columns (Clean 3-Column Grid) -->
   <div class="footer-main-content">
-    <!-- Col 1: Brand & Reservations -->
+    <!-- Col 1: Butik & Jam Operasional -->
     <div class="footer-col">
-      <h4>RESERVASI & ACARA</h4>
-      <p>PUSAT HAMPERS INDONESIA menyajikan perpaduan pembuatan roti artisanal khas Prancis dan pengalaman fine dining romantis. Pesan ruang privat Anda untuk acara keluarga atau makan siang bisnis.</p>
-      <p style="color: #fef08a; font-weight: 500;">
-        📞 Langsung: {{ config('site.phone') }}<br>
-        💬 WhatsApp: {{ config('site.wa') }}
-      </p>
-      <a href="{{ route('reservations') }}" class="footer-badge-link">
-        🍷 Pesan Meja VIP &nbsp;→
-      </a>
-    </div>
-
-    <!-- Col 2: Find Us -->
-    <div class="footer-col">
-      <h4>LOKASI TOKO</h4>
+      <h4>BUTIK & LOKASI</h4>
       <p>📍 {{ config('site.address') }}</p>
-      <p>📞 Telp: {{ config('site.phone') }}<br>📱 WA: {{ config('site.wa') }}</p>
-      <p>✉️ Email: <a href="mailto:{{ config('site.email') }}" style="display:inline; color:#fef08a;">{{ config('site.email') }}</a></p>
-      <p style="margin-top: 12px; color: #fef08a;">
-        <strong>Jam Operasional:</strong><br>
-        <span style="color: #a7bbb0;">{{ config('site.hours') }}</span>
-      </p>
+      <p>⏰ {{ config('site.hours') }}</p>
+      <p>📱 WA VIP: <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}" style="display:inline; color:#fef08a;">{{ config('site.wa') }}</a></p>
     </div>
 
-    <!-- Col 3: Collections -->
+    <!-- Col 2: Akses Cepat & Koleksi -->
     <div class="footer-col">
-      <h4>KOLEKSI PILIHAN</h4>
-      <a href="{{ route('category', 'mooncake') }}">🥮 Paket Hadiah Mooncake</a><br>
-      <a href="{{ route('category', 'hampers') }}">🎁 Hampers Mewah</a><br>
-      <a href="{{ route('category', 'cakes') }}">🎂 Kue & Tart Artisanal</a><br>
-      <a href="{{ route('category', 'breads') }}">🥐 Roti Sourdough & Viennoiserie</a><br>
-      <a href="{{ route('category', 'cookies') }}">🍪 Kue Kering & Nastar</a><br>
-      <a href="{{ route('category', 'light-bites') }}">🍽️ Hidangan Ringan & Food Hall</a><br>
-      <a href="{{ route('reservations') }}">🥂 Menu Santap Restoran</a>
+      <h4>KOLEKSI & LAYANAN</h4>
+      <a href="{{ route('category', 'hampers') }}">🎁 Hampers & Gift Box Mewah</a>
+      <a href="{{ route('category', 'mooncake') }}">🥮 Paket Hadiah Mooncake</a>
+      <a href="{{ route('category', 'cakes') }}">🎂 Kue & Tart Artisanal</a>
+      <a href="{{ route('reservations') }}">🍷 Reservasi Meja & Acara</a>
+      <a href="{{ route('track') }}">📦 Lacak Pesanan Real-Time</a>
     </div>
 
-    <!-- Col 4: Information & Socials -->
+    <!-- Col 3: Hubungi Kami & Sosial Media -->
     <div class="footer-col">
-      <h4>LAYANAN PELANGGAN</h4>
-      <a href="{{ route('contact') }}">Hubungi Concierge</a><br>
-      <a href="{{ route('track') }}">Lacak Pengiriman Real-Time</a><br>
-      <a href="{{ route('reservations') }}">Katering Acara Privat</a><br>
-      <a href="{{ route('cart.index') }}">Keranjang Belanja</a><br>
-      <a href="{{ route('login') }}">Login Portal Pelanggan</a><br>
-      <a href="{{ route('admin.login') }}">Login Staf Butik</a>
+      <h4>HUBUNGI KAMI</h4>
+      <p>✉️ <a href="mailto:{{ config('site.email') }}" style="display:inline; color:#fef08a;">{{ config('site.email') }}</a></p>
+      <p>📞 Telp: {{ config('site.phone') }}</p>
 
       <div class="social-icons-row">
-        <!-- Instagram SVG -->
         <a href="https://instagram.com" target="_blank" class="social-icon" title="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
         </a>
-
-        <!-- Facebook SVG -->
+        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}" target="_blank" class="social-icon" title="WhatsApp VIP">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        </a>
         <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-          </svg>
-        </a>
-
-        <!-- WhatsApp SVG -->
-        <a href="https://wa.me/62811152282" target="_blank" class="social-icon" title="WhatsApp VIP">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-          </svg>
-        </a>
-
-        <!-- TikTok SVG -->
-        <a href="https://tiktok.com" target="_blank" class="social-icon" title="TikTok">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-          </svg>
-        </a>
-
-        <!-- Spotify Playlist SVG -->
-        <a href="https://spotify.com" target="_blank" class="social-icon" title="Boutique Playlist">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M8 11.5c2.5-1 5.5-1 8 .5M9 14.5c2-.7 4.5-.7 6.5.5M10 17c1.5-.5 3.5-.5 5 .5"></path>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Footer Bottom Bar -->
+  <!-- Bottom Bar -->
   <div class="footer-bottom-bar">
     <div class="bottom-inner">
-      <div style="display: flex; align-items: center; gap: 10px; font-weight: 500;">
-        <span style="padding: 4px 10px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; color: #fef08a;">🇮🇩 INDONESIA (IDR Rp)</span>
-      </div>
-
       <div>
-        © {{ date('Y') }} {{ config('site.brand') }} • HAUTE PÂTISSERIE PARIS & JAKARTA. HAK CIPTA DILINDUNGI.
+        © {{ date('Y') }} {{ config('site.brand') }} • HAK CIPTA DILINDUNGI.
       </div>
-
-      <div class="payment-badges-row">
-        <span>METODE PEMBAYARAN:</span>
-        <span class="payment-pill">BCA</span>
-        <span class="payment-pill">MANDIRI</span>
-        <span class="payment-pill">BRI</span>
-        <span class="payment-pill">QRIS</span>
-        <span class="payment-pill">VISA</span>
-        <span class="payment-pill">MASTERCARD</span>
+      <div style="font-size: 10.5px; color: #94a3b8;">
+        PEMBAYARAN: BCA • MANDIRI • BRI • QRIS • VISA • MASTERCARD
       </div>
     </div>
   </div>
