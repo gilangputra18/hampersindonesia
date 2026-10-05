@@ -405,7 +405,7 @@
         </div>
         <div>
           <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Pesan Otomatis WhatsApp</label>
-          <input type="text" name="whatsapp_text" placeholder="Halo MAISON DORÉE..." style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+          <input type="text" name="whatsapp_text" placeholder="Halo PUSAT HAMPERS INDONESIA..." style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
         </div>
       </div>
 

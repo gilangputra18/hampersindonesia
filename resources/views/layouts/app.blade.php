@@ -1063,7 +1063,7 @@
     <!-- Col 1: Brand & Reservations -->
     <div class="footer-col">
       <h4>RESERVASI & ACARA</h4>
-      <p>MAISON DORÉE menyajikan perpaduan pembuatan roti artisanal khas Prancis dan pengalaman fine dining romantis. Pesan ruang privat Anda untuk acara keluarga atau makan siang bisnis.</p>
+      <p>PUSAT HAMPERS INDONESIA menyajikan perpaduan pembuatan roti artisanal khas Prancis dan pengalaman fine dining romantis. Pesan ruang privat Anda untuk acara keluarga atau makan siang bisnis.</p>
       <p style="color: #fef08a; font-weight: 500;">
         📞 Langsung: {{ config('site.phone') }}<br>
         💬 WhatsApp: {{ config('site.wa') }}

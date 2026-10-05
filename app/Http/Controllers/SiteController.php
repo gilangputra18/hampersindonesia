@@ -107,7 +107,7 @@ class SiteController extends Controller
         ]);
 
         $name = $r->input('name') ?: 'Pelanggan VIP';
-        $message = $r->input('message') ?: 'Pendaftaran Newsletter / Privilege VIP Club Maison Dorée.';
+        $message = $r->input('message') ?: 'Pendaftaran Newsletter / Privilege VIP Club Pusat Hampers Indonesia.';
         $subject = $r->input('subject') ?: 'Pesan Kontak & Concierge';
 
         \App\Models\ContactMessage::create([
@@ -145,7 +145,7 @@ class SiteController extends Controller
             if ($resItem && $resItem->pdf_path && \Illuminate\Support\Facades\File::exists(public_path($resItem->pdf_path))) {
                 return response()->file(public_path($resItem->pdf_path), [
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="Maison_Doree_' . $resItem->slug . '_Menu.pdf"'
+                    'Content-Disposition' => 'inline; filename="Pusat_Hampers_Indonesia_' . $resItem->slug . '_Menu.pdf"'
                 ]);
             }
         }
@@ -154,7 +154,7 @@ class SiteController extends Controller
         if (\Illuminate\Support\Facades\File::exists($customPdfPath)) {
             return response()->file($customPdfPath, [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="Maison_Doree_Menu_Catalog.pdf"'
+                'Content-Disposition' => 'inline; filename="Pusat_Hampers_Indonesia_Menu_Catalog.pdf"'
             ]);
         }
 

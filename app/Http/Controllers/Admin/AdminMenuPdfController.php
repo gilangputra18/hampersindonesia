@@ -122,7 +122,7 @@ class AdminMenuPdfController extends Controller
             'description' => $request->description,
             'image' => $imgPath,
             'whatsapp_number' => $request->whatsapp_number ?: '62811152282',
-            'whatsapp_text' => $request->whatsapp_text ?: 'Halo MAISON DORÉE, saya ingin melakukan reservasi ' . $request->title,
+            'whatsapp_text' => $request->whatsapp_text ?: 'Halo PUSAT HAMPERS INDONESIA, saya ingin melakukan reservasi ' . $request->title,
             'pdf_path' => $pdfPath,
             'display_order' => $maxOrder + 1,
             'is_active' => true,

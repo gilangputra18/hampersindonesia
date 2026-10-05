@@ -180,7 +180,7 @@
     </svg>
 
     <h2 class="google-title">Pilih Akun Google Anda</h2>
-    <p class="google-sub">Pilih akun Google pada perangkat untuk langsung masuk ke <strong>Maison Dorée</strong></p>
+    <p class="google-sub">Pilih akun Google pada perangkat untuk langsung masuk ke <strong>Pusat Hampers Indonesia</strong></p>
 
     @if (config('services.google.client_id') && !str_contains(config('services.google.client_id'), 'example') && !str_contains(config('services.google.client_id'), 'your-'))
     <!-- Native Google One Tap Button Container -->

@@ -186,7 +186,7 @@ class AdminProductController extends Controller
         }
 
         $orders = $query->get();
-        $filename = 'Rekapan_Penjualan_MaisonDoree_' . date('Ymd_His') . '.csv';
+        $filename = 'Rekapan_Penjualan_PusatHampersIndonesia_' . date('Ymd_His') . '.csv';
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',

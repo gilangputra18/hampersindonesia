@@ -176,7 +176,7 @@ class CheckoutController extends Controller
             $itemsText .= "• " . $item->product_name . " (" . $item->quantity . "x) - Rp " . number_format($item->subtotal, 0, ',', '.') . "\n";
         }
 
-        $waMessage = "Halo MAISON DORÉE / PAND'OR,\n"
+        $waMessage = "Halo PUSAT HAMPERS INDONESIA,\n"
             . "Saya ingin mengirimkan bukti pembayaran untuk pesanan:\n\n"
             . "*No. Invoice:* " . $order->invoice_number . "\n"
             . "*Nama:* " . $order->customer_name . "\n"

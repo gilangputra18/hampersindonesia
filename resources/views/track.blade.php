@@ -516,7 +516,7 @@
 
         <!-- Action Links -->
         <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-          <a href="https://wa.me/62811152282?text=Halo%20Maison%20Dor%C3%89e,%20saya%20ingin%20menanyakan%20status%20pesanan%20nomor%20{{ $order->invoice_number }}" target="_blank" class="track-btn" style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80;">
+          <a href="https://wa.me/62811152282?text=Halo%20Pusat%20Hampers%20Indonesia,%20saya%20ingin%20menanyakan%20status%20pesanan%20nomor%20{{ $order->invoice_number }}" target="_blank" class="track-btn" style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80;">
             💬 Bantuan Live Chat (WhatsApp)
           </a>
 

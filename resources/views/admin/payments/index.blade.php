@@ -400,19 +400,19 @@
       <div class="mock-bank-item">
         <div style="font-size: 11px; color: var(--accent-gold); font-weight: 700;">{{ $settings['bca_name'] ?? 'BCA Virtual Account' }}</div>
         <div style="font-size: 14px; font-weight: 700; color: #fff; margin: 4px 0;">{{ $settings['bca_number'] ?? '880123811152282' }}</div>
-        <div style="font-size: 11px; color: var(--text-muted);">a.n {{ $settings['bca_holder'] ?? 'PT MAISON DORÉE PARIS' }}</div>
+        <div style="font-size: 11px; color: var(--text-muted);">a.n {{ $settings['bca_holder'] ?? 'PT PUSAT HAMPERS INDONESIA' }}</div>
       </div>
 
       <div class="mock-bank-item">
         <div style="font-size: 11px; color: var(--accent-gold); font-weight: 700;">{{ $settings['mandiri_name'] ?? 'Bank Mandiri Transfer' }}</div>
         <div style="font-size: 14px; font-weight: 700; color: #fff; margin: 4px 0;">{{ $settings['mandiri_number'] ?? '123-00-998877-1' }}</div>
-        <div style="font-size: 11px; color: var(--text-muted);">a.n {{ $settings['mandiri_holder'] ?? 'PT MAISON DORÉE PARIS' }}</div>
+        <div style="font-size: 11px; color: var(--text-muted);">a.n {{ $settings['mandiri_holder'] ?? 'PT PUSAT HAMPERS INDONESIA' }}</div>
       </div>
 
       <div class="mock-bank-item">
         <div style="font-size: 11px; color: var(--accent-gold); font-weight: 700;">QRIS Merchant</div>
         <div style="font-size: 14px; font-weight: 700; color: #fff; margin: 4px 0;">{{ $settings['qris_number'] ?? 'ID1020088776655' }}</div>
-        <div style="font-size: 11px; color: var(--text-muted);">{{ $settings['qris_holder'] ?? 'MAISON DORÉE BOUTIQUE' }}</div>
+        <div style="font-size: 11px; color: var(--text-muted);">{{ $settings['qris_holder'] ?? 'PUSAT HAMPERS INDONESIA' }}</div>
       </div>
     </div>
   </div>

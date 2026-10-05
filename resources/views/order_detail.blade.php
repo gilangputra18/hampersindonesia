@@ -195,7 +195,7 @@
           </p>
 
           <div class="va-row">
-            <span><strong>{{ $paySettings['bca_name'] ?? 'Bank BCA Virtual Account' }}</strong> (a.n {{ $paySettings['bca_holder'] ?? 'PT MAISON DORÉE PARIS' }})</span>
+            <span><strong>{{ $paySettings['bca_name'] ?? 'Bank BCA Virtual Account' }}</strong> (a.n {{ $paySettings['bca_holder'] ?? 'PT PUSAT HAMPERS INDONESIA' }})</span>
             <strong>{{ $paySettings['bca_number'] ?? '880123811152282' }}</strong>
           </div>
 
@@ -217,7 +217,7 @@
           </p>
 
           <div class="va-row">
-            <span><strong>{{ $paySettings['mandiri_name'] ?? 'Bank Mandiri Transfer' }}</strong> (a.n {{ $paySettings['mandiri_holder'] ?? 'PT MAISON DORÉE PARIS' }})</span>
+            <span><strong>{{ $paySettings['mandiri_name'] ?? 'Bank Mandiri Transfer' }}</strong> (a.n {{ $paySettings['mandiri_holder'] ?? 'PT PUSAT HAMPERS INDONESIA' }})</span>
             <strong>{{ $paySettings['mandiri_number'] ?? '123-00-998877-1' }}</strong>
           </div>
 
@@ -239,7 +239,7 @@
           </p>
 
           <div class="va-row">
-            <span><strong>{{ $paySettings['bri_name'] ?? 'Bank BRI Virtual Account' }}</strong> (a.n {{ $paySettings['bri_holder'] ?? 'PT MAISON DORÉE PARIS' }})</span>
+            <span><strong>{{ $paySettings['bri_name'] ?? 'Bank BRI Virtual Account' }}</strong> (a.n {{ $paySettings['bri_holder'] ?? 'PT PUSAT HAMPERS INDONESIA' }})</span>
             <strong>{{ $paySettings['bri_number'] ?? '990088776655' }}</strong>
           </div>
 
@@ -264,7 +264,7 @@
             <div style="background: #fff; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; display: inline-block;">
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=MIDTRANS-QRIS-{{ $order->invoice_number }}" alt="QRIS Merchant Code" style="width: 160px; height: 160px;">
             </div>
-            <span><strong>NMID QRIS:</strong> {{ $paySettings['qris_number'] ?? 'ID1020088776655' }} (a.n {{ $paySettings['qris_holder'] ?? 'MAISON DORÉE BOUTIQUE' }})</span>
+            <span><strong>NMID QRIS:</strong> {{ $paySettings['qris_number'] ?? 'ID1020088776655' }} (a.n {{ $paySettings['qris_holder'] ?? 'PUSAT HAMPERS INDONESIA' }})</span>
           </div>
 
           <p style="font-size: 12px; color: #92400e; margin-top: 14px;">
