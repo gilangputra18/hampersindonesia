@@ -145,7 +145,7 @@
       <p>RESERVASI TOKO & KATERING ACARA</p>
     </div>
 
-    @foreach($reservations as $res)
+    @forelse($reservations as $res)
       <div class="res-section-card">
         <div class="res-img-wrapper">
           <img src="{{ $res->image_url }}" alt="{{ $res->title }}">
@@ -162,7 +162,38 @@
           <a href="https://wa.me/{{ $res->whatsapp_number }}?text={{ urlencode($res->whatsapp_text ?? 'Halo PUSAT HAMPERS INDONESIA, saya ingin pemesanan ' . $res->title) }}" target="_blank" class="res-btn res-btn-sand">PESAN HAMPERS SEKARANG</a>
         </div>
       </div>
-    @endforeach
+    @empty
+      {{-- Fallback default cards if database is empty --}}
+      <div class="res-section-card">
+        <div class="res-img-wrapper">
+          <img src="{{ asset('images/reservation-dinein.jpg') }}" alt="Reservasi Meja & Fine Dining">
+        </div>
+        <h2 class="res-title-sub">RESERVASI MEJA & FINE DINING</h2>
+        <div class="res-topic-title">Pusat Hampers Indonesia Boutique Restaurant</div>
+        <div class="res-description">
+          <p>Nikmati kehangatan dan kelezatan hidangan artisanal di butik utama kami. Kami menyediakan ruang privat yang elegan untuk makan malam keluarga, perayaan ulang tahun, atau pertemuan bisnis VIP.</p>
+        </div>
+        <div class="res-btn-group">
+          <a href="{{ route('menu.pdf', 'dine-in') }}" target="_blank" class="res-btn res-btn-outline">LIHAT MENU PDF</a>
+          <a href="https://wa.me/62811152282?text=Halo%20Pusat%20Hampers%20Indonesia,%20saya%20ingin%20reservasi%20meja%20VIP" target="_blank" class="res-btn res-btn-sand">PESAN HAMPERS SEKARANG</a>
+        </div>
+      </div>
+
+      <div class="res-section-card">
+        <div class="res-img-wrapper">
+          <img src="{{ asset('images/reservation-catering.jpg') }}" alt="Katering & Acara Privat">
+        </div>
+        <h2 class="res-title-sub">KATERING & ACARA PRIVAT</h2>
+        <div class="res-topic-title">Layanan Concierge & Katering Eksklusif</div>
+        <div class="res-description">
+          <p>Hadirkan kelezatan kue, pastri, dan hampers mewah Pusat Hampers Indonesia di setiap acara istimewa Anda. Kami melayani katering pernikahan, gathering korporat, dan acara pesta privat dengan pelayanan bintang lima.</p>
+        </div>
+        <div class="res-btn-group">
+          <a href="{{ route('menu.pdf', 'catering') }}" target="_blank" class="res-btn res-btn-outline">LIHAT MENU PDF</a>
+          <a href="https://wa.me/62811152282?text=Halo%20Pusat%20Hampers%20Indonesia,%20saya%20ingin%20konsultasi%20katering" target="_blank" class="res-btn res-btn-sand">PESAN HAMPERS SEKARANG</a>
+        </div>
+      </div>
+    @endforelse
   </div>
 </div>
 @endsection

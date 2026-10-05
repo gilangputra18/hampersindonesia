@@ -90,6 +90,39 @@ class SiteController extends Controller
     public function reservations()
     {
         $reservations = \App\Models\ReservationItem::where('is_active', true)->orderBy('display_order')->get();
+
+        if ($reservations->isEmpty()) {
+            try {
+                \App\Models\ReservationItem::create([
+                    'slug' => 'dine-in',
+                    'title' => 'RESERVASI MEJA & FINE DINING',
+                    'subtitle' => 'Pusat Hampers Indonesia Boutique Restaurant',
+                    'description' => '<p>Nikmati kehangatan dan kelezatan hidangan artisanal di butik utama kami. Kami menyediakan ruang privat yang elegan untuk makan malam keluarga, perayaan ulang tahun, atau pertemuan bisnis VIP.</p><p>Setiap santapan disajikan dengan bahan-bahan gourmet terbaik yang disiapkan oleh koki ternama kami.</p>',
+                    'image' => 'reservation-dinein.jpg',
+                    'whatsapp_number' => '62811152282',
+                    'whatsapp_text' => 'Halo Pusat Hampers Indonesia, saya ingin reservasi meja VIP Fine Dining.',
+                    'display_order' => 1,
+                    'is_active' => true,
+                ]);
+
+                \App\Models\ReservationItem::create([
+                    'slug' => 'catering',
+                    'title' => 'KATERING & ACARA PRIVAT',
+                    'subtitle' => 'Layanan Concierge & Katering Eksklusif',
+                    'description' => '<p>Hadirkan kelezatan kue, pastri, dan hampers mewah Pusat Hampers Indonesia di setiap acara istimewa Anda. Kami melayani katering pernikahan, gathering korporat, dan acara pesta privat dengan pelayanan bintang lima.</p><p>Tim concierge kami siap membantu merancang menu khusus sesuai selera dan kebutuhan tamu Anda.</p>',
+                    'image' => 'reservation-catering.jpg',
+                    'whatsapp_number' => '62811152282',
+                    'whatsapp_text' => 'Halo Pusat Hampers Indonesia, saya ingin berkonsultasi mengenai Katering Acara Privat.',
+                    'display_order' => 2,
+                    'is_active' => true,
+                ]);
+
+                $reservations = \App\Models\ReservationItem::where('is_active', true)->orderBy('display_order')->get();
+            } catch (\Throwable $e) {
+                // Ignore if table issues arise
+            }
+        }
+
         return view('reservations', compact('reservations'));
     }
 
