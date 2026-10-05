@@ -8,18 +8,22 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('type')->nullable()->after('description');
-            $table->string('flavor')->nullable()->after('type');
-            $table->string('size')->nullable()->after('flavor');
-            $table->string('availability')->default('in_stock')->after('size');
-        });
+        if (!Schema::hasColumn('products', 'type')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->string('type')->nullable();
+                $table->string('flavor')->nullable();
+                $table->string('size')->nullable();
+                $table->string('availability')->nullable()->default('in_stock');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn(['type', 'flavor', 'size', 'availability']);
-        });
+        if (Schema::hasColumn('products', 'type')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn(['type', 'flavor', 'size', 'availability']);
+            });
+        }
     }
 };

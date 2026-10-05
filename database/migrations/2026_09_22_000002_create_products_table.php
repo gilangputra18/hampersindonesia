@@ -14,7 +14,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('cost_price')->nullable()->default(0);
+            $table->string('type')->nullable();
+            $table->string('flavor')->nullable();
+            $table->string('size')->nullable();
+            $table->string('availability')->nullable()->default('in_stock');
             $table->string('image')->nullable();
+            $table->json('gallery')->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_best_seller')->default(false);
             $table->boolean('is_treat')->default(false);

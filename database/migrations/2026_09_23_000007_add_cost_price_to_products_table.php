@@ -8,15 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('cost_price')->nullable()->after('price')->comment('Harga Pokok Penjualan (HPP) / Modal Produksi');
-        });
+        if (!Schema::hasColumn('products', 'cost_price')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->unsignedBigInteger('cost_price')->nullable()->default(0);
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('cost_price');
-        });
+        if (Schema::hasColumn('products', 'cost_price')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('cost_price');
+            });
+        }
     }
 };

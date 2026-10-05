@@ -10,17 +10,21 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('invoice_number')->unique();
             $table->string('customer_name');
             $table->string('customer_email')->nullable();
             $table->string('customer_phone');
             $table->string('delivery_option')->default('delivery'); // 'delivery' or 'pickup'
+            $table->string('courier_name')->nullable()->default('Kurir Toko (Dedicated Bakery Delivery)');
             $table->date('delivery_date')->nullable();
             $table->unsignedBigInteger('delivery_fee')->default(0);
             $table->text('address')->nullable();
             $table->text('order_note')->nullable();
             $table->unsignedBigInteger('subtotal')->default(0);
             $table->unsignedBigInteger('total_amount')->default(0);
+            $table->string('payment_method')->nullable()->default('Transfer Bank BCA');
+            $table->string('tracking_number')->nullable();
             $table->string('payment_status')->default('unpaid'); // 'unpaid', 'paid', 'verified'
             $table->string('order_status')->default('pending'); // 'pending', 'processing', 'completed', 'cancelled'
             $table->timestamps();

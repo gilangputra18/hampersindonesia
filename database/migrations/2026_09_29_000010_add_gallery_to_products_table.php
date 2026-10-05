@@ -8,15 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->text('gallery')->nullable()->after('image');
-        });
+        if (!Schema::hasColumn('products', 'gallery')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->json('gallery')->nullable();
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('gallery');
-        });
+        if (Schema::hasColumn('products', 'gallery')) {
+            Schema::table('products', function (Blueprint $table) {
+                $table->dropColumn('gallery');
+            });
+        }
     }
 };
