@@ -690,8 +690,8 @@
   @media (max-width: 768px) {
     .footer-main-content {
       grid-template-columns: 1fr;
-      gap: 24px;
-      text-align: center;
+      gap: 28px;
+      text-align: left;
       padding: 28px 20px 20px;
     }
   }
@@ -732,7 +732,7 @@
   }
   @media (max-width: 768px) {
     .social-icons-row {
-      justify-content: center;
+      justify-content: flex-start;
     }
   }
   .social-icon {
@@ -776,9 +776,10 @@
   }
   @media (max-width: 768px) {
     .bottom-inner {
-      justify-content: center;
-      text-align: center;
+      justify-content: flex-start;
+      text-align: left;
       flex-direction: column;
+      align-items: flex-start;
       gap: 6px;
     }
   }
@@ -817,9 +818,8 @@
     <a href="{{ route('track') }}">📦 LACAK PESANAN REAL-TIME</a>
   </nav>
 
-  <!-- Right Header Controls: Currency, User Actions, Search, Cart -->
+  <!-- Right Header Controls: User Actions, Search, Cart -->
   <div class="header-right-group">
-    <span class="currency-pill">ID IDR (RP)</span>
 
     @auth
       <div class="user-action-group">
