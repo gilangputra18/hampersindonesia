@@ -1,6 +1,6 @@
 :root{--ink:#1e2d27;--mist:#f0f4f2;--sand:#d97706;--wine:#111f18;--navy:#0d1713;--paper:#f8faf9;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Outfit','Work Sans',system-ui,sans-serif;--gold:#f59e0b;--gold-light:#fef08a;--emerald:#111f18}
 *{box-sizing:border-box}
-body{margin:0;color:var(--ink);font:400 14px/1.7 var(--sans);background:#fff}
+html, body{margin:0;padding:0;overflow-x:hidden;max-width:100vw;width:100%;color:var(--ink);font:400 14px/1.7 var(--sans);background:#fff}
 a{color:inherit;text-decoration:none}
 h1,h2,h3,h4,.logo,nav,.btn,.bar,.banner{font-family:var(--serif);text-transform:uppercase;letter-spacing:.2em;font-weight:600}
 .top{background:linear-gradient(90deg, #0e1a15 0%, #15241e 50%, #0b1410 100%);padding:10px 45px;font-size:11.5px;color:#cad8d1;border-bottom:1px solid rgba(217, 119, 6, 0.25)}

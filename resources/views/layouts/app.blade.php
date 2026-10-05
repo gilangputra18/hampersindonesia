@@ -226,6 +226,11 @@
   }
 
   @media (max-width: 768px) {
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+      width: 100% !important;
+    }
     .three-dots-btn {
       display: inline-flex;
       align-items: center;
@@ -233,55 +238,77 @@
     }
     .top {
       padding: 8px 12px;
-      justify-content: center;
-      gap: 8px 12px;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      max-width: 100vw;
     }
     .top nav {
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-    }
-    .top nav a {
-      font-size: 10px;
-      letter-spacing: 1px;
+      display: none !important; /* Hide redundant text links on mobile since they exist in 3-dots drawer */
     }
     .header-right-group {
-      justify-content: center;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 6px;
       width: 100%;
-      margin-top: 2px;
+      margin-top: 0;
+      flex-wrap: nowrap;
     }
     .currency-pill {
-      font-size: 9.5px;
-      padding: 2px 7px;
+      font-size: 9px;
+      padding: 2px 6px;
+      letter-spacing: 0.5px;
     }
     .top-text-link, .header-icon-btn {
-      font-size: 10.5px;
-      letter-spacing: 1px;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      gap: 4px;
     }
 
     .head {
-      padding: 16px 8px 14px;
+      padding: 14px 10px 12px;
+      max-width: 100vw;
+      overflow: hidden;
     }
     .logo {
-      font-size: 22px !important;
-      letter-spacing: .12em !important;
-      padding: 0 4px !important;
-      white-space: nowrap !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
+      font-size: clamp(16px, 4.5vw, 20px) !important;
+      letter-spacing: .08em !important;
+      padding: 0 !important;
+      white-space: normal !important;
+      display: inline-block !important;
+      text-align: center !important;
+      max-width: 100% !important;
+      line-height: 1.25 !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
     }
     .fleur-icon {
-      font-size: 16px !important;
-      margin: 0 6px !important;
+      font-size: 14px !important;
+      margin: 0 4px !important;
+      vertical-align: middle !important;
     }
     .logo small {
-      font-size: 8.5px !important;
-      letter-spacing: .12em !important;
+      font-size: 8px !important;
+      letter-spacing: .1em !important;
       margin-top: 4px !important;
       line-height: 1.3 !important;
       white-space: normal !important;
+    }
+
+    .nav-main-wrapper {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .main {
+      padding: 0 8px;
+      gap: 2px;
+    }
+    .main-nav-link {
+      padding: 10px 12px;
+      font-size: 11px;
+      letter-spacing: .08em;
     }
   }
 
