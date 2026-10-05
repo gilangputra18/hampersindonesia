@@ -27,13 +27,95 @@ class Product extends Model
         'display_order',
     ];
 
-    protected $casts = [
-        'is_best_seller' => 'boolean',
-        'is_treat' => 'boolean',
-        'price' => 'integer',
-        'cost_price' => 'integer',
-        'gallery' => 'array',
+    protected $appends = [
+        'included_items',
+        'image_url',
+        'secondary_image_url',
     ];
+
+    public function getIncludedItemsAttribute()
+    {
+        $nameLower = strtolower($this->name);
+        $slugLower = strtolower($this->slug);
+
+        // Custom hampers / gift box contents breakdown
+        if (str_contains($slugLower, 'rose') || str_contains($nameLower, 'rose')) {
+            return [
+                '🍪 1 Jar Nastar Pineapple Jam (450g)',
+                '🧀 1 Jar Kaastengel Edam Cheese (400g)',
+                '🧈 1 Jar French Butter Cookies (350g)',
+                '🥮 1 Box Premium Mooncake / Sourdough',
+                '🍾 1 Bottle Artisan Sparkling Tea Gourmet',
+                '📜 Kartu Ucapan Eksklusif & Hardbox Royal Emerald Gold',
+            ];
+        }
+
+        if (str_contains($slugLower, 'lily') || str_contains($nameLower, 'lily')) {
+            return [
+                '🍪 1 Jar Nastar Pineapple Jam (450g)',
+                '🧈 1 Jar French Butter Cookies (350g)',
+                '🧀 1 Jar Kaastengel Edam Cheese (400g)',
+                '🍞 1 Pack Premium Milk Buns (6 pcs)',
+                '📜 Kartu Ucapan VIP & Luxury Hardbox Emerald',
+            ];
+        }
+
+        if (str_contains($slugLower, 'tulip') || str_contains($nameLower, 'tulip')) {
+            return [
+                '🧈 1 Jar French Butter Cookies (350g)',
+                '🍪 1 Jar Nastar Pineapple Jam (450g)',
+                '🥐 1 Box Croissant Viennoiserie (4 pcs)',
+                '📜 Kartu Ucapan & Gift Box Premium',
+            ];
+        }
+
+        if (str_contains($slugLower, 'calla') || str_contains($nameLower, 'calla')) {
+            return [
+                '🧈 1 Jar French Butter Cookies (350g)',
+                '🧀 1 Jar Kaastengel Edam Cheese (400g)',
+                '🥖 1 Pack Artisan Sourdough Loaf (500g)',
+                '📜 Kartu Ucapan & Ribbon Hardbox',
+            ];
+        }
+
+        if (str_contains($slugLower, 'iris') || str_contains($nameLower, 'iris')) {
+            return [
+                '🧈 1 Jar French Butter Cookies Jar (350g)',
+                '🥐 1 Pack French Butter Croissant (2 pcs)',
+                '📜 Kartu Ucapan & Hardbox Gift',
+            ];
+        }
+
+        if (str_contains($slugLower, 'box-of-6') || str_contains($nameLower, 'box of 6')) {
+            return [
+                '🥮 1x Single Yolk Lotus Mooncake',
+                '🥮 1x Double Yolk Royal Lotus Mooncake',
+                '🥮 1x Red Bean Sweet Paste Mooncake',
+                '🥮 1x Pandan Leaf Lotus Mooncake',
+                '🥮 1x Black Sesame Custard Mooncake',
+                '🥮 1x Mixed Nuts & Seeds Mooncake',
+                '📜 Hardbox Mooncake Edisi Spesial Festival',
+            ];
+        }
+
+        if (str_contains($slugLower, 'box-of-4') || str_contains($nameLower, 'box of 4')) {
+            return [
+                '🥮 1x Single Yolk White Lotus Mooncake',
+                '🥮 1x Red Bean Sweet Paste Mooncake',
+                '🥮 1x Pandan Leaf Lotus Mooncake',
+                '🥮 1x Black Sesame Custard Mooncake',
+                '📜 Hardbox Mooncake Edisi Spesial Festival',
+            ];
+        }
+
+        return [
+            '✨ Dibuat segar (freshly baked) secara artisanal dari bahan impor pilihan',
+            '📦 Dikemas secara higienis & mewah cocok untuk santapan maupun bingkisan',
+            '🌿 Bebas bahan pengawet kimia buatan',
+            '⭐ Rasa: ' . ($this->flavor ?: 'Original Gourmet'),
+            '📐 Ukuran/Porsi: ' . ($this->size ?: 'Standar Porsi'),
+        ];
+    }
 
     public function getEffectiveCostPriceAttribute()
     {

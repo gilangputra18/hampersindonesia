@@ -819,6 +819,205 @@
     letter-spacing: 0.5px;
     color: #cad8d1;
   }
+
+  /* Interactive Luxury Product & Hampers Detail Modal */
+  .product-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 23, 19, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .product-modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .product-modal-box {
+    background: #ffffff;
+    border-radius: 14px;
+    max-width: 760px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+  }
+  .product-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: rgba(13, 23, 19, 0.1);
+    border: none;
+    font-size: 20px;
+    color: #122019;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .product-modal-close:hover {
+    background: #d97706;
+    color: #fff;
+  }
+  .product-modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+    padding: 28px;
+  }
+  @media (max-width: 700px) {
+    .product-modal-content {
+      grid-template-columns: 1fr;
+      padding: 20px 16px;
+      gap: 16px;
+    }
+  }
+  .product-modal-img-wrap {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  .product-modal-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .product-modal-category {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #b45309;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .product-modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: #122019;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    line-height: 1.25;
+  }
+  .product-modal-price {
+    font-size: 20px;
+    color: #b45309;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .product-modal-stock {
+    display: inline-block;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .product-modal-items-section {
+    background: #f8faf9;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+  }
+  .product-modal-items-header {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #122019;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(217, 119, 6, 0.2);
+    padding-bottom: 6px;
+  }
+  .product-modal-items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .product-modal-items-list li {
+    font-size: 12.5px;
+    color: #2c3e35;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.5;
+  }
+  .product-modal-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 11.5px;
+    margin-bottom: 20px;
+  }
+  .pm-meta-label {
+    color: #64756d;
+    font-weight: 600;
+  }
+  .pm-meta-val {
+    color: #122019;
+    font-weight: 700;
+  }
+  .product-modal-actions {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+  }
+  .pm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .pm-btn-cart {
+    background: linear-gradient(135deg, #111f18 0%, #1c3026 100%);
+    color: #fef08a;
+    border: 1px solid rgba(217, 119, 6, 0.3);
+  }
+  .pm-btn-cart:hover {
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+    color: #0d1713;
+  }
+  .pm-btn-wa {
+    background: #25d366;
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  }
+  .pm-btn-wa:hover {
+    background: #128c7e;
+  }
 </style>
 </head>
 <body>
@@ -1037,6 +1236,50 @@
   </div>
 </div>
 
+<!-- Interactive Luxury Product & Hampers Detail Modal -->
+<div class="product-modal-overlay" id="product-detail-modal">
+  <div class="product-modal-box">
+    <button type="button" class="product-modal-close" id="close-product-modal-btn">✕</button>
+    
+    <div class="product-modal-content">
+      <div class="product-modal-image-col">
+        <div class="product-modal-img-wrap">
+          <img id="pm-image" src="" alt="Product Image">
+        </div>
+      </div>
+      
+      <div class="product-modal-info-col">
+        <span class="product-modal-category" id="pm-category">HAMPERS MEWAH</span>
+        <h2 class="product-modal-title" id="pm-title">Nama Hampers</h2>
+        <div class="product-modal-price" id="pm-price">Rp 0</div>
+        <div class="product-modal-stock" id="pm-availability">Ready Stock (Tersedia)</div>
+        
+        <!-- Breakdown Rincian Isi Paket Hampers / Produk -->
+        <div class="product-modal-items-section">
+          <div class="product-modal-items-header">🎁 RINCIAN ISI PAKET HAMPERS</div>
+          <ul class="product-modal-items-list" id="pm-items-list">
+            <!-- Dynamically populated -->
+          </ul>
+        </div>
+        
+        <div class="product-modal-meta-grid">
+          <div><span class="pm-meta-label">VARIAN RASA:</span> <span id="pm-flavor" class="pm-meta-val">-</span></div>
+          <div><span class="pm-meta-label">UKURAN / PORSI:</span> <span id="pm-size" class="pm-meta-val">-</span></div>
+        </div>
+        
+        <div class="product-modal-actions">
+          <form action="{{ route('cart.add') }}" method="POST" id="pm-cart-form" style="width: 100%;">
+            @csrf
+            <input type="hidden" name="product_id" id="pm-product-id" value="0">
+            <button type="submit" class="pm-btn pm-btn-cart">🛒 + TAMBAH KE KERANJANG</button>
+          </form>
+          <a href="#" target="_blank" id="pm-wa-btn" class="pm-btn pm-btn-wa">💬 PESAN VIA WHATSAPP</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Ultra-Luxurious Royal Emerald & Gold Footer -->
 <footer class="luxury-footer">
   <!-- Royal Crest Header Bar -->
@@ -1200,6 +1443,90 @@ document.addEventListener('DOMContentLoaded', function () {
           publicSearchResults.innerHTML = html;
         });
       }, 150);
+    });
+  }
+
+  // Product Detail Modal Event Handlers
+  const productModal = document.getElementById('product-detail-modal');
+  const closeProductModalBtn = document.getElementById('close-product-modal-btn');
+
+  function openProductModal(data) {
+    if (!productModal) return;
+
+    document.getElementById('pm-image').src = data.image || '';
+    document.getElementById('pm-title').textContent = data.name || '';
+    document.getElementById('pm-category').textContent = data.category || 'HAMPERS MEWAH';
+    document.getElementById('pm-price').textContent = data.price || '';
+    document.getElementById('pm-availability').textContent = data.availability || 'Ready Stock (Tersedia)';
+    document.getElementById('pm-flavor').textContent = data.flavor || 'Original Gourmet';
+    document.getElementById('pm-size').textContent = data.size || 'Standar Porsi';
+    document.getElementById('pm-product-id').value = data.id || 0;
+
+    // Build included items list
+    const itemsList = document.getElementById('pm-items-list');
+    itemsList.innerHTML = '';
+
+    let items = [];
+    try {
+      items = typeof data.items === 'string' ? JSON.parse(data.items) : (data.items || []);
+    } catch(e) {
+      items = [];
+    }
+
+    if (!items || items.length === 0) {
+      items = [
+        '✨ Dibuat segar (freshly baked) secara artisanal dari bahan impor pilihan',
+        '📦 Dikemas secara higienis & mewah cocok untuk santapan maupun bingkisan',
+        '🌿 Bebas bahan pengawet kimia buatan'
+      ];
+    }
+
+    items.forEach(itemText => {
+      const li = document.createElement('li');
+      li.textContent = itemText;
+      itemsList.appendChild(li);
+    });
+
+    // Setup WhatsApp direct order link
+    const waBtn = document.getElementById('pm-wa-btn');
+    if (waBtn) {
+      const waMsg = encodeURIComponent(`Halo Pusat Hampers Indonesia, saya tertarik dengan ${data.name} (${data.price}). Boleh minta informasi ketersediaan & cara pemesanan?`);
+      waBtn.href = `https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}?text=${waMsg}`;
+    }
+
+    productModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  document.addEventListener('click', function(e) {
+    const card = e.target.closest('.product-detail-trigger');
+    if (card && !e.target.closest('form')) {
+      const data = {
+        id: card.getAttribute('data-id'),
+        name: card.getAttribute('data-name'),
+        price: card.getAttribute('data-price'),
+        image: card.getAttribute('data-image'),
+        category: card.getAttribute('data-category'),
+        flavor: card.getAttribute('data-flavor'),
+        size: card.getAttribute('data-size'),
+        type: card.getAttribute('data-type'),
+        availability: card.getAttribute('data-availability'),
+        items: card.getAttribute('data-items')
+      };
+      openProductModal(data);
+    }
+  });
+
+  if (closeProductModalBtn && productModal) {
+    closeProductModalBtn.addEventListener('click', function() {
+      productModal.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+    productModal.addEventListener('click', function(e) {
+      if (e.target === productModal) {
+        productModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
     });
   }
 });
