@@ -36,8 +36,8 @@ try {
     }
 
     // 2. Setup SQLite database file in /tmp if sqlite is used
+    // (Vercel's filesystem is ephemeral: /tmp is empty on every cold start, so we seed on demand.)
     $sqlitePath = '/tmp/database.sqlite';
-    $isNewDb = !file_exists($sqlitePath) || filesize($sqlitePath) === 0;
 
     if (!file_exists($sqlitePath)) {
         @touch($sqlitePath);
@@ -71,12 +71,30 @@ try {
     /** @var \Illuminate\Foundation\Application $app */
     $app = require __DIR__ . '/../bootstrap/app.php';
 
-    // 6. Auto-run migrations & seeders if database is brand new in /tmp
-    if ($isNewDb) {
-        /** @var Kernel $kernel */
-        $kernel = $app->make(Kernel::class);
+    // 6. Make sure the database is migrated AND seeded.
+    //    We check real table contents (not file size) so a seed that was interrupted
+    //    on a previous request is retried instead of leaving the site empty (404 on /shop/*).
+    /** @var Kernel $kernel */
+    $kernel = $app->make(Kernel::class);
+    $kernel->bootstrap();
+
+    $needsSeed = false;
+    if (config('database.default') === 'sqlite') {
+        try {
+            $needsSeed = !\Illuminate\Support\Facades\Schema::hasTable('products')
+                || \Illuminate\Support\Facades\DB::table('products')->count() === 0;
+        } catch (\Throwable $e) {
+            $needsSeed = true;
+        }
+    }
+
+    if ($needsSeed) {
+        @set_time_limit(120);
         $kernel->call('migrate', ['--force' => true]);
-        $kernel->call('db:seed', ['--force' => true]);
+        // One transaction = one disk sync instead of hundreds, keeping cold starts fast.
+        \Illuminate\Support\Facades\DB::transaction(function () use ($kernel) {
+            $kernel->call('db:seed', ['--force' => true]);
+        });
     }
 
     // 7. Handle the HTTP request
