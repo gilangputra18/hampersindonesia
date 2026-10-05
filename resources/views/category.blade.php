@@ -254,7 +254,21 @@
   }
   @media (max-width: 600px) {
     .products-grid-container {
-      grid-template-columns: 1fr !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch;
+      gap: 16px !important;
+      padding-bottom: 20px !important;
+      scrollbar-width: thin;
+      scrollbar-color: #d97706 transparent;
+    }
+    .products-grid-container > div, .products-grid-container > .card {
+      flex: 0 0 82vw !important;
+      max-width: 280px !important;
+      min-width: 230px !important;
+      scroll-snap-align: start !important;
     }
   }
 

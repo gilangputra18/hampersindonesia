@@ -81,7 +81,37 @@ h2::after{content:'';display:block;width:40px;height:2px;background:linear-gradi
   .feature b { font-size: 14px; padding: 8px 16px; bottom: 16px; }
   .band { padding: 30px 16px; }
   .sec { padding: 30px 14px; }
-  .grid4, .grid5 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  
+  /* Horizontal scrollable card slider for mobile */
+  .grid4, .grid5 {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px !important;
+    padding: 10px 16px 20px 16px !important;
+    margin-left: -14px !important;
+    margin-right: -14px !important;
+    width: calc(100% + 28px) !important;
+    scrollbar-width: thin;
+    scrollbar-color: #d97706 transparent;
+  }
+  .grid4::-webkit-scrollbar, .grid5::-webkit-scrollbar {
+    height: 4px;
+  }
+  .grid4::-webkit-scrollbar-thumb, .grid5::-webkit-scrollbar-thumb {
+    background: #d97706;
+    border-radius: 4px;
+  }
+  .grid4 > *, .grid5 > * {
+    flex: 0 0 78vw !important;
+    max-width: 290px !important;
+    min-width: 240px !important;
+    scroll-snap-align: start !important;
+    margin-bottom: 0 !important;
+  }
+
   .navy { padding: 30px 16px; }
   .navy h2 { font-size: 22px; }
   .foot { padding: 30px 16px; text-align: center; grid-template-columns: 1fr; }
@@ -89,7 +119,14 @@ h2::after{content:'';display:block;width:40px;height:2px;background:linear-gradi
 }
 
 @media(max-width:480px) {
-  .grid4, .grid5 { grid-template-columns: 1fr; }
+  .grid4, .grid5 {
+    padding: 10px 14px 20px 14px !important;
+  }
+  .grid4 > *, .grid5 > * {
+    flex: 0 0 82vw !important;
+    max-width: 280px !important;
+    min-width: 230px !important;
+  }
   .logo { font-size: 20px; }
   .btn { padding: 10px 20px; font-size: 10px; width: 100%; text-align: center; }
 }
