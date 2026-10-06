@@ -180,10 +180,10 @@
       {{-- FAQ Item 1 --}}
       <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
         <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Apa saja yang ada dalam hampers Lebaran?
+          Apa saja yang ada dalam hampers?
         </h3>
         <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Setiap hampers berisi pilihan produk premium, seperti cookies, pistachio, sajadah travel, sajadah turki eksklusif, tasbih digital, parfum mewah, dan lainnya. Untuk melihat secara detail, Anda bisa menekan tombol “Lihat Rincian Isi Hampers”.
+          Setiap hampers berisi pilihan produk premium eksklusif, seperti cookies gourmet, artisan treats, sajadah/merchandise, parfum mewah, dan item pilihan berkualitas tinggi lainnya. Untuk melihat secara detail, Anda bisa menekan tombol “Lihat Rincian Isi Hampers” atau “More Details”.
         </p>
       </div>
 
@@ -210,10 +210,10 @@
       {{-- FAQ Item 4 --}}
       <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
         <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Apakah bisa pre-order untuk hampers Lebaran?
+          Apakah bisa pre-order untuk hampers?
         </h3>
         <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Tentu! Dengan melakukan pre-order, Anda dapat memastikan ketersediaan hampers terbaik sekaligus menghindari keterlambatan pengiriman.
+          Tentu! Dengan melakukan pre-order, Anda dapat memastikan ketersediaan hampers terbaik sekaligus memilih jadwal pengiriman sesuai keinginan Anda.
         </p>
       </div>
 
