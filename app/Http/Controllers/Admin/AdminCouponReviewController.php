@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
+use App\Models\Product;
 use App\Models\ProductReview;
 use Illuminate\Http\Request;
 
@@ -79,8 +80,48 @@ class AdminCouponReviewController extends Controller
 
         $reviews = $query->paginate(15)->withQueryString();
         $pendingCount = ProductReview::where('is_approved', false)->count();
+        $products = Product::orderBy('name')->get();
 
-        return view('admin.reviews.index', compact('reviews', 'pendingCount'));
+        return view('admin.reviews.index', compact('reviews', 'pendingCount', 'products'));
+    }
+
+    public function reviewStore(Request $request)
+    {
+        $validated = $request->validate([
+            'product_id'    => 'required|exists:products,id',
+            'reviewer_name'  => 'required|string|max:100',
+            'reviewer_email' => 'nullable|email|max:150',
+            'rating'        => 'required|integer|between:1,5',
+            'title'         => 'nullable|string|max:150',
+            'body'          => 'required|string',
+            'avatar_file'   => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'avatar_url'    => 'nullable|string|max:255',
+            'is_approved'   => 'nullable|boolean',
+            'is_featured'   => 'nullable|boolean',
+        ]);
+
+        $avatarName = null;
+        if ($request->hasFile('avatar_file')) {
+            $file = $request->file('avatar_file');
+            $avatarName = 'avatar-' . time() . '-' . rand(100, 999) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images'), $avatarName);
+        } elseif (!empty($validated['avatar_url'])) {
+            $avatarName = $validated['avatar_url'];
+        }
+
+        ProductReview::create([
+            'product_id'    => $validated['product_id'],
+            'reviewer_name'  => $validated['reviewer_name'],
+            'reviewer_email' => $validated['reviewer_email'] ?? null,
+            'avatar'        => $avatarName,
+            'rating'        => $validated['rating'],
+            'title'         => $validated['title'] ?? null,
+            'body'          => $validated['body'],
+            'is_approved'   => $request->has('is_approved') ? true : true, // Default approved when created by admin
+            'is_featured'   => $request->has('is_featured'),
+        ]);
+
+        return back()->with('success', 'Ulasan produk baru dengan foto pembeli berhasil ditambahkan!');
     }
 
     public function reviewApprove(ProductReview $review)

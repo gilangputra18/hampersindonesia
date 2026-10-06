@@ -122,6 +122,7 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
 
     // Review / Ulasan Management
     Route::get('/reviews', [AdminCouponReviewController::class, 'reviewsIndex'])->name('reviews.index');
+    Route::post('/reviews', [AdminCouponReviewController::class, 'reviewStore'])->name('reviews.store');
     Route::post('/reviews/{review}/approve', [AdminCouponReviewController::class, 'reviewApprove'])->name('reviews.approve');
     Route::post('/reviews/{review}/featured', [AdminCouponReviewController::class, 'reviewToggleFeatured'])->name('reviews.featured');
     Route::delete('/reviews/{review}', [AdminCouponReviewController::class, 'reviewDestroy'])->name('reviews.destroy');

@@ -11,7 +11,7 @@ class ProductReview extends Model
 
     protected $fillable = [
         'product_id', 'user_id', 'order_id',
-        'reviewer_name', 'reviewer_email',
+        'reviewer_name', 'reviewer_email', 'avatar',
         'rating', 'title', 'body',
         'is_approved', 'is_featured',
     ];
@@ -21,6 +21,25 @@ class ProductReview extends Model
         'is_approved' => 'boolean',
         'is_featured' => 'boolean',
     ];
+
+    protected $appends = [
+        'avatar_url',
+    ];
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if (!empty($this->avatar)) {
+            if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
+                return $this->avatar;
+            }
+            if (str_starts_with($this->avatar, 'uploads/') || str_starts_with($this->avatar, 'images/')) {
+                return asset($this->avatar);
+            }
+            return asset('images/' . $this->avatar);
+        }
+
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->reviewer_name ?: 'Pelanggan') . '&background=d97706&color=fff&rounded=true&bold=true';
+    }
 
     public function product()
     {

@@ -36,6 +36,76 @@
   </div>
 </div>
 
+{{-- Form Tambah Ulasan Baru --}}
+<div class="review-card" style="margin-bottom:28px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+    <h3 style="font-size:16px;font-weight:700;color:#fef08a;margin:0;">➕ Buat Ulasan Produk Baru (dengan Foto Pembeli)</h3>
+    <span style="font-size:12px;color:var(--text-muted);">Tambah ulasan atau testimoni kustom untuk produk apapun</span>
+  </div>
+
+  <form action="{{ route('admin.reviews.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="form-row">
+      <div class="form-group">
+        <label for="product_id">Pilih Produk *</label>
+        <select name="product_id" id="product_id" class="form-control" required>
+          <option value="">-- Pilih Produk --</option>
+          @foreach($products as $p)
+            <option value="{{ $p->id }}">{{ $p->name }} (Rp {{ number_format($p->price, 0, ',', '.') }})</option>
+          @endforeach
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="reviewer_name">Nama Pembeli/Pengulas *</label>
+        <input type="text" name="reviewer_name" id="reviewer_name" class="form-control" placeholder="Contoh: Adeline Wijaya" required>
+      </div>
+
+      <div class="form-group">
+        <label for="rating">Rating Bintang *</label>
+        <select name="rating" id="rating" class="form-control" required>
+          <option value="5" selected>★★★★★ (5 Bintang)</option>
+          <option value="4">★★★★☆ (4 Bintang)</option>
+          <option value="3">★★★☆☆ (3 Bintang)</option>
+          <option value="2">★★☆☆☆ (2 Bintang)</option>
+          <option value="1">★☆☆☆☆ (1 Bintang)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="avatar_file">Foto Profil Pembeli (Upload Baru dari HP/Komputer)</label>
+        <input type="file" name="avatar_file" id="avatar_file" class="form-control" accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label for="avatar_url">Atau URL Foto Avatar (Opsional)</label>
+        <input type="text" name="avatar_url" id="avatar_url" class="form-control" placeholder="https://... atau nama-file.jpg">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="title">Judul Ulasan (Opsional)</label>
+      <input type="text" name="title" id="title" class="form-control" placeholder="Contoh: Hampers Sangat Mewah & Kualitas Luar Biasa!">
+    </div>
+
+    <div class="form-group">
+      <label for="body">Isi Ulasan / Testimoni *</label>
+      <textarea name="body" id="body" class="form-control" rows="3" placeholder="Tuliskan ulasan pengalaman pelanggan mengenai produk..." required></textarea>
+    </div>
+
+    <div class="form-row" style="margin-bottom:20px;">
+      <label class="checkbox-group">
+        <input type="checkbox" name="is_featured" value="1" checked>
+        <span>Jadikan sebagai <strong>Ulasan Unggulan (Featured)</strong> di Beranda & Modal Produk</span>
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-gold">💾 Simpan & Publikasikan Ulasan</button>
+  </form>
+</div>
+
 {{-- Filter --}}
 <form method="GET" class="filter-bar">
   <select name="status" class="filter-select" onchange="this.form.submit()">
@@ -57,22 +127,25 @@
 <div class="review-card">
   @forelse($reviews as $r)
     <div class="review-item {{ $r->is_approved ? 'approved-bg' : 'pending-bg' }}">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
-        {{-- Left: stars + reviewer --}}
-        <div>
-          <div style="margin-bottom:4px;">
-            <span class="star-display">{{ str_repeat('★', $r->rating) }}</span>
-            <span style="color:#334155;font-size:18px;">{{ str_repeat('★', 5-$r->rating) }}</span>
-            <span style="font-size:12px;color:var(--text-muted);margin-left:8px;">{{ $r->rating }}/5</span>
-          </div>
-          <div style="font-size:13px;font-weight:700;color:#fff;">{{ $r->reviewer_name }}</div>
-          @if($r->reviewer_email)
-            <div style="font-size:11px;color:var(--text-muted);">{{ $r->reviewer_email }}</div>
-          @endif
-          <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
-            🕐 {{ $r->created_at->format('d M Y, H:i') }}
-            @if($r->product) &nbsp;·&nbsp; 📦 <a href="{{ route('admin.products.edit', $r->product->id) }}" style="color:#f59e0b;text-decoration:none;">{{ $r->product->name }}</a> @endif
-            @if($r->user) &nbsp;·&nbsp; 👤 Member: {{ $r->user->name }} @endif
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+        {{-- Left: Avatar + stars + reviewer --}}
+        <div style="display:flex;align-items:center;gap:14px;">
+          <img src="{{ $r->avatar_url }}" alt="{{ $r->reviewer_name }}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid #d97706;flex-shrink:0;">
+          <div>
+            <div style="margin-bottom:4px;">
+              <span class="star-display">{{ str_repeat('★', $r->rating) }}</span>
+              <span style="color:#334155;font-size:18px;">{{ str_repeat('★', 5-$r->rating) }}</span>
+              <span style="font-size:12px;color:var(--text-muted);margin-left:8px;">{{ $r->rating }}/5</span>
+            </div>
+            <div style="font-size:14px;font-weight:700;color:#fff;">{{ $r->reviewer_name }}</div>
+            @if($r->reviewer_email)
+              <div style="font-size:11px;color:var(--text-muted);">{{ $r->reviewer_email }}</div>
+            @endif
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">
+              🕐 {{ $r->created_at->format('d M Y, H:i') }}
+              @if($r->product) &nbsp;·&nbsp; 📦 <a href="{{ route('admin.products.edit', $r->product->id) }}" style="color:#f59e0b;text-decoration:none;font-weight:600;">{{ $r->product->name }}</a> @endif
+              @if($r->user) &nbsp;·&nbsp; 👤 Member: {{ $r->user->name }} @endif
+            </div>
           </div>
         </div>
         {{-- Right: badges --}}

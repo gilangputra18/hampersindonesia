@@ -134,6 +134,41 @@
   <a class="btn dark" href="{{ route('category', 'cakes') }}">Lihat Semua Produk</a>
 </section>
 
+@if(isset($reviews) && count($reviews) > 0)
+<section class="sec" style="background: #0d1713; color: #fff; padding: 60px 20px;">
+  <p class="lead" style="color: #d97706; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; font-weight: 700;">⚜️ Ulasan & Pengalaman Pelanggan VIP ⚜️</p>
+  <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; color: #fef08a; margin-bottom: 30px;">Kata Mereka Tentang Pusat Hampers Indonesia</h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; text-align: left;">
+    @foreach($reviews as $rev)
+      <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(217, 119, 6, 0.25); border-radius: 12px; padding: 24px; position: relative;">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
+          <img src="{{ $rev->avatar_url }}" alt="{{ $rev->reviewer_name }}" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #d97706; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+          <div>
+            <div style="font-size: 15px; font-weight: 700; color: #fff;">{{ $rev->reviewer_name }}</div>
+            <div style="color: #f59e0b; font-size: 14px; margin-top: 2px;">{{ $rev->stars }}</div>
+          </div>
+        </div>
+
+        @if($rev->title)
+          <div style="font-size: 15px; font-weight: 700; color: #fef08a; margin-bottom: 8px;">"{{ $rev->title }}"</div>
+        @endif
+
+        <p style="font-size: 13.5px; color: #cad8d1; line-height: 1.65; margin: 0; font-family: 'Outfit', sans-serif;">
+          {{ $rev->body }}
+        </p>
+
+        @if($rev->product)
+          <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 11.5px; color: #8fa59b;">
+            📦 Produk: <strong style="color: #f59e0b;">{{ $rev->product->name }}</strong>
+          </div>
+        @endif
+      </div>
+    @endforeach
+  </div>
+</section>
+@endif
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const videos = document.querySelectorAll('video');
