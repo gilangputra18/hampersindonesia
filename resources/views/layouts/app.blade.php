@@ -282,7 +282,7 @@
 
   @media (max-width: 768px) {
     html, body {
-      overflow-x: hidden !important;
+      overflow-x: clip !important;
       max-width: 100vw !important;
       width: 100% !important;
     }
@@ -367,25 +367,25 @@
     }
   }
 
-  /* Sticky Site Header Wrapper */
+  /* Sticky Site Header Wrapper - Permanently Fixed at Top */
   .site-header-sticky-wrapper {
     position: sticky;
     top: 0;
     z-index: 9990;
-    background: #091711;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
   }
 
-  /* Royal Brand Logo Bar */
+  /* Royal Brand Logo Bar - Bright Luxury Champagne Ivory Theme */
   .head {
     position: relative;
-    background: linear-gradient(135deg, #07130d 0%, #11261b 50%, #0a1811 100%);
-    border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+    background: linear-gradient(180deg, #ffffff 0%, #faf6f0 60%, #f4eee3 100%);
+    border-bottom: 1px solid rgba(217, 119, 6, 0.35);
     z-index: 500;
     text-align: center;
-    padding: 24px 0 18px;
+    padding: 22px 0 16px;
     width: 100%;
-    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   }
   .logo {
     display: inline-block;
@@ -393,8 +393,8 @@
     font-size: 42px;
     letter-spacing: .28em;
     line-height: 1.1;
-    color: #fef08a;
-    text-shadow: 0 2px 12px rgba(245, 158, 11, 0.35), 0 0 2px rgba(254, 240, 138, 0.5);
+    color: #0f291e;
+    text-shadow: 0 1px 2px rgba(15, 41, 30, 0.12);
     font-weight: 700;
     text-decoration: none;
     text-transform: uppercase;
@@ -402,26 +402,26 @@
     padding: 0 20px;
   }
   .logo:hover {
-    color: #ffffff;
-    text-shadow: 0 0 18px rgba(250, 204, 21, 0.8);
+    color: #b45309;
+    text-shadow: 0 0 12px rgba(180, 83, 9, 0.25);
   }
   .fleur-icon {
-    color: #fbbf24;
+    color: #d97706;
     font-size: 32px;
     vertical-align: middle;
     margin: 0 14px;
     display: inline-block;
-    filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.5));
+    filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.35));
   }
   .logo small {
     display: block;
     font-family: 'Outfit', sans-serif;
     font-size: 10.5px;
     letter-spacing: .38em;
-    color: #d97706;
+    color: #b45309;
     font-weight: 600;
     margin-top: 6px;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    text-shadow: none;
   }
 
   /* Royal Dark Emerald Navigation Bar */
