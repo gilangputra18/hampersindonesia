@@ -143,19 +143,25 @@
     }
     .shop-sidebar {
       background: #ffffff;
-      padding: 16px 18px;
+      padding: 16px;
       border-radius: 12px;
       border: 1px solid #e2e8f0;
       box-shadow: 0 4px 15px rgba(0,0,0,0.03);
       margin-bottom: 24px;
+      box-sizing: border-box;
+      max-width: 100%;
+      overflow: hidden;
     }
     .accordion-header {
       font-size: 12px;
       letter-spacing: 2px;
       padding: 14px 0;
+      box-sizing: border-box;
+      max-width: 100%;
     }
     .filter-checkbox-label {
       font-size: 12.5px;
+      word-break: break-word;
     }
   }
 
@@ -165,6 +171,7 @@
     grid-template-columns: 260px 1fr;
     gap: 40px;
     align-items: start;
+    max-width: 100%;
   }
   @media (max-width: 900px) {
     .shop-layout {
@@ -175,12 +182,21 @@
   /* Accordion Sidebar */
   .shop-sidebar {
     background: transparent;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
   }
   .accordion-item {
     border-bottom: 1px solid #c8d5d0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   .accordion-header {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 18px 0;
     background: transparent;
     border: none;
@@ -207,6 +223,9 @@
     overflow: hidden;
     transition: max-height 0.3s ease;
     padding-bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
   }
   .accordion-item.open .accordion-body {
     max-height: 400px;
@@ -216,6 +235,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .filter-checkbox-label {
     display: flex;
@@ -225,12 +246,15 @@
     color: #4a5c53;
     cursor: pointer;
     user-select: none;
+    max-width: 100%;
+    word-break: break-word;
   }
   .filter-checkbox-label input[type="checkbox"] {
     accent-color: #2c3e35;
     width: 15px;
     height: 15px;
     cursor: pointer;
+    flex-shrink: 0;
   }
   .price-inputs {
     display: flex;
@@ -238,14 +262,16 @@
     align-items: center;
     margin-top: 10px;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
   }
   .price-input {
-    flex: 1;
+    flex: 1 1 0;
     min-width: 0;
-    width: 50%;
+    width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
-    padding: 10px 12px;
+    padding: 10px 10px;
     border: 1px solid #cbd5e1;
     background: #ffffff;
     border-radius: 6px;
