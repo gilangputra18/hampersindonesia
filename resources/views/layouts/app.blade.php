@@ -1389,7 +1389,6 @@
             <input type="hidden" name="product_id" id="pm-product-id" value="0">
             <button type="submit" class="pm-btn pm-btn-cart">🛒 + TAMBAH KE KERANJANG</button>
           </form>
-          <a href="#" target="_blank" id="pm-wa-btn" class="pm-btn pm-btn-wa">💬 PESAN VIA WHATSAPP</a>
         </div>
       </div>
     </div>
@@ -1705,13 +1704,6 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         reviewsList.appendChild(revCard);
       });
-    }
-
-    // Setup WhatsApp direct order link
-    const waBtn = document.getElementById('pm-wa-btn');
-    if (waBtn) {
-      const waMsg = encodeURIComponent(`Halo Pusat Hampers Indonesia, saya tertarik dengan ${data.name} (${data.price}). Boleh minta informasi ketersediaan & cara pemesanan?`);
-      waBtn.href = `https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}?text=${waMsg}`;
     }
 
     productModal.classList.add('open');
