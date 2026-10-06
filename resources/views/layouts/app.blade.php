@@ -146,15 +146,63 @@
     background: rgba(255, 255, 255, 0.08);
   }
 
+  /* Souvia-Style Dedicated Mobile Header Bar */
+  .souvia-mobile-topbar {
+    display: none;
+  }
+  
+  /* Floating WhatsApp Widget */
+  .floating-wa-container {
+    position: fixed;
+    bottom: 24px;
+    right: 18px;
+    z-index: 99990;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+  }
+  .wa-callout-badge {
+    background: #ffffff;
+    color: #1e293b;
+    font-size: 11.5px;
+    font-family: 'Outfit', sans-serif;
+    padding: 8px 14px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    border: 1px solid #cbd5e1;
+    white-space: nowrap;
+    animation: waPulse 2.5s infinite;
+  }
+  .wa-circle-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    transition: transform 0.25s ease;
+    text-decoration: none !important;
+    flex-shrink: 0;
+  }
+  .wa-circle-btn:hover {
+    transform: scale(1.1);
+  }
+  @keyframes waPulse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
   .mobile-drawer-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(13, 23, 19, 0.96);
-    backdrop-filter: blur(12px);
+    background: #ffffff;
     z-index: 9999;
     display: flex;
     flex-direction: column;
-    padding: 24px 20px 40px;
+    padding: 0;
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
@@ -166,63 +214,113 @@
     opacity: 1;
     visibility: visible;
   }
-  .mobile-drawer-header {
+  .souvia-drawer-topbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(217, 119, 6, 0.3);
-    padding-bottom: 16px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #ea580c 0%, #d97706 100%);
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
-  .mobile-drawer-brand {
+  .souvia-drawer-brand {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    letter-spacing: 2px;
-    color: #fef08a;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #ffffff;
     font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .souvia-drawer-search-wrap {
+    flex: 1;
+    max-width: 220px;
+  }
+  .souvia-drawer-search-wrap input {
+    width: 100%;
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 12px;
+    font-family: 'Outfit', sans-serif;
+    color: #334155;
+    background: #ffffff;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    cursor: pointer;
   }
   .mobile-drawer-close {
     background: none;
     border: none;
-    color: #94a3b8;
+    color: #ffffff;
     font-size: 24px;
     cursor: pointer;
     line-height: 1;
-    padding: 4px;
+    padding: 2px 6px;
   }
-  .mobile-drawer-section-title {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: #f59e0b;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-  .mobile-drawer-links {
+
+  /* Accordion Menu List (Reference Image 2) */
+  .souvia-accordion-menu {
+    padding: 12px 16px 40px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    background: #ffffff;
   }
-  .mobile-drawer-link {
+  .accordion-item {
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .accordion-header, .accordion-link {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    font-size: 12.5px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #cad8d1;
-    text-decoration: none;
+    padding: 16px 8px;
+    background: none;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
     font-weight: 600;
-    padding: 12px 14px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(217, 119, 6, 0.2);
-    border-radius: 6px;
-    transition: all 0.2s;
+    color: #0f172a;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: left;
   }
-  .mobile-drawer-link:hover, .mobile-drawer-link.active {
-    background: rgba(217, 119, 6, 0.15);
-    border-color: #f59e0b;
-    color: #fef08a;
+  .accordion-header:hover, .accordion-link:hover {
+    color: #ea580c;
+  }
+  .acc-icon {
+    font-size: 14px;
+    color: #64748b;
+    transition: transform 0.25s ease;
+  }
+  .accordion-item.active .acc-icon {
+    transform: rotate(180deg);
+    color: #ea580c;
+  }
+  .accordion-body {
+    display: none;
+    flex-direction: column;
+    padding: 4px 12px 14px 20px;
+    gap: 10px;
+    background: #f8fafc;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .accordion-item.active .accordion-body {
+    display: flex;
+  }
+  .accordion-body a {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13.5px;
+    color: #334155;
+    text-decoration: none;
+    padding: 6px 0;
+    transition: color 0.15s;
+  }
+  .accordion-body a:hover {
+    color: #ea580c;
   }
 
   @media (max-width: 768px) {
@@ -1022,7 +1120,20 @@
 </head>
 <body>
 
-<!-- Ultra-Luxurious Royal Header Top Bar -->
+<!-- Dedicated Souvia-Style Mobile Top Header Bar -->
+<div class="souvia-mobile-topbar">
+  <a href="{{ route('home') }}" class="souvia-drawer-brand">
+    ⚜️ HAMPERS
+  </a>
+  <div class="souvia-drawer-search-wrap">
+    <input type="text" class="trigger-live-search" placeholder="Search Product..." readonly>
+  </div>
+  <button type="button" class="three-dots-btn" id="open-three-dots-btn" style="display: block; font-size: 24px; color: #fff;">
+    ≡
+  </button>
+</div>
+
+<!-- Ultra-Luxurious Royal Header Top Bar (Desktop) -->
 <div class="top">
   <nav>
     <a href="{{ route('reservations') }}">🍷 RESERVASI & ACARA</a>
@@ -1071,71 +1182,97 @@
     </a>
 
     <!-- 3-Dots Mobile Menu Trigger Button -->
-    <button type="button" class="three-dots-btn" id="open-three-dots-btn" title="Menu Lengkap (Titik 3)">
+    <button type="button" class="three-dots-btn" id="open-three-dots-btn-desktop" title="Menu Lengkap">
       ⋮
     </button>
   </div>
 </div>
 
-<!-- Mobile 3-Dots Menu Drawer Overlay -->
+<!-- Mobile Souvia Accordion Drawer Overlay (Reference Image 2) -->
 <div class="mobile-drawer-overlay" id="mobile-drawer-modal">
-  <div class="mobile-drawer-header">
-    <div class="mobile-drawer-brand">
-      ⚜️ PUSAT HAMPERS INDONESIA
+  <div class="souvia-drawer-topbar">
+    <a href="{{ route('home') }}" class="souvia-drawer-brand">
+      ⚜️ HAMPERS INDONESIA
+    </a>
+    <div class="souvia-drawer-search-wrap">
+      <input type="text" class="trigger-live-search" placeholder="Search Product..." readonly>
     </div>
     <button type="button" class="mobile-drawer-close" id="close-three-dots-btn">✕</button>
   </div>
 
-  <div class="mobile-drawer-section-title">AKSES CEPAT & LAYANAN</div>
-  <div class="mobile-drawer-links">
-    <a href="{{ route('reservations') }}" class="mobile-drawer-link">
-      <span>🍷</span> <span>RESERVASI & ACARA</span>
-    </a>
-    <a href="{{ route('contact') }}" class="mobile-drawer-link">
-      <span>💬</span> <span>KONTAK & LAYANAN CONCIERGE</span>
-    </a>
-    <a href="{{ route('track') }}" class="mobile-drawer-link">
-      <span>📦</span> <span>LACAK PESANAN REAL-TIME</span>
-    </a>
-    <a href="{{ route('cart.index') }}" class="mobile-drawer-link">
-      <span>🛒</span> <span>KERANJANG BELANJA ({{ $cartQty ?? 0 }})</span>
-    </a>
-  </div>
+  <div class="souvia-accordion-menu">
+    <!-- Item 1: Giftset & Package -->
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">
+        <span>🎁 Giftset & Package</span>
+        <span class="acc-icon">∨</span>
+      </button>
+      <div class="accordion-body">
+        <a href="{{ route('category', 'hampers') }}">🎁 Hampers & Gift Box Mewah</a>
+        <a href="{{ route('category', 'mooncake') }}">🥮 Paket Hadiah Mooncake</a>
+      </div>
+    </div>
 
-  <div class="mobile-drawer-section-title" style="margin-top: 24px;">AKUN PELANGGAN</div>
-  <div class="mobile-drawer-links">
-    @auth
-      <a href="{{ route('my.orders') }}" class="mobile-drawer-link">
-        <span>📦</span> <span>RIWAYAT PESANAN SAYA</span>
-      </a>
-      @if(Auth::user()->is_admin)
-        <a href="{{ route('admin.dashboard') }}" class="mobile-drawer-link" style="color: #fef08a; border-color: #d97706;">
-          <span>🛡️</span> <span>DASHBOARD ADMIN PANEL</span>
-        </a>
-      @endif
-      <form action="{{ route('logout') }}" method="POST" style="width: 100%; margin: 0;">
-        @csrf
-        <button type="submit" class="mobile-drawer-link" style="width: 100%; color: #f87171; text-align: left; cursor: pointer;">
-          <span>🚪</span> <span>KELUAR (LOGOUT)</span>
-        </button>
-      </form>
-    @else
-      <a href="{{ route('login') }}" class="mobile-drawer-link">
-        <span>👤</span> <span>MASUK / DAFTAR AKUN</span>
-      </a>
-    @endauth
-    <a href="{{ route('menu.pdf') }}" target="_blank" class="mobile-drawer-link">
-      <span>📜</span> <span>DOWNLOAD MENU PDF RESTORAN</span>
-    </a>
-  </div>
+    <!-- Item 2: Best Seller -->
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">
+        <span>⭐ Best Seller</span>
+        <span class="acc-icon">∨</span>
+      </button>
+      <div class="accordion-body">
+        <a href="{{ route('category', 'cakes') }}">🎂 Basque Cheesecake & Tart</a>
+        <a href="{{ route('category', 'cookies') }}">🍪 Nastar & Cookies Artisanal</a>
+        <a href="{{ route('category', 'breads') }}">🥐 Focaccia & Croissant Premium</a>
+      </div>
+    </div>
 
-  <div class="mobile-drawer-section-title" style="margin-top: 24px;">KATEGORI TOKO ROTI & PASTRI</div>
-  <div class="mobile-drawer-links">
-    @foreach (config('site.categories') as $slug => $c)
-      <a href="{{ route('category', $slug) }}" class="mobile-drawer-link">
-        <span>🥐</span> <span>{{ $c['title'] }}</span>
+    <!-- Item 3: All Products -->
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">
+        <span>📦 All Products (Semua Produk)</span>
+        <span class="acc-icon">∨</span>
+      </button>
+      <div class="accordion-body">
+        @foreach (config('site.categories') as $slug => $c)
+          <a href="{{ route('category', $slug) }}">{{ $c['title'] }}</a>
+        @endforeach
+      </div>
+    </div>
+
+    <!-- Item 4: Portfolios & Reservasi -->
+    <div class="accordion-item">
+      <a href="{{ route('reservations') }}" class="accordion-link">
+        <span>🍷 Portfolios & Reservasi Acara</span>
       </a>
-    @endforeach
+    </div>
+
+    <!-- Item 5: Our Services -->
+    <div class="accordion-item">
+      <a href="{{ route('track') }}" class="accordion-link">
+        <span>🚚 Our Services & Lacak Pesanan</span>
+      </a>
+    </div>
+
+    <!-- Item 6: Others / Akun Pelanggan -->
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">
+        <span>👤 Others (Akun & Layanan VIP)</span>
+        <span class="acc-icon">∨</span>
+      </button>
+      <div class="accordion-body">
+        @auth
+          <a href="{{ route('my.orders') }}">📦 Riwayat Pesanan Saya</a>
+          @if(Auth::user()->is_admin)
+            <a href="{{ route('admin.dashboard') }}" style="color: #b45309; font-weight: 700;">🛡️ Dashboard Admin Panel</a>
+          @endif
+        @else
+          <a href="{{ route('login') }}">👤 Masuk / Daftar Akun</a>
+        @endauth
+        <a href="{{ route('contact') }}">💬 Kontak & Concierge Service</a>
+        <a href="{{ route('cart.index') }}">🛒 Keranjang Belanja ({{ $cartQty ?? 0 }})</a>
+        <a href="{{ route('menu.pdf') }}" target="_blank">📄 Download Menu PDF</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1529,8 +1666,49 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  // Accordion Drawer Toggle Logic (Reference Image 2)
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', function() {
+      const item = this.closest('.accordion-item');
+      const isOpen = item.classList.contains('active');
+      
+      // Close other accordion items
+      document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+      
+      // Toggle current
+      if (!isOpen) {
+        item.classList.add('active');
+      }
+    });
+  });
+
+  // Mobile Header Search Triggers
+  document.querySelectorAll('.trigger-live-search').forEach(input => {
+    input.addEventListener('click', function() {
+      const drawer = document.getElementById('mobile-drawer-modal');
+      if (drawer) drawer.classList.remove('open');
+      if (searchModal) {
+        searchModal.classList.add('open');
+        setTimeout(() => publicSearchInput.focus(), 100);
+      }
+    });
+  });
 });
 </script>
+
+<!-- Floating WhatsApp Chat Widget (Reference Image 1 & 2) -->
+<div class="floating-wa-container">
+  <div class="wa-callout-badge">
+    Chat Sekarang ! Dibalas <strong style="color: #1e293b;">kurang dari 1 menit ⚡</strong>
+  </div>
+  <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}?text=Halo%20Pusat%20Hampers%20Indonesia,%20saya%20tertarik%20dengan%20koleksi%20hampers%20dan%20layanan%20Anda." target="_blank" class="wa-circle-btn" title="Chat via WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#ffffff">
+      <path d="M19.005 4.995A9.945 9.945 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.956-1.402A9.932 9.932 0 0 0 12 22c5.523 0 10-4.477 10-10 0-2.67-1.04-5.18-2.995-7.005zM12 20.25a8.21 8.21 0 0 1-4.2-1.155l-.3-.18-3.09.873.873-3.09-.18-.3A8.215 8.215 0 0 1 3.75 12c0-4.549 3.701-8.25 8.25-8.25 2.204 0 4.275.858 5.834 2.417A8.214 8.214 0 0 1 20.25 12c0 4.549-3.701 8.25-8.25 8.25zm4.524-6.175c-.248-.124-1.467-.724-1.694-.807-.227-.083-.393-.124-.559.124-.165.248-.641.807-.786.972-.145.165-.29.186-.538.062a6.791 6.791 0 0 1-1.996-1.231 7.487 7.487 0 0 1-1.382-1.722c-.145-.248-.016-.382.108-.506.111-.11.248-.29.372-.434.124-.145.165-.248.248-.413.083-.165.042-.31-.021-.434-.062-.124-.559-1.348-.765-1.844-.201-.484-.405-.418-.559-.426-.145-.008-.31-.01-.475-.01s-.434.062-.661.31c-.227.248-.868.847-.868 2.067s.888 2.397 1.012 2.563c.124.165 1.748 2.67 4.235 3.743.592.255 1.055.408 1.416.523.595.189 1.136.162 1.564.098.477-.071 1.467-.6 1.674-1.178.207-.579.207-1.075.145-1.178-.062-.103-.227-.165-.475-.29z"/>
+    </svg>
+  </a>
+</div>
+
 <script src="{{ asset('js/site.js') }}" defer></script>
 </body>
 </html>
