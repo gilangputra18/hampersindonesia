@@ -225,10 +225,10 @@
     gap: 4px;
     background: #ffffff;
   }
-  .accordion-item {
+  .souvia-accordion-menu .accordion-item {
     border-bottom: 1px solid #f1f5f9;
   }
-  .accordion-header, .accordion-link {
+  .souvia-accordion-menu .accordion-header, .souvia-accordion-menu .accordion-link {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -244,19 +244,19 @@
     cursor: pointer;
     text-align: left;
   }
-  .accordion-header:hover, .accordion-link:hover {
+  .souvia-accordion-menu .accordion-header:hover, .souvia-accordion-menu .accordion-link:hover {
     color: #ea580c;
   }
-  .acc-icon {
+  .souvia-accordion-menu .acc-icon {
     font-size: 14px;
     color: #64748b;
     transition: transform 0.25s ease;
   }
-  .accordion-item.active .acc-icon {
+  .souvia-accordion-menu .accordion-item.active .acc-icon {
     transform: rotate(180deg);
     color: #ea580c;
   }
-  .accordion-body {
+  .souvia-accordion-menu .accordion-body {
     display: none;
     flex-direction: column;
     padding: 4px 12px 14px 20px;
@@ -265,10 +265,10 @@
     border-radius: 6px;
     margin-bottom: 8px;
   }
-  .accordion-item.active .accordion-body {
+  .souvia-accordion-menu .accordion-item.active .accordion-body {
     display: flex;
   }
-  .accordion-body a {
+  .souvia-accordion-menu .accordion-body a {
     font-family: 'Outfit', sans-serif;
     font-size: 13.5px;
     color: #334155;
@@ -276,7 +276,7 @@
     padding: 6px 0;
     transition: color 0.15s;
   }
-  .accordion-body a:hover {
+  .souvia-accordion-menu .accordion-body a:hover {
     color: #ea580c;
   }
 
@@ -1629,13 +1629,14 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Accordion Drawer Toggle Logic (Reference Image 2)
-  document.querySelectorAll('.accordion-header').forEach(header => {
+  document.querySelectorAll('.souvia-accordion-menu .accordion-header').forEach(header => {
     header.addEventListener('click', function() {
       const item = this.closest('.accordion-item');
+      if (!item) return;
       const isOpen = item.classList.contains('active');
       
-      // Close other accordion items
-      document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+      // Close other drawer accordion items
+      document.querySelectorAll('.souvia-accordion-menu .accordion-item').forEach(i => i.classList.remove('active'));
       
       // Toggle current
       if (!isOpen) {

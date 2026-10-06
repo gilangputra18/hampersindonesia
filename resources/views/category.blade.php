@@ -152,7 +152,7 @@
       max-width: 100%;
       overflow: hidden;
     }
-    .accordion-header {
+    .shop-acc-header {
       font-size: 12px;
       letter-spacing: 2px;
       padding: 14px 0;
@@ -191,14 +191,14 @@
     max-width: 100%;
     overflow: hidden;
   }
-  .accordion-item {
+  .shop-acc-item {
     border-bottom: 1px solid #c8d5d0;
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
     overflow: hidden;
   }
-  .accordion-header {
+  .shop-acc-header {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -216,24 +216,24 @@
     cursor: pointer;
     text-align: left;
   }
-  .accordion-header .icon {
+  .shop-acc-header .icon {
     font-size: 10px;
     transition: transform 0.2s ease;
   }
-  .accordion-item.open .accordion-header .icon {
+  .shop-acc-item.open .shop-acc-header .icon {
     transform: rotate(180deg);
   }
-  .accordion-body {
+  .shop-acc-body {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.35s ease;
     padding-bottom: 0;
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
   }
-  .accordion-item.open .accordion-body {
-    max-height: 400px;
+  .shop-acc-item.open .shop-acc-body {
+    max-height: 1000px;
     padding-bottom: 20px;
   }
   .filter-option-list {
@@ -406,12 +406,12 @@
     <aside class="shop-sidebar">
       <form id="filter-form">
         {{-- Accordion 1: TYPE --}}
-        <div class="accordion-item open">
-          <button type="button" class="accordion-header">
+        <div class="shop-acc-item open">
+          <button type="button" class="shop-acc-header">
             <span>KATEGORI BENTUK</span>
             <span class="icon">▼</span>
           </button>
-          <div class="accordion-body">
+          <div class="shop-acc-body">
             <div class="filter-option-list">
               @forelse ($types as $type)
                 <label class="filter-checkbox-label">
@@ -426,12 +426,12 @@
         </div>
 
         {{-- Accordion 2: FLAVORS --}}
-        <div class="accordion-item open">
-          <button type="button" class="accordion-header">
+        <div class="shop-acc-item open">
+          <button type="button" class="shop-acc-header">
             <span>VARIAN RASA</span>
             <span class="icon">▼</span>
           </button>
-          <div class="accordion-body">
+          <div class="shop-acc-body">
             <div class="filter-option-list">
               @forelse ($flavors as $flavor)
                 <label class="filter-checkbox-label">
@@ -446,12 +446,12 @@
         </div>
 
         {{-- Accordion 3: SIZE --}}
-        <div class="accordion-item open">
-          <button type="button" class="accordion-header">
+        <div class="shop-acc-item open">
+          <button type="button" class="shop-acc-header">
             <span>UKURAN</span>
             <span class="icon">▼</span>
           </button>
-          <div class="accordion-body">
+          <div class="shop-acc-body">
             <div class="filter-option-list">
               @forelse ($sizes as $size)
                 <label class="filter-checkbox-label">
@@ -466,12 +466,12 @@
         </div>
 
         {{-- Accordion 4: AVAILABILITY --}}
-        <div class="accordion-item open">
-          <button type="button" class="accordion-header">
+        <div class="shop-acc-item open">
+          <button type="button" class="shop-acc-header">
             <span>KETERSEDIAAN</span>
             <span class="icon">▼</span>
           </button>
-          <div class="accordion-body">
+          <div class="shop-acc-body">
             <div class="filter-option-list">
               <label class="filter-checkbox-label">
                 <input type="checkbox" name="availabilities[]" value="in_stock" {{ in_array('in_stock', $filters['availabilities'] ?? []) ? 'checked' : '' }}>
@@ -486,12 +486,12 @@
         </div>
 
         {{-- Accordion 5: PRICE --}}
-        <div class="accordion-item open">
-          <button type="button" class="accordion-header">
+        <div class="shop-acc-item open">
+          <button type="button" class="shop-acc-header">
             <span>RENTANG HARGA</span>
             <span class="icon">▼</span>
           </button>
-          <div class="accordion-body">
+          <div class="shop-acc-body">
             <div class="price-inputs">
               <input type="number" name="min_price" id="min_price" class="price-input" placeholder="Min Rp" value="{{ request('min_price') }}">
               <span style="font-size: 12px; color: #7a8b83;">-</span>
@@ -522,10 +522,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const clearFiltersBtn = document.getElementById('clear-filters');
 
   // Accordion toggle logic
-  document.querySelectorAll('.accordion-header').forEach(header => {
+  document.querySelectorAll('.shop-acc-header').forEach(header => {
     header.addEventListener('click', function () {
-      const item = this.closest('.accordion-item');
-      item.classList.toggle('open');
+      const item = this.closest('.shop-acc-item');
+      if (item) item.classList.toggle('open');
     });
   });
 
