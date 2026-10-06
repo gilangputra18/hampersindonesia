@@ -1120,6 +1120,14 @@
 </head>
 <body>
 
+<!-- Header Main Royal Logo at the VERY TOP -->
+<header class="head">
+  <a href="{{ route('home') }}" class="logo">
+    <span class="fleur-icon">⚜️</span> PUSAT HAMPERS INDONESIA <span class="fleur-icon">⚜️</span>
+    <small>PUSAT HAMPERS, GIFT BOX & PARCEL GOURMET • INDONESIA • DIDIRIKAN {{ config('site.since') }}</small>
+  </a>
+</header>
+
 <!-- Dedicated Souvia-Style Mobile Top Header Bar -->
 <div class="souvia-mobile-topbar">
   <a href="{{ route('home') }}" class="souvia-drawer-brand">
@@ -1133,7 +1141,7 @@
   </button>
 </div>
 
-<!-- Ultra-Luxurious Royal Header Top Bar (Desktop) -->
+<!-- Ultra-Luxurious Royal Header Top Bar (Controls Bar) -->
 <div class="top">
   <nav>
     <a href="{{ route('reservations') }}">🍷 RESERVASI & ACARA</a>
@@ -1276,15 +1284,9 @@
   </div>
 </div>
 
-<!-- Header Main Royal Logo & Navigation -->
-<header class="head">
-  <a href="{{ route('home') }}" class="logo">
-    <span class="fleur-icon">⚜️</span> PUSAT HAMPERS INDONESIA <span class="fleur-icon">⚜️</span>
-    <small>PUSAT HAMPERS, GIFT BOX & PARCEL GOURMET • INDONESIA • DIDIRIKAN {{ config('site.since') }}</small>
-  </a>
-
-  <div class="nav-main-wrapper">
-    <nav class="main">
+<!-- Main Category Navigation -->
+<div class="nav-main-wrapper">
+  <nav class="main">
       @foreach (config('site.categories') as $slug => $c)
         <div class="nav-item-has-mega" style="display: inline-block;">
           <a href="{{ route('category', $slug) }}" class="main-nav-link {{ request()->is('shop/'.$slug) ? 'active' : '' }}">
