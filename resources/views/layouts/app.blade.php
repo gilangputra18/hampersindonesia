@@ -151,49 +151,6 @@
     display: none;
   }
   
-  /* Floating WhatsApp Widget */
-  .floating-wa-container {
-    position: fixed;
-    bottom: 24px;
-    right: 18px;
-    z-index: 99990;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    pointer-events: auto;
-  }
-  .wa-callout-badge {
-    background: #ffffff;
-    color: #1e293b;
-    font-size: 11.5px;
-    font-family: 'Outfit', sans-serif;
-    padding: 8px 14px;
-    border-radius: 20px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-    border: 1px solid #cbd5e1;
-    white-space: nowrap;
-    animation: waPulse 2.5s infinite;
-  }
-  .wa-circle-btn {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: #25D366;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
-    transition: transform 0.25s ease;
-    text-decoration: none !important;
-    flex-shrink: 0;
-  }
-  .wa-circle-btn:hover {
-    transform: scale(1.1);
-  }
-  @keyframes waPulse {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-  }
 
   .mobile-drawer-overlay {
     position: fixed;
@@ -1701,17 +1658,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- Floating WhatsApp Chat Widget (Reference Image 1 & 2) -->
-<div class="floating-wa-container">
-  <div class="wa-callout-badge">
-    Chat Sekarang ! Dibalas <strong style="color: #1e293b;">kurang dari 1 menit ⚡</strong>
-  </div>
-  <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}?text=Halo%20Pusat%20Hampers%20Indonesia,%20saya%20tertarik%20dengan%20koleksi%20hampers%20dan%20layanan%20Anda." target="_blank" class="wa-circle-btn" title="Chat via WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="#ffffff">
-      <path d="M19.005 4.995A9.945 9.945 0 0 0 12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.956-1.402A9.932 9.932 0 0 0 12 22c5.523 0 10-4.477 10-10 0-2.67-1.04-5.18-2.995-7.005zM12 20.25a8.21 8.21 0 0 1-4.2-1.155l-.3-.18-3.09.873.873-3.09-.18-.3A8.215 8.215 0 0 1 3.75 12c0-4.549 3.701-8.25 8.25-8.25 2.204 0 4.275.858 5.834 2.417A8.214 8.214 0 0 1 20.25 12c0 4.549-3.701 8.25-8.25 8.25zm4.524-6.175c-.248-.124-1.467-.724-1.694-.807-.227-.083-.393-.124-.559.124-.165.248-.641.807-.786.972-.145.165-.29.186-.538.062a6.791 6.791 0 0 1-1.996-1.231 7.487 7.487 0 0 1-1.382-1.722c-.145-.248-.016-.382.108-.506.111-.11.248-.29.372-.434.124-.145.165-.248.248-.413.083-.165.042-.31-.021-.434-.062-.124-.559-1.348-.765-1.844-.201-.484-.405-.418-.559-.426-.145-.008-.31-.01-.475-.01s-.434.062-.661.31c-.227.248-.868.847-.868 2.067s.888 2.397 1.012 2.563c.124.165 1.748 2.67 4.235 3.743.592.255 1.055.408 1.416.523.595.189 1.136.162 1.564.098.477-.071 1.467-.6 1.674-1.178.207-.579.207-1.075.145-1.178-.062-.103-.227-.165-.475-.29z"/>
-    </svg>
-  </a>
-</div>
 
 <script src="{{ asset('js/site.js') }}" defer></script>
 </body>
