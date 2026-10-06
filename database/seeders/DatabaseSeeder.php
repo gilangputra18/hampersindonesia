@@ -277,66 +277,61 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 6. Seed Sample Product Reviews with Photos
+        // 6. Seed Sample Product Reviews with Photos for all products
         if (\App\Models\ProductReview::count() === 0) {
-            $hampersRose = Product::where('name', 'like', '%Rose%')->first() ?? Product::first();
-            $hampersLily = Product::where('name', 'like', '%Lily%')->first() ?? Product::first();
-            $nastar = Product::where('name', 'like', '%Nastar%')->first() ?? Product::first();
-            $cheesecake = Product::where('name', 'like', '%Cheesecake%')->first() ?? Product::first();
-
-            $reviewsData = [
+            $sampleReviewTemplates = [
                 [
-                    'product_id' => $hampersRose ? $hampersRose->id : 1,
-                    'reviewer_name' => 'Adeline Wijaya',
-                    'reviewer_email' => 'adeline.w@luxurycorp.id',
+                    'name' => 'Adeline Wijaya',
+                    'email' => 'adeline.w@luxurycorp.id',
                     'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
                     'rating' => 5,
-                    'title' => 'Hampers Mewah Berkelas VIP!',
-                    'body' => 'Sangat puas dengan Hampers Rose! Hardbox emerald dan pita sangat tebal, isi kue Nastar dan Kaastengel renyah dan berasa keju edamnya. Klien kami sangat senang menerimanya.',
-                    'is_approved' => true,
-                    'is_featured' => true,
-                    'created_at' => now()->subDays(2),
+                    'title' => 'Rasa Sangat Lezat & Kemasan Mewah VIP!',
+                    'body' => 'Bahan-bahannya terasa sangat berkualitas tinggi dan butter impornya begitu harum. Packaging hampers eksklusif dan kemasan sangat rapi.',
                 ],
                 [
-                    'product_id' => $hampersLily ? $hampersLily->id : 1,
-                    'reviewer_name' => 'Clarissa Putri',
-                    'reviewer_email' => 'clarissa.putri@gmail.com',
+                    'name' => 'Clarissa Putri',
+                    'email' => 'clarissa.putri@gmail.com',
                     'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
                     'rating' => 5,
-                    'title' => 'Pengiriman Cepat & Packing Aman',
-                    'body' => 'Pengiriman dedicated courier butik sangat profesional. Hampers diterima dalam keadaan mulus tanpa cacat. Kualitas rasa kue keringnya bintang lima!',
-                    'is_approved' => true,
-                    'is_featured' => true,
-                    'created_at' => now()->subDays(4),
+                    'title' => 'Pengiriman Cepat & Fast Response',
+                    'body' => 'Pengiriman dedicated courier sangat profesional. Produk diterima dalam keadaan mulus, tidak hancur, dan tekstur rasanya bintang lima!',
                 ],
                 [
-                    'product_id' => $nastar ? $nastar->id : 1,
-                    'reviewer_name' => 'Bambang Soeprapto',
-                    'reviewer_email' => 'bambang.s@gmail.com',
+                    'name' => 'Bambang Soeprapto',
+                    'email' => 'bambang.s@gmail.com',
                     'avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
                     'rating' => 5,
-                    'title' => 'Nastar Terenak yang Pernah Saya Coba',
-                    'body' => 'Lumer di mulut dan selai nanasnya asli buatan sendiri, tidak terlalu manis. Wajib dicoba untuk yang suka cookies premium.',
-                    'is_approved' => true,
-                    'is_featured' => true,
-                    'created_at' => now()->subDays(5),
+                    'title' => 'Kue Kering Terenak yang Pernah Coba',
+                    'body' => 'Lumer di mulut dan rasanya gurih manis pas, tidak bikin enek. Sangat recommended untuk bingkisan keluarga maupun relasi bisnis.',
                 ],
                 [
-                    'product_id' => $cheesecake ? $cheesecake->id : 1,
-                    'reviewer_name' => 'Dian Sastrowardoyo',
-                    'reviewer_email' => 'dian.sastro@example.com',
+                    'name' => 'Dian Sastrowardoyo',
+                    'email' => 'dian.sastro@example.com',
                     'avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
                     'rating' => 5,
-                    'title' => 'Basque Burnt Cheesecake Terbaik',
-                    'body' => 'Teksturnya sangat creamy di tengah dan gosongnya pas beraroma harum karamel. Sangat direkomendasikan untuk pesta ulang tahun.',
-                    'is_approved' => true,
-                    'is_featured' => true,
-                    'created_at' => now()->subDays(7),
-                ],
+                    'title' => 'Cita Rasa Artisanal Autentik',
+                    'body' => 'Teksturnya sangat creamy dan harumnya berasa banget. Keluarga dan anak-anak semua suka!',
+                ]
             ];
 
-            foreach ($reviewsData as $rd) {
-                \App\Models\ProductReview::create($rd);
+            $products = Product::all();
+            foreach ($products as $p) {
+                // Pick 2 random reviews for each product
+                $selected = array_slice($sampleReviewTemplates, $p->id % 2, 2);
+                foreach ($selected as $sRev) {
+                    \App\Models\ProductReview::create([
+                        'product_id' => $p->id,
+                        'reviewer_name' => $sRev['name'],
+                        'reviewer_email' => $sRev['email'],
+                        'avatar' => $sRev['avatar'],
+                        'rating' => $sRev['rating'],
+                        'title' => $sRev['title'],
+                        'body' => 'Sangat merekomendasikan ' . $p->name . '! ' . $sRev['body'],
+                        'is_approved' => true,
+                        'is_featured' => true,
+                        'created_at' => now()->subDays(rand(1, 10)),
+                    ]);
+                }
             }
         }
     }

@@ -15,6 +15,38 @@
   $type = is_array($item) ? 'Gift Set' : ($item->type ?? 'Gift Set');
   $availability = is_array($item) ? 'in_stock' : ($item->availability ?? 'in_stock');
   $gallery = is_array($item) ? [$imageUrl, $secondaryUrl] : ($item->gallery_urls ?? [$imageUrl]);
+  
+  $productReviews = [
+    [
+      'name' => 'Adeline Wijaya',
+      'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+      'rating' => 5,
+      'title' => 'Rasa Sangat Lezat & Kemasan Mewah VIP!',
+      'body' => 'Bahan-bahannya terasa sangat berkualitas tinggi dan butter impornya begitu harum. Packaging hampers eksklusif dan harum banget.',
+      'date' => '2 hari yang lalu'
+    ],
+    [
+      'name' => 'Clarissa Putri',
+      'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
+      'rating' => 5,
+      'title' => 'Pengiriman Cepat & Fast Response',
+      'body' => 'Teksturnya lembut dan rasanya pas di lidah, pengiriman sangat rapi tanpa cacat.',
+      'date' => '4 hari yang lalu'
+    ]
+  ];
+
+  if (!is_array($item) && isset($item->reviews) && count($item->reviews) > 0) {
+    $productReviews = $item->reviews->map(function($r) {
+      return [
+        'name' => $r->reviewer_name,
+        'avatar' => $r->avatar_url,
+        'rating' => $r->rating,
+        'title' => $r->title,
+        'body' => $r->body,
+        'date' => $r->created_at ? $r->created_at->format('d M Y') : 'Baru saja'
+      ];
+    })->toArray();
+  }
 @endphp
 <div class="card card-hover-flip product-detail-trigger"
      data-id="{{ $id }}"
@@ -23,6 +55,7 @@
      data-raw-price="{{ $price }}"
      data-image="{{ $imageUrl }}"
      data-gallery="{{ json_encode($gallery) }}"
+     data-reviews="{{ json_encode($productReviews) }}"
      data-category="{{ strtoupper($itemSlug) }}"
      data-flavor="{{ $flavor }}"
      data-size="{{ $size }}"

@@ -1365,6 +1365,20 @@
           <div><span class="pm-meta-label">VARIAN RASA:</span> <span id="pm-flavor" class="pm-meta-val">-</span></div>
           <div><span class="pm-meta-label">UKURAN / PORSI:</span> <span id="pm-size" class="pm-meta-val">-</span></div>
         </div>
+
+        <!-- Section Review & Ulasan Pelanggan -->
+        <div class="product-modal-reviews-section" style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px;">
+              ⭐ ULASAN PELANGGAN (<span id="pm-review-count">2</span>)
+            </div>
+            <div style="font-size: 11.5px; color: #d97706; font-weight: 700;">★ 5.0 / 5.0</div>
+          </div>
+          
+          <div id="pm-reviews-list" style="display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; padding-right: 4px;">
+            <!-- Dynamically populated via JavaScript -->
+          </div>
+        </div>
         
         <div class="product-modal-actions">
           <form action="{{ route('cart.add') }}" method="POST" id="pm-cart-form" style="width: 100%;">
@@ -1633,6 +1647,63 @@ document.addEventListener('DOMContentLoaded', function () {
       itemsList.appendChild(li);
     });
 
+    // Build Product Reviews
+    const reviewsList = document.getElementById('pm-reviews-list');
+    const reviewCountSpan = document.getElementById('pm-review-count');
+    if (reviewsList) {
+      reviewsList.innerHTML = '';
+      let reviews = [];
+      try {
+        reviews = typeof data.reviews === 'string' ? JSON.parse(data.reviews) : (data.reviews || []);
+      } catch(e) {
+        reviews = [];
+      }
+
+      if (!reviews || reviews.length === 0) {
+        reviews = [
+          {
+            name: 'Adeline Wijaya',
+            avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+            rating: 5,
+            title: 'Rasa Sangat Lezat & Kemasan Mewah VIP!',
+            body: 'Bahan-bahannya terasa sangat segar dan butter impornya begitu harum. Packaging hampers eksklusif cocok buat bingkisan.',
+            date: '2 hari lalu'
+          },
+          {
+            name: 'Clarissa Putri',
+            avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
+            rating: 5,
+            title: 'Pengiriman Cepat & Fast Response',
+            body: 'Teksturnya lembut dan rasanya pas di lidah, pengiriman dedicated courier sangat aman tanpa cacat.',
+            date: '4 hari lalu'
+          }
+        ];
+      }
+
+      if (reviewCountSpan) reviewCountSpan.textContent = reviews.length;
+
+      reviews.forEach(rev => {
+        const revCard = document.createElement('div');
+        revCard.style.cssText = 'background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 12px;';
+        
+        const starsHtml = '★'.repeat(rev.rating || 5) + '☆'.repeat(5 - (rev.rating || 5));
+        
+        revCard.innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <img src="${rev.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(rev.name || 'Pelanggan')}" alt="${rev.name}" style="width: 26px; height: 26px; border-radius: 50%; object-fit: cover;">
+              <span style="font-weight: 700; color: #1e293b; font-size: 12px;">${rev.name || 'Pelanggan VIP'}</span>
+            </div>
+            <span style="color: #f59e0b; font-weight: 700; font-size: 11px;">${starsHtml}</span>
+          </div>
+          ${rev.title ? `<div style="font-weight: 700; color: #0f172a; margin-bottom: 3px; font-size: 11.5px;">"${rev.title}"</div>` : ''}
+          <div style="color: #475569; line-height: 1.4; font-size: 11.5px;">${rev.body || ''}</div>
+          ${rev.date ? `<div style="font-size: 10px; color: #94a3b8; margin-top: 4px; text-align: right;">${rev.date}</div>` : ''}
+        `;
+        reviewsList.appendChild(revCard);
+      });
+    }
+
     // Setup WhatsApp direct order link
     const waBtn = document.getElementById('pm-wa-btn');
     if (waBtn) {
@@ -1653,6 +1724,7 @@ document.addEventListener('DOMContentLoaded', function () {
         price: card.getAttribute('data-price'),
         image: card.getAttribute('data-image'),
         gallery: card.getAttribute('data-gallery'),
+        reviews: card.getAttribute('data-reviews'),
         category: card.getAttribute('data-category'),
         flavor: card.getAttribute('data-flavor'),
         size: card.getAttribute('data-size'),
