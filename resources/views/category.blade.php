@@ -173,6 +173,11 @@
     align-items: start;
     max-width: 100%;
   }
+  .shop-layout main {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
   @media (max-width: 900px) {
     .shop-layout {
       grid-template-columns: 1fr;
@@ -305,23 +310,34 @@
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
+    .shop-layout main {
+      min-width: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow: hidden !important;
+    }
     .products-grid-container {
       display: flex !important;
       flex-wrap: nowrap !important;
       overflow-x: auto !important;
       scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch !important;
+      touch-action: pan-x pan-y !important;
       gap: 16px !important;
-      padding-bottom: 20px !important;
+      padding: 4px 4px 20px 4px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
       scrollbar-width: thin;
       scrollbar-color: #d97706 transparent;
     }
     .products-grid-container > div, .products-grid-container > .card {
-      flex: 0 0 82vw !important;
-      max-width: 280px !important;
-      min-width: 230px !important;
+      flex: 0 0 78vw !important;
+      max-width: 290px !important;
+      min-width: 240px !important;
       scroll-snap-align: start !important;
+      box-sizing: border-box !important;
     }
   }
 
