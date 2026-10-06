@@ -127,9 +127,15 @@
     </div>
 
     <div class="form-group">
-      <label for="image_file">Upload Foto Produk (Opsional - dari Komputer)</label>
+      <label for="image_file">Upload Foto Utama Produk (dari Komputer)</label>
       <input type="file" name="image_file" id="image_file" class="form-control" accept="image/*">
       <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Format yang didukung: JPG, PNG, WEBP (Maks 4MB)</div>
+    </div>
+
+    <div class="form-group">
+      <label for="gallery_files">Upload Foto Tambahan / Galeri (Bisa Pilih Beberapa Foto Sekaligus)</label>
+      <input type="file" name="gallery_files[]" id="gallery_files" class="form-control" accept="image/*" multiple>
+      <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">💡 Anda bisa memilih lebih dari 1 foto sekaligus untuk dijadikan galeri slide produk.</div>
     </div>
 
     <div class="form-group">

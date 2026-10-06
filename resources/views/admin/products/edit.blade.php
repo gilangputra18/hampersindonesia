@@ -127,22 +127,40 @@
     </div>
 
     <div class="form-group">
-      <label>Foto Produk saat Ini</label>
-      <div style="display: flex; align-items: center; gap: 16px; margin-top: 8px;">
-        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid var(--panel-border);">
-        <div style="font-size: 13px; color: var(--text-muted);">
-          Nama file: <code>{{ $product->image ?? 'Default slug' }}</code>
+      <label>Foto Utama & Galeri Produk Saat Ini</label>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px;">
+        <div style="text-align: center;">
+          <img src="{{ $product->image_url }}" alt="{{ $product->name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #f59e0b;">
+          <div style="font-size: 11px; color: #f59e0b; font-weight: 700; margin-top: 4px;">FOTO UTAMA</div>
         </div>
+        @if(!empty($product->gallery) && is_array($product->gallery))
+          @foreach($product->gallery as $gImg)
+            @php
+              $gUrl = str_starts_with($gImg, 'http') ? $gImg : (str_starts_with($gImg, 'images/') ? asset($gImg) : asset('images/' . $gImg));
+            @endphp
+            <div style="text-align: center; position: relative;">
+              <input type="hidden" name="existing_gallery[]" value="{{ $gImg }}">
+              <img src="{{ $gUrl }}" alt="Galeri" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid var(--panel-border);">
+              <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Galeri</div>
+            </div>
+          @endforeach
+        @endif
       </div>
     </div>
 
     <div class="form-group">
-      <label for="image_file">Ganti Foto Produk (Upload Baru dari Komputer)</label>
+      <label for="image_file">Ganti Foto Utama (Upload Baru dari Komputer)</label>
       <input type="file" name="image_file" id="image_file" class="form-control" accept="image/*">
     </div>
 
     <div class="form-group">
-      <label for="image_name">Atau Ubah Nama File Gambar Manual</label>
+      <label for="gallery_files">Tambah Foto Tambahan / Galeri Baru (Bisa Pilih Beberapa Foto Sekaligus)</label>
+      <input type="file" name="gallery_files[]" id="gallery_files" class="form-control" accept="image/*" multiple>
+      <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">💡 Upload beberapa foto tambahan untuk menjadikan produk ini memiliki galeri multi-gambar.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="image_name">Atau Ubah Nama File Gambar Utama Manual</label>
       <input type="text" name="image_name" id="image_name" class="form-control" value="{{ old('image_name', $product->image) }}">
     </div>
 

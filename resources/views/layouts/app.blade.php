@@ -1254,6 +1254,86 @@
   </div>
 </div>
 
+<!-- Mobile & 3-Dots Slide-down Navigation Drawer Modal -->
+<div class="mobile-drawer-overlay" id="mobile-drawer-modal">
+  <div class="souvia-drawer-topbar" style="background: linear-gradient(135deg, #111f18 0%, #1c3026 100%); border-bottom: 1px solid rgba(255,255,255,0.1);">
+    <a href="{{ route('home') }}" class="souvia-drawer-brand" style="color: #fef08a;">
+      ⚜️ PUSAT HAMPERS INDONESIA
+    </a>
+    <div class="souvia-drawer-search-wrap">
+      <input type="text" class="trigger-live-search" placeholder="Cari hampers..." readonly>
+    </div>
+    <button type="button" class="mobile-drawer-close" id="close-three-dots-btn" title="Tutup Menu">✕</button>
+  </div>
+
+  <div class="souvia-accordion-menu">
+    {{-- Dynamic Categories Accordion --}}
+    @foreach (config('site.categories') as $slug => $c)
+      <div class="accordion-item">
+        <button type="button" class="accordion-header">
+          <span>🎁 {{ strtoupper($c['title']) }}</span>
+          <span class="acc-icon">▼</span>
+        </button>
+        <div class="accordion-body">
+          <a href="{{ route('category', $slug) }}" style="font-weight: 700; color: #d97706;">Lihat Semua {{ $c['title'] }} →</a>
+          @foreach ($c['items'] as $item)
+            <a href="{{ route('category', $slug) }}">{{ $item[0] }}</a>
+          @endforeach
+        </div>
+      </div>
+    @endforeach
+
+    {{-- Varian Rasa Accordion --}}
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">
+        <span>🍫 VARIAN RASA</span>
+        <span class="acc-icon">▼</span>
+      </button>
+      <div class="accordion-body">
+        <a href="{{ route('shop') }}?flavors[]=Chocolate">Cokelat (Chocolate)</a>
+        <a href="{{ route('shop') }}?flavors[]=Cheese">Keju (Cheese)</a>
+        <a href="{{ route('shop') }}?flavors[]=Coffee">Kopi (Coffee)</a>
+        <a href="{{ route('shop') }}?flavors[]=Pandan">Pandan</a>
+        <a href="{{ route('shop') }}?flavors[]=Berry">Buah Beri (Berry)</a>
+      </div>
+    </div>
+
+    {{-- Kategori Bentuk Accordion --}}
+    <div class="accordion-item">
+      <button type="button" class="accordion-header">
+        <span>📐 KATEGORI BENTUK / TIPE</span>
+        <span class="acc-icon">▼</span>
+      </button>
+      <div class="accordion-body">
+        <a href="{{ route('shop') }}?types[]=Gift+Box">Kotak Hadiah (Gift Box)</a>
+        <a href="{{ route('shop') }}?types[]=Round">Kue Bulat (Round)</a>
+        <a href="{{ route('shop') }}?types[]=Square">Kue Kotak (Square)</a>
+        <a href="{{ route('shop') }}?types[]=Whole+Cake">Kue Utuh (Whole)</a>
+      </div>
+    </div>
+
+    {{-- Quick Navigation Links --}}
+    <a href="{{ route('shop') }}" class="accordion-link">🛍️ KATALOG LENGKAP HAMPERS</a>
+    <a href="{{ route('reservations') }}" class="accordion-link">🍷 RESERVASI & ACARA</a>
+    <a href="{{ route('track') }}" class="accordion-link">📦 LACAK PESANAN REAL-TIME</a>
+    <a href="{{ route('contact') }}" class="accordion-link">💬 KONTAK & LAYANAN</a>
+    <a href="{{ route('cart.index') }}" class="accordion-link">🛒 KERANJANG BELANJA</a>
+
+    @auth
+      <a href="{{ route('my.orders') }}" class="accordion-link">📦 RIWAYAT PESANAN SAYA</a>
+      @if(Auth::user()->is_admin)
+        <a href="{{ route('admin.dashboard') }}" class="accordion-link" style="color: #d97706; font-weight: 700;">🛡️ DASHBOARD ADMIN</a>
+      @endif
+      <form action="{{ route('logout') }}" method="POST" style="margin-top: 10px;">
+        @csrf
+        <button type="submit" class="pm-btn" style="background: #ef4444; color: #fff; border: none; width: 100%; border-radius: 8px;">KELUAR (LOGOUT)</button>
+      </form>
+    @else
+      <a href="{{ route('login') }}" class="accordion-link" style="color: #2563eb; font-weight: 700;">👤 MASUK / DAFTAR AKUN</a>
+    @endauth
+  </div>
+</div>
+
 <!-- Interactive Luxury Product & Hampers Detail Modal -->
 <div class="product-modal-overlay" id="product-detail-modal">
   <div class="product-modal-box">
@@ -1264,6 +1344,7 @@
         <div class="product-modal-img-wrap">
           <img id="pm-image" src="" alt="Product Image">
         </div>
+        <div class="product-modal-gallery-thumbs" id="pm-gallery-thumbs" style="display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px;"></div>
       </div>
       
       <div class="product-modal-info-col">
@@ -1482,6 +1563,51 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('pm-size').textContent = data.size || 'Standar Porsi';
     document.getElementById('pm-product-id').value = data.id || 0;
 
+    // Populate multi-image gallery thumbnails
+    const thumbsContainer = document.getElementById('pm-gallery-thumbs');
+    if (thumbsContainer) {
+      thumbsContainer.innerHTML = '';
+      let gallery = [];
+      try {
+        gallery = typeof data.gallery === 'string' ? JSON.parse(data.gallery) : (data.gallery || []);
+      } catch(e) {
+        gallery = [];
+      }
+
+      if (!gallery || gallery.length === 0) {
+        if (data.image) gallery = [data.image];
+      }
+
+      if (gallery.length > 1) {
+        gallery.forEach((imgUrl, index) => {
+          if (!imgUrl) return;
+          const thumb = document.createElement('img');
+          thumb.src = imgUrl;
+          thumb.alt = 'Thumbnail ' + (index + 1);
+          thumb.style.width = '56px';
+          thumb.style.height = '56px';
+          thumb.style.objectFit = 'cover';
+          thumb.style.borderRadius = '6px';
+          thumb.style.cursor = 'pointer';
+          thumb.style.border = (index === 0 || imgUrl === data.image) ? '2px solid #f59e0b' : '1px solid #cbd5e1';
+          thumb.style.transition = 'all 0.2s ease';
+          
+          thumb.addEventListener('click', function() {
+            document.getElementById('pm-image').src = imgUrl;
+            thumbsContainer.querySelectorAll('img').forEach(t => {
+              t.style.border = '1px solid #cbd5e1';
+            });
+            thumb.style.border = '2px solid #f59e0b';
+          });
+
+          thumbsContainer.appendChild(thumb);
+        });
+        thumbsContainer.style.display = 'flex';
+      } else {
+        thumbsContainer.style.display = 'none';
+      }
+    }
+
     // Build included items list
     const itemsList = document.getElementById('pm-items-list');
     itemsList.innerHTML = '';
@@ -1526,6 +1652,7 @@ document.addEventListener('DOMContentLoaded', function () {
         name: card.getAttribute('data-name'),
         price: card.getAttribute('data-price'),
         image: card.getAttribute('data-image'),
+        gallery: card.getAttribute('data-gallery'),
         category: card.getAttribute('data-category'),
         flavor: card.getAttribute('data-flavor'),
         size: card.getAttribute('data-size'),

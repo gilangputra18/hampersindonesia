@@ -290,6 +290,7 @@ class AdminProductController extends Controller
             'availability' => 'required|in:in_stock,pre_order,out_of_stock',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
             'image_name' => 'nullable|string|max:255',
+            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
             'description' => 'nullable|string',
             'is_best_seller' => 'nullable|boolean',
             'is_treat' => 'nullable|boolean',
@@ -304,6 +305,17 @@ class AdminProductController extends Controller
             $file->move(public_path('images'), $imageName);
         }
 
+        $gallery = [];
+        if ($request->hasFile('gallery_files')) {
+            foreach ($request->file('gallery_files') as $idx => $gFile) {
+                if ($gFile && $gFile->isValid()) {
+                    $gName = $slug . '-gallery-' . time() . '-' . ($idx + 1) . '.' . $gFile->getClientOriginalExtension();
+                    $gFile->move(public_path('images'), $gName);
+                    $gallery[] = $gName;
+                }
+            }
+        }
+
         Product::create([
             'category_id' => $validated['category_id'],
             'name' => $validated['name'],
@@ -314,6 +326,7 @@ class AdminProductController extends Controller
             'size' => $validated['size'] ?? null,
             'availability' => $validated['availability'] ?? 'in_stock',
             'image' => $imageName,
+            'gallery' => $gallery,
             'description' => $validated['description'] ?? null,
             'is_best_seller' => $request->has('is_best_seller'),
             'is_treat' => $request->has('is_treat'),
@@ -340,6 +353,7 @@ class AdminProductController extends Controller
             'availability' => 'required|in:in_stock,pre_order,out_of_stock',
             'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
             'image_name' => 'nullable|string|max:255',
+            'gallery_files.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
             'description' => 'nullable|string',
             'is_best_seller' => 'nullable|boolean',
             'is_treat' => 'nullable|boolean',
@@ -356,6 +370,21 @@ class AdminProductController extends Controller
             $imageName = $validated['image_name'];
         }
 
+        $gallery = $request->input('existing_gallery', $product->gallery ?? []);
+        if (!is_array($gallery)) {
+            $gallery = [];
+        }
+
+        if ($request->hasFile('gallery_files')) {
+            foreach ($request->file('gallery_files') as $idx => $gFile) {
+                if ($gFile && $gFile->isValid()) {
+                    $gName = $slug . '-gallery-' . time() . '-' . ($idx + 1) . '.' . $gFile->getClientOriginalExtension();
+                    $gFile->move(public_path('images'), $gName);
+                    $gallery[] = $gName;
+                }
+            }
+        }
+
         $product->update([
             'category_id' => $validated['category_id'],
             'name' => $validated['name'],
@@ -366,6 +395,7 @@ class AdminProductController extends Controller
             'size' => $validated['size'] ?? null,
             'availability' => $validated['availability'] ?? 'in_stock',
             'image' => $imageName,
+            'gallery' => array_values(array_unique($gallery)),
             'description' => $validated['description'] ?? null,
             'is_best_seller' => $request->has('is_best_seller'),
             'is_treat' => $request->has('is_treat'),

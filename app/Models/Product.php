@@ -27,10 +27,17 @@ class Product extends Model
         'display_order',
     ];
 
+    protected $casts = [
+        'gallery' => 'array',
+        'is_best_seller' => 'boolean',
+        'is_treat' => 'boolean',
+    ];
+
     protected $appends = [
         'included_items',
         'image_url',
         'secondary_image_url',
+        'gallery_urls',
     ];
 
     public function getIncludedItemsAttribute()
