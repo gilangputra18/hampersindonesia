@@ -46,20 +46,74 @@
     <!-- Additional Attributes: Type, Flavor, Size, Availability -->
     <div class="form-row">
       <div class="form-group">
-        <label for="type">Tipe Produk (Type)</label>
-        <input type="text" name="type" id="type" class="form-control" value="{{ old('type') }}" placeholder="Contoh: Savory Rice, Whole Cake, Pastry">
+        <label for="type">Tipe Produk (Type) ▾</label>
+        <input type="text" name="type" id="type" class="form-control" list="type-options-create" value="{{ old('type') }}" placeholder="Pilih dari daftar atau ketik sendiri...">
+        <datalist id="type-options-create">
+          <option value="Gift Box">
+          <option value="Luxury Gift Set">
+          <option value="Whole Cake">
+          <option value="Dry Cookies">
+          <option value="Pastry">
+          <option value="Artisan Bread">
+          <option value="Savory Rice">
+          <option value="Rice Snack">
+          <option value="Sandwich">
+          <option value="Wrap">
+          <option value="Tart">
+          <option value="Traditional Cookie">
+          <option value="Savory Bite">
+          <option value="Rice Wrap">
+        </datalist>
       </div>
 
       <div class="form-group">
-        <label for="flavor">Rasa (Flavors)</label>
-        <input type="text" name="flavor" id="flavor" class="form-control" value="{{ old('flavor') }}" placeholder="Contoh: Chocolate, Cheese, Chicken">
+        <label for="flavor">Rasa (Flavors) ▾</label>
+        <input type="text" name="flavor" id="flavor" class="form-control" list="flavor-options-create" value="{{ old('flavor') }}" placeholder="Pilih dari daftar atau ketik sendiri...">
+        <datalist id="flavor-options-create">
+          <option value="Original">
+          <option value="French Butter">
+          <option value="Edam Cheese">
+          <option value="Pineapple Jam">
+          <option value="Chocolate">
+          <option value="Cheese">
+          <option value="Berry">
+          <option value="Coffee Mascarpone">
+          <option value="Chocolate Cherry">
+          <option value="Lotus & Egg Yolk">
+          <option value="Braised Beef">
+          <option value="Chicken Mushroom">
+          <option value="Shredded Chicken">
+          <option value="Spicy Chicken">
+          <option value="Assorted Premium">
+          <option value="Tuna Mayo">
+          <option value="Chicken Pesto">
+          <option value="Beef Cheese">
+        </datalist>
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group">
-        <label for="size">Ukuran (Size)</label>
-        <input type="text" name="size" id="size" class="form-control" value="{{ old('size') }}" placeholder="Contoh: Single Piece, Whole 18cm, Box of 6">
+        <label for="size">Ukuran (Size) ▾</label>
+        <input type="text" name="size" id="size" class="form-control" list="size-options-create" value="{{ old('size') }}" placeholder="Contoh: Single Piece, Whole 18cm, Box of 6">
+        <datalist id="size-options-create">
+          <option value="Single Piece">
+          <option value="Box of 4">
+          <option value="Box of 6">
+          <option value="Small Box">
+          <option value="Medium Box">
+          <option value="Large Box">
+          <option value="Jar 350g">
+          <option value="Jar 400g">
+          <option value="Jar 450g">
+          <option value="Whole 16cm">
+          <option value="Whole 18cm">
+          <option value="Whole 20cm">
+          <option value="Loaf (500g)">
+          <option value="Pack of 6">
+          <option value="Set of 3">
+          <option value="Portion (6 pcs)">
+        </datalist>
       </div>
 
       <div class="form-group">
@@ -84,8 +138,14 @@
     </div>
 
     <div class="form-group">
-      <label for="description">Deskripsi Produk (Opsional)</label>
-      <textarea name="description" id="description" class="form-control" rows="4" placeholder="Deskripsi singkat produk bakery...">{{ old('description') }}</textarea>
+      <label for="description">🎁 Rincian Isi Hampers / Apa Saja yang Didapat (Deskripsi Produk)</label>
+      <textarea name="description" id="description" class="form-control" rows="5" placeholder="Tuliskan rincian item per baris, contoh:
+• 1 Jar Nastar Pineapple Jam (450g)
+• 1 Jar Kaastengel Edam Cheese (400g)
+• Kartu Ucapan Eksklusif & Hardbox Royal Emerald">{{ old('description') }}</textarea>
+      <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+        💡 <strong>Petunjuk:</strong> Tulis 1 item per baris. Setiap baris otomatis ditampilkan di bagian modal & rincian isi hampers pembeli.
+      </div>
     </div>
 
     <div class="form-row" style="margin-bottom: 24px;">

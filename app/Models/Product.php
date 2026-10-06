@@ -35,6 +35,13 @@ class Product extends Model
 
     public function getIncludedItemsAttribute()
     {
+        if (!empty($this->attributes['description'])) {
+            $lines = array_filter(array_map('trim', explode("\n", $this->attributes['description'])));
+            if (count($lines) > 0) {
+                return array_values($lines);
+            }
+        }
+
         $nameLower = strtolower($this->name);
         $slugLower = strtolower($this->slug);
 
