@@ -85,11 +85,158 @@
     letter-spacing: 1px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.9);
   }
+  /* Auto-sliding Feature Banner Slider Styling */
+  .feature-slider-container {
+    max-width: 1100px;
+    margin: 50px auto;
+    aspect-ratio: 16/6;
+    border-radius: 14px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    position: relative;
+    overflow: hidden;
+    background: #0d1713;
+  }
+  .feature-slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .feature-slide {
+    min-width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+  }
+  .feature-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .feature-slider-btn {
+    position: absolute;
+    inset: auto 0 35px;
+    text-align: center;
+    font: 700 16px 'Outfit', var(--serif, serif);
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: #0d1713;
+    background: rgba(254, 240, 138, 0.95);
+    padding: 12px 32px;
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: 6px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    border: 1px solid #f59e0b;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    z-index: 10;
+  }
+  .feature-slider-btn:hover {
+    background: linear-gradient(135deg, #d97706, #f59e0b);
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .feature-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(13, 23, 19, 0.6);
+    color: #fef08a;
+    border: 1px solid rgba(254, 240, 138, 0.4);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+  }
+  .feature-slider-arrow:hover {
+    background: rgba(217, 119, 6, 0.9);
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+  }
+  .feature-arrow-left { left: 16px; }
+  .feature-arrow-right { right: 16px; }
+
+  .feature-slider-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+  }
+  .feature-slider-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .feature-slider-dots .dot.active {
+    background: #f59e0b;
+    width: 28px;
+    border-radius: 6px;
+  }
+  @media (max-width: 768px) {
+    .feature-slider-container { margin: 20px 12px; aspect-ratio: 16/9; }
+    .feature-slider-btn { font-size: 12px; padding: 8px 18px; bottom: 16px; letter-spacing: .2em; }
+    .feature-slider-arrow { width: 32px; height: 32px; font-size: 14px; }
+    .feature-arrow-left { left: 8px; }
+    .feature-arrow-right { right: 8px; }
+  }
 </style>
 
 <p class="banner">{{ config('site.tagline') }}</p>
 
-<a class="feature ph" href="{{ route('category', 'hampers') }}"><img src="{{ asset('images/feature.jpg') }}" alt="" onerror="this.remove()"><b>Belanja Sekarang</b></a>
+<!-- Auto-Sliding 4-Image Feature Banner Carousel -->
+<div class="feature-slider-container">
+  <div class="feature-slider-track" id="feature-slider-track">
+    <!-- Slide 1: Primary Gourmet Hampers -->
+    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Hampers Gourmet Premium">
+      <img src="{{ asset('images/feature.jpg') }}" alt="Pusat Hampers Indonesia - Gourmet Collection">
+    </a>
+    <!-- Slide 2: Luxury Hampers Box -->
+    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Koleksi Hampers Mewah Eksklusif">
+      <img src="{{ asset('images/cat-hampers.jpg') }}" alt="Pusat Hampers Indonesia - Luxury Box">
+    </a>
+    <!-- Slide 3: Royal Rose & Emerald Parcel -->
+    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Hampers Edisi Spesial Festival">
+      <img src="{{ asset('images/rose.jpg') }}" alt="Pusat Hampers Indonesia - Royal Rose">
+    </a>
+    <!-- Slide 4: Festive Celebration Gift Set -->
+    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Pilihan Hadiah Acara & Selebrasi">
+      <img src="{{ asset('images/events.jpg') }}" alt="Pusat Hampers Indonesia - Celebration Set">
+    </a>
+  </div>
+
+  <!-- Overlaid Button in Center -->
+  <a href="{{ route('category', 'hampers') }}" class="feature-slider-btn">
+    BELANJA SEKARANG
+  </a>
+
+  <!-- Navigation Arrows -->
+  <button type="button" class="feature-slider-arrow feature-arrow-left" id="feature-prev-btn" title="Gambar Sebelumnya">❮</button>
+  <button type="button" class="feature-slider-arrow feature-arrow-right" id="feature-next-btn" title="Gambar Selanjutnya">❯</button>
+
+  <!-- Indicator Dots -->
+  <div class="feature-slider-dots" id="feature-slider-dots">
+    <span class="dot active" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+    <span class="dot" data-index="2"></span>
+    <span class="dot" data-index="3"></span>
+  </div>
+</div>
 
 <section class="band">
   <h2>Hadiah Sempurna untuk Setiap Momen Spesial</h2>
@@ -266,6 +413,81 @@
     videos.forEach(v => {
       v.play().catch(e => console.log('Autoplay handled', e));
     });
+
+    // Auto-sliding 4-Image Feature Banner Carousel
+    const track = document.getElementById('feature-slider-track');
+    const slides = document.querySelectorAll('.feature-slide');
+    const dots = document.querySelectorAll('.feature-slider-dots .dot');
+    const prevBtn = document.getElementById('feature-prev-btn');
+    const nextBtn = document.getElementById('feature-next-btn');
+
+    if (track && slides.length > 0) {
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+      let slideTimer = null;
+
+      function goToSlide(index) {
+        currentIndex = (index + totalSlides) % totalSlides;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      function startTimer() {
+        stopTimer();
+        slideTimer = setInterval(nextSlide, 3500); // Shift right every 3.5s
+      }
+
+      function stopTimer() {
+        if (slideTimer) clearInterval(slideTimer);
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          nextSlide();
+          startTimer();
+        });
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          prevSlide();
+          startTimer();
+        });
+      }
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', function () {
+          const idx = parseInt(this.getAttribute('data-index'));
+          goToSlide(idx);
+          startTimer();
+        });
+      });
+
+      const container = document.querySelector('.feature-slider-container');
+      if (container) {
+        container.addEventListener('mouseenter', stopTimer);
+        container.addEventListener('mouseleave', startTimer);
+      }
+
+      startTimer();
+    }
   });
 </script>
 @endsection
