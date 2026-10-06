@@ -35,17 +35,21 @@
     ]
   ];
 
-  if (!is_array($item) && isset($item->reviews) && count($item->reviews) > 0) {
-    $productReviews = $item->reviews->map(function($r) {
-      return [
-        'name' => $r->reviewer_name,
-        'avatar' => $r->avatar_url,
-        'rating' => $r->rating,
-        'title' => $r->title,
-        'body' => $r->body,
-        'date' => $r->created_at ? $r->created_at->format('d M Y') : 'Baru saja'
-      ];
-    })->toArray();
+  try {
+    if (!is_array($item) && method_exists($item, 'reviews') && $item->reviews && count($item->reviews) > 0) {
+      $productReviews = $item->reviews->map(function($r) {
+        return [
+          'name' => $r->reviewer_name,
+          'avatar' => $r->avatar_url,
+          'rating' => $r->rating,
+          'title' => $r->title,
+          'body' => $r->body,
+          'date' => $r->created_at ? $r->created_at->format('d M Y') : 'Baru saja'
+        ];
+      })->toArray();
+    }
+  } catch (\Throwable $e) {
+    // Fallback to default sample reviews array
   }
 @endphp
 <div class="card card-hover-flip product-detail-trigger"

@@ -141,6 +141,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class)->where('is_approved', true);
+    }
+
     public function getImageUrlAttribute()
     {
         if ($this->image) {
