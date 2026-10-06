@@ -17,6 +17,19 @@ use App\Http\Controllers\SiteController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
+// Utility Route to Clear Cache on Live Server
+Route::get('/clear-cache', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        return '<div style="font-family:sans-serif; text-align:center; padding:50px;"><h2>✅ Cache & View Berhasil Dibersihkan!</h2><p>Server cPanel telah berhasil memperbarui seluruh tampilan view.</p><p><a href="/" style="display:inline-block; margin-top:15px; padding:10px 20px; background:#d97706; color:#fff; text-decoration:none; border-radius:6px;">← Kembali ke Beranda hampersindonesia.com</a></p></div>';
+    } catch (\Throwable $e) {
+        return 'Clear cache exception: ' . $e->getMessage();
+    }
+});
+
 // Public Website Routes
 Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/shop/{slug}', [SiteController::class, 'category'])->name('category');
