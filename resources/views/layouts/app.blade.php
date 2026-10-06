@@ -372,18 +372,20 @@
     position: sticky;
     top: 0;
     z-index: 9990;
-    background: #ffffff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: #091711;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
   }
 
   /* Royal Brand Logo Bar */
   .head {
     position: relative;
-    background: #ffffff;
+    background: linear-gradient(135deg, #07130d 0%, #11261b 50%, #0a1811 100%);
+    border-bottom: 1px solid rgba(217, 119, 6, 0.3);
     z-index: 500;
     text-align: center;
-    padding: 24px 0 16px;
+    padding: 24px 0 18px;
     width: 100%;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.25);
   }
   .logo {
     display: inline-block;
@@ -391,32 +393,35 @@
     font-size: 42px;
     letter-spacing: .28em;
     line-height: 1.1;
-    color: #122019;
+    color: #fef08a;
+    text-shadow: 0 2px 12px rgba(245, 158, 11, 0.35), 0 0 2px rgba(254, 240, 138, 0.5);
     font-weight: 700;
     text-decoration: none;
     text-transform: uppercase;
-    transition: color 0.2s;
+    transition: all 0.3s ease;
     padding: 0 20px;
   }
   .logo:hover {
-    color: #b45309;
+    color: #ffffff;
+    text-shadow: 0 0 18px rgba(250, 204, 21, 0.8);
   }
   .fleur-icon {
-    color: #d97706;
+    color: #fbbf24;
     font-size: 32px;
     vertical-align: middle;
     margin: 0 14px;
     display: inline-block;
-    filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.3));
+    filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.5));
   }
   .logo small {
     display: block;
     font-family: 'Outfit', sans-serif;
     font-size: 10.5px;
     letter-spacing: .38em;
-    color: #b45309;
+    color: #d97706;
     font-weight: 600;
     margin-top: 6px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
   }
 
   /* Royal Dark Emerald Navigation Bar */
