@@ -1,237 +1,272 @@
 @extends('layouts.app')
 
-@section('title', 'Masuk dengan Akun Google | ' . config('site.brand'))
+@section('title', 'Sign in with Google | ' . config('site.brand'))
 
 @section('content')
 <!-- Official Google Identity Services SDK -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
-  .google-login-page {
-    min-height: 80vh;
+  .g-auth-wrapper {
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 20px;
-    background: #f8faf9;
-    font-family: 'Outfit', sans-serif;
+    padding: 30px 16px;
+    background: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  .google-card {
+  .g-auth-card {
     width: 100%;
-    max-width: 460px;
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
-    padding: 36px 32px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-    text-align: center;
-    position: relative;
+    max-width: 440px;
+    background: #ffffff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(60,64,67,0.08), 0 4px 8px rgba(60,64,67,0.04);
     overflow: hidden;
   }
-  .google-logo {
+  .g-header-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #f1f3f4;
+    font-size: 14px;
+    color: #3c4043;
+    font-weight: 500;
+  }
+  .g-header-logo {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .g-body-content {
+    padding: 32px 32px 24px;
+    text-align: center;
+  }
+  .g-app-icon {
     width: 48px;
     height: 48px;
-    margin-bottom: 14px;
-  }
-  .google-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 4px;
-  }
-  .google-sub {
-    font-size: 13px;
-    color: #64748b;
-    margin-bottom: 24px;
-    line-height: 1.5;
-  }
-  
-  .section-label {
-    text-align: left;
-    font-size: 11px;
-    font-weight: 700;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 12px;
-    display: flex;
+    background: #fce8e6;
+    border-radius: 12px;
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-  }
-
-  .device-account-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: center;
+    font-size: 22px;
     margin-bottom: 20px;
   }
-  
-  .account-card {
+  .g-title {
+    font-size: 24px;
+    font-weight: 400;
+    color: #202124;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.2px;
+  }
+  .g-subtitle {
+    font-size: 14px;
+    color: #5f6368;
+    margin-bottom: 28px;
+  }
+  .g-subtitle strong {
+    color: #1a73e8;
+    font-weight: 600;
+  }
+
+  .g-accounts-list {
+    text-align: left;
+    margin-bottom: 24px;
+  }
+  .g-account-item {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 12px 16px;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 12px;
+    gap: 16px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #f1f3f4;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    text-align: left;
-    background: #fff;
-    width: 100%;
-    position: relative;
+    transition: background 0.15s ease;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 4px;
   }
-  .account-card:hover {
-    border-color: #4285F4;
-    background: #f8faff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(66, 133, 244, 0.12);
+  .g-account-item:hover {
+    background: #f8f9fa;
   }
-  .account-avatar {
-    width: 40px;
-    height: 40px;
+  .g-avatar-badge {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid #cbd5e1;
+    background: #681da8;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 15px;
+    flex-shrink: 0;
+    overflow: hidden;
   }
-  .account-details {
+  .g-avatar-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .g-account-info {
     flex: 1;
     overflow: hidden;
   }
-  .account-name {
+  .g-account-name {
     font-size: 14px;
-    font-weight: 700;
-    color: #1e293b;
-    line-height: 1.2;
+    font-weight: 500;
+    color: #202124;
+    line-height: 1.3;
   }
-  .account-email {
+  .g-account-email {
     font-size: 12px;
-    color: #64748b;
-    margin-top: 2px;
+    color: #5f6368;
+    margin-top: 1px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .sync-badge {
-    font-size: 10px;
-    background: rgba(34, 197, 94, 0.12);
-    color: #166534;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-weight: 700;
-  }
 
-  .divider-row {
+  .g-use-another {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin: 20px 0;
+    gap: 16px;
+    padding: 14px 14px;
+    border-bottom: 1px solid #f1f3f4;
+    cursor: pointer;
+    color: #202124;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s ease;
   }
-  .divider-line {
-    flex: 1;
-    height: 1px;
-    background: #e2e8f0;
+  .g-use-another:hover {
+    background: #f8f9fa;
   }
-  .divider-text {
-    font-size: 11px;
-    color: #94a3b8;
-    font-weight: 600;
-    text-transform: uppercase;
+  .g-another-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #dadce0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5f6368;
+    font-size: 18px;
   }
 
-  .input-google-email {
+  .g-footer-disclaimer {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #5f6368;
+    text-align: left;
+    margin-top: 24px;
+    border-top: 1px solid #f1f3f4;
+    padding-top: 20px;
+  }
+  .g-footer-disclaimer a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .g-footer-disclaimer a:hover {
+    text-decoration: underline;
+  }
+
+  .g-email-input-form {
+    display: none;
+    margin-top: 16px;
+    text-align: left;
+  }
+  .g-email-input-form.active {
+    display: block;
+  }
+  .g-input {
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
     font-size: 14px;
     margin-bottom: 12px;
     outline: none;
-    transition: all 0.2s;
   }
-  .input-google-email:focus {
-    border-color: #4285F4;
-    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.15);
+  .g-input:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
   }
-  .btn-continue-google {
+  .g-btn-submit {
     width: 100%;
-    padding: 13px;
-    background: linear-gradient(135deg, #4285F4 0%, #2b6cb0 100%);
-    color: #fff;
+    padding: 10px 24px;
+    background: #1a73e8;
+    color: #ffffff;
     border: none;
-    border-radius: 10px;
+    border-radius: 4px;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.25);
+    transition: background 0.2s;
   }
-  .btn-continue-google:hover {
-    background: #2b6cb0;
-    box-shadow: 0 6px 16px rgba(66, 133, 244, 0.35);
+  .g-btn-submit:hover {
+    background: #1557b0;
   }
 </style>
 
-<div class="google-login-page">
-  <div class="google-card">
-    <svg class="google-logo" viewBox="0 0 24 24">
-      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-    </svg>
-
-    <h2 class="google-title">Masuk dengan Akun Google</h2>
-    <p class="google-sub">Singkronkan akun Google pada perangkat Anda untuk langsung masuk ke <strong>Pusat Hampers Indonesia</strong></p>
-
-    @if (config('services.google.client_id') && !str_contains(config('services.google.client_id'), 'example') && !str_contains(config('services.google.client_id'), 'your-'))
-    <!-- Native Google One Tap Button Container -->
-    <div id="g_id_onload"
-         data-client_id="{{ config('services.google.client_id') }}"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="true">
-    </div>
-    <div id="googleBtnRender" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
-    @endif
-
-    <!-- Active Device Accounts List -->
-    <div class="section-label">
-      <span>📱 Akun Terdeteksi di Perangkat Ini:</span>
-      <span class="sync-badge">🟢 Real-Time Sync</span>
+<div class="g-auth-wrapper">
+  <div class="g-auth-card">
+    <div class="g-header-bar">
+      <svg class="g-header-logo" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+      </svg>
+      <span>Sign in with Google</span>
     </div>
 
-    <div class="device-account-list" id="deviceAccountsContainer">
-      <!-- Dynamically rendered per device -->
-    </div>
+    <div class="g-body-content">
+      <div class="g-app-icon">✌️</div>
+      <h1 class="g-title">Choose an account</h1>
+      <div class="g-subtitle">to continue to <strong>Pusat Hampers Indonesia</strong></div>
 
-    <div class="divider-row">
-      <div class="divider-line"></div>
-      <span class="divider-text">Atau Masukkan Email Google Anda</span>
-      <div class="divider-line"></div>
-    </div>
-
-    <!-- Custom Device Google Account Form -->
-    <form id="google-auto-form" action="{{ route('auth.google.callback.post') }}" method="POST">
-      @csrf
-      <input type="hidden" id="google-id-field" name="google_id">
-      <input type="hidden" id="google-avatar-field" name="avatar">
-
-      <div style="text-align: left; margin-bottom: 6px;">
-        <label style="font-size: 12px; font-weight: 600; color: #475569;">Email Google Anda (di perangkat):</label>
+      @if (config('services.google.client_id') && !str_contains(config('services.google.client_id'), 'example') && !str_contains(config('services.google.client_id'), 'your-'))
+      <!-- Native Google One Tap Button Container -->
+      <div id="g_id_onload"
+           data-client_id="{{ config('services.google.client_id') }}"
+           data-callback="handleCredentialResponse"
+           data-auto_prompt="true">
       </div>
-      <input type="email" id="google-email-field" name="email" class="input-google-email" placeholder="contoh: emailanda@gmail.com" required value="{{ old('email') }}">
+      <div id="googleBtnRender" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
+      @endif
 
-      <div style="text-align: left; margin-bottom: 6px;">
-        <label style="font-size: 12px; font-weight: 600; color: #475569;">Nama Lengkap Anda (Opsional):</label>
+      <!-- Device Logged In Accounts List -->
+      <div class="g-accounts-list" id="deviceAccountsContainer">
+        <!-- Rendered dynamically from user's device -->
       </div>
-      <input type="text" id="google-name-field" name="name" class="input-google-email" placeholder="Nama Lengkap Anda" style="margin-bottom: 20px;">
 
-      <button type="submit" class="btn-continue-google">
-        Masuk dengan Akun Google Ini ➔
-      </button>
-    </form>
+      <div class="g-use-another" id="toggleAnotherAccountBtn">
+        <div class="g-another-icon">👤</div>
+        <div>Use another account</div>
+      </div>
 
-    <div style="margin-top: 24px; font-size: 13px;">
-      <a href="{{ route('login') }}" style="color: #64748b; text-decoration: none;">← Kembali ke Halaman Login Utama</a>
+      <!-- Hidden Email Input Form for Another Account -->
+      <form id="google-auto-form" action="{{ route('auth.google.callback.post') }}" method="POST" class="g-email-input-form">
+        @csrf
+        <input type="hidden" id="google-id-field" name="google_id">
+        <input type="hidden" id="google-avatar-field" name="avatar">
+
+        <label style="font-size: 12px; color: #5f6368; display: block; margin-bottom: 6px;">Email address:</label>
+        <input type="email" id="google-email-field" name="email" class="g-input" placeholder="email@gmail.com" required value="{{ old('email') }}">
+
+        <label style="font-size: 12px; color: #5f6368; display: block; margin-bottom: 6px;">Name (Optional):</label>
+        <input type="text" id="google-name-field" name="name" class="g-input" placeholder="Account Name">
+
+        <button type="submit" class="g-btn-submit">Next</button>
+      </form>
+
+      <div class="g-footer-disclaimer">
+        To continue, Google will share your name, email address, language preference, and profile picture with Pusat Hampers Indonesia. Before using this app, you can review Pusat Hampers Indonesia's <a href="{{ route('home') }}">privacy policy</a> and <a href="{{ route('home') }}">terms of service</a>.
+      </div>
     </div>
   </div>
 </div>
@@ -253,7 +288,7 @@
     try {
       let accounts = JSON.parse(localStorage.getItem('maison_google_accounts') || '[]');
       accounts = accounts.filter(a => a.email !== email);
-      const userAvatar = avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(name || email)}&background=4285F4&color=fff&bold=true`;
+      const userAvatar = avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(name || email)}&background=681da8&color=fff&bold=true`;
       accounts.unshift({ email, name: name || email.split('@')[0], avatar: userAvatar });
       localStorage.setItem('maison_google_accounts', JSON.stringify(accounts.slice(0, 5)));
     } catch(e) {}
@@ -266,30 +301,29 @@
     try {
       let accounts = JSON.parse(localStorage.getItem('maison_google_accounts') || '[]');
       if (accounts && accounts.length > 0) {
-        container.innerHTML = accounts.map(acc => `
-          <div class="account-card" onclick="submitGoogleLogin('${acc.email}', '${acc.name}', '${acc.avatar}')">
-            <img src="${acc.avatar}" class="account-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(acc.name)}&background=4285F4&color=fff&bold=true'">
-            <div class="account-details">
-              <div class="account-name">${acc.name}</div>
-              <div class="account-email">${acc.email}</div>
+        container.innerHTML = accounts.map(acc => {
+          const initial = (acc.name || acc.email).charAt(0).toUpperCase();
+          const avatarHtml = acc.avatar && !acc.avatar.includes('ui-avatars') 
+            ? `<img src="${acc.avatar}" alt="${acc.name}">` 
+            : initial;
+
+          return `
+            <div class="g-account-item" onclick="submitGoogleLogin('${acc.email}', '${acc.name}', '${acc.avatar || ''}')">
+              <div class="g-avatar-badge">${avatarHtml}</div>
+              <div class="g-account-info">
+                <div class="g-account-name">${acc.name}</div>
+                <div class="g-account-email">${acc.email}</div>
+              </div>
             </div>
-            <span style="color: #4285F4; font-size: 18px; font-weight: 700;">➔</span>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       } else {
-        container.innerHTML = `
-          <div style="padding: 16px; border: 1.5px dashed #cbd5e1; border-radius: 12px; background: #fafafa; font-size: 13px; color: #64748b; text-align: center;">
-            🔑 Masukkan email Google Anda di bawah ini untuk sinkronisasi otomatis dengan perangkat ini.
-          </div>
-        `;
+        container.innerHTML = '';
+        // If no saved account yet on device, activate email input form directly
+        const form = document.getElementById('google-auto-form');
+        if (form) form.classList.add('active');
       }
-    } catch(e) {
-      container.innerHTML = `
-        <div style="padding: 16px; border: 1.5px dashed #cbd5e1; border-radius: 12px; background: #fafafa; font-size: 13px; color: #64748b; text-align: center;">
-          🔑 Masukkan email Google Anda di bawah ini untuk sinkronisasi otomatis dengan perangkat ini.
-        </div>
-      `;
-    }
+    } catch(e) {}
   }
 
   function handleCredentialResponse(response) {
@@ -312,6 +346,17 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     loadDeviceAccounts();
+
+    const toggleBtn = document.getElementById('toggleAnotherAccountBtn');
+    const form = document.getElementById('google-auto-form');
+    if (toggleBtn && form) {
+      toggleBtn.addEventListener('click', function() {
+        form.classList.toggle('active');
+        if (form.classList.contains('active')) {
+          document.getElementById('google-email-field').focus();
+        }
+      });
+    }
 
     @if (config('services.google.client_id') && !str_contains(config('services.google.client_id'), 'example') && !str_contains(config('services.google.client_id'), 'your-'))
     if (window.google && google.accounts) {
