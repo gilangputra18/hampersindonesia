@@ -21,12 +21,16 @@ class SiteController extends Controller
             $best = Product::latest()->take(5)->get();
         }
 
-        $reviews = \App\Models\ProductReview::with('product')
-            ->where('is_approved', true)
-            ->where('is_featured', true)
-            ->latest()
-            ->take(6)
-            ->get();
+        try {
+            $reviews = \App\Models\ProductReview::with('product')
+                ->where('is_approved', true)
+                ->where('is_featured', true)
+                ->latest()
+                ->take(6)
+                ->get();
+        } catch (\Throwable $e) {
+            $reviews = collect();
+        }
 
         return view('home', [
             'gifts'   => ['hampers', 'cakes', 'cookies', 'breads'],

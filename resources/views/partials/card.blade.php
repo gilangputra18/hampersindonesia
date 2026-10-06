@@ -30,27 +30,10 @@
       'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
       'rating' => 5,
       'title' => 'Pengiriman Cepat & Fast Response',
-      'body' => 'Teksturnya lembut dan rasanya pas di lidah, pengiriman sangat rapi tanpa cacat.',
+      'body' => 'Teksturnya lembut dan rasanya pas di lidah, pengiriman dedicated courier sangat aman tanpa cacat.',
       'date' => '4 hari yang lalu'
     ]
   ];
-
-  try {
-    if (!is_array($item) && method_exists($item, 'reviews') && $item->reviews && count($item->reviews) > 0) {
-      $productReviews = $item->reviews->map(function($r) {
-        return [
-          'name' => $r->reviewer_name,
-          'avatar' => $r->avatar_url,
-          'rating' => $r->rating,
-          'title' => $r->title,
-          'body' => $r->body,
-          'date' => $r->created_at ? $r->created_at->format('d M Y') : 'Baru saja'
-        ];
-      })->toArray();
-    }
-  } catch (\Throwable $e) {
-    // Fallback to default sample reviews array
-  }
 @endphp
 <div class="card card-hover-flip product-detail-trigger"
      data-id="{{ $id }}"
