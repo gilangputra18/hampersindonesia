@@ -32,7 +32,8 @@ Route::get('/clear-cache', function() {
 
 // Public Website Routes
 Route::get('/', [SiteController::class, 'home'])->name('home');
-Route::get('/shop/{slug}', [SiteController::class, 'category'])->name('category');
+Route::get('/shop', [SiteController::class, 'category'])->name('shop');
+Route::get('/shop/{slug?}', [SiteController::class, 'category'])->name('category');
 Route::get('/reservations', [SiteController::class, 'reservations'])->name('reservations');
 Route::get('/menu-pdf/{slug?}', [SiteController::class, 'menuPdf'])->name('menu.pdf');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');

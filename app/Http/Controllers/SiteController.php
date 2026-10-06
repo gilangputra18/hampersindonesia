@@ -40,9 +40,10 @@ class SiteController extends Controller
         ]);
     }
 
-    public function category(Request $request, string $slug)
+    public function category(Request $request, ?string $slug = 'hampers')
     {
-        $cat = Category::where('slug', $slug)->first();
+        $slug = $slug ?: 'hampers';
+        $cat = Category::where('slug', $slug)->first() ?? Category::first();
 
         if (!$cat) {
             abort(404);
