@@ -169,6 +169,97 @@
 </section>
 @endif
 
+<!-- FAQ Section (Hal Yang Sering Ditanyakan) -->
+<section style="background: #f8faf9; padding: 70px 20px; color: #0f172a; font-family: 'Outfit', sans-serif;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <h2 style="font-family: 'Outfit', sans-serif; font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; color: #0f172a; text-align: center; margin-bottom: 40px; letter-spacing: -0.5px;">
+      Hal Yang Sering Ditanyakan
+    </h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+      {{-- FAQ Item 1 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Apa saja yang ada dalam hampers Lebaran?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Setiap hampers berisi pilihan produk premium, seperti cookies, pistachio, sajadah travel, sajadah turki eksklusif, tasbih digital, parfum mewah, dan lainnya. Untuk melihat secara detail, Anda bisa menekan tombol “Lihat Rincian Isi Hampers”.
+        </p>
+      </div>
+
+      {{-- FAQ Item 2 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Apakah bisa custom isi hampers?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Tentu! Kami menyediakan opsi custom hampers sesuai dengan kebutuhan dan budget Anda. Hubungi WhatsApp pada website untuk konsultasi lebih lanjut.
+        </p>
+      </div>
+
+      {{-- FAQ Item 3 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Berapa lama proses pengiriman?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Pengiriman dalam kota biasanya memakan waktu 1–3 hari kerja, sedangkan luar kota mengikuti estimasi ekspedisi yang dipilih.
+        </p>
+      </div>
+
+      {{-- FAQ Item 4 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Apakah bisa pre-order untuk hampers Lebaran?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Tentu! Dengan melakukan pre-order, Anda dapat memastikan ketersediaan hampers terbaik sekaligus menghindari keterlambatan pengiriman.
+        </p>
+      </div>
+
+      {{-- FAQ Item 5 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Apakah tersedia kartu ucapan dalam hampers?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Ya! Kami menyediakan kartu ucapan gratis yang bisa disesuaikan dengan permintaan Anda.
+        </p>
+      </div>
+
+      {{-- FAQ Item 6 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Bagaimana cara pemesanan?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Anda bisa memesan langsung melalui WhatsApp pada website dan kami akan siap membantu Anda.
+        </p>
+      </div>
+
+      {{-- FAQ Item 7 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Apakah ada minimal pemesanan untuk hampers corporate?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Pesan hampers corporate tanpa batasan jumlah. Hubungi kami untuk detail dan penawaran spesial.
+        </p>
+      </div>
+
+      {{-- FAQ Item 8 --}}
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
+        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
+          Bisakah pengiriman langsung ke alamat penerima?
+        </h3>
+        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
+          Tentu! Kami bisa mengirimkan hampers langsung ke alamat penerima dengan pengemasan aman dan rapi.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const videos = document.querySelectorAll('video');

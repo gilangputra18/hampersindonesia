@@ -367,13 +367,22 @@
     }
   }
 
+  /* Sticky Site Header Wrapper */
+  .site-header-sticky-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 9990;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
   /* Royal Brand Logo Bar */
   .head {
     position: relative;
     background: #ffffff;
     z-index: 500;
     text-align: center;
-    padding: 28px 0 20px;
+    padding: 24px 0 16px;
     width: 100%;
   }
   .logo {
@@ -1077,244 +1086,157 @@
 </head>
 <body>
 
-<!-- Header Main Royal Logo at the VERY TOP -->
-<header class="head">
-  <a href="{{ route('home') }}" class="logo">
-    <span class="fleur-icon">⚜️</span> PUSAT HAMPERS INDONESIA <span class="fleur-icon">⚜️</span>
-    <small>PUSAT HAMPERS, GIFT BOX & PARCEL GOURMET • INDONESIA • DIDIRIKAN {{ config('site.since') }}</small>
-  </a>
-</header>
-
-<!-- Dedicated Souvia-Style Mobile Top Header Bar -->
-<div class="souvia-mobile-topbar">
-  <a href="{{ route('home') }}" class="souvia-drawer-brand">
-    ⚜️ HAMPERS
-  </a>
-  <div class="souvia-drawer-search-wrap">
-    <input type="text" class="trigger-live-search" placeholder="Search Product..." readonly>
-  </div>
-  <button type="button" class="three-dots-btn" id="open-three-dots-btn" style="display: block; font-size: 24px; color: #fff;">
-    ≡
-  </button>
-</div>
-
-<!-- Ultra-Luxurious Royal Header Top Bar (Controls Bar) -->
-<div class="top">
-  <nav>
-    <a href="{{ route('reservations') }}">🍷 RESERVASI & ACARA</a>
-    <a href="{{ route('contact') }}">💬 KONTAK & LAYANAN</a>
-    <a href="{{ route('track') }}">📦 LACAK PESANAN REAL-TIME</a>
-  </nav>
-
-  <!-- Right Header Controls: User Actions, Search, Cart -->
-  <div class="header-right-group">
-
-    @auth
-      <div class="user-action-group">
-        <a href="{{ route('my.orders') }}" class="top-text-link" title="Riwayat Pesanan Saya">
-          📦 <span>PESANAN SAYA</span>
-        </a>
-
-        @if(Auth::user()->is_admin)
-          <a href="{{ route('admin.dashboard') }}" class="top-text-link" style="color: #fef08a;" title="Dashboard Admin">
-            🛡️ <span>ADMIN PANEL</span>
-          </a>
-        @endif
-
-        <form action="{{ route('logout') }}" method="POST" style="display: inline; margin: 0;">
-          @csrf
-          <button type="submit" class="top-text-link" style="color: #f87171;" title="Keluar (Logout)">
-            🚪 <span>KELUAR</span>
-          </button>
-        </form>
-      </div>
-    @else
-      <a href="{{ route('login') }}" class="header-icon-btn" title="Akun Saya / Login">
-        <span style="color: #a855f7;">👤</span> <span>MASUK</span>
-      </a>
-    @endauth
-
-    <button type="button" class="header-icon-btn" id="open-search-btn" title="Cari Produk (Live Search)">
-      <span style="color: #38bdf8;">🔍</span> <span>CARI</span>
-    </button>
-
-    <a href="{{ route('cart.index') }}" class="header-icon-btn" title="Keranjang Belanja">
-      <span>🛒</span> <span>KERANJANG</span>
-      @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
-      @if ($cartQty > 0)
-        <span class="cart-badge">{{ $cartQty }}</span>
-      @endif
+<!-- Header Main Royal Logo at the VERY TOP (Sticky Wrapper) -->
+<header class="site-header-sticky-wrapper">
+  <div class="head">
+    <a href="{{ route('home') }}" class="logo">
+      <span class="fleur-icon">⚜️</span> PUSAT HAMPERS INDONESIA <span class="fleur-icon">⚜️</span>
+      <small>PUSAT HAMPERS, GIFT BOX & PARCEL GOURMET • INDONESIA • DIDIRIKAN {{ config('site.since') }}</small>
     </a>
-
-    <!-- 3-Dots Mobile Menu Trigger Button -->
-    <button type="button" class="three-dots-btn" id="open-three-dots-btn-desktop" title="Menu Lengkap">
-      ⋮
-    </button>
   </div>
-</div>
 
-<!-- Mobile Souvia Accordion Drawer Overlay (Reference Image 2) -->
-<div class="mobile-drawer-overlay" id="mobile-drawer-modal">
-  <div class="souvia-drawer-topbar">
+  <!-- Dedicated Souvia-Style Mobile Top Header Bar -->
+  <div class="souvia-mobile-topbar">
     <a href="{{ route('home') }}" class="souvia-drawer-brand">
-      ⚜️ HAMPERS INDONESIA
+      ⚜️ HAMPERS
     </a>
     <div class="souvia-drawer-search-wrap">
       <input type="text" class="trigger-live-search" placeholder="Search Product..." readonly>
     </div>
-    <button type="button" class="mobile-drawer-close" id="close-three-dots-btn">✕</button>
+    <button type="button" class="three-dots-btn" id="open-three-dots-btn" style="display: block; font-size: 24px; color: #fff;">
+      ≡
+    </button>
   </div>
 
-  <div class="souvia-accordion-menu">
-    <!-- Item 1: Giftset & Package -->
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>🎁 Giftset & Package</span>
-        <span class="acc-icon">∨</span>
-      </button>
-      <div class="accordion-body">
-        <a href="{{ route('category', 'hampers') }}">🎁 Hampers & Gift Box Mewah</a>
-        <a href="{{ route('category', 'mooncake') }}">🥮 Paket Hadiah Mooncake</a>
-      </div>
-    </div>
+  <!-- Ultra-Luxurious Royal Header Top Bar (Controls Bar) -->
+  <div class="top">
+    <nav>
+      <a href="{{ route('reservations') }}">🍷 RESERVASI & ACARA</a>
+      <a href="{{ route('contact') }}">💬 KONTAK & LAYANAN</a>
+      <a href="{{ route('track') }}">📦 LACAK PESANAN REAL-TIME</a>
+    </nav>
 
-    <!-- Item 2: Best Seller -->
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>⭐ Best Seller</span>
-        <span class="acc-icon">∨</span>
-      </button>
-      <div class="accordion-body">
-        <a href="{{ route('category', 'cakes') }}">🎂 Basque Cheesecake & Tart</a>
-        <a href="{{ route('category', 'cookies') }}">🍪 Nastar & Cookies Artisanal</a>
-        <a href="{{ route('category', 'breads') }}">🥐 Focaccia & Croissant Premium</a>
-      </div>
-    </div>
+    <!-- Right Header Controls: User Actions, Search, Cart -->
+    <div class="header-right-group">
 
-    <!-- Item 3: All Products -->
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>📦 All Products (Semua Produk)</span>
-        <span class="acc-icon">∨</span>
-      </button>
-      <div class="accordion-body">
-        @foreach (config('site.categories') as $slug => $c)
-          <a href="{{ route('category', $slug) }}">{{ $c['title'] }}</a>
-        @endforeach
-      </div>
-    </div>
-
-    <!-- Item 4: Portfolios & Reservasi -->
-    <div class="accordion-item">
-      <a href="{{ route('reservations') }}" class="accordion-link">
-        <span>🍷 Portfolios & Reservasi Acara</span>
-      </a>
-    </div>
-
-    <!-- Item 5: Our Services -->
-    <div class="accordion-item">
-      <a href="{{ route('track') }}" class="accordion-link">
-        <span>🚚 Our Services & Lacak Pesanan</span>
-      </a>
-    </div>
-
-    <!-- Item 6: Others / Akun Pelanggan -->
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>👤 Others (Akun & Layanan VIP)</span>
-        <span class="acc-icon">∨</span>
-      </button>
-      <div class="accordion-body">
-        @auth
-          <a href="{{ route('my.orders') }}">📦 Riwayat Pesanan Saya</a>
-          @if(Auth::user()->is_admin)
-            <a href="{{ route('admin.dashboard') }}" style="color: #b45309; font-weight: 700;">🛡️ Dashboard Admin Panel</a>
-          @endif
-        @else
-          <a href="{{ route('login') }}">👤 Masuk / Daftar Akun</a>
-        @endauth
-        <a href="{{ route('contact') }}">💬 Kontak & Concierge Service</a>
-        <a href="{{ route('cart.index') }}">🛒 Keranjang Belanja ({{ $cartQty ?? 0 }})</a>
-        <a href="{{ route('menu.pdf') }}" target="_blank">📄 Download Menu PDF</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Main Category Navigation -->
-<div class="nav-main-wrapper">
-  <nav class="main">
-      @foreach (config('site.categories') as $slug => $c)
-        <div class="nav-item-has-mega" style="display: inline-block;">
-          <a href="{{ route('category', $slug) }}" class="main-nav-link {{ request()->is('shop/'.$slug) ? 'active' : '' }}">
-            {{ $c['title'] }}
+      @auth
+        <div class="user-action-group">
+          <a href="{{ route('my.orders') }}" class="top-text-link" title="Riwayat Pesanan Saya">
+            📦 <span>PESANAN SAYA</span>
           </a>
 
-          <!-- Mega Menu Dropdown Panel -->
-          <div class="mega-menu-dropdown">
-            <div class="mega-menu-inner">
-              <!-- Column 1: Category -->
-              <div>
-                <div class="mega-column-title">{{ strtoupper($c['title']) }}</div>
-                <div class="mega-link-list">
-                  <a href="{{ route('category', $slug) }}" style="font-weight: 600; color: #fef08a;">Lihat Semua {{ $c['title'] }} →</a>
-                  @foreach (array_slice($c['items'], 0, 4) as $item)
-                    <a href="{{ route('category', $slug) }}">{{ $item[0] }}</a>
-                  @endforeach
-                </div>
-              </div>
+          @if(Auth::user()->is_admin)
+            <a href="{{ route('admin.dashboard') }}" class="top-text-link" style="color: #fef08a;" title="Dashboard Admin">
+              🛡️ <span>ADMIN PANEL</span>
+            </a>
+          @endif
 
-              <!-- Column 2: Flavors -->
-              <div>
-                <div class="mega-column-title">VARIAN RASA</div>
-                <div class="mega-link-list">
-                  <a href="{{ route('category', $slug) }}?flavors[]=Chocolate">Cokelat</a>
-                  <a href="{{ route('category', $slug) }}?flavors[]=Cheese">Keju</a>
-                  <a href="{{ route('category', $slug) }}?flavors[]=Coffee">Kopi</a>
-                  <a href="{{ route('category', $slug) }}?flavors[]=Pandan">Pandan</a>
-                  <a href="{{ route('category', $slug) }}?flavors[]=Berry">Buah Beri</a>
-                </div>
-              </div>
+          <form action="{{ route('logout') }}" method="POST" style="display: inline; margin: 0;">
+            @csrf
+            <button type="submit" class="top-text-link" style="color: #f87171;" title="Keluar (Logout)">
+              🚪 <span>KELUAR</span>
+            </button>
+          </form>
+        </div>
+      @else
+        <a href="{{ route('login') }}" class="header-icon-btn" title="Akun Saya / Login">
+          <span style="color: #a855f7;">👤</span> <span>MASUK</span>
+        </a>
+      @endauth
 
-              <!-- Column 3: Types -->
-              <div>
-                <div class="mega-column-title">KATEGORI BENTUK</div>
-                <div class="mega-link-list">
-                  <a href="{{ route('category', $slug) }}?types[]=Round">Kue Bulat</a>
-                  <a href="{{ route('category', $slug) }}?types[]=Square">Kue Kotak</a>
-                  <a href="{{ route('category', $slug) }}?types[]=Whole+Cake">Kue Utuh (Whole)</a>
-                  <a href="{{ route('category', $slug) }}?types[]=Gift+Box">Kotak Hadiah</a>
-                  <a href="{{ route('category', $slug) }}?types[]=The+Classics">Varian Klasik</a>
-                </div>
-              </div>
+      <button type="button" class="header-icon-btn" id="open-search-btn" title="Cari Produk (Live Search)">
+        <span style="color: #38bdf8;">🔍</span> <span>CARI</span>
+      </button>
 
-              <!-- Column 4: 2 Featured Products -->
-              <div>
-                <div class="mega-column-title">PRODUK UNGGULAN</div>
-                <div class="mega-featured-grid">
-                  @php
-                    $feat1 = $c['items'][0] ?? ['Tiramisu', 525000];
-                    $feat2 = $c['items'][1] ?? ['Berry Tart', 295000];
-                    $slug1 = \Illuminate\Support\Str::slug($feat1[0]);
-                    $slug2 = \Illuminate\Support\Str::slug($feat2[0]);
-                  @endphp
-                  <a href="{{ route('category', $slug) }}" class="mega-card">
-                    <img src="{{ asset('images/' . $slug1 . '.jpg') }}" alt="{{ $feat1[0] }}" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
-                    <div class="mega-card-title">{{ $feat1[0] }}</div>
-                  </a>
-                  <a href="{{ route('category', $slug) }}" class="mega-card">
-                    <img src="{{ asset('images/' . $slug2 . '.jpg') }}" alt="{{ $feat2[0] }}" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
-                    <div class="mega-card-title">{{ $feat2[0] }}</div>
-                  </a>
+      <a href="{{ route('cart.index') }}" class="header-icon-btn" title="Keranjang Belanja">
+        <span>🛒</span> <span>KERANJANG</span>
+        @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
+        @if ($cartQty > 0)
+          <span class="cart-badge">{{ $cartQty }}</span>
+        @endif
+      </a>
+
+      <!-- 3-Dots Mobile Menu Trigger Button -->
+      <button type="button" class="three-dots-btn" id="open-three-dots-btn-desktop" title="Menu Lengkap">
+        ⋮
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Category Navigation -->
+  <div class="nav-main-wrapper">
+    <nav class="main">
+        @foreach (config('site.categories') as $slug => $c)
+          <div class="nav-item-has-mega" style="display: inline-block;">
+            <a href="{{ route('category', $slug) }}" class="main-nav-link {{ request()->is('shop/'.$slug) ? 'active' : '' }}">
+              {{ $c['title'] }}
+            </a>
+
+            <!-- Mega Menu Dropdown Panel -->
+            <div class="mega-menu-dropdown">
+              <div class="mega-menu-inner">
+                <!-- Column 1: Category -->
+                <div>
+                  <div class="mega-column-title">{{ strtoupper($c['title']) }}</div>
+                  <div class="mega-link-list">
+                    <a href="{{ route('category', $slug) }}" style="font-weight: 600; color: #fef08a;">Lihat Semua {{ $c['title'] }} →</a>
+                    @foreach (array_slice($c['items'], 0, 4) as $item)
+                      <a href="{{ route('category', $slug) }}">{{ $item[0] }}</a>
+                    @endforeach
+                  </div>
+                </div>
+
+                <!-- Column 2: Flavors -->
+                <div>
+                  <div class="mega-column-title">VARIAN RASA</div>
+                  <div class="mega-link-list">
+                    <a href="{{ route('category', $slug) }}?flavors[]=Chocolate">Cokelat</a>
+                    <a href="{{ route('category', $slug) }}?flavors[]=Cheese">Keju</a>
+                    <a href="{{ route('category', $slug) }}?flavors[]=Coffee">Kopi</a>
+                    <a href="{{ route('category', $slug) }}?flavors[]=Pandan">Pandan</a>
+                    <a href="{{ route('category', $slug) }}?flavors[]=Berry">Buah Beri</a>
+                  </div>
+                </div>
+
+                <!-- Column 3: Types -->
+                <div>
+                  <div class="mega-column-title">KATEGORI BENTUK</div>
+                  <div class="mega-link-list">
+                    <a href="{{ route('category', $slug) }}?types[]=Round">Kue Bulat</a>
+                    <a href="{{ route('category', $slug) }}?types[]=Square">Kue Kotak</a>
+                    <a href="{{ route('category', $slug) }}?types[]=Whole+Cake">Kue Utuh (Whole)</a>
+                    <a href="{{ route('category', $slug) }}?types[]=Gift+Box">Kotak Hadiah</a>
+                    <a href="{{ route('category', $slug) }}?types[]=The+Classics">Varian Klasik</a>
+                  </div>
+                </div>
+
+                <!-- Column 4: 2 Featured Products -->
+                <div>
+                  <div class="mega-column-title">PRODUK UNGGULAN</div>
+                  <div class="mega-featured-grid">
+                    @php
+                      $feat1 = $c['items'][0] ?? ['Tiramisu', 525000];
+                      $feat2 = $c['items'][1] ?? ['Berry Tart', 295000];
+                      $slug1 = \Illuminate\Support\Str::slug($feat1[0]);
+                      $slug2 = \Illuminate\Support\Str::slug($feat2[0]);
+                    @endphp
+                    <a href="{{ route('category', $slug) }}" class="mega-card">
+                      <img src="{{ asset('images/' . $slug1 . '.jpg') }}" alt="{{ $feat1[0] }}" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
+                      <div class="mega-card-title">{{ $feat1[0] }}</div>
+                    </a>
+                    <a href="{{ route('category', $slug) }}" class="mega-card">
+                      <img src="{{ asset('images/' . $slug2 . '.jpg') }}" alt="{{ $feat2[0] }}" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
+                      <div class="mega-card-title">{{ $feat2[0] }}</div>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      @endforeach
-      <a href="{{ route('menu.pdf') }}" target="_blank" class="main-nav-link">Menu Restoran PDF 📄</a>
-    </nav>
-  </div>
+        @endforeach
+        <a href="{{ route('menu.pdf') }}" target="_blank" class="main-nav-link">Menu Restoran PDF 📄</a>
+      </nav>
+    </div>
 </header>
 
 <main>@yield('content')</main>
