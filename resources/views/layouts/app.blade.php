@@ -1116,9 +1116,15 @@
       <a href="{{ route('track') }}">📦 LACAK PESANAN REAL-TIME</a>
     </nav>
 
-    <!-- Right Header Controls: User Actions, Search, Cart -->
+    <!-- Right Header Controls: Search, User Actions, Cart, 3-Dots -->
     <div class="header-right-group">
 
+      <!-- 1. Menu Cari (Search) on the Left -->
+      <button type="button" class="header-icon-btn" id="open-search-btn" title="Cari Produk (Live Search)">
+        <span style="color: #38bdf8;">🔍</span> <span>CARI</span>
+      </button>
+
+      <!-- 2. Tombol Masuk / Akun (Side-by-side with Keranjang) -->
       @auth
         <div class="user-action-group">
           <a href="{{ route('my.orders') }}" class="top-text-link" title="Riwayat Pesanan Saya">
@@ -1144,10 +1150,7 @@
         </a>
       @endauth
 
-      <button type="button" class="header-icon-btn" id="open-search-btn" title="Cari Produk (Live Search)">
-        <span style="color: #38bdf8;">🔍</span> <span>CARI</span>
-      </button>
-
+      <!-- 3. Tombol Keranjang (Side-by-side with Masuk) -->
       <a href="{{ route('cart.index') }}" class="header-icon-btn" title="Keranjang Belanja">
         <span>🛒</span> <span>KERANJANG</span>
         @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
@@ -1156,7 +1159,7 @@
         @endif
       </a>
 
-      <!-- 3-Dots Mobile Menu Trigger Button -->
+      <!-- 4. 3-Dots Mobile & Desktop Menu Trigger Button -->
       <button type="button" class="three-dots-btn" id="open-three-dots-btn-desktop" title="Menu Lengkap">
         ⋮
       </button>
