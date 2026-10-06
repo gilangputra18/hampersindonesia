@@ -58,8 +58,76 @@ class CustomerAuthController extends Controller
         return view('auth.google_demo');
     }
 
+    private function googleClientId(): ?string
+    {
+        $clientId = config('services.google.client_id');
+
+        if ($clientId && !str_contains($clientId, 'example') && !str_contains($clientId, 'your-')) {
+            return $clientId;
+        }
+
+        return null;
+    }
+
     public function handleGoogleCallback(Request $request)
     {
+        // Verified path: ID token (JWT) issued by Google after the user picks an account
+        // in Google's own account chooser (Google Identity Services).
+        if ($request->filled('credential')) {
+            $configuredId = $this->googleClientId();
+            if (!$configuredId) {
+                return redirect()->route('login')->withErrors(['email' => 'Login Google belum dikonfigurasi.']);
+            }
+
+            try {
+                $response = \Illuminate\Support\Facades\Http::timeout(10)->get('https://oauth2.googleapis.com/tokeninfo', [
+                    'id_token' => $request->input('credential'),
+                ]);
+                $payload = $response->json();
+
+                if (!$response->ok()
+                    || ($payload['aud'] ?? null) !== $configuredId
+                    || ($payload['email_verified'] ?? 'false') !== 'true'
+                    || empty($payload['email'])) {
+                    return redirect()->route('login')->withErrors(['email' => 'Verifikasi akun Google gagal. Silakan coba lagi.']);
+                }
+
+                $user = User::where('google_id', $payload['sub'])
+                    ->orWhere('email', $payload['email'])
+                    ->first();
+
+                if (!$user) {
+                    $user = User::create([
+                        'name' => $payload['name'] ?? explode('@', $payload['email'])[0],
+                        'email' => $payload['email'],
+                        'google_id' => $payload['sub'],
+                        'avatar' => $payload['picture'] ?? null,
+                        'password' => Hash::make(Str::random(16)),
+                        'is_admin' => false,
+                    ]);
+                } else {
+                    $user->update([
+                        'google_id' => $user->google_id ?: $payload['sub'],
+                        'avatar' => $user->avatar ?: ($payload['picture'] ?? null),
+                    ]);
+                }
+
+                Auth::login($user, true);
+                $request->session()->regenerate();
+
+                return redirect()->route('home')->with('success', 'Berhasil login dengan akun Google ' . $user->name . '!');
+            } catch (\Throwable $e) {
+                return redirect()->route('login')->withErrors(['email' => 'Gagal terhubung dengan Google. Silakan coba lagi.']);
+            }
+        }
+
+        // When a Google Client ID is configured, ONLY verified tokens may log in.
+        if ($this->googleClientId() && !$request->has('demo_mode')) {
+            if (!config('services.google.client_secret')) {
+                return redirect()->route('login')->withErrors(['email' => 'Silakan pilih akun melalui jendela resmi Google.']);
+            }
+        }
+
         $clientId = config('services.google.client_id');
         $clientSecret = config('services.google.client_secret');
 
@@ -104,6 +172,11 @@ class CustomerAuthController extends Controller
         $googleId = $request->input('google_id') ?: ('google_' . md5($request->email));
 
         $user = User::where('email', $request->email)->first();
+
+        // Unverified fallback must never allow taking over an admin account.
+        if ($user && $user->is_admin) {
+            return redirect()->route('login')->withErrors(['email' => 'Akun ini tidak dapat masuk melalui Google tanpa verifikasi.']);
+        }
 
         if (!$user) {
             $user = User::create([

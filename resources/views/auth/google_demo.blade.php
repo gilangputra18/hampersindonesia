@@ -3,6 +3,10 @@
 @section('title', 'Sign in with Google | ' . config('site.brand'))
 
 @section('content')
+@php
+  $googleClientId = config('services.google.client_id');
+  $googleReady = $googleClientId && !str_contains($googleClientId, 'example') && !str_contains($googleClientId, 'your-');
+@endphp
 <!-- Official Google Identity Services SDK -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
@@ -239,6 +243,17 @@
       <div id="googleBtnRender" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
       @endif
 
+      @if ($googleReady)
+      <!-- Real Google account chooser: lists the accounts signed in on THIS device, user just clicks one -->
+      <form id="google-credential-form" action="{{ route('auth.google.callback.post') }}" method="POST" style="display:none;">
+        @csrf
+        <input type="hidden" name="credential" id="google-credential-field">
+      </form>
+      <p style="font-size: 13px; color: #5f6368; margin-bottom: 14px;">Klik tombol di bawah, lalu pilih salah satu akun Google yang ada di perangkat ini.</p>
+      @else
+      <div style="font-size: 12px; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 12px; margin-bottom: 16px; text-align: left;">
+        Mode manual: daftar akun hanya menampilkan akun yang pernah dimasukkan di perangkat ini. Untuk memilih langsung dari akun Google di perangkat, <code>GOOGLE_CLIENT_ID</code> perlu diatur.
+      </div>
       <!-- Device Logged In Accounts List -->
       <div class="g-accounts-list" id="deviceAccountsContainer">
         <!-- Rendered dynamically from user's device -->
@@ -263,6 +278,7 @@
 
         <button type="submit" class="g-btn-submit">Next</button>
       </form>
+      @endif
 
       <div class="g-footer-disclaimer">
         To continue, Google will share your name, email address, language preference, and profile picture with Pusat Hampers Indonesia. Before using this app, you can review Pusat Hampers Indonesia's <a href="{{ route('home') }}">privacy policy</a> and <a href="{{ route('home') }}">terms of service</a>.
@@ -327,11 +343,10 @@
   }
 
   function handleCredentialResponse(response) {
-    try {
-      const payload = parseJwt(response.credential);
-      submitGoogleLogin(payload.email, payload.name, payload.picture);
-    } catch(e) {
-      console.log('Google credential parse error', e);
+    const credentialField = document.getElementById('google-credential-field');
+    if (credentialField && response && response.credential) {
+      credentialField.value = response.credential;
+      document.getElementById('google-credential-form').submit();
     }
   }
 
