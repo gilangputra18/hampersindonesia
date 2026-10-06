@@ -522,8 +522,8 @@
 
 <script>
 const subtotal = {{ $subtotal ?? 0 }};
-const isFreeShippingSubtotal = {{ $isFreeShippingSubtotal ? 'true' : 'false' }};
-let currentCourierRate = isFreeShippingSubtotal ? 0 : {{ $shipSettings['store_courier_rate'] ?? 20000 }};
+const isFreeShippingSubtotal = {{ !empty($isFreeShippingSubtotal) ? 'true' : 'false' }};
+let currentCourierRate = isFreeShippingSubtotal ? 0 : {{ !empty($shipSettings['store_courier_rate']) ? $shipSettings['store_courier_rate'] : 20000 }};
 let currentDeliveryOption = 'delivery';
 let appliedDiscount = {{ $discountAmount ?? 0 }};
 

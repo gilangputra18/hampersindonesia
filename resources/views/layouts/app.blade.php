@@ -1490,17 +1490,19 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // 3-Dots Mobile Drawer Toggle Logic
-  const openThreeDotsBtn = document.getElementById('open-three-dots-btn');
+  // 3-Dots & Hamburger Mobile Drawer Toggle Logic
   const closeThreeDotsBtn = document.getElementById('close-three-dots-btn');
   const mobileDrawerModal = document.getElementById('mobile-drawer-modal');
 
-  if (openThreeDotsBtn && mobileDrawerModal) {
-    openThreeDotsBtn.addEventListener('click', function () {
-      mobileDrawerModal.classList.add('open');
-      document.body.style.overflow = 'hidden';
+  document.querySelectorAll('.three-dots-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (mobileDrawerModal) {
+        mobileDrawerModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
     });
-  }
+  });
 
   if (closeThreeDotsBtn && mobileDrawerModal) {
     closeThreeDotsBtn.addEventListener('click', function () {
