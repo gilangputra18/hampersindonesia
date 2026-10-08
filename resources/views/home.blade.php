@@ -257,14 +257,14 @@
   </div>
 </div>
 
-<section class="band" style="background: #091711; padding: 60px 20px; text-align: center;">
+<section class="band" style="background: #f8faf9; padding: 60px 20px; text-align: center;">
   <div style="display: inline-block; margin-bottom: 28px; position: relative;">
-    <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(24px, 3.8vw, 36px); font-weight: 800; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 3px; text-transform: uppercase; margin: 0;">
+    <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(24px, 3.8vw, 36px); font-weight: 800; color: #0f172a; letter-spacing: 3px; text-transform: uppercase; margin: 0;">
       KOLEKSI UNGGULAN KAMI
     </h2>
     <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px;">
       <span style="height: 1px; width: 70px; background: linear-gradient(90deg, transparent, #c59b27);"></span>
-      <span style="color: #e6ca65; font-size: 14px;">❖</span>
+      <span style="color: #c59b27; font-size: 14px;">❖</span>
       <span style="height: 1px; width: 70px; background: linear-gradient(90deg, #c59b27, transparent);"></span>
     </div>
   </div>
@@ -275,10 +275,10 @@
   </div>
 </section>
 
-<section class="sec">
+<section class="sec" style="background: #ffffff;">
   <div style="text-align: center; margin-bottom: 28px;">
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 10px;">Saatnya Menikmati Hidangan</h2>
-    <p class="lead" style="color: #f1f5f9; font-size: 16px; font-weight: 500; max-width: 680px; margin: 0 auto; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 800; color: #0f172a; margin-bottom: 10px;">Saatnya Menikmati Hidangan</h2>
+    <p class="lead" style="color: #475569; font-size: 16px; font-weight: 500; max-width: 680px; margin: 0 auto;">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
   </div>
   <div class="grid5">
     @foreach ($treats as $t) @include('partials.card', ['item' => $t, 'slug' => 'light-bites', 'from' => true]) @endforeach
@@ -304,9 +304,9 @@
   </div>
 </section>
 
-<section class="sec grey">
-  <p class="lead" style="color: #fbbf24; font-weight: 700; letter-spacing: 1px;">Jelajahi produk-produk yang paling diminati di toko kami</p>
-  <h2 style="color: #ffffff; font-weight: 800;">Produk Terlaris</h2>
+<section class="sec grey" style="background: #f8faf9;">
+  <p class="lead" style="color: #b45309; font-weight: 700; letter-spacing: 1px;">Jelajahi produk-produk yang paling diminati di toko kami</p>
+  <h2 style="color: #0f172a; font-weight: 800;">Produk Terlaris</h2>
   <div class="grid5">
     @foreach ($best as $b) @include('partials.card', ['item' => $b, 'slug' => 'cakes', 'from' => true]) @endforeach
   </div>

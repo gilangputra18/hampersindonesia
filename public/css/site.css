@@ -21,11 +21,11 @@ h1,h2,h3,h4,.logo,nav,.btn,.bar,.banner{font-family:var(--serif);text-transform:
 .feature b{position:absolute;inset:auto 0 35px;text-align:center;font:600 18px var(--serif);letter-spacing:.35em;text-transform:uppercase;color:#091711;background:linear-gradient(135deg, #b89243 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);padding:12px 30px;width:fit-content;margin:0 auto;border-radius:50px;box-shadow:0 8px 25px rgba(0,0,0,0.5);border:1px solid #fef08a;transition:all 0.25s}
 .feature:hover b{background:linear-gradient(135deg, #e6ca65, #fef08a);color:#091711;transform:scale(1.05)}
 .band{background:#091711;padding:64px 24px;text-align:center;border-top:1px solid rgba(230, 202, 101, 0.2);border-bottom:1px solid rgba(230, 202, 101, 0.2)}
-h2{font-size:28px;margin:0 0 16px;color:#fbbf24;letter-spacing:.15em;position:relative;display:inline-block;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,0.7)}
-h2::after{content:'';display:block;width:50px;height:2px;background:linear-gradient(90deg, #fbbf24, transparent);margin:8px auto 0 auto}
-.sec{padding:72px 24px;text-align:center;max-width:1200px;margin:0 auto;background:#091711;color:#f1f5f9}
-.sec.grey{background:#0c2217;max-width:none;border-top:1px solid rgba(230, 202, 101, 0.2);border-bottom:1px solid rgba(230, 202, 101, 0.2)}
-.lead{max-width:640px;margin:0 auto 36px;color:#f1f5f9;font-size:15.5px;font-weight:500;line-height:1.6}
+h2{font-size:28px;margin:0 0 16px;color:#0f172a;letter-spacing:.15em;position:relative;display:inline-block;font-weight:800;text-shadow:none}
+h2::after{content:'';display:block;width:50px;height:2px;background:linear-gradient(90deg, #c59b27, transparent);margin:8px auto 0 auto}
+.sec{padding:72px 24px;text-align:center;max-width:1200px;margin:0 auto;background:#f8faf9;color:#0f172a}
+.sec.grey{background:#ffffff;max-width:none;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0}
+.lead{max-width:640px;margin:0 auto 36px;color:#475569;font-size:15.5px;font-weight:500;line-height:1.6}
 .grid4,.grid5{display:grid;gap:24px;max-width:1200px;margin:0 auto 40px;grid-template-columns:repeat(2,1fr)}
 @media(min-width:900px){.grid4{grid-template-columns:repeat(4,1fr)}.grid5{grid-template-columns:repeat(5,1fr)}}
 .tile .ph,.card .ph{aspect-ratio:1/1;margin-bottom:14px;border:1px solid rgba(217, 119, 6, 0.15)}
