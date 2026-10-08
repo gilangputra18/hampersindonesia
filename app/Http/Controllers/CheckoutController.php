@@ -222,6 +222,51 @@ class CheckoutController extends Controller
             ->with('success', 'Pembayaran pesanan ' . $order->invoice_number . ' telah BERHASIL DIVERIFIKASI secara otomatis oleh Midtrans Gateway!');
     }
 
+    public function checkStatus($invoice)
+    {
+        $order = Order::where('invoice_number', $invoice)->first();
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Order not found'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'payment_status' => $order->payment_status,
+            'order_status' => $order->order_status,
+            'is_paid' => in_array($order->payment_status, ['paid', 'verified']),
+            'invoice_number' => $order->invoice_number,
+        ]);
+    }
+
+    public function midtransNotification(Request $request)
+    {
+        $orderId = $request->input('order_id') ?? $request->input('invoice_number');
+        $transactionStatus = $request->input('transaction_status');
+        $fraudStatus = $request->input('fraud_status');
+
+        if ($orderId) {
+            $order = Order::where('invoice_number', $orderId)->first();
+            if ($order) {
+                if (in_array($transactionStatus, ['capture', 'settlement'])) {
+                    if ($transactionStatus == 'capture' && $fraudStatus == 'challenge') {
+                        $order->update(['payment_status' => 'unpaid']);
+                    } else {
+                        $order->update([
+                            'payment_status' => 'paid',
+                            'order_status' => ($order->order_status === 'pending') ? 'processing' : $order->order_status,
+                        ]);
+                    }
+                } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
+                    $order->update(['payment_status' => 'failed', 'order_status' => 'cancelled']);
+                } elseif ($transactionStatus == 'pending') {
+                    $order->update(['payment_status' => 'unpaid']);
+                }
+            }
+        }
+
+        return response()->json(['status' => 'ok']);
+    }
+
     public function myOrders()
     {
         $orders = Order::with('items')

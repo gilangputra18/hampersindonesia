@@ -61,7 +61,9 @@ Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remov
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.show');
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/order/{invoice}', [CheckoutController::class, 'showOrder'])->name('order.show');
+Route::get('/order/{invoice}/status', [CheckoutController::class, 'checkStatus'])->name('order.status');
 Route::post('/order/{invoice}/pay-midtrans', [CheckoutController::class, 'payMidtrans'])->name('order.pay_midtrans');
+Route::post('/api/midtrans/notification', [CheckoutController::class, 'midtransNotification'])->name('midtrans.notification');
 
 // Review & Coupon Public Routes
 Route::post('/products/{product}/review', [ReviewCouponController::class, 'submitReview'])->name('review.submit');

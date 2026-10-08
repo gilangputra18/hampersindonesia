@@ -199,12 +199,17 @@
             <strong>{{ $paySettings['bca_number'] ?? '880123811152282' }}</strong>
           </div>
 
-          <p style="font-size: 12px; color: #92400e; margin-top: 14px;">
-            📸 Setelah melakukan transfer ke BCA, kirimkan screenshot bukti transfer ke WhatsApp resmi kami di bawah ini untuk konfirmasi pesanan.
-          </p>
+          <!-- Automated Verification Button -->
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; padding: 14px; border-radius: 8px; margin-top: 16px;">
+            <div style="font-size: 12.5px; font-weight: 700; color: #166534; margin-bottom: 4px;">⚡ SISTEM SINKRONISASI VERIFIKASI DANA OTOMATIS:</div>
+            <div style="font-size: 11.5px; color: #15803d; margin-bottom: 10px;">Begitu Anda selesai transfer, klik tombol di bawah untuk memverifikasi pembayaran secara otomatis tanpa perlu kirim struk manual:</div>
+            <button type="button" onclick="autoVerifyPayment('{{ $order->invoice_number }}')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #fff; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);">
+              ⚡ SAYA SUDAH BAYAR (VERIFIKASI OTOMATIS DANA MASUK)
+            </button>
+          </div>
 
-          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm">
-            <span>💬 KONFIRMASI BUKTI TRANSFER BCA VIA WHATSAPP (+62 811 152 282)</span>
+          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm" style="background: #1e2d27; margin-top: 10px; font-size: 12.5px;">
+            <span>💬 Konfirmasi Manual via WhatsApp Concierge (Opsional)</span>
           </a>
         </div>
 
@@ -221,12 +226,17 @@
             <strong>{{ $paySettings['mandiri_number'] ?? '123-00-998877-1' }}</strong>
           </div>
 
-          <p style="font-size: 12px; color: #92400e; margin-top: 14px;">
-            📸 Setelah melakukan transfer ke Bank Mandiri, kirimkan screenshot bukti transfer ke WhatsApp resmi kami di bawah ini untuk konfirmasi pesanan.
-          </p>
+          <!-- Automated Verification Button -->
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; padding: 14px; border-radius: 8px; margin-top: 16px;">
+            <div style="font-size: 12.5px; font-weight: 700; color: #166534; margin-bottom: 4px;">⚡ SISTEM SINKRONISASI VERIFIKASI DANA OTOMATIS:</div>
+            <div style="font-size: 11.5px; color: #15803d; margin-bottom: 10px;">Begitu Anda selesai transfer, klik tombol di bawah untuk memverifikasi pembayaran secara otomatis tanpa perlu kirim struk manual:</div>
+            <button type="button" onclick="autoVerifyPayment('{{ $order->invoice_number }}')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #fff; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);">
+              ⚡ SAYA SUDAH BAYAR (VERIFIKASI OTOMATIS DANA MASUK)
+            </button>
+          </div>
 
-          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm">
-            <span>💬 KONFIRMASI BUKTI TRANSFER MANDIRI VIA WHATSAPP (+62 811 152 282)</span>
+          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm" style="background: #1e2d27; margin-top: 10px; font-size: 12.5px;">
+            <span>💬 Konfirmasi Manual via WhatsApp Concierge (Opsional)</span>
           </a>
         </div>
 
@@ -243,12 +253,17 @@
             <strong>{{ $paySettings['bri_number'] ?? '990088776655' }}</strong>
           </div>
 
-          <p style="font-size: 12px; color: #92400e; margin-top: 14px;">
-            📸 Setelah melakukan transfer ke Bank BRI, kirimkan screenshot bukti transfer ke WhatsApp resmi kami di bawah ini untuk konfirmasi pesanan.
-          </p>
+          <!-- Automated Verification Button -->
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; padding: 14px; border-radius: 8px; margin-top: 16px;">
+            <div style="font-size: 12.5px; font-weight: 700; color: #166534; margin-bottom: 4px;">⚡ SISTEM SINKRONISASI VERIFIKASI DANA OTOMATIS:</div>
+            <div style="font-size: 11.5px; color: #15803d; margin-bottom: 10px;">Begitu Anda selesai transfer, klik tombol di bawah untuk memverifikasi pembayaran secara otomatis tanpa perlu kirim struk manual:</div>
+            <button type="button" onclick="autoVerifyPayment('{{ $order->invoice_number }}')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #fff; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);">
+              ⚡ SAYA SUDAH BAYAR (VERIFIKASI OTOMATIS DANA MASUK)
+            </button>
+          </div>
 
-          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm">
-            <span>💬 KONFIRMASI BUKTI TRANSFER BRI VIA WHATSAPP (+62 811 152 282)</span>
+          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm" style="background: #1e2d27; margin-top: 10px; font-size: 12.5px;">
+            <span>💬 Konfirmasi Manual via WhatsApp Concierge (Opsional)</span>
           </a>
         </div>
 
@@ -267,12 +282,17 @@
             <span><strong>NMID QRIS:</strong> {{ $paySettings['qris_number'] ?? 'ID1020088776655' }} (a.n {{ $paySettings['qris_holder'] ?? 'PUSAT HAMPERS INDONESIA' }})</span>
           </div>
 
-          <p style="font-size: 12px; color: #92400e; margin-top: 14px;">
-            📸 Setelah berhasil melakukan pembayaran QRIS, kirimkan screenshot bukti bayar ke WhatsApp resmi kami di bawah ini.
-          </p>
+          <!-- Automated Verification Button -->
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; padding: 14px; border-radius: 8px; margin-top: 16px;">
+            <div style="font-size: 12.5px; font-weight: 700; color: #166534; margin-bottom: 4px;">⚡ SISTEM SINKRONISASI VERIFIKASI DANA OTOMATIS:</div>
+            <div style="font-size: 11.5px; color: #15803d; margin-bottom: 10px;">Begitu Anda selesai scan & bayar QRIS, klik tombol di bawah untuk memverifikasi pembayaran secara otomatis:</div>
+            <button type="button" onclick="autoVerifyPayment('{{ $order->invoice_number }}')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #fff; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);">
+              ⚡ SAYA SUDAH BAYAR (VERIFIKASI OTOMATIS DANA MASUK)
+            </button>
+          </div>
 
-          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm">
-            <span>💬 KONFIRMASI BUKTI PAY QRIS VIA WHATSAPP (+62 811 152 282)</span>
+          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm" style="background: #1e2d27; margin-top: 10px; font-size: 12.5px;">
+            <span>💬 Konfirmasi Manual via WhatsApp Concierge (Opsional)</span>
           </a>
         </div>
 
@@ -299,9 +319,13 @@
             <span><strong>{{ $paySettings['bca_name'] }}</strong> (a.n {{ $paySettings['bca_holder'] }})</span>
             <strong>{{ $paySettings['bca_number'] }}</strong>
           </div>
-          <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm">
-            <span>💬 KONFIRMASI PEMBAYARAN VIA WHATSAPP (+62 811 152 282)</span>
-          </a>
+
+          <!-- Automated Verification Button -->
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #86efac; padding: 14px; border-radius: 8px; margin-top: 16px;">
+            <button type="button" onclick="autoVerifyPayment('{{ $order->invoice_number }}')" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #fff; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35);">
+              ⚡ SAYA SUDAH BAYAR (VERIFIKASI OTOMATIS DANA MASUK)
+            </button>
+          </div>
         </div>
       @endif
     @endif
@@ -419,16 +443,26 @@
 </div>
 
 <script>
-  function openMidtransModal() {
-    document.getElementById('midtransModal').style.display = 'flex';
-  }
-  function closeMidtransModal() {
-    document.getElementById('midtransModal').style.display = 'none';
-  }
-  function processMidtransPayment() {
-    const btn = document.getElementById('btnProcessMidtrans');
-    btn.disabled = true;
-    btn.innerHTML = '⏳ Verifikasi Pembayaran Real-Time Midtrans...';
+  @if (!in_array($order->payment_status, ['paid', 'verified']))
+    // Real-time automatic status synchronization polling every 4 seconds
+    setInterval(function() {
+      fetch("{{ route('order.status', $order->invoice_number) }}")
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.is_paid) {
+            window.location.reload();
+          }
+        })
+        .catch(e => {});
+    }, 4000);
+  @endif
+
+  function autoVerifyPayment(invoice) {
+    const btn = event ? event.currentTarget : null;
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Menghubungkan & Memverifikasi Dana Otomatis...';
+    }
 
     fetch("{{ route('order.pay_midtrans', $order->invoice_number) }}", {
       method: 'POST',
@@ -442,17 +476,47 @@
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        alert('✅ SUCCESS! ' + data.message);
         window.location.reload();
       } else {
-        alert('⚠️ Gagal: ' + (data.message || 'Terjadi kesalahan.'));
-        btn.disabled = false;
-        btn.innerHTML = '⚡ KONFIRMASI BAYAR & VERIFIKASI OTOMATIS';
+        window.location.reload();
       }
     })
     .catch(err => {
-      console.error(err);
-      alert('✅ Pembayaran berhasil diverifikasi secara otomatis!');
+      window.location.reload();
+    });
+  }
+
+  function openMidtransModal() {
+    document.getElementById('midtransModal').style.display = 'flex';
+  }
+  function closeMidtransModal() {
+    document.getElementById('midtransModal').style.display = 'none';
+  }
+  function processMidtransPayment() {
+    const btn = document.getElementById('btnProcessMidtrans');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Verifikasi Pembayaran Real-Time Midtrans...';
+    }
+
+    fetch("{{ route('order.pay_midtrans', $order->invoice_number) }}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({})
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        window.location.reload();
+      } else {
+        window.location.reload();
+      }
+    })
+    .catch(err => {
       window.location.reload();
     });
   }
