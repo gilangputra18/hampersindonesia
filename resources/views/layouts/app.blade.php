@@ -31,16 +31,16 @@
     color: #000 !important;
   }
 
-  /* Ultra-Luxurious Royal Emerald & Gold Header Bar */
+  /* Ultra-Luxurious Dark Royal Emerald & Gold Header Bar */
   .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(13, 33, 22, 0.08);
+    background: #050e0a;
     padding: 10px 40px;
     font-size: 11px;
-    border-bottom: 1px solid rgba(13, 33, 22, 0.12);
-    color: #0d2116;
+    border-bottom: 1px solid rgba(184, 146, 67, 0.25);
+    color: #e2e8f0;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: 'Outfit', sans-serif;
@@ -54,7 +54,7 @@
     flex-wrap: wrap;
   }
   .top nav a {
-    color: #0d2116;
+    color: #cbd5e1;
     text-decoration: none;
     transition: all 0.2s ease;
     font-weight: 700;
@@ -65,8 +65,8 @@
     letter-spacing: 2px;
   }
   .top nav a:hover {
-    color: #ffffff;
-    text-shadow: 0 1px 4px rgba(13, 33, 22, 0.5);
+    color: #fef08a;
+    text-shadow: 0 0 8px rgba(230, 202, 101, 0.4);
   }
   .header-right-group {
     display: flex;
@@ -76,11 +76,11 @@
   }
   .currency-pill {
     font-size: 10px;
-    color: #0d2116;
+    color: #e6ca65;
     font-weight: 700;
     padding: 3px 10px;
-    background: transparent;
-    border: 1px solid rgba(13, 33, 22, 0.35);
+    background: rgba(230, 202, 101, 0.1);
+    border: 1px solid rgba(230, 202, 101, 0.4);
     border-radius: 4px;
     white-space: nowrap;
     letter-spacing: 1px;
@@ -96,7 +96,7 @@
     gap: 6px;
     font-size: 11px;
     font-weight: 800;
-    color: #0d2116;
+    color: #e2e8f0;
     text-decoration: none;
     letter-spacing: 1.5px;
     transition: all 0.2s ease;
@@ -107,15 +107,15 @@
     padding: 0;
   }
   .top-text-link:hover {
-    color: #ffffff;
-    text-shadow: 0 1px 4px rgba(13, 33, 22, 0.5);
+    color: #fef08a;
+    text-shadow: 0 0 8px rgba(230, 202, 101, 0.4);
   }
   .header-icon-btn {
     background: transparent;
     border: none;
     cursor: pointer;
     font-size: 11px;
-    color: #0d2116;
+    color: #e2e8f0;
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -128,15 +128,15 @@
     white-space: nowrap;
   }
   .header-icon-btn:hover {
-    color: #ffffff;
-    text-shadow: 0 1px 4px rgba(13, 33, 22, 0.5);
+    color: #fef08a;
+    text-shadow: 0 0 8px rgba(230, 202, 101, 0.4);
   }
   .cart-badge {
     position: absolute;
     top: -8px;
     right: -10px;
-    background: #0d2116;
-    color: #fef08a;
+    background: linear-gradient(135deg, #b89243, #e6ca65);
+    color: #081711;
     font-size: 10px;
     font-weight: 800;
     width: 17px;
@@ -389,21 +389,21 @@
     }
   }
 
-  /* Sticky Site Header Wrapper - Metallic Gold Luxury Theme */
+  /* Sticky Site Header Wrapper - Dark Velvet Royal Emerald & Gold Theme */
   .site-header-sticky-wrapper {
     position: sticky;
     top: 0;
     z-index: 9990;
-    background: linear-gradient(135deg, #b89243 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
-    border-bottom: 2px solid #75550c;
+    background: #081711;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+    border-bottom: 2px solid #b89243;
   }
 
   /* Royal Brand Logo Bar */
   .head {
     position: relative;
-    background: transparent;
-    border-bottom: 1px solid rgba(13, 33, 22, 0.15);
+    background: #081711;
+    border-bottom: 1px solid rgba(184, 146, 67, 0.2);
     z-index: 500;
     text-align: center;
     padding: 22px 0 16px;
@@ -415,33 +415,34 @@
     font-size: 42px;
     letter-spacing: .28em;
     line-height: 1.1;
-    color: #0d2116;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+    background: linear-gradient(135deg, #fff3c4 0%, #e6ca65 40%, #c59b27 75%, #fef08a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-weight: 700;
     text-decoration: none;
     text-transform: uppercase;
     transition: all 0.3s ease;
     padding: 0 20px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
   }
   .logo:hover {
-    color: #ffffff;
-    text-shadow: 0 0 14px rgba(13, 33, 22, 0.6);
+    filter: drop-shadow(0 0 12px rgba(230, 202, 101, 0.6));
   }
   .fleur-icon {
-    color: #0d2116;
+    color: #e6ca65;
     font-size: 32px;
     vertical-align: middle;
     margin: 0 14px;
     display: inline-block;
-    filter: drop-shadow(0 1px 3px rgba(255, 255, 255, 0.4));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
   }
   .logo small {
     display: block;
     font-family: 'Outfit', sans-serif;
     font-size: 10.5px;
     letter-spacing: .38em;
-    color: #1a3c2b;
-    font-weight: 700;
+    color: #cbd5e1;
+    font-weight: 600;
     margin-top: 6px;
     text-shadow: none;
   }
@@ -449,10 +450,10 @@
   /* Royal Dark Emerald Navigation Bar */
   .nav-main-wrapper {
     position: relative;
-    background: rgba(13, 33, 22, 0.12);
+    background: #050e0a;
     margin-top: 0;
     width: 100%;
-    border-top: 1px solid rgba(13, 33, 22, 0.1);
+    border-top: 1px solid rgba(184, 146, 67, 0.2);
   }
   .main {
     display: flex;
@@ -472,17 +473,17 @@
     letter-spacing: .18em;
     font-weight: 700;
     font-size: 14px;
-    color: #0d2116;
+    color: #e2e8f0;
     text-decoration: none;
     transition: all 0.25s ease;
     border-bottom: 2px solid transparent;
     white-space: nowrap;
   }
   .main-nav-link:hover, .main-nav-link.active {
-    color: #ffffff;
-    background: rgba(13, 33, 22, 0.15);
-    border-bottom-color: #0d2116;
-    text-shadow: 0 1px 3px rgba(13, 33, 22, 0.5);
+    color: #fef08a;
+    background: rgba(230, 202, 101, 0.1);
+    border-bottom-color: #e6ca65;
+    text-shadow: 0 0 8px rgba(230, 202, 101, 0.4);
   }
 
   @media (max-width: 1100px) {
