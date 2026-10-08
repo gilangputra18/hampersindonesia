@@ -9,16 +9,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/site.css') }}">
 <style>
+  .btn-gold-pill {
+    display: inline-block;
+    background: linear-gradient(135deg, #b89243 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);
+    color: #0c2217 !important;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(197, 155, 39, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: all 0.3s ease;
+    border: 1px solid #fef08a;
+    text-transform: uppercase;
+  }
+  .btn-gold-pill:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(230, 202, 101, 0.6);
+    color: #000 !important;
+  }
+
   /* Ultra-Luxurious Royal Emerald & Gold Header Bar */
   .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #0d1713;
-    padding: 12px 40px;
+    background: rgba(13, 33, 22, 0.08);
+    padding: 10px 40px;
     font-size: 11px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    color: #cad8d1;
+    border-bottom: 1px solid rgba(13, 33, 22, 0.12);
+    color: #0d2116;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: 'Outfit', sans-serif;
@@ -32,10 +54,10 @@
     flex-wrap: wrap;
   }
   .top nav a {
-    color: #a7bbb0;
+    color: #0d2116;
     text-decoration: none;
     transition: all 0.2s ease;
-    font-weight: 500;
+    font-weight: 700;
     white-space: nowrap;
     display: inline-flex;
     align-items: center;
@@ -43,8 +65,8 @@
     letter-spacing: 2px;
   }
   .top nav a:hover {
-    color: #f59e0b;
-    text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(13, 33, 22, 0.5);
   }
   .header-right-group {
     display: flex;
@@ -54,11 +76,11 @@
   }
   .currency-pill {
     font-size: 10px;
-    color: #8fa59b;
-    font-weight: 600;
+    color: #0d2116;
+    font-weight: 700;
     padding: 3px 10px;
     background: transparent;
-    border: 1px solid rgba(217, 119, 6, 0.3);
+    border: 1px solid rgba(13, 33, 22, 0.35);
     border-radius: 4px;
     white-space: nowrap;
     letter-spacing: 1px;
@@ -73,8 +95,8 @@
     align-items: center;
     gap: 6px;
     font-size: 11px;
-    font-weight: 700;
-    color: #d97706;
+    font-weight: 800;
+    color: #0d2116;
     text-decoration: none;
     letter-spacing: 1.5px;
     transition: all 0.2s ease;
@@ -85,15 +107,15 @@
     padding: 0;
   }
   .top-text-link:hover {
-    color: #fef08a;
-    text-shadow: 0 0 8px rgba(254, 240, 138, 0.4);
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(13, 33, 22, 0.5);
   }
   .header-icon-btn {
     background: transparent;
     border: none;
     cursor: pointer;
     font-size: 11px;
-    color: #d97706;
+    color: #0d2116;
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -101,20 +123,20 @@
     text-decoration: none;
     transition: all 0.2s ease;
     padding: 0;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 1.5px;
     white-space: nowrap;
   }
   .header-icon-btn:hover {
-    color: #fef08a;
-    text-shadow: 0 0 8px rgba(254, 240, 138, 0.4);
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(13, 33, 22, 0.5);
   }
   .cart-badge {
     position: absolute;
     top: -8px;
     right: -10px;
-    background: linear-gradient(135deg, #d97706, #f59e0b);
-    color: #0d1713;
+    background: #0d2116;
+    color: #fef08a;
     font-size: 10px;
     font-weight: 800;
     width: 17px;
@@ -123,7 +145,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    box-shadow: 0 0 8px rgba(13, 33, 22, 0.6);
   }
 
   /* 3-Dots Menu Button & Mobile Drawer Overlay Styling */
@@ -367,25 +389,25 @@
     }
   }
 
-  /* Sticky Site Header Wrapper - Permanently Fixed at Top */
+  /* Sticky Site Header Wrapper - Metallic Gold Luxury Theme */
   .site-header-sticky-wrapper {
     position: sticky;
     top: 0;
     z-index: 9990;
-    background: #ffffff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, #b89243 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
+    border-bottom: 2px solid #75550c;
   }
 
-  /* Royal Brand Logo Bar - Bright Luxury Champagne Ivory Theme */
+  /* Royal Brand Logo Bar */
   .head {
     position: relative;
-    background: linear-gradient(180deg, #ffffff 0%, #faf6f0 60%, #f4eee3 100%);
-    border-bottom: 1px solid rgba(217, 119, 6, 0.35);
+    background: transparent;
+    border-bottom: 1px solid rgba(13, 33, 22, 0.15);
     z-index: 500;
     text-align: center;
     padding: 22px 0 16px;
     width: 100%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
   }
   .logo {
     display: inline-block;
@@ -393,8 +415,8 @@
     font-size: 42px;
     letter-spacing: .28em;
     line-height: 1.1;
-    color: #0f291e;
-    text-shadow: 0 1px 2px rgba(15, 41, 30, 0.12);
+    color: #0d2116;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
     font-weight: 700;
     text-decoration: none;
     text-transform: uppercase;
@@ -402,24 +424,24 @@
     padding: 0 20px;
   }
   .logo:hover {
-    color: #b45309;
-    text-shadow: 0 0 12px rgba(180, 83, 9, 0.25);
+    color: #ffffff;
+    text-shadow: 0 0 14px rgba(13, 33, 22, 0.6);
   }
   .fleur-icon {
-    color: #d97706;
+    color: #0d2116;
     font-size: 32px;
     vertical-align: middle;
     margin: 0 14px;
     display: inline-block;
-    filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.35));
+    filter: drop-shadow(0 1px 3px rgba(255, 255, 255, 0.4));
   }
   .logo small {
     display: block;
     font-family: 'Outfit', sans-serif;
     font-size: 10.5px;
     letter-spacing: .38em;
-    color: #b45309;
-    font-weight: 600;
+    color: #1a3c2b;
+    font-weight: 700;
     margin-top: 6px;
     text-shadow: none;
   }
@@ -427,12 +449,10 @@
   /* Royal Dark Emerald Navigation Bar */
   .nav-main-wrapper {
     position: relative;
-    background: #0d1713;
+    background: rgba(13, 33, 22, 0.12);
     margin-top: 0;
     width: 100%;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    border-bottom: 2px solid #b45309;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-top: 1px solid rgba(13, 33, 22, 0.1);
   }
   .main {
     display: flex;
@@ -446,23 +466,23 @@
   }
   .main-nav-link {
     display: inline-block;
-    padding: 16px 20px;
+    padding: 14px 20px;
     font-family: 'Cormorant Garamond', serif;
     text-transform: uppercase;
     letter-spacing: .18em;
-    font-weight: 600;
-    font-size: 13.5px;
-    color: #cad8d1;
+    font-weight: 700;
+    font-size: 14px;
+    color: #0d2116;
     text-decoration: none;
     transition: all 0.25s ease;
     border-bottom: 2px solid transparent;
     white-space: nowrap;
   }
   .main-nav-link:hover, .main-nav-link.active {
-    color: #fef08a;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom-color: #f59e0b;
-    text-shadow: 0 0 10px rgba(254, 240, 138, 0.3);
+    color: #ffffff;
+    background: rgba(13, 33, 22, 0.15);
+    border-bottom-color: #0d2116;
+    text-shadow: 0 1px 3px rgba(13, 33, 22, 0.5);
   }
 
   @media (max-width: 1100px) {

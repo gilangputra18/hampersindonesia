@@ -8,9 +8,11 @@
   </video>
 
   <div class="hero-overlay-content">
-    <span class="hero-tag">⚜️ PUSAT HAMPERS INDONESIA ⚜️</span>
-    <h1 class="hero-headline">Pusat Hampers, Gift Box & Parcel Gourmet Terlengkap</h1>
-    <p class="hero-subtext">Dikemas Elegan & Mewah untuk Setiap Momen Spesial Anda</p>
+    <h1 class="hero-headline">ELEGANSI HADIAH TERBAIK INDONESIA</h1>
+    <p class="hero-subtext">Temukan Koleksi Hampers Mewah dan Bingkisan Eksklusif untuk Setiap Momen Berharga.</p>
+    <div style="margin-top: 24px;">
+      <a href="{{ route('category', 'hampers') }}" class="hero-btn-gold">JELAJAHI KOLEKSI</a>
+    </div>
   </div>
 </section>
 
@@ -29,7 +31,7 @@
 
   .hero {
     position: relative;
-    background: #0d1713;
+    background: #091711;
     height: min(75vh, 650px);
     overflow: hidden;
   }
@@ -44,46 +46,63 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(13, 23, 19, 0.85) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(13, 23, 19, 0.6) 100%);
+    background: radial-gradient(circle at center, rgba(9, 23, 17, 0.4) 0%, rgba(9, 23, 17, 0.85) 100%);
     pointer-events: none;
   }
 
   .hero-overlay-content {
     position: absolute;
-    top: 50%;
+    top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
     text-align: center;
     color: #fff;
     width: 90%;
-    max-width: 800px;
-    pointer-events: none;
-  }
-  .hero-tag {
-    font-size: 13px;
-    letter-spacing: 4px;
-    color: #f59e0b;
-    text-transform: uppercase;
-    font-weight: 700;
-    display: block;
-    margin-bottom: 12px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+    max-width: 850px;
   }
   .hero-headline {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(26px, 4.5vw, 46px);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.25;
-    margin-bottom: 14px;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.95);
+    font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #fff3c4 0%, #e6ca65 40%, #c59b27 75%, #fef08a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    text-transform: uppercase;
   }
   .hero-subtext {
-    font-size: clamp(13px, 1.8vw, 16px);
+    font-size: clamp(14px, 2vw, 18px);
     color: #e2e8f0;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
     text-shadow: 0 2px 10px rgba(0,0,0,0.9);
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .hero-btn-gold {
+    display: inline-block;
+    background: linear-gradient(135deg, #b89243 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);
+    color: #0c2217;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 14px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(197, 155, 39, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition: all 0.3s ease;
+    border: 1px solid #fef08a;
+    text-transform: uppercase;
+  }
+  .hero-btn-gold:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 10px 28px rgba(230, 202, 101, 0.6);
+    color: #000;
   }
   /* Auto-sliding Feature Banner Slider Styling */
   .feature-slider-container {
@@ -238,8 +257,17 @@
   </div>
 </div>
 
-<section class="band">
-  <h2>Hadiah Sempurna untuk Setiap Momen Spesial</h2>
+<section class="band" style="background: #091711; padding: 60px 20px; text-align: center;">
+  <div style="display: inline-block; margin-bottom: 28px; position: relative;">
+    <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(24px, 3.8vw, 36px); font-weight: 700; color: #fef08a; letter-spacing: 3px; text-transform: uppercase; margin: 0;">
+      KOLEKSI UNGGULAN KAMI
+    </h2>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px;">
+      <span style="height: 1px; width: 70px; background: linear-gradient(90deg, transparent, #c59b27);"></span>
+      <span style="color: #e6ca65; font-size: 14px;">❖</span>
+      <span style="height: 1px; width: 70px; background: linear-gradient(90deg, #c59b27, transparent);"></span>
+    </div>
+  </div>
   <div class="grid4">
     @foreach ($gifts as $g)
       <a class="tile" href="{{ route('category', $g) }}"><span class="ph"><img src="{{ asset('images/cat-'.$g.'.jpg') }}" alt="" onerror="this.remove()"></span><span class="n">{{ config("site.categories.$g.title") }}</span></a>
@@ -248,12 +276,16 @@
 </section>
 
 <section class="sec">
-  <h2>Saatnya Menikmati Hidangan</h2>
-  <p class="lead">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
+  <div style="text-align: center; margin-bottom: 25px;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 32px; color: #fef08a; margin-bottom: 8px;">Saatnya Menikmati Hidangan</h2>
+    <p class="lead" style="color: #cbd5e1; max-width: 650px; margin: 0 auto;">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
+  </div>
   <div class="grid5">
     @foreach ($treats as $t) @include('partials.card', ['item' => $t, 'slug' => 'light-bites', 'from' => true]) @endforeach
   </div>
-  <a class="btn" href="{{ route('category', 'light-bites') }}">Lihat Semua Hidangan Ringan</a>
+  <div style="text-align: center; margin-top: 30px;">
+    <a class="btn-gold-pill" href="{{ route('category', 'light-bites') }}">Lihat Semua Hidangan Ringan</a>
+  </div>
 </section>
 
 <section class="split">
