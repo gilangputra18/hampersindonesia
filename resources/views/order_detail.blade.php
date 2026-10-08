@@ -459,9 +459,11 @@
 
   function autoVerifyPayment(invoice) {
     const btn = event ? event.currentTarget : null;
+    let origText = '';
     if (btn) {
+      origText = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '⏳ Menghubungkan & Memverifikasi Dana Otomatis...';
+      btn.innerHTML = '⏳ Menghubungkan & Memverifikasi Mutasi Dana...';
     }
 
     fetch("{{ route('order.pay_midtrans', $order->invoice_number) }}", {
@@ -478,11 +480,19 @@
       if (data.success) {
         window.location.reload();
       } else {
-        window.location.reload();
+        alert(data.message || '⚠️ Pembayaran Belum Diterima: Mutasi belum ditemukan di sistem. Harap lakukan pembayaran terlebih dahulu.');
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origText;
+        }
       }
     })
     .catch(err => {
-      window.location.reload();
+      alert('⚠️ Pengecekan Mutasi Pembayaran: Dana belum ditemukan di sistem. Harap pastikan Anda telah menyelesaikan transfer/bayar.');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }
     });
   }
 

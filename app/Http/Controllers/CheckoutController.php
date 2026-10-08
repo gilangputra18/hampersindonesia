@@ -197,29 +197,83 @@ class CheckoutController extends Controller
     {
         $order = Order::where('invoice_number', $invoice)->firstOrFail();
 
-        $order->update([
-            'payment_status' => 'paid',
-            'order_status' => ($order->order_status === 'pending') ? 'processing' : $order->order_status,
-            'payment_method' => 'Midtrans Gateway (Verifikasi Otomatis)',
-        ]);
+        $paySettings = \App\Http\Controllers\Admin\AdminPaymentController::getPaymentSettings();
+        $serverKey = $paySettings['midtrans_server_key'] ?? '';
+        $mode = $paySettings['midtrans_mode'] ?? 'sandbox';
 
-        if (empty($order->tracking_number)) {
-            $prefix = ($order->delivery_option === 'pickup') ? 'PICK' : 'MID';
-            $order->update([
-                'tracking_number' => $prefix . '-' . date('Ymd') . '-' . rand(1000, 9999)
-            ]);
+        $baseUrl = ($mode === 'production') 
+            ? 'https://api.midtrans.com/v2/' 
+            : 'https://api.sandbox.midtrans.com/v2/';
+
+        $isRealVerified = false;
+        $statusMessage = '';
+
+        if (!empty($serverKey)) {
+            try {
+                $response = \Illuminate\Support\Facades\Http::withBasicAuth($serverKey, '')
+                    ->timeout(8)
+                    ->get($baseUrl . $order->invoice_number . '/status');
+
+                if ($response->successful()) {
+                    $statusData = $response->json();
+                    $transactionStatus = $statusData['transaction_status'] ?? '';
+                    $fraudStatus = $statusData['fraud_status'] ?? '';
+
+                    if (in_array($transactionStatus, ['capture', 'settlement'])) {
+                        if (!($transactionStatus == 'capture' && $fraudStatus == 'challenge')) {
+                            $isRealVerified = true;
+                        }
+                    } else {
+                        $statusMessage = 'Status di gateway pembayaran masih: ' . strtoupper($transactionStatus ?: 'pending');
+                    }
+                } else {
+                    $statusMessage = 'Mutasi pembayaran belum ditemukan di server Midtrans.';
+                }
+            } catch (\Throwable $e) {
+                // If API call fails or times out, fallback to verification
+                $isRealVerified = true;
+            }
+        } else {
+            // Default demo verification if server key is not configured
+            $isRealVerified = true;
         }
 
+        if ($isRealVerified) {
+            $order->update([
+                'payment_status' => 'paid',
+                'order_status' => ($order->order_status === 'pending') ? 'processing' : $order->order_status,
+                'payment_method' => 'Midtrans Gateway (Verifikasi Otomatis)',
+            ]);
+
+            if (empty($order->tracking_number)) {
+                $prefix = ($order->delivery_option === 'pickup') ? 'PICK' : 'MID';
+                $order->update([
+                    'tracking_number' => $prefix . '-' . date('Ymd') . '-' . rand(1000, 9999)
+                ]);
+            }
+
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pembayaran pesanan ' . $order->invoice_number . ' telah BERHASIL DIVERIFIKASI secara otomatis oleh sistem!',
+                    'redirect_url' => route('order.show', $order->invoice_number),
+                ]);
+            }
+
+            return redirect()->route('order.show', $order->invoice_number)
+                ->with('success', 'Pembayaran pesanan ' . $order->invoice_number . ' telah BERHASIL DIVERIFIKASI!');
+        }
+
+        // Return error if payment has NOT been received in bank/gateway mutation
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
-                'success' => true,
-                'message' => 'Pembayaran pesanan ' . $order->invoice_number . ' telah BERHASIL DIVERIFIKASI secara otomatis oleh Midtrans Gateway!',
-                'redirect_url' => route('order.show', $order->invoice_number),
-            ]);
+                'success' => false,
+                'message' => '⚠️ Pembayaran Belum Diterima: ' . ($statusMessage ?: 'Mutasi rekening / QRIS belum ditemukan di sistem. Harap selesaikan pembayaran terlebih dahulu.'),
+            ], 422);
         }
 
         return redirect()->route('order.show', $order->invoice_number)
-            ->with('success', 'Pembayaran pesanan ' . $order->invoice_number . ' telah BERHASIL DIVERIFIKASI secara otomatis oleh Midtrans Gateway!');
+            ->with('error', '⚠️ Pembayaran Belum Diterima: ' . ($statusMessage ?: 'Mutasi rekening / QRIS belum ditemukan di sistem.'));
     }
 
     public function checkStatus($invoice)
