@@ -318,10 +318,13 @@
 
 <!-- FAQ Section (Hal Yang Sering Ditanyakan) -->
 <section style="background: #f8faf9; padding: 70px 20px; color: #0f172a; font-family: 'Outfit', sans-serif;">
-  <div style="max-width: 1100px; margin: 0 auto;">
-    <h2 style="font-family: 'Outfit', sans-serif; font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; color: #0f172a; text-align: center; margin-bottom: 40px; letter-spacing: -0.5px;">
-      Hal Yang Sering Ditanyakan
-    </h2>
+  <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
+    <div style="text-align: center; margin-bottom: 40px; width: 100%;">
+      <h2 style="font-family: 'Outfit', sans-serif; font-size: clamp(24px, 3.5vw, 32px); font-weight: 800; color: #0f172a; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 auto; display: inline-block; position: relative;">
+        HAL YANG SERING DITANYAKAN
+        <span style="display: block; width: 60px; height: 3px; background: linear-gradient(90deg, #d97706, #f59e0b); margin: 12px auto 0 auto; border-radius: 2px;"></span>
+      </h2>
+    </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
       {{-- FAQ Item 1 --}}
