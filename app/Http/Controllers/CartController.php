@@ -81,6 +81,32 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
+        if ($request->ajax() || $request->wantsJson()) {
+            $subtotal = 0;
+            foreach ($cart as $item) {
+                $subtotal += $item['price'] * $item['quantity'];
+            }
+            $itemQty = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
+            $itemSubtotal = isset($cart[$productId]) ? $cart[$productId]['price'] * $cart[$productId]['quantity'] : 0;
+            
+            $shipSettings = \App\Http\Controllers\Admin\AdminShippingController::getShippingSettings();
+            $freeMin = $shipSettings['free_shipping_min'] ?? 500000;
+
+            return response()->json([
+                'success' => true,
+                'action' => $request->action,
+                'product_id' => $productId,
+                'cart' => $cart,
+                'subtotal' => $subtotal,
+                'subtotal_formatted' => 'Rp ' . number_format($subtotal, 0, ',', '.'),
+                'item_quantity' => $itemQty,
+                'item_subtotal_formatted' => 'Rp ' . number_format($itemSubtotal, 0, ',', '.'),
+                'cart_count' => array_sum(array_column($cart, 'quantity')),
+                'is_empty' => count($cart) === 0,
+                'is_free_shipping' => ($subtotal >= $freeMin),
+            ]);
+        }
+
         return redirect()->route('cart.index');
     }
 
@@ -88,10 +114,34 @@ class CartController extends Controller
     {
         $request->validate(['product_id' => 'required']);
         $cart = session()->get('cart', []);
-        
-        if (isset($cart[$request->product_id])) {
-            unset($cart[$request->product_id]);
+        $productId = $request->product_id;
+
+        if (isset($cart[$productId])) {
+            unset($cart[$productId]);
             session()->put('cart', $cart);
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            $subtotal = 0;
+            foreach ($cart as $item) {
+                $subtotal += $item['price'] * $item['quantity'];
+            }
+
+            $shipSettings = \App\Http\Controllers\Admin\AdminShippingController::getShippingSettings();
+            $freeMin = $shipSettings['free_shipping_min'] ?? 500000;
+
+            return response()->json([
+                'success' => true,
+                'action' => 'remove',
+                'product_id' => $productId,
+                'cart' => $cart,
+                'subtotal' => $subtotal,
+                'subtotal_formatted' => 'Rp ' . number_format($subtotal, 0, ',', '.'),
+                'item_quantity' => 0,
+                'cart_count' => array_sum(array_column($cart, 'quantity')),
+                'is_empty' => count($cart) === 0,
+                'is_free_shipping' => ($subtotal >= $freeMin),
+            ]);
         }
 
         return redirect()->route('cart.index');

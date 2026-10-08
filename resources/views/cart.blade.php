@@ -326,10 +326,10 @@
           </thead>
           <tbody>
             @foreach ($cart as $id => $item)
-              <tr>
+              <tr id="cart-row-{{ $id }}">
                 <td>
                   <div class="cart-item-info">
-                    <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="cart-item-img" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
+                    <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="cart-item-img" decoding="async" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
                     <div>
                       <div class="cart-item-name">{{ $item['name'] }}</div>
                       <div class="cart-item-price">Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
@@ -338,27 +338,13 @@
                 </td>
                 <td style="text-align: center;">
                   <div class="qty-box">
-                    <form action="{{ route('cart.update') }}" method="POST" style="display: inline;">
-                      @csrf
-                      <input type="hidden" name="product_id" value="{{ $id }}">
-                      <input type="hidden" name="action" value="decrease">
-                      <button type="submit" class="qty-btn">-</button>
-                    </form>
-                    <span class="qty-val">{{ $item['quantity'] }}</span>
-                    <form action="{{ route('cart.update') }}" method="POST" style="display: inline;">
-                      @csrf
-                      <input type="hidden" name="product_id" value="{{ $id }}">
-                      <input type="hidden" name="action" value="increase">
-                      <button type="submit" class="qty-btn">+</button>
-                    </form>
+                    <button type="button" class="qty-btn" onclick="updateCartQty('{{ $id }}', 'decrease')">-</button>
+                    <span class="qty-val" id="qty-val-{{ $id }}">{{ $item['quantity'] }}</span>
+                    <button type="button" class="qty-btn" onclick="updateCartQty('{{ $id }}', 'increase')">+</button>
                   </div>
-                  <form action="{{ route('cart.remove') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $id }}">
-                    <button type="submit" class="remove-link">Hapus</button>
-                  </form>
+                  <button type="button" class="remove-link" onclick="updateCartQty('{{ $id }}', 'remove')">Hapus</button>
                 </td>
-                <td style="text-align: right; font-weight: 500; font-size: 14px;">
+                <td style="text-align: right; font-weight: 500; font-size: 14px;" id="item-price-total-{{ $id }}">
                   Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
                 </td>
               </tr>
@@ -521,8 +507,9 @@
 </div>
 
 <script>
-const subtotal = {{ $subtotal ?? 0 }};
-const isFreeShippingSubtotal = {{ !empty($isFreeShippingSubtotal) ? 'true' : 'false' }};
+let subtotal = {{ $subtotal ?? 0 }};
+const freeMinThreshold = {{ !empty($shipSettings['free_shipping_min']) ? $shipSettings['free_shipping_min'] : 500000 }};
+let isFreeShippingSubtotal = (subtotal >= freeMinThreshold);
 let currentCourierRate = isFreeShippingSubtotal ? 0 : {{ !empty($shipSettings['store_courier_rate']) ? $shipSettings['store_courier_rate'] : 20000 }};
 let currentDeliveryOption = 'delivery';
 let appliedDiscount = {{ $discountAmount ?? 0 }};
@@ -530,6 +517,72 @@ let appliedDiscount = {{ $discountAmount ?? 0 }};
 function calculateGrandTotal() {
   const delivery = (currentDeliveryOption === 'delivery') ? currentCourierRate : 0;
   return Math.max(0, subtotal + delivery - appliedDiscount);
+}
+
+function updateCartQty(productId, action) {
+  const rowElement = document.getElementById('cart-row-' + productId);
+  const qtySpan = document.getElementById('qty-val-' + productId);
+  const itemTotalSpan = document.getElementById('item-price-total-' + productId);
+  
+  const buttons = rowElement ? rowElement.querySelectorAll('button') : [];
+  buttons.forEach(b => b.disabled = true);
+
+  fetch('{{ route("cart.update") }}', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}',
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify({ product_id: productId, action: action })
+  })
+  .then(res => res.json())
+  .then(data => {
+    buttons.forEach(b => b.disabled = false);
+    if (data.success) {
+      subtotal = data.subtotal;
+      isFreeShippingSubtotal = data.is_free_shipping;
+      
+      if (!isFreeShippingSubtotal && currentCourierRate === 0 && currentDeliveryOption === 'delivery') {
+        currentCourierRate = {{ !empty($shipSettings['store_courier_rate']) ? $shipSettings['store_courier_rate'] : 20000 }};
+      } else if (isFreeShippingSubtotal) {
+        currentCourierRate = 0;
+      }
+
+      if (data.item_quantity > 0 && action !== 'remove') {
+        if (qtySpan) qtySpan.textContent = data.item_quantity;
+        if (itemTotalSpan) itemTotalSpan.textContent = data.item_subtotal_formatted;
+      } else {
+        if (rowElement) {
+          rowElement.style.transition = 'all 0.3s ease';
+          rowElement.style.opacity = '0';
+          rowElement.style.transform = 'scale(0.96)';
+          setTimeout(() => {
+            rowElement.remove();
+            if (data.is_empty) {
+              location.reload();
+            }
+          }, 300);
+        }
+      }
+
+      // Update total displays
+      document.getElementById('cart-total-display').textContent = formatRupiah(calculateGrandTotal());
+      document.getElementById('courier-fee-label').textContent = (currentDeliveryOption === 'pickup') 
+        ? 'Ambil di Toko (Rp 0)' 
+        : (currentCourierRate === 0 ? 'GRATIS (Rp 0)' : ('Rp ' + formatRupiah(currentCourierRate)));
+
+      // Update navbar cart count badges
+      document.querySelectorAll('.cart-badge').forEach(badge => {
+        badge.textContent = data.cart_count;
+        badge.style.display = data.cart_count > 0 ? 'flex' : 'none';
+      });
+    }
+  })
+  .catch(err => {
+    buttons.forEach(b => b.disabled = false);
+    console.error('Update cart error:', err);
+  });
 }
 
 function setDeliveryOption(option) {

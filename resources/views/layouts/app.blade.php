@@ -1568,6 +1568,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Automatic Preloader for Product Cards & Gallery Images
+  const preloadedImageUrls = new Set();
+  function preloadImageUrl(url) {
+    if (!url || preloadedImageUrls.has(url)) return;
+    preloadedImageUrls.add(url);
+    const i = new Image();
+    i.src = url;
+  }
+
+  document.querySelectorAll('.product-detail-trigger').forEach(card => {
+    const mainImg = card.getAttribute('data-image');
+    if (mainImg) preloadImageUrl(mainImg);
+
+    card.addEventListener('mouseenter', function() {
+      if (mainImg) preloadImageUrl(mainImg);
+      try {
+        const gal = JSON.parse(card.getAttribute('data-gallery') || '[]');
+        gal.forEach(preloadImageUrl);
+      } catch(e) {}
+    }, { passive: true });
+  });
+
   // Product Detail Modal Event Handlers
   const productModal = document.getElementById('product-detail-modal');
   const closeProductModalBtn = document.getElementById('close-product-modal-btn');
@@ -1575,7 +1597,16 @@ document.addEventListener('DOMContentLoaded', function () {
   function openProductModal(data) {
     if (!productModal) return;
 
-    document.getElementById('pm-image').src = data.image || '';
+    const pmImg = document.getElementById('pm-image');
+    if (pmImg) {
+      pmImg.decoding = 'async';
+      pmImg.style.opacity = '0.3';
+      pmImg.style.transition = 'opacity 0.2s ease';
+      pmImg.onload = function() { pmImg.style.opacity = '1'; };
+      pmImg.src = data.image || '';
+      if (pmImg.complete) { pmImg.style.opacity = '1'; }
+    }
+
     document.getElementById('pm-title').textContent = data.name || '';
     document.getElementById('pm-category').textContent = data.category || 'HAMPERS MEWAH';
     document.getElementById('pm-price').textContent = data.price || '';
@@ -1602,9 +1633,11 @@ document.addEventListener('DOMContentLoaded', function () {
       if (gallery.length > 1) {
         gallery.forEach((imgUrl, index) => {
           if (!imgUrl) return;
+          preloadImageUrl(imgUrl);
           const thumb = document.createElement('img');
           thumb.src = imgUrl;
           thumb.alt = 'Thumbnail ' + (index + 1);
+          thumb.decoding = 'async';
           thumb.style.width = '56px';
           thumb.style.height = '56px';
           thumb.style.objectFit = 'cover';
@@ -1614,7 +1647,12 @@ document.addEventListener('DOMContentLoaded', function () {
           thumb.style.transition = 'all 0.2s ease';
           
           thumb.addEventListener('click', function() {
-            document.getElementById('pm-image').src = imgUrl;
+            if (pmImg) {
+              pmImg.style.opacity = '0.3';
+              pmImg.onload = function() { pmImg.style.opacity = '1'; };
+              pmImg.src = imgUrl;
+              if (pmImg.complete) { pmImg.style.opacity = '1'; }
+            }
             thumbsContainer.querySelectorAll('img').forEach(t => {
               t.style.border = '1px solid #cbd5e1';
             });
