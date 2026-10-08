@@ -598,12 +598,13 @@
   .search-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.75);
+    background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(8px);
-    z-index: 2000;
+    z-index: 99999;
     display: flex;
+    align-items: center;
     justify-content: center;
-    padding-top: 100px;
+    padding: 20px;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -616,13 +617,14 @@
     width: 100%;
     max-width: 650px;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 30px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     position: relative;
-    max-height: 80vh;
+    max-height: 85vh;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
   }
   .search-modal-close {
     position: absolute;
