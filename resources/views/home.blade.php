@@ -259,7 +259,7 @@
 
 <section class="band" style="background: #091711; padding: 60px 20px; text-align: center;">
   <div style="display: inline-block; margin-bottom: 28px; position: relative;">
-    <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(24px, 3.8vw, 36px); font-weight: 700; color: #fef08a; letter-spacing: 3px; text-transform: uppercase; margin: 0;">
+    <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(24px, 3.8vw, 36px); font-weight: 800; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); letter-spacing: 3px; text-transform: uppercase; margin: 0;">
       KOLEKSI UNGGULAN KAMI
     </h2>
     <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px;">
@@ -276,9 +276,9 @@
 </section>
 
 <section class="sec">
-  <div style="text-align: center; margin-bottom: 25px;">
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 32px; color: #fef08a; margin-bottom: 8px;">Saatnya Menikmati Hidangan</h2>
-    <p class="lead" style="color: #cbd5e1; max-width: 650px; margin: 0 auto;">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
+  <div style="text-align: center; margin-bottom: 28px;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 800; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 10px;">Saatnya Menikmati Hidangan</h2>
+    <p class="lead" style="color: #f1f5f9; font-size: 16px; font-weight: 500; max-width: 680px; margin: 0 auto; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
   </div>
   <div class="grid5">
     @foreach ($treats as $t) @include('partials.card', ['item' => $t, 'slug' => 'light-bites', 'from' => true]) @endforeach
@@ -305,8 +305,8 @@
 </section>
 
 <section class="sec grey">
-  <p class="lead">Jelajahi produk-produk yang paling diminati di toko kami</p>
-  <h2>Produk Terlaris</h2>
+  <p class="lead" style="color: #fbbf24; font-weight: 700; letter-spacing: 1px;">Jelajahi produk-produk yang paling diminati di toko kami</p>
+  <h2 style="color: #ffffff; font-weight: 800;">Produk Terlaris</h2>
   <div class="grid5">
     @foreach ($best as $b) @include('partials.card', ['item' => $b, 'slug' => 'cakes', 'from' => true]) @endforeach
   </div>
@@ -315,8 +315,8 @@
 
 @if(isset($reviews) && count($reviews) > 0)
 <section class="sec" style="background: #0d1713; color: #fff; padding: 60px 20px;">
-  <p class="lead" style="color: #d97706; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; font-weight: 700;">⚜️ Ulasan & Pengalaman Pelanggan VIP ⚜️</p>
-  <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; color: #fef08a; margin-bottom: 30px;">Kata Mereka Tentang Pusat Hampers Indonesia</h2>
+  <p class="lead" style="color: #e6ca65; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; font-weight: 700;">⚜️ Ulasan & Pengalaman Pelanggan VIP ⚜️</p>
+  <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; color: #ffffff; font-weight: 800; margin-bottom: 30px;">Kata Mereka Tentang Pusat Hampers Indonesia</h2>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; text-align: left;">
     @foreach($reviews as $rev)
