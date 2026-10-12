@@ -483,7 +483,7 @@
             @foreach($order->items as $item)
               <tr>
                 <td>
-                  <img src="{{ $item->product ? $item->product->image_url : asset('images/cat-cakes.jpg') }}" alt="{{ $item->product_name }}" class="item-thumb" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
+                  <img src="{{ $item->product ? $item->product->thumbnail_url : asset('images/cat-cakes.jpg') }}" alt="{{ $item->product_name }}" class="item-thumb" loading="lazy" decoding="async" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
                 </td>
                 <td>
                   <div style="font-weight: 600; color: #fff;">{{ $item->product_name }}</div>

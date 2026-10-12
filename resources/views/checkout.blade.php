@@ -242,7 +242,7 @@
         @foreach ($cart as $item)
           <div class="summary-item">
             <div style="display: flex; gap: 12px; align-items: center;">
-              <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" style="width: 44px; height: 44px; object-fit: cover; border-radius: 4px;">
+              <img src="{{ $item['thumbnail_url'] ?? $item['image_url'] }}" alt="{{ $item['name'] }}" loading="lazy" decoding="async" style="width: 44px; height: 44px; object-fit: cover; border-radius: 4px;">
               <div>
                 <div style="font-weight: 500;">{{ $item['name'] }}</div>
                 <div style="font-size: 11px; color: #64756d;">Qty: {{ $item['quantity'] }}</div>

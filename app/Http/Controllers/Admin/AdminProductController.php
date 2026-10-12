@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Helpers\ImageOptimizer;
 
 class AdminProductController extends Controller
 {
@@ -302,7 +303,9 @@ class AdminProductController extends Controller
         if ($request->hasFile('image_file')) {
             $file = $request->file('image_file');
             $imageName = $slug . '-' . time() . '.' . $file->getClientOriginalExtension();
+            $target = public_path('images/' . $imageName);
             $file->move(public_path('images'), $imageName);
+            ImageOptimizer::process($target);
         }
 
         $gallery = [];
@@ -310,7 +313,9 @@ class AdminProductController extends Controller
             foreach ($request->file('gallery_files') as $idx => $gFile) {
                 if ($gFile && $gFile->isValid()) {
                     $gName = $slug . '-gallery-' . time() . '-' . ($idx + 1) . '.' . $gFile->getClientOriginalExtension();
+                    $targetG = public_path('images/' . $gName);
                     $gFile->move(public_path('images'), $gName);
+                    ImageOptimizer::process($targetG);
                     $gallery[] = $gName;
                 }
             }
@@ -365,7 +370,9 @@ class AdminProductController extends Controller
         if ($request->hasFile('image_file')) {
             $file = $request->file('image_file');
             $imageName = $slug . '-' . time() . '.' . $file->getClientOriginalExtension();
+            $target = public_path('images/' . $imageName);
             $file->move(public_path('images'), $imageName);
+            ImageOptimizer::process($target);
         } elseif (!empty($validated['image_name'])) {
             $imageName = $validated['image_name'];
         }
@@ -379,7 +386,9 @@ class AdminProductController extends Controller
             foreach ($request->file('gallery_files') as $idx => $gFile) {
                 if ($gFile && $gFile->isValid()) {
                     $gName = $slug . '-gallery-' . time() . '-' . ($idx + 1) . '.' . $gFile->getClientOriginalExtension();
+                    $targetG = public_path('images/' . $gName);
                     $gFile->move(public_path('images'), $gName);
+                    ImageOptimizer::process($targetG);
                     $gallery[] = $gName;
                 }
             }
@@ -430,6 +439,7 @@ class AdminProductController extends Controller
                     'price_formatted' => 'Rp ' . number_format($p->price, 0, ',', '.'),
                     'category_title' => $p->category->title ?? '-',
                     'image_url' => $p->image_url,
+                    'thumbnail_url' => $p->thumbnail_url,
                     'edit_url' => route('admin.products.edit', $p->id),
                 ];
             });

@@ -36,6 +36,7 @@ class Product extends Model
     protected $appends = [
         'included_items',
         'image_url',
+        'thumbnail_url',
         'secondary_image_url',
         'gallery_urls',
     ];
@@ -179,6 +180,33 @@ class Product extends Model
     public function getImageUrlAttribute()
     {
         return $this->resolveSafeImageUrl($this->image, true);
+    }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        $val = $this->image;
+        if (!empty($val) && is_string($val)) {
+            $baseName = basename(ltrim($val, '/'));
+            $thumbPath = 'images/thumbs/' . $baseName;
+            if (file_exists(public_path($thumbPath))) {
+                return asset($thumbPath);
+            }
+        }
+
+        if (!empty($this->slug)) {
+            $thumbSlug = 'images/thumbs/' . $this->slug . '.jpg';
+            if (file_exists(public_path($thumbSlug))) {
+                return asset($thumbSlug);
+            }
+        }
+
+        $catSlug = $this->category->slug ?? 'cakes';
+        $catThumb = 'images/thumbs/cat-' . $catSlug . '.jpg';
+        if (file_exists(public_path($catThumb))) {
+            return asset($catThumb);
+        }
+
+        return $this->image_url;
     }
 
     public function getSecondaryImageUrlAttribute()

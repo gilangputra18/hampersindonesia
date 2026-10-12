@@ -136,7 +136,7 @@
         @forelse ($products as $p)
           <tr>
             <td>
-              <img src="{{ $p->image_url }}" alt="{{ $p->name }}" class="img-thumb" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
+              <img src="{{ $p->thumbnail_url }}" alt="{{ $p->name }}" class="img-thumb" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ $p->image_url }}'">
             </td>
             <td>
               <strong>{{ $p->name }}</strong>
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const highlightedTitle = highlightMatch(p.name, query);
         html += `
           <div class="autocomplete-item" data-index="${idx}" data-edit-url="${p.edit_url}" data-name="${p.name}">
-            <img src="${p.image_url}" alt="${p.name}" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
+            <img src="${p.thumbnail_url || p.image_url}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
             <div class="info">
               <div class="title">${highlightedTitle}</div>
               <div class="sub">

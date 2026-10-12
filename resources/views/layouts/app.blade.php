@@ -1602,7 +1602,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data.forEach(p => {
             html += `
               <a href="${p.edit_url ? '{{ url('/shop') }}/' + p.category_title.toLowerCase() : '#'}" style="display: flex; align-items: center; gap: 14px; padding: 12px; border-bottom: 1px solid #f1f5f9; text-decoration: none; color: inherit; transition: background 0.15s;" onmouseover="this.style.background='#f8faf9'" onmouseout="this.style.background='transparent'">
-                <img src="${p.image_url}" alt="${p.name}" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: #e2e8f0;">
+                <img src="${p.thumbnail_url || p.image_url}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: #e2e8f0;">
                 <div style="flex: 1;">
                   <div style="font-weight: 600; font-size: 14px; color: #1e2d27;">${p.name}</div>
                   <div style="font-size: 12px; color: #64756d;">Kategori: ${p.category_title}</div>

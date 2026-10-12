@@ -53,7 +53,7 @@
   <div>
     <div class="card-clickable-area" style="text-decoration: none; color: inherit; display: block;">
       <span class="ph" style="border-radius: 8px; overflow: hidden; display: block; position: relative; aspect-ratio: 1/1; border: 1px solid rgba(212, 175, 55, 0.2); background: radial-gradient(circle at center, #1b382b 0%, #0a1811 100%);">
-        <img src="{{ $imageUrl }}" alt="{{ $name }}" class="card-img-primary" loading="eager" fetchpriority="high" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';" style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease, transform 0.4s ease;">
+        <img src="{{ $imageUrl }}" alt="{{ $name }}" class="card-img-primary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';" style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease, transform 0.4s ease;">
         <img src="{{ $secondaryUrl }}" alt="{{ $name }} Alternative" class="card-img-secondary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-mooncake.jpg') }}';" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;">
       </span>
       <span class="n" style="font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: #fef08a; margin-top: 12px; letter-spacing: 0.5px; display: block;">{{ $name }}</span>

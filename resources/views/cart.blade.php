@@ -329,7 +329,7 @@
               <tr id="cart-row-{{ $id }}">
                 <td>
                   <div class="cart-item-info">
-                    <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" class="cart-item-img" decoding="async" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
+                    <img src="{{ $item['thumbnail_url'] ?? $item['image_url'] }}" alt="{{ $item['name'] }}" class="cart-item-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ $item['image_url'] }}'">
                     <div>
                       <div class="cart-item-name">{{ $item['name'] }}</div>
                       <div class="cart-item-price">Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
