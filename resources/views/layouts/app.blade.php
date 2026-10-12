@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/site.css') }}">
+<link rel="preload" as="image" href="{{ asset('images/feature.jpg') }}" fetchpriority="high">
+<link rel="preload" as="image" href="{{ asset('images/cat-hampers.jpg') }}">
+<link rel="preload" as="image" href="{{ asset('images/cat-mooncake.jpg') }}">
 <style>
   .btn-gold-pill {
     display: inline-block;
@@ -1602,7 +1605,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data.forEach(p => {
             html += `
               <a href="${p.edit_url ? '{{ url('/shop') }}/' + p.category_title.toLowerCase() : '#'}" style="display: flex; align-items: center; gap: 14px; padding: 12px; border-bottom: 1px solid #f1f5f9; text-decoration: none; color: inherit; transition: background 0.15s;" onmouseover="this.style.background='#f8faf9'" onmouseout="this.style.background='transparent'">
-                <img src="${p.image_url}" alt="${p.name}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: #e2e8f0;">
+                <img src="${p.image_url}" alt="${p.name}" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: #e2e8f0;">
                 <div style="flex: 1;">
                   <div style="font-weight: 600; font-size: 14px; color: #1e2d27;">${p.name}</div>
                   <div style="font-size: 12px; color: #64756d;">Kategori: ${p.category_title}</div>
@@ -1651,8 +1654,13 @@ document.addEventListener('DOMContentLoaded', function () {
       pmImg.decoding = 'async';
       pmImg.style.opacity = '0.3';
       pmImg.style.transition = 'opacity 0.2s ease';
+      pmImg.onerror = function() {
+        this.onerror = null;
+        this.src = '{{ asset("images/cat-hampers.jpg") }}';
+        this.style.opacity = '1';
+      };
       pmImg.onload = function() { pmImg.style.opacity = '1'; };
-      pmImg.src = data.image || '';
+      pmImg.src = data.image || '{{ asset("images/cat-hampers.jpg") }}';
       if (pmImg.complete) { pmImg.style.opacity = '1'; }
     }
 
@@ -1687,6 +1695,10 @@ document.addEventListener('DOMContentLoaded', function () {
           thumb.src = imgUrl;
           thumb.alt = 'Thumbnail ' + (index + 1);
           thumb.decoding = 'async';
+          thumb.onerror = function() {
+            this.onerror = null;
+            this.src = '{{ asset("images/cat-hampers.jpg") }}';
+          };
           thumb.style.width = '56px';
           thumb.style.height = '56px';
           thumb.style.objectFit = 'cover';

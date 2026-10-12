@@ -100,6 +100,36 @@ class Product extends Model
             ];
         }
 
+        if (str_contains($slugLower, 'moon hampers') || str_contains($nameLower, 'moon hampers') || str_contains($slugLower, 'moon-hampers')) {
+            return [
+                '🏮 1x Exclusive Imperial Lantern Gift Box with Ambient Light',
+                '🥮 2x Royal White Lotus Mooncake (Single Yolk)',
+                '🥮 2x Signature Red Bean Sweet Paste Mooncake',
+                '🍵 1x Premium Artisan Osmanthus Oolong Tea Tin',
+                '📜 Kartu Ucapan Eksklusif & Pita Satin Gold',
+            ];
+        }
+
+        if (str_contains($slugLower, 'yue') || str_contains($nameLower, 'yue')) {
+            return [
+                '🥮 1x Royal Double Yolk White Lotus Mooncake',
+                '🥮 1x Traditional Pandan Jade Mooncake',
+                '🥮 1x Sweet Red Bean & Custard Mooncake',
+                '🥮 1x Black Sesame Golden Walnut Mooncake',
+                '🍵 1x Artisan Jasmine Dragon Pearl Tea (50g)',
+                '📜 Hardbox Mooncake Edisi Spesial Festival Yue',
+            ];
+        }
+
+        if (str_contains($slugLower, 'kue-bulan') || str_contains($nameLower, 'kue bulan') || str_contains($nameLower, 'mooncake')) {
+            return [
+                '🥮 4x Mooncake Klasik Pilihan (Lotus, Red Bean, Pandan, Sesame)',
+                '🍪 1x Jar Butter Cookies Spesial Festival',
+                '🍵 1x Premium Roasted Tie Guan Yin Oolong Tea',
+                '📜 Kartu Ucapan Festival & Luxury Box',
+            ];
+        }
+
         if (str_contains($slugLower, 'box-of-6') || str_contains($nameLower, 'box of 6')) {
             return [
                 '🥮 1x Single Yolk Lotus Mooncake',
@@ -148,43 +178,22 @@ class Product extends Model
 
     public function getImageUrlAttribute()
     {
-        if ($this->image) {
-            if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
-                return $this->image;
-            }
-            if (str_starts_with($this->image, 'uploads/') || str_starts_with($this->image, 'images/')) {
-                return asset($this->image);
-            }
-            return asset('images/' . $this->image);
-        }
-
-        $slugJpg = 'images/' . $this->slug . '.jpg';
-        $slugPng = 'images/' . $this->slug . '.png';
-        if (file_exists(public_path($slugJpg))) {
-            return asset($slugJpg);
-        }
-        if (file_exists(public_path($slugPng))) {
-            return asset($slugPng);
-        }
-
-        return asset('images/cat-cakes.jpg');
+        return $this->resolveSafeImageUrl($this->image, true);
     }
 
     public function getSecondaryImageUrlAttribute()
     {
         if (!empty($this->gallery) && is_array($this->gallery) && count($this->gallery) > 0) {
             $second = $this->gallery[0];
-            if (str_starts_with($second, 'http://') || str_starts_with($second, 'https://')) {
-                return $second;
-            }
-            if (str_starts_with($second, 'uploads/') || str_starts_with($second, 'images/')) {
-                return asset($second);
-            }
-            return asset('images/' . $second);
+            return $this->resolveSafeImageUrl($second, false);
         }
 
-        $catSlug = $this->category->slug ?? 'cakes';
-        return asset('images/cat-' . $catSlug . '.jpg');
+        $catSlug = $this->category->slug ?? 'hampers';
+        $catPath = 'images/cat-' . $catSlug . '.jpg';
+        if (file_exists(public_path($catPath))) {
+            return asset($catPath);
+        }
+        return asset('images/cat-hampers.jpg');
     }
 
     public function getGalleryUrlsAttribute()
@@ -192,18 +201,171 @@ class Product extends Model
         $urls = [$this->image_url];
         if (!empty($this->gallery) && is_array($this->gallery)) {
             foreach ($this->gallery as $g) {
-                if (str_starts_with($g, 'http://') || str_starts_with($g, 'https://')) {
-                    $urls[] = $g;
-                } else if (str_starts_with($g, 'uploads/') || str_starts_with($g, 'images/')) {
-                    $urls[] = asset($g);
-                } else {
-                    $urls[] = asset('images/' . $g);
+                $resolved = $this->resolveSafeImageUrl($g, false);
+                if ($resolved && !in_array($resolved, $urls)) {
+                    $urls[] = $resolved;
                 }
             }
-        } else {
-            $urls[] = $this->secondary_image_url;
+        }
+        if (count($urls) === 1) {
+            $second = $this->secondary_image_url;
+            if ($second && !in_array($second, $urls)) {
+                $urls[] = $second;
+            }
         }
         return array_values(array_unique($urls));
+    }
+
+    public function resolveSafeImageUrl($val, bool $isPrimary = true): string
+    {
+        // 1. External HTTP/HTTPS URL (filter out unrenderable .heic/.heif)
+        if (!empty($val) && is_string($val) && (str_starts_with($val, 'http://') || str_starts_with($val, 'https://'))) {
+            if (!preg_match('/\.(heic|heif)$/i', $val)) {
+                return $val;
+            }
+        }
+
+        // 2. Local file path check (filter out .heic/.heif)
+        if (!empty($val) && is_string($val)) {
+            $isHeic = preg_match('/\.(heic|heif)$/i', $val);
+            if (!$isHeic) {
+                $clean = ltrim($val, '/');
+                $candidates = [
+                    $clean,
+                    'images/' . $clean,
+                    'uploads/' . $clean,
+                ];
+                foreach ($candidates as $cand) {
+                    if (file_exists(public_path($cand))) {
+                        return asset($cand);
+                    }
+                }
+            }
+        }
+
+        // 3. Fallback to slug.jpg or slug.png if exists
+        if (!empty($this->slug)) {
+            $slugJpg = 'images/' . $this->slug . '.jpg';
+            $slugPng = 'images/' . $this->slug . '.png';
+            if (file_exists(public_path($slugJpg))) {
+                return asset($slugJpg);
+            }
+            if (file_exists(public_path($slugPng))) {
+                return asset($slugPng);
+            }
+        }
+
+        // 4. Smart contextual fallback by keyword matching on product name / slug / category
+        $nameLower = strtolower(($this->name ?? '') . ' ' . ($this->slug ?? ''));
+        $catLower = strtolower($this->category->slug ?? '');
+
+        // Mooncake & Lantern keywords
+        if (str_contains($nameLower, 'yue') || str_contains($nameLower, 'box of 4') || str_contains($nameLower, 'box-of-4')) {
+            return asset('images/box-of-4.jpg');
+        }
+        if (str_contains($nameLower, 'box of 6') || str_contains($nameLower, 'box-of-6')) {
+            return asset('images/box-of-6.jpg');
+        }
+        if (str_contains($nameLower, 'moon') || str_contains($nameLower, 'bulan') || $catLower === 'mooncake') {
+            return asset($isPrimary ? 'images/cat-mooncake.jpg' : 'images/box-of-6.jpg');
+        }
+
+        // Luxury Hampers keywords
+        if (str_contains($nameLower, 'rose')) {
+            return asset('images/rose.jpg');
+        }
+        if (str_contains($nameLower, 'lily')) {
+            return asset('images/lily.jpg');
+        }
+        if (str_contains($nameLower, 'tulip')) {
+            return asset('images/tulip.jpg');
+        }
+        if (str_contains($nameLower, 'calla')) {
+            return asset('images/calla.jpg');
+        }
+        if (str_contains($nameLower, 'iris')) {
+            return asset('images/iris.jpg');
+        }
+        if (str_contains($nameLower, 'hamper') || $catLower === 'hampers') {
+            return asset($isPrimary ? 'images/cat-hampers.jpg' : 'images/rose.jpg');
+        }
+
+        // Cookies keywords
+        if (str_contains($nameLower, 'nastar') || str_contains($nameLower, 'pineapple')) {
+            return asset('images/nastar-pineapple.jpg');
+        }
+        if (str_contains($nameLower, 'kaas') || str_contains($nameLower, 'edam')) {
+            return asset('images/kaastengel.jpg');
+        }
+        if (str_contains($nameLower, 'cookie') || str_contains($nameLower, 'butter') || $catLower === 'cookies') {
+            return asset('images/butter-cookies-jar.jpg');
+        }
+
+        // Cake keywords
+        if (str_contains($nameLower, 'cheese') || str_contains($nameLower, 'burnt')) {
+            return asset('images/basque-burnt-cheesecake.jpg');
+        }
+        if (str_contains($nameLower, 'forest')) {
+            return asset('images/black-forest.jpg');
+        }
+        if (str_contains($nameLower, 'tiramisu')) {
+            return asset('images/tiramisu.jpg');
+        }
+        if (str_contains($nameLower, 'tart') || str_contains($nameLower, 'berry')) {
+            return asset('images/berry-tart.jpg');
+        }
+        if (str_contains($nameLower, 'choco')) {
+            return asset('images/chocolate-hazelnut.jpg');
+        }
+        if ($catLower === 'cakes') {
+            return asset('images/cat-cakes.jpg');
+        }
+
+        // Breads keywords
+        if (str_contains($nameLower, 'croissant')) {
+            return asset('images/croissant.jpg');
+        }
+        if (str_contains($nameLower, 'sourdough')) {
+            return asset('images/sourdough-loaf.jpg');
+        }
+        if (str_contains($nameLower, 'milk bun') || str_contains($nameLower, 'bun')) {
+            return asset('images/milk-bun.jpg');
+        }
+        if ($catLower === 'breads') {
+            return asset('images/cat-breads.jpg');
+        }
+
+        // Light bites / savory
+        if (str_contains($nameLower, 'bacang')) {
+            return asset('images/bacang.jpg');
+        }
+        if (str_contains($nameLower, 'lemper')) {
+            return asset('images/chicken-lemper.jpg');
+        }
+        if (str_contains($nameLower, 'arem')) {
+            return asset('images/arem-arem.jpg');
+        }
+        if (str_contains($nameLower, 'onigiri')) {
+            return asset('images/onigiri.jpg');
+        }
+        if (str_contains($nameLower, 'sandwich') || str_contains($nameLower, 'focaccia')) {
+            return asset('images/focaccia-chicken-pesto-sandwich.jpg');
+        }
+        if (str_contains($nameLower, 'burger')) {
+            return asset('images/mini-burger.jpg');
+        }
+        if (str_contains($nameLower, 'tortilla')) {
+            return asset('images/tortilla.jpg');
+        }
+        if (str_contains($nameLower, 'bitterballen')) {
+            return asset('images/bitterballen.jpg');
+        }
+        if (str_contains($nameLower, 'dumpling')) {
+            return asset('images/rice-dumpling.jpg');
+        }
+
+        // 5. Ultimate safe fallback
+        return asset('images/cat-hampers.jpg');
     }
 
     public function getAvailabilityLabelAttribute()

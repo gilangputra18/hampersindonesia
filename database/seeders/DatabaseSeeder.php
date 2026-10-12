@@ -28,18 +28,21 @@ class DatabaseSeeder extends Seeder
             'mooncake' => [
                 'title' => 'Mooncake',
                 'items' => [
-                    ['name' => 'Box of 6', 'price' => 1288000, 'type' => 'Gift Box', 'flavor' => 'Lotus & Egg Yolk', 'size' => 'Box of 6', 'availability' => 'in_stock'],
-                    ['name' => 'Box of 4', 'price' => 988000, 'type' => 'Gift Box', 'flavor' => 'Assorted Lotus', 'size' => 'Box of 4', 'availability' => 'in_stock'],
+                    ['name' => 'Moon Hampers', 'price' => 800000, 'type' => 'Luxury Lantern Gift Set', 'flavor' => 'Assorted Mooncake & Tea', 'size' => 'Imperial Box', 'availability' => 'in_stock', 'is_best_seller' => true, 'image' => 'cat-mooncake.jpg'],
+                    ['name' => 'Hampers Kue Bulan', 'price' => 1300000, 'type' => 'Royal Festival Box', 'flavor' => 'Premium Lotus Mooncake', 'size' => 'Exclusive Hardbox', 'availability' => 'in_stock', 'is_best_seller' => true, 'image' => 'box-of-6.jpg'],
+                    ['name' => 'Hampers Kue Bulan Yue tipe B', 'price' => 1300000, 'type' => 'Royal Festival Box', 'flavor' => 'Double Yolk Assortment', 'size' => 'Yue Hardbox B', 'availability' => 'in_stock', 'is_best_seller' => true, 'image' => 'box-of-4.jpg'],
+                    ['name' => 'Box of 6', 'price' => 1288000, 'type' => 'Gift Box', 'flavor' => 'Lotus & Egg Yolk', 'size' => 'Box of 6', 'availability' => 'in_stock', 'is_best_seller' => true, 'image' => 'box-of-6.jpg'],
+                    ['name' => 'Box of 4', 'price' => 988000, 'type' => 'Gift Box', 'flavor' => 'Assorted Lotus', 'size' => 'Box of 4', 'availability' => 'in_stock', 'is_best_seller' => false, 'image' => 'box-of-4.jpg'],
                 ]
             ],
             'hampers' => [
                 'title' => 'Hampers',
                 'items' => [
-                    ['name' => 'Rose', 'price' => 2950000, 'type' => 'Luxury Gift Set', 'flavor' => 'Assorted Premium', 'size' => 'Large Box', 'availability' => 'in_stock'],
-                    ['name' => 'Lily', 'price' => 2450000, 'type' => 'Luxury Gift Set', 'flavor' => 'Assorted Premium', 'size' => 'Medium Box', 'availability' => 'in_stock'],
-                    ['name' => 'Tulip', 'price' => 1750000, 'type' => 'Gift Box', 'flavor' => 'Cookies & Tea', 'size' => 'Medium Box', 'availability' => 'in_stock'],
-                    ['name' => 'Calla', 'price' => 1200000, 'type' => 'Gift Box', 'flavor' => 'Butter Cookies', 'size' => 'Small Box', 'availability' => 'in_stock'],
-                    ['name' => 'Iris', 'price' => 850000, 'type' => 'Gift Box', 'flavor' => 'Pastry Set', 'size' => 'Small Box', 'availability' => 'pre_order'],
+                    ['name' => 'Rose', 'price' => 2950000, 'type' => 'Luxury Gift Set', 'flavor' => 'Assorted Premium', 'size' => 'Large Box', 'availability' => 'in_stock', 'is_best_seller' => true, 'image' => 'rose.jpg'],
+                    ['name' => 'Lily', 'price' => 2450000, 'type' => 'Luxury Gift Set', 'flavor' => 'Assorted Premium', 'size' => 'Medium Box', 'availability' => 'in_stock', 'is_best_seller' => true, 'image' => 'lily.jpg'],
+                    ['name' => 'Tulip', 'price' => 1750000, 'type' => 'Gift Box', 'flavor' => 'Cookies & Tea', 'size' => 'Medium Box', 'availability' => 'in_stock', 'is_best_seller' => false, 'image' => 'tulip.jpg'],
+                    ['name' => 'Calla', 'price' => 1200000, 'type' => 'Gift Box', 'flavor' => 'Butter Cookies', 'size' => 'Small Box', 'availability' => 'in_stock', 'is_best_seller' => false, 'image' => 'calla.jpg'],
+                    ['name' => 'Iris', 'price' => 850000, 'type' => 'Gift Box', 'flavor' => 'Pastry Set', 'size' => 'Small Box', 'availability' => 'pre_order', 'is_best_seller' => false, 'image' => 'iris.jpg'],
                 ]
             ],
             'cakes' => [
@@ -100,8 +103,9 @@ class DatabaseSeeder extends Seeder
                 $price = $item['price'];
                 $productSlug = Str::slug($name);
 
-                $isBestSeller = ($slug === 'cakes' && $itemIndex < 5);
+                $isBestSeller = $item['is_best_seller'] ?? ($slug === 'cakes' && $itemIndex < 3);
                 $isTreat = ($slug === 'light-bites');
+                $imageFile = $item['image'] ?? ($productSlug . '.jpg');
 
                 Product::updateOrCreate(
                     [
@@ -111,7 +115,7 @@ class DatabaseSeeder extends Seeder
                     [
                         'slug' => $productSlug,
                         'price' => $price,
-                        'image' => $productSlug . '.jpg',
+                        'image' => $imageFile,
                         'type' => $item['type'] ?? 'Bakery Item',
                         'flavor' => $item['flavor'] ?? 'Original',
                         'size' => $item['size'] ?? 'Standard',

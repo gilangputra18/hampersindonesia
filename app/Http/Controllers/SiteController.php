@@ -10,15 +10,29 @@ class SiteController extends Controller
 {
     public function home()
     {
-        $treats = Product::where('is_treat', true)->take(5)->get();
-        if ($treats->isEmpty()) {
+        $treats = Product::with('category')->where('is_treat', true)->take(8)->get();
+        if ($treats->count() < 5) {
             $treatCategory = Category::where('slug', 'light-bites')->first();
-            $treats = $treatCategory ? $treatCategory->products()->take(5)->get() : collect();
+            if ($treatCategory) {
+                $treats = $treatCategory->products()->take(8)->get();
+            }
         }
 
-        $best = Product::where('is_best_seller', true)->take(5)->get();
+        // Fetch best sellers first, and expand with diverse luxury items to give a rich variety of at least 8 items
+        $best = Product::with('category')->where('is_best_seller', true)->get();
+        if ($best->count() < 8) {
+            $existingIds = $best->pluck('id')->toArray();
+            $supplement = Product::with('category')
+                ->whereNotIn('id', $existingIds)
+                ->whereIn('availability', ['in_stock', 'pre_order'])
+                ->orderBy('display_order', 'asc')
+                ->take(8 - $best->count())
+                ->get();
+            $best = $best->concat($supplement);
+        }
+
         if ($best->isEmpty()) {
-            $best = Product::latest()->take(5)->get();
+            $best = Product::with('category')->latest()->take(8)->get();
         }
 
         try {

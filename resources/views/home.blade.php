@@ -304,13 +304,19 @@
   </div>
 </section>
 
-<section class="sec grey" style="background: #f8faf9;">
-  <p class="lead" style="color: #b45309; font-weight: 700; letter-spacing: 1px;">Jelajahi produk-produk yang paling diminati di toko kami</p>
-  <h2 style="color: #0f172a; font-weight: 800;">Produk Terlaris</h2>
+<section class="sec grey" style="background: #f8faf9; padding: 60px 20px;">
+  <p class="lead" style="color: #b45309; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;">Jelajahi produk-produk yang paling diminati di toko kami</p>
+  <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(26px, 3.8vw, 36px); font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 2.5px; margin: 0 0 28px 0;">
+    PRODUK TERLARIS
+  </h2>
   <div class="grid5">
-    @foreach ($best as $b) @include('partials.card', ['item' => $b, 'slug' => 'cakes', 'from' => true]) @endforeach
+    @foreach ($best as $b)
+      @include('partials.card', ['item' => $b, 'slug' => ($b->category->slug ?? 'hampers'), 'from' => true])
+    @endforeach
   </div>
-  <a class="btn dark" href="{{ route('category', 'cakes') }}">Lihat Semua Produk</a>
+  <div style="text-align: center; margin-top: 15px;">
+    <a class="btn-gold-pill" href="{{ route('category', 'hampers') }}">LIHAT SEMUA KOLEKSI PRODUK</a>
+  </div>
 </section>
 
 @if(isset($reviews) && count($reviews) > 0)
