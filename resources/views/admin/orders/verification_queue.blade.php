@@ -181,7 +181,7 @@
             <td style="text-align: right;">
               <div style="display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end;">
                 <!-- 1. Verify Payment Button -->
-                <form action="{{ route('admin.orders.verifyPayment', $order->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin dana sebesar Rp {{ number_format($order->total_amount, 0, \',\', \'.\') }} sudah masuk ke rekening toko? Status invoice {{ $order->invoice_number }} akan diubah menjadi LUNAS.');" style="margin: 0;">
+                <form action="{{ route('admin.orders.verifyPayment', $order->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin dana sebesar Rp {{ number_format($order->total_amount, 0, ',', '.') }} sudah masuk ke rekening toko? Status invoice {{ $order->invoice_number }} akan diubah menjadi LUNAS.');" style="margin: 0;">
                   @csrf
                   <button type="submit" class="btn btn-gold" style="padding: 8px 14px; font-size: 12px; font-weight: 700; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                     ✅ Verifikasi Lunas

@@ -406,7 +406,7 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
               </div>
             </div>
 
-            <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori \'{{ addslashes($cat->title) }}\'?');" style="margin:0;">
+            <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori {{ addslashes($cat->title) }}?');" style="margin:0;">
               @csrf
               @method('DELETE')
               <button type="submit" class="btn btn-outline" style="padding:6px 12px; font-size:12px; color:#f87171; border-color:rgba(239, 68, 68, 0.4);" title="Hapus Kategori">
