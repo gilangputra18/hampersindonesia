@@ -270,7 +270,12 @@
   </div>
   <div class="grid4">
     @foreach ($gifts as $g)
-      <a class="tile" href="{{ route('category', $g) }}"><span class="ph"><img src="{{ asset('images/cat-'.$g.'.jpg') }}" alt="" onerror="this.remove()"></span><span class="n">{{ config("site.categories.$g.title") }}</span></a>
+      <a class="tile" href="{{ route('category', $g) }}">
+        <span class="ph" style="display: block; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px;">
+          <img src="{{ asset('images/cat-'.$g.'.jpg') }}" alt="{{ config("site.categories.$g.title") }}" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';">
+        </span>
+        <span class="n">{{ config("site.categories.$g.title") }}</span>
+      </a>
     @endforeach
   </div>
 </section>

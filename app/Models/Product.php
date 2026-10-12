@@ -225,33 +225,61 @@ class Product extends Model
             }
         }
 
+        // Known static library of existing images in public/images/
+        $knownImages = [
+            'cat-hampers.jpg', 'cat-mooncake.jpg', 'cat-cakes.jpg', 'cat-cookies.jpg',
+            'cat-breads.jpg', 'cat-light-bites.jpg', 'box-of-6.jpg', 'box-of-4.jpg',
+            'rose.jpg', 'lily.jpg', 'tulip.jpg', 'calla.jpg', 'iris.jpg',
+            'basque-burnt-cheesecake.jpg', 'berry-tart.jpg', 'black-forest.jpg',
+            'tiramisu.jpg', 'chocolate-hazelnut.jpg', 'butter-cookies-jar.jpg',
+            'nastar-pineapple.jpg', 'kaastengel.jpg', 'croissant.jpg', 'sourdough-loaf.jpg',
+            'milk-bun.jpg', 'focaccia-chicken-pesto-sandwich.jpg', 'arem-arem.jpg',
+            'bacang.jpg', 'mini-bacang.jpg', 'chicken-lemper.jpg', 'onigiri.jpg',
+            'mini-burger.jpg', 'tortilla.jpg', 'bitterballen.jpg', 'rice-dumpling.jpg',
+            'events.jpg', 'feature.jpg', 'hero-poster.jpg'
+        ];
+
         // 2. Local file path check (filter out .heic/.heif)
         if (!empty($val) && is_string($val)) {
             $isHeic = preg_match('/\.(heic|heif)$/i', $val);
             if (!$isHeic) {
                 $clean = ltrim($val, '/');
-                $candidates = [
-                    $clean,
-                    'images/' . $clean,
-                    'uploads/' . $clean,
-                ];
-                foreach ($candidates as $cand) {
-                    if (file_exists(public_path($cand))) {
-                        return asset($cand);
+
+                if (str_starts_with($clean, 'uploads/')) {
+                    return asset($clean);
+                }
+                if (str_starts_with($clean, 'images/')) {
+                    $baseName = basename($clean);
+                    if (in_array($baseName, $knownImages)) {
+                        return asset('images/' . $baseName);
                     }
+                    if (file_exists(public_path($clean))) {
+                        return asset($clean);
+                    }
+                }
+
+                $baseName = basename($clean);
+                if (in_array($baseName, $knownImages)) {
+                    return asset('images/' . $baseName);
+                }
+
+                if (file_exists(public_path('images/' . $clean))) {
+                    return asset('images/' . $clean);
+                }
+                if (file_exists(public_path($clean))) {
+                    return asset($clean);
                 }
             }
         }
 
         // 3. Fallback to slug.jpg or slug.png if exists
         if (!empty($this->slug)) {
-            $slugJpg = 'images/' . $this->slug . '.jpg';
-            $slugPng = 'images/' . $this->slug . '.png';
-            if (file_exists(public_path($slugJpg))) {
-                return asset($slugJpg);
+            $slugBase = $this->slug . '.jpg';
+            if (in_array($slugBase, $knownImages)) {
+                return asset('images/' . $slugBase);
             }
-            if (file_exists(public_path($slugPng))) {
-                return asset($slugPng);
+            if (file_exists(public_path('images/' . $slugBase))) {
+                return asset('images/' . $slugBase);
             }
         }
 
