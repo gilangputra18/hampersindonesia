@@ -162,7 +162,15 @@
       <div class="stat-val">{{ $counts['all'] }}</div>
       <div class="stat-lbl">Semua Pesanan</div>
     </div>
-    <div class="stat-icon">📦</div>
+    <div class="stat-icon">📝</div>
+  </a>
+
+  <a href="{{ route('admin.orders.verification') }}" class="stat-card" style="border-color: rgba(245, 158, 11, 0.5); background: linear-gradient(135deg, #1e293b 0%, rgba(245, 158, 11, 0.1) 100%);">
+    <div>
+      <div class="stat-val" style="color: #fbbf24;">{{ $counts['verification'] ?? 0 }}</div>
+      <div class="stat-lbl">Antrian Verifikasi Bukti</div>
+    </div>
+    <div class="stat-icon">✅</div>
   </a>
 
   <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="stat-card {{ request('status') === 'pending' ? 'active' : '' }}">
@@ -186,7 +194,7 @@
       <div class="stat-val" style="color: #10b981;">{{ $counts['completed'] }}</div>
       <div class="stat-lbl">Selesai / Diterima</div>
     </div>
-    <div class="stat-icon">✅</div>
+    <div class="stat-icon">📦</div>
   </a>
 
   <a href="{{ route('admin.orders.index', ['status' => 'cancelled']) }}" class="stat-card {{ request('status') === 'cancelled' ? 'active' : '' }}">
@@ -209,6 +217,9 @@
   <div class="filter-pills">
     <a href="{{ route('admin.orders.index') }}" class="filter-pill {{ !request('status') ? 'active' : '' }}">
       Semua ({{ $counts['all'] }})
+    </a>
+    <a href="{{ route('admin.orders.verification') }}" class="filter-pill" style="border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">
+      ✅ Antrian Verifikasi ({{ $counts['verification'] ?? 0 }})
     </a>
     <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="filter-pill {{ request('status') === 'pending' ? 'active' : '' }}">
       🔔 Pending ({{ $counts['pending'] }})
@@ -353,8 +364,18 @@
             <td>
               @if ($ord->payment_status === 'paid' || $ord->payment_status === 'verified')
                 <span class="status-badge status-paid">✅ LUNAS</span>
+              @elseif ($ord->payment_status === 'waiting_verification')
+                <span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">⏳ BUKTI MASUK</span>
               @else
-                <span class="status-badge status-unpaid">⏳ BELUM BAYAR</span>
+                <span class="status-badge status-unpaid">BELUM BAYAR</span>
+              @endif
+
+              @if ($ord->payment_proof)
+                <div style="margin-top: 4px;">
+                  <a href="{{ $ord->payment_proof_url }}" target="_blank" style="font-size: 11px; color: var(--accent-gold); text-decoration: underline;">
+                    📎 Cek Bukti
+                  </a>
+                </div>
               @endif
             </td>
 
@@ -370,6 +391,7 @@
                 <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end;">
                   <select name="payment_status" class="form-control" style="width: auto; padding: 4px 6px; font-size: 11px; background: #0f172a;" title="Status Pembayaran">
                     <option value="unpaid" {{ $ord->payment_status == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                    <option value="waiting_verification" {{ $ord->payment_status == 'waiting_verification' ? 'selected' : '' }}>Waiting Verification</option>
                     <option value="paid" {{ $ord->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
                     <option value="verified" {{ $ord->payment_status == 'verified' ? 'selected' : '' }}>Verified</option>
                   </select>

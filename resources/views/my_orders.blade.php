@@ -120,9 +120,10 @@
   .badge-processing { background: #dbeafe; color: #1e40af; }
   .badge-completed  { background: #dcfce7; color: #166534; }
   .badge-cancelled  { background: #fee2e2; color: #991b1b; }
-  .badge-paid       { background: #dcfce7; color: #166534; }
-  .badge-unpaid     { background: #fef3c7; color: #92400e; }
-  .badge-verified   { background: #e0f2fe; color: #0369a1; }
+  .badge-paid                 { background: #dcfce7; color: #166534; }
+  .badge-unpaid               { background: #fef3c7; color: #92400e; }
+  .badge-waiting_verification { background: #fef3c7; color: #b45309; border: 1px solid #f59e0b; }
+  .badge-verified             { background: #e0f2fe; color: #0369a1; }
   .order-total-row {
     display: flex;
     justify-content: space-between;
@@ -183,9 +184,12 @@
     text-transform: uppercase;
   }
   @media (max-width: 600px) {
-    .order-card-header { flex-direction: column; align-items: flex-start; }
-    .order-total-row { flex-direction: column; gap: 12px; align-items: flex-start; }
-    .my-orders-page { padding: 24px 16px 80px; }
+    .order-card-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .order-total-row { flex-direction: column; gap: 12px; align-items: stretch; }
+    .btn-view-order { text-align: center; width: 100%; box-sizing: border-box; }
+    .my-orders-page { padding: 20px 10px 80px; }
+    .order-card-body { padding: 14px 14px; }
+    .order-meta { grid-template-columns: 1fr 1fr; gap: 10px; }
   }
 </style>
 
@@ -234,7 +238,22 @@
               </div>
               <div class="meta-item">
                 <label>Status Bayar</label>
-                <span class="badge-status badge-{{ $order->payment_status }}">{{ ucfirst($order->payment_status) }}</span>
+                <span class="badge-status badge-{{ $order->payment_status }}">
+                  @if($order->payment_status === 'waiting_verification')
+                    ⏳ Menunggu Verifikasi
+                  @elseif($order->payment_status === 'paid' || $order->payment_status === 'verified')
+                    ✅ Lunas
+                  @elseif($order->payment_status === 'unpaid')
+                    ⚠️ Belum Bayar
+                  @else
+                    {{ ucfirst($order->payment_status) }}
+                  @endif
+                </span>
+                @if($order->payment_proof)
+                  <div style="font-size: 11px; color: #0284c7; margin-top: 3px; font-weight: 600;">
+                    📎 Bukti sudah diunggah
+                  </div>
+                @endif
               </div>
               <div class="meta-item">
                 <label>Metode Bayar</label>

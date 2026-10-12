@@ -436,4 +436,43 @@ class AdminProductController extends Controller
 
         return response()->json($products);
     }
+
+    public function categoryStore(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:100',
+            'slug' => 'nullable|string|max:100',
+        ]);
+
+        $slug = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['title']);
+        if (Category::where('slug', $slug)->exists()) {
+            $slug .= '-' . rand(10, 99);
+        }
+
+        $maxOrder = Category::max('display_order') ?? 0;
+
+        Category::create([
+            'title' => $validated['title'],
+            'slug' => $slug,
+            'display_order' => $maxOrder + 1,
+        ]);
+
+        return redirect()->route('admin.products.index')
+            ->with('success', '✅ Kategori baru "' . $validated['title'] . '" berhasil ditambahkan!');
+    }
+
+    public function categoryDestroy(Category $category)
+    {
+        $productCount = $category->products()->count();
+        if ($productCount > 0) {
+            return redirect()->route('admin.products.index')
+                ->with('error', '⚠️ Tidak dapat menghapus kategori "' . $category->title . '" karena masih memiliki ' . $productCount . ' produk. Pindahkan produk ke kategori lain terlebih dahulu.');
+        }
+
+        $title = $category->title;
+        $category->delete();
+
+        return redirect()->route('admin.products.index')
+            ->with('success', '🗑️ Kategori "' . $title . '" berhasil dihapus.');
+    }
 }

@@ -108,7 +108,10 @@
       <a href="{{ route('admin.products.index') }}" class="btn btn-outline" style="color: var(--text-muted);">Reset</a>
     @endif
     
-    <div style="margin-left: auto;">
+    <div style="margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="btn btn-outline" onclick="openCategoryModal()" style="border-color: var(--accent-gold); color: #fef08a;">
+        🏷️ Kelola Kategori (Tambah / Hapus)
+      </button>
       <a href="{{ route('admin.products.create') }}" class="btn btn-gold">
         ➕ Tambah Produk Baru
       </a>
@@ -356,6 +359,84 @@ function confirmDelete() {
 }
 document.getElementById('delete-modal').addEventListener('click', function(e) {
   if (e.target === this) closeDeleteModal();
+});
+</script>
+
+<!-- Modal Kelola Kategori (Tambah & Hapus Kategori) -->
+<div id="category-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.8); backdrop-filter:blur(5px); align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#1e293b; border:1px solid var(--accent-gold); border-radius:16px; padding:28px; max-width:620px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--panel-border); padding-bottom:14px;">
+      <div>
+        <h3 style="font-size:18px; font-weight:700; color:#fff; margin:0;">🏷️ Kelola Kategori Produk</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin:4px 0 0;">Tambah kategori baru atau hapus kategori yang sudah tidak digunakan.</p>
+      </div>
+      <button onclick="closeCategoryModal()" style="background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">✕</button>
+    </div>
+
+    <!-- Form Tambah Kategori Baru -->
+    <div style="background:rgba(15, 23, 42, 0.7); border:1px solid var(--panel-border); border-radius:10px; padding:18px; margin-bottom:24px;">
+      <h4 style="font-size:14px; font-weight:700; color:#fef08a; margin-bottom:12px;">➕ Tambah Kategori Baru</h4>
+      <form action="{{ route('admin.categories.store') }}" method="POST" style="display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:flex-end;">
+        @csrf
+        <div>
+          <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Nama Kategori</label>
+          <input type="text" name="title" class="form-control" placeholder="Contoh: Hampers Lebaran" required style="padding:9px 12px; font-size:13px;">
+        </div>
+        <div>
+          <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Slug URL (Opsional)</label>
+          <input type="text" name="slug" class="form-control" placeholder="hampers-lebaran" style="padding:9px 12px; font-size:13px;">
+        </div>
+        <button type="submit" class="btn btn-gold" style="padding:9px 16px; font-size:13px; font-weight:700; white-space:nowrap;">
+          💾 Simpan
+        </button>
+      </form>
+    </div>
+
+    <!-- Daftar Kategori Saat Ini -->
+    <div>
+      <h4 style="font-size:14px; font-weight:700; color:#fff; margin-bottom:12px;">📋 Daftar Kategori Saat Ini ({{ $categories->count() }})</h4>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        @forelse ($categories as $cat)
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); border:1px solid var(--panel-border); border-radius:8px; padding:12px 16px;">
+            <div>
+              <strong style="color:#fff; font-size:14px;">{{ $cat->title }}</strong>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
+                Slug: <code>{{ $cat->slug }}</code> • 
+                <span style="color:#38bdf8;">{{ $cat->products()->count() }} produk</span>
+              </div>
+            </div>
+
+            <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori \'{{ addslashes($cat->title) }}\'?');" style="margin:0;">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-outline" style="padding:6px 12px; font-size:12px; color:#f87171; border-color:rgba(239, 68, 68, 0.4);" title="Hapus Kategori">
+                🗑️ Hapus
+              </button>
+            </form>
+          </div>
+        @empty
+          <div style="text-align:center; padding:20px; color:var(--text-muted); font-size:13px;">
+            Belum ada kategori terdaftar.
+          </div>
+        @endforelse
+      </div>
+    </div>
+
+    <div style="margin-top:24px; text-align:right;">
+      <button onclick="closeCategoryModal()" class="btn btn-outline" style="font-size:13px;">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openCategoryModal() {
+  document.getElementById('category-modal').style.display = 'flex';
+}
+function closeCategoryModal() {
+  document.getElementById('category-modal').style.display = 'none';
+}
+document.getElementById('category-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeCategoryModal();
 });
 </script>
 @endsection

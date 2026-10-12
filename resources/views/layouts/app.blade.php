@@ -312,12 +312,20 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      padding: 0;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 6px;
+      font-size: 18px;
     }
     .top {
       padding: 8px 12px;
       justify-content: space-between;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       width: 100%;
       max-width: 100vw;
     }
@@ -325,39 +333,55 @@
       display: none !important; /* Hide redundant text links on mobile since they exist in 3-dots drawer */
     }
     .header-right-group {
-      justify-content: space-between;
+      justify-content: flex-end;
       gap: 6px;
       width: 100%;
       margin-top: 0;
       flex-wrap: nowrap;
+      align-items: center;
     }
     .currency-pill {
-      font-size: 9px;
-      padding: 2px 6px;
-      letter-spacing: 0.5px;
+      display: none; /* Hide currency pill on small phones to give space */
+    }
+    .user-action-group {
+      gap: 6px;
+      display: flex;
+      align-items: center;
     }
     .top-text-link, .header-icon-btn {
-      font-size: 10px;
-      letter-spacing: 0.5px;
-      gap: 4px;
+      font-size: 13px;
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      min-width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      letter-spacing: 0;
+    }
+    .nav-text-label {
+      display: none !important; /* Hide text on small screens, keep icons beautiful & crisp */
     }
 
     .head {
-      padding: 14px 10px 12px;
+      padding: 12px 10px 10px;
       max-width: 100vw;
       overflow: hidden;
     }
     .logo {
       font-size: clamp(16px, 4.5vw, 20px) !important;
-      letter-spacing: .08em !important;
+      letter-spacing: 1px !important;
       padding: 0 !important;
       white-space: normal !important;
       display: inline-block !important;
       text-align: center !important;
       max-width: 100% !important;
       line-height: 1.25 !important;
-      word-break: break-word !important;
-      overflow-wrap: break-word !important;
+      word-break: normal !important;
+      overflow-wrap: normal !important;
     }
     .fleur-icon {
       font-size: 14px !important;
@@ -365,11 +389,13 @@
       vertical-align: middle !important;
     }
     .logo small {
-      font-size: 8px !important;
-      letter-spacing: .1em !important;
+      font-size: 8.5px !important;
+      letter-spacing: 0.5px !important;
       margin-top: 4px !important;
       line-height: 1.3 !important;
       white-space: normal !important;
+      word-break: normal !important;
+      overflow-wrap: normal !important;
     }
 
     .nav-main-wrapper {
@@ -1149,38 +1175,38 @@
 
       <!-- 1. Menu Cari (Search) on the Left -->
       <button type="button" class="header-icon-btn" id="open-search-btn" title="Cari Produk (Live Search)">
-        <span style="color: #38bdf8;">🔍</span> <span>CARI</span>
+        <span style="color: #38bdf8;">🔍</span> <span class="nav-text-label">CARI</span>
       </button>
 
       <!-- 2. Tombol Masuk / Akun (Side-by-side with Keranjang) -->
       @auth
         <div class="user-action-group">
           <a href="{{ route('my.orders') }}" class="top-text-link" title="Riwayat Pesanan Saya">
-            📦 <span>PESANAN SAYA</span>
+            <span>📦</span> <span class="nav-text-label">PESANAN SAYA</span>
           </a>
 
           @if(Auth::user()->is_admin)
             <a href="{{ route('admin.dashboard') }}" class="top-text-link" style="color: #fef08a;" title="Dashboard Admin">
-              🛡️ <span>ADMIN PANEL</span>
+              <span>🛡️</span> <span class="nav-text-label">ADMIN PANEL</span>
             </a>
           @endif
 
           <form action="{{ route('logout') }}" method="POST" style="display: inline; margin: 0;">
             @csrf
             <button type="submit" class="top-text-link" style="color: #f87171;" title="Keluar (Logout)">
-              🚪 <span>KELUAR</span>
+              <span>🚪</span> <span class="nav-text-label">KELUAR</span>
             </button>
           </form>
         </div>
       @else
         <a href="{{ route('login') }}" class="header-icon-btn" title="Akun Saya / Login">
-          <span style="color: #a855f7;">👤</span> <span>MASUK</span>
+          <span style="color: #a855f7;">👤</span> <span class="nav-text-label">MASUK</span>
         </a>
       @endauth
 
       <!-- 3. Tombol Keranjang (Side-by-side with Masuk) -->
       <a href="{{ route('cart.index') }}" class="header-icon-btn" title="Keranjang Belanja">
-        <span>🛒</span> <span>KERANJANG</span>
+        <span>🛒</span> <span class="nav-text-label">KERANJANG</span>
         @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
         @if ($cartQty > 0)
           <span class="cart-badge">{{ $cartQty }}</span>

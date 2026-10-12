@@ -230,12 +230,14 @@ class CheckoutController extends Controller
                     $statusMessage = 'Mutasi pembayaran belum ditemukan di server Midtrans.';
                 }
             } catch (\Throwable $e) {
-                // If API call fails or times out, fallback to verification
-                $isRealVerified = true;
+                // If API call fails or times out
+                $isRealVerified = false;
+                $statusMessage = 'Gagal memverifikasi status pembayaran Midtrans: ' . $e->getMessage();
             }
         } else {
-            // Default demo verification if server key is not configured
-            $isRealVerified = true;
+            // Server key is not configured, customer must upload payment proof
+            $isRealVerified = false;
+            $statusMessage = 'Midtrans belum dikonfigurasi. Silakan unggah bukti transfer di formulir faktur.';
         }
 
         if ($isRealVerified) {
@@ -319,6 +321,38 @@ class CheckoutController extends Controller
         }
 
         return response()->json(['status' => 'ok']);
+    }
+
+    public function uploadPaymentProof(Request $request, $invoice)
+    {
+        $order = Order::where('invoice_number', $invoice)->firstOrFail();
+
+        $request->validate([
+            'payment_proof' => 'required|file|mimes:jpeg,png,jpg,webp,pdf|max:5120',
+        ], [
+            'payment_proof.required' => 'Silakan pilih foto struk atau file bukti transfer terlebih dahulu.',
+            'payment_proof.mimes' => 'Format file bukti pembayaran harus berupa gambar (JPG, PNG, WEBP) atau PDF.',
+            'payment_proof.max' => 'Ukuran file bukti pembayaran maksimal adalah 5MB.',
+        ]);
+
+        $file = $request->file('payment_proof');
+        $fileName = 'proof_' . $order->invoice_number . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+        $destinationPath = public_path('uploads/payment_proofs');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        $file->move($destinationPath, $fileName);
+
+        $order->update([
+            'payment_proof' => $fileName,
+            'payment_proof_uploaded_at' => now(),
+            'payment_status' => 'waiting_verification',
+        ]);
+
+        return redirect()->route('order.show', $order->invoice_number)
+            ->with('success', '✅ Bukti pembayaran berhasil diunggah! Mohon menunggu verifikasi dari admin butik.');
     }
 
     public function myOrders()

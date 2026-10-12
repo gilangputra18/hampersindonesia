@@ -37,16 +37,83 @@ class AdminOrderController extends Controller
             'processing' => Order::where('order_status', 'processing')->count(),
             'completed' => Order::where('order_status', 'completed')->count(),
             'cancelled' => Order::where('order_status', 'cancelled')->count(),
+            'verification' => Order::where('payment_status', 'waiting_verification')
+                ->orWhere(function($q) {
+                    $q->whereNotNull('payment_proof')->where('payment_status', 'unpaid');
+                })->count(),
         ];
 
         return view('admin.orders.index', compact('orders', 'counts'));
+    }
+
+    public function verificationQueue(Request $request)
+    {
+        $query = Order::with(['items', 'user'])
+            ->where(function($q) {
+                $q->where('payment_status', 'waiting_verification')
+                  ->orWhere(function($sub) {
+                      $sub->whereNotNull('payment_proof')
+                          ->whereIn('payment_status', ['unpaid', 'waiting_verification']);
+                  });
+            });
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('invoice_number', 'like', "%{$search}%")
+                    ->orWhere('customer_name', 'like', "%{$search}%")
+                    ->orWhere('customer_phone', 'like', "%{$search}%")
+                    ->orWhere('payment_method', 'like', "%{$search}%");
+            });
+        }
+
+        $orders = $query->orderBy('payment_proof_uploaded_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->paginate(12)
+            ->withQueryString();
+
+        $queueCount = (clone $query)->count();
+        $verifiedTodayCount = Order::where('payment_status', 'paid')
+            ->whereDate('updated_at', now()->today())
+            ->count();
+
+        return view('admin.orders.verification_queue', compact('orders', 'queueCount', 'verifiedTodayCount'));
+    }
+
+    public function verifyPayment(Request $request, Order $order)
+    {
+        $order->update([
+            'payment_status' => 'paid',
+            'order_status' => ($order->order_status === 'pending') ? 'processing' : $order->order_status,
+        ]);
+
+        if (empty($order->tracking_number)) {
+            $prefix = ($order->delivery_option === 'pickup') ? 'PICK' : 'BTRY';
+            $order->update([
+                'tracking_number' => $prefix . '-' . date('Ymd') . '-' . rand(1000, 9999)
+            ]);
+        }
+
+        return back()->with('success', '✅ Pembayaran untuk invoice ' . $order->invoice_number . ' telah DIVERIFIKASI LUNAS! Status pesanan kini Diproses.');
+    }
+
+    public function rejectPayment(Request $request, Order $order)
+    {
+        $reason = $request->input('reason', 'Bukti transfer tidak valid atau dana belum masuk.');
+
+        $order->update([
+            'payment_status' => 'unpaid',
+            'order_note' => trim(($order->order_note ?? '') . "\n[Admin: Pembayaran ditolak - " . $reason . " pada " . now()->format('d/m/Y H:i') . "]"),
+        ]);
+
+        return back()->with('success', '⚠️ Bukti pembayaran invoice ' . $order->invoice_number . ' telah DITOLAK. Status kembali Belum Lunas.');
     }
 
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
             'order_status' => 'required|in:pending,processing,completed,cancelled',
-            'payment_status' => 'required|in:unpaid,paid,verified',
+            'payment_status' => 'required|in:unpaid,paid,verified,waiting_verification',
             'courier_name' => 'nullable|string|max:100',
             'payment_method' => 'nullable|string|max:100',
             'tracking_number' => 'nullable|string|max:100',

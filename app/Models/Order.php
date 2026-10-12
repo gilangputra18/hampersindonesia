@@ -24,6 +24,8 @@ class Order extends Model
         'subtotal',
         'total_amount',
         'payment_method',
+        'payment_proof',
+        'payment_proof_uploaded_at',
         'tracking_number',
         'payment_status',
         'order_status',
@@ -31,10 +33,22 @@ class Order extends Model
 
     protected $casts = [
         'delivery_date' => 'date',
+        'payment_proof_uploaded_at' => 'datetime',
         'subtotal' => 'integer',
         'delivery_fee' => 'integer',
         'total_amount' => 'integer',
     ];
+
+    public function getPaymentProofUrlAttribute()
+    {
+        if (!$this->payment_proof) {
+            return null;
+        }
+        if (str_starts_with($this->payment_proof, 'http')) {
+            return $this->payment_proof;
+        }
+        return asset('uploads/payment_proofs/' . $this->payment_proof);
+    }
 
     public function user()
     {

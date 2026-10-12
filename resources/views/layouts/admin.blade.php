@@ -474,9 +474,25 @@
       <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
         🥐 Kelola Produk
       </a>
-      <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
-        📦 Kelola Pesanan
-        <span id="sidebar-notif-badge" class="sidebar-badge" style="display:none;">0</span>
+      <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
+        📝 Pemesanan
+        @php
+          $allOrdersCount = \App\Models\Order::count();
+        @endphp
+        <span class="sidebar-badge" style="background:rgba(255,255,255,0.1); color:var(--text-muted);">{{ $allOrdersCount }}</span>
+        <span id="sidebar-notif-badge" class="sidebar-badge" style="display:none; background:#ef4444; color:#fff;">0</span>
+      </a>
+      <a href="{{ route('admin.orders.verification') }}" class="nav-link {{ request()->routeIs('admin.orders.verification*') ? 'active' : '' }}">
+        ✅ Antrian Verifikasi
+        @php
+          $verificationCount = \App\Models\Order::where('payment_status', 'waiting_verification')
+            ->orWhere(function($q) {
+                $q->whereNotNull('payment_proof')->where('payment_status', 'unpaid');
+            })->count();
+        @endphp
+        @if ($verificationCount > 0)
+          <span class="sidebar-badge" style="background:#f59e0b; color:#000; font-weight:800;">{{ $verificationCount }}</span>
+        @endif
       </a>
       <a href="{{ route('admin.payments.index') }}" class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
         💳 Kelola Pembayaran
@@ -498,15 +514,6 @@
       </a>
       <a href="{{ route('admin.menu_pdf.index') }}" class="nav-link {{ request()->routeIs('admin.menu_pdf.*') ? 'active' : '' }}">
         📜 Kelola PDF Menu Toko
-      </a>
-      <a href="{{ route('admin.contact.index') }}" class="nav-link {{ request()->routeIs('admin.contact.*') ? 'active' : '' }}">
-        💬 Pesan & Concierge
-        @php
-          $unreadContactCount = \App\Models\ContactMessage::where('is_read', false)->count();
-        @endphp
-        @if ($unreadContactCount > 0)
-          <span class="sidebar-badge">{{ $unreadContactCount }}</span>
-        @endif
       </a>
       <a href="{{ route('admin.profile.index') }}" class="nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
         👤 Profil & Password

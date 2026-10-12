@@ -63,6 +63,7 @@ Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout
 Route::get('/order/{invoice}', [CheckoutController::class, 'showOrder'])->name('order.show');
 Route::get('/order/{invoice}/status', [CheckoutController::class, 'checkStatus'])->name('order.status');
 Route::post('/order/{invoice}/pay-midtrans', [CheckoutController::class, 'payMidtrans'])->name('order.pay_midtrans');
+Route::post('/order/{invoice}/upload-payment-proof', [CheckoutController::class, 'uploadPaymentProof'])->name('order.upload_payment_proof');
 Route::post('/api/midtrans/notification', [CheckoutController::class, 'midtransNotification'])->name('midtrans.notification');
 
 // Review & Coupon Public Routes
@@ -89,11 +90,16 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
     Route::get('/export/excel', [AdminProductController::class, 'exportExcel'])->name('export.excel');
     Route::get('/export/pdf', [AdminProductController::class, 'exportPdf'])->name('export.pdf');
 
-    // Product Management (CRUD)
+    // Product & Category Management
     Route::get('/api/products/autocomplete', [AdminProductController::class, 'autocomplete'])->name('products.autocomplete');
+    Route::post('/categories', [AdminProductController::class, 'categoryStore'])->name('categories.store');
+    Route::delete('/categories/{category}', [AdminProductController::class, 'categoryDestroy'])->name('categories.destroy');
     Route::resource('products', AdminProductController::class);
 
-    // Order Management
+    // Order & Verification Queue Management
+    Route::get('/orders/verification-queue', [AdminOrderController::class, 'verificationQueue'])->name('orders.verification');
+    Route::post('/orders/{order}/verify-payment', [AdminOrderController::class, 'verifyPayment'])->name('orders.verifyPayment');
+    Route::post('/orders/{order}/reject-payment', [AdminOrderController::class, 'rejectPayment'])->name('orders.rejectPayment');
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::get('/api/orders/notifications', [AdminOrderController::class, 'getNotifications'])->name('orders.notifications');

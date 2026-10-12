@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Admin Login | PUSAT HAMPERS INDONESIA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 20px 14px;
     }
     
     .page-container {
@@ -59,47 +59,66 @@
 
     .login-card {
       width: 100%;
-      background: rgba(30, 41, 59, 0.85);
+      background: rgba(30, 41, 59, 0.9);
       backdrop-filter: blur(12px);
       border: 1px solid var(--panel-border);
       border-radius: 16px;
-      padding: 36px 32px;
+      padding: 36px 30px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     }
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 24px 18px;
+        border-radius: 12px;
+      }
+      .brand-header h1 {
+        font-size: 21px !important;
+        letter-spacing: 1px !important;
+      }
+      .form-control {
+        font-size: 16px !important; /* Prevents auto-zoom jitter on Android / iOS */
+      }
+    }
+
     .brand-header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .brand-header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      letter-spacing: 2px;
+      font-size: 24px;
+      letter-spacing: 1.5px;
       color: var(--accent-gold);
       margin-bottom: 6px;
+      word-break: normal;
     }
     .brand-header p {
       font-size: 13px;
       color: var(--text-muted);
     }
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .form-group label {
       display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
-      font-weight: 500;
+      margin-bottom: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
       color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .form-control {
       width: 100%;
-      padding: 12px 16px;
+      padding: 13px 16px;
       background: #0f172a;
       border: 1px solid var(--panel-border);
       border-radius: 8px;
       color: var(--text-main);
       font-size: 14px;
       font-family: inherit;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
     }
     .form-control:focus {
       outline: none;
@@ -139,7 +158,7 @@
       color: #fff;
       border: none;
       border-radius: 8px;
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
@@ -152,9 +171,9 @@
       box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
     }
     .alert {
-      padding: 12px;
+      padding: 12px 14px;
       border-radius: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       font-size: 13px;
     }
     .alert-danger {
@@ -172,7 +191,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      margin-top: 24px;
+      margin-top: 22px;
       font-size: 13px;
       color: var(--text-muted);
       text-decoration: none;
@@ -192,8 +211,9 @@
 
     <div class="login-card">
       <div class="brand-header">
+        <div style="font-size: 28px; margin-bottom: 6px;">🛡️</div>
         <h1>PUSAT HAMPERS INDONESIA</h1>
-        <p>Masuk ke Portal Administrator</p>
+        <p>Portal Masuk Administrator Toko</p>
       </div>
 
       @if (session('error'))
