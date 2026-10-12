@@ -21,7 +21,7 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Outfit', sans-serif;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-main);
       display: flex;
@@ -228,6 +228,94 @@
       object-fit: cover;
       border-radius: 6px;
       background: #334155;
+    }
+
+    /* Laravel Pagination Styling (Fix Giant SVG Chevrons & Clean Dark Theme) */
+    .pagination-wrapper {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: center;
+      border-top: 1px solid var(--panel-border);
+      width: 100%;
+    }
+    .pagination svg, nav svg, nav[role="navigation"] svg {
+      width: 16px !important;
+      height: 16px !important;
+      max-width: 16px !important;
+      max-height: 16px !important;
+      min-width: 16px !important;
+      min-height: 16px !important;
+      display: inline-block !important;
+      vertical-align: middle !important;
+    }
+    nav[role="navigation"] {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    nav[role="navigation"] .w-5,
+    nav[role="navigation"] .h-5 {
+      width: 16px !important;
+      height: 16px !important;
+      max-width: 16px !important;
+      max-height: 16px !important;
+    }
+    nav[role="navigation"] > div:first-child {
+      display: none !important;
+    }
+    nav[role="navigation"] > div:last-child {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 10px !important;
+      width: 100% !important;
+    }
+    nav[role="navigation"] p {
+      font-size: 12.5px !important;
+      color: var(--text-muted) !important;
+      margin: 0 !important;
+      text-align: center !important;
+    }
+    nav[role="navigation"] p span {
+      color: #fff !important;
+      font-weight: 700 !important;
+    }
+    nav[role="navigation"] div:last-child > div:last-child {
+      display: flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+    }
+    nav[role="navigation"] span.relative,
+    nav[role="navigation"] a.relative {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-width: 32px !important;
+      height: 32px !important;
+      padding: 4px 10px !important;
+      border-radius: 6px !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      background: #0f172a !important;
+      border: 1px solid var(--panel-border) !important;
+      color: #cbd5e1 !important;
+      text-decoration: none !important;
+      transition: all 0.2s ease !important;
+    }
+    nav[role="navigation"] a.relative:hover {
+      background: rgba(245, 158, 11, 0.15) !important;
+      border-color: var(--accent-gold) !important;
+      color: #fbbf24 !important;
+    }
+    nav[role="navigation"] span[aria-current="page"] > span,
+    nav[role="navigation"] span.relative[aria-current="page"] {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover)) !important;
+      border-color: var(--accent-gold) !important;
+      color: #fff !important;
     }
 
     /* Forms */
@@ -475,7 +563,7 @@
         🥐 Kelola Produk
       </a>
       <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}">
-        📝 Pemesanan
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px; margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Pemesanan
         @php
           $allOrdersCount = \App\Models\Order::count();
         @endphp

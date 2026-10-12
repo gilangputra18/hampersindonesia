@@ -428,7 +428,7 @@
   </div>
 
   @if($orders->hasPages())
-    <div style="padding: 20px; display: flex; justify-content: center; border-top: 1px solid var(--panel-border);">
+    <div class="pagination-wrapper">
       {{ $orders->appends(request()->query())->links() }}
     </div>
   @endif

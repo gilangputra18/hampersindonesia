@@ -214,7 +214,7 @@
   </div>
 
   @if ($orders->hasPages())
-    <div style="margin-top: 24px; display: flex; justify-content: center;">
+    <div class="pagination-wrapper">
       {{ $orders->links() }}
     </div>
   @endif
