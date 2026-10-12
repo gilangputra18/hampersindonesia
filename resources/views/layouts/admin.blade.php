@@ -26,6 +26,8 @@
       color: var(--text-main);
       display: flex;
       min-height: 100vh;
+      overflow-x: hidden;
+      width: 100%;
     }
     a { color: inherit; text-decoration: none; }
 
@@ -102,22 +104,65 @@
       overflow-x: hidden;
     }
     .topbar {
-      height: 70px;
+      min-height: 68px;
+      height: auto;
       background: var(--panel-bg);
       border-bottom: 1px solid var(--panel-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 32px;
+      padding: 10px 28px;
+      box-sizing: border-box;
+      width: 100%;
+      gap: 16px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: 0.3px;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .topbar-user-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .hamburger-btn {
       display: none;
-      background: transparent;
-      border: none;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--panel-border);
       color: var(--text-main);
-      font-size: 22px;
+      font-size: 20px;
       cursor: pointer;
-      padding: 4px 8px;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .hamburger-btn:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--accent-gold);
+      color: #fbbf24;
     }
     .admin-badge {
       display: inline-flex;
@@ -126,10 +171,38 @@
       background: rgba(217, 119, 6, 0.15);
       border: 1px solid var(--accent-gold);
       color: var(--accent-gold);
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: 600;
+      height: 38px;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .admin-badge:hover {
+      background: rgba(217, 119, 6, 0.25);
+      transform: translateY(-1px);
+    }
+    .btn-logout-topbar {
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 38px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-logout-topbar:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: #ef4444;
+      color: #fff;
     }
     .content {
       padding: 32px;
@@ -511,6 +584,7 @@
     }
 
     /* Mobile Responsiveness */
+    /* Mobile & Tablet Responsiveness */
     @media (max-width: 1024px) {
       .sidebar {
         transform: translateX(-100%);
@@ -524,19 +598,116 @@
       .main-wrapper {
         margin-left: 0;
         width: 100%;
-        max-width: 100%;
+        max-width: 100vw;
       }
       .hamburger-btn {
-        display: inline-block;
+        display: inline-flex;
       }
       .topbar {
-        padding: 0 16px;
+        padding: 8px 14px;
+        min-height: 60px;
+        gap: 10px;
+      }
+      .topbar-title {
+        font-size: 15px;
       }
       .content {
         padding: 16px;
       }
       .panel {
         padding: 16px;
+      }
+      .notif-dropdown {
+        right: -50px;
+        width: min(320px, 90vw);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        padding: 6px 10px;
+        min-height: 56px;
+        gap: 6px;
+      }
+      .topbar-left {
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+      .hamburger-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 18px;
+      }
+      .topbar-title {
+        font-size: 13.5px;
+        font-weight: 700;
+        line-height: 1.25;
+        max-width: 100%;
+      }
+      .topbar-right {
+        gap: 6px;
+        flex-shrink: 0;
+      }
+      .notif-bell-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+        border-radius: 8px;
+      }
+      .admin-badge {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+        border-width: 1.5px;
+      }
+      .admin-badge-name {
+        display: none !important;
+      }
+      .btn-logout-topbar {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: 15px;
+      }
+      .logout-btn-text {
+        display: none !important;
+      }
+      .notif-dropdown {
+        right: -80px;
+        width: min(310px, calc(100vw - 20px));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        padding: 6px 8px;
+        gap: 4px;
+      }
+      .topbar-left {
+        gap: 6px;
+      }
+      .topbar-title {
+        font-size: 12.5px;
+      }
+      .topbar-right {
+        gap: 4px;
+      }
+      .hamburger-btn,
+      .notif-bell-btn,
+      .admin-badge,
+      .btn-logout-topbar {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+      }
+      .notif-dropdown {
+        right: -72px;
+        width: min(290px, calc(100vw - 16px));
       }
     }
   </style>
@@ -627,12 +798,12 @@
   <!-- Main Content -->
   <div class="main-wrapper">
     <header class="topbar">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <button type="button" class="hamburger-btn" id="sidebar-toggle-btn">☰</button>
-        <h3 style="font-size: 18px; font-weight: 600;">@yield('page_title', 'Dashboard')</h3>
+      <div class="topbar-left">
+        <button type="button" class="hamburger-btn" id="sidebar-toggle-btn" aria-label="Buka Menu Sidebar">☰</button>
+        <h2 class="topbar-title">@yield('page_title', 'Dashboard')</h2>
       </div>
 
-      <div style="display: flex; align-items: center; gap: 16px;">
+      <div class="topbar-right">
         <!-- Notification Dropdown Toggle -->
         <div style="position: relative;">
           <button type="button" id="notif-bell-btn" class="notif-bell-btn" title="Notifikasi Pesanan Masuk">
@@ -661,20 +832,20 @@
         </div>
 
         <!-- Admin Profile Badge & Logout Button -->
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <a href="{{ route('admin.profile.index') }}" class="admin-badge" title="Edit Profil Admin">
+        <div class="topbar-user-actions">
+          <a href="{{ route('admin.profile.index') }}" class="admin-badge" title="Profil Admin: {{ Auth::user()->name ?? 'Admin' }}">
             @if(Auth::user() && Auth::user()->avatar)
               <img src="{{ Auth::user()->avatar_url }}" style="width: 22px; height: 22px; border-radius: 50%; object-fit: cover;">
             @else
               👤
             @endif
-            <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+            <span class="admin-badge-name">{{ Auth::user()->name ?? 'Admin' }}</span>
           </a>
 
           <form action="{{ route('admin.logout') }}" method="POST" style="margin: 0; display: inline;">
             @csrf
-            <button type="submit" class="btn btn-outline" style="padding: 6px 14px; font-size: 12px; color: #f87171; border-color: rgba(239, 68, 68, 0.4); display: flex; align-items: center; gap: 6px;" title="Keluar dari Panel Admin">
-              🚪 <span>Keluar</span>
+            <button type="submit" class="btn btn-outline btn-logout-topbar" title="Keluar dari Panel Admin">
+              🚪 <span class="logout-btn-text">Keluar</span>
             </button>
           </form>
         </div>
