@@ -1,69 +1,96 @@
 @extends('layouts.admin')
 
 @section('title', 'Kelola Pesanan (Orders)')
-@section('page_title', 'Kelola Pesanan (Orders)')
+@section('page_title', '📝 Kelola Seluruh Pesanan')
 
 @section('content')
 <style>
+  /* Royal Luxury Color System */
+  :root {
+    --gold-gradient: linear-gradient(135deg, #fef08a 0%, #e6ca65 35%, #d97706 70%, #b45309 100%);
+    --emerald-dark: #0a1410;
+    --emerald-card: #0f1c16;
+    --gold-border: rgba(217, 119, 6, 0.25);
+  }
+
   /* Metric Header Cards */
   .stat-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 16px;
-    margin-bottom: 28px;
+    margin-bottom: 26px;
   }
   .stat-card {
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
-    border-radius: 12px;
-    padding: 18px 20px;
+    background: linear-gradient(135deg, #13221b 0%, #0d1712 100%);
+    border: 1px solid var(--gold-border);
+    border-radius: 14px;
+    padding: 20px 22px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     text-decoration: none;
     color: inherit;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.25s;
   }
   .stat-card:hover {
-    border-color: var(--accent-gold);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15);
+    border-color: #f59e0b;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(245, 158, 11, 0.2);
+  }
+  .stat-card:hover::before, .stat-card.active::before {
+    background: linear-gradient(90deg, #fef08a, #d97706);
   }
   .stat-card.active {
-    border-color: var(--accent-gold);
-    background: linear-gradient(135deg, #1e293b 0%, rgba(217, 119, 6, 0.15) 100%);
+    border-color: #d97706;
+    background: linear-gradient(135deg, #182c23 0%, #112018 100%);
+    box-shadow: 0 8px 25px rgba(217, 119, 6, 0.25);
   }
   .stat-val {
-    font-size: 26px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
     color: #fff;
     line-height: 1.1;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.5px;
   }
   .stat-lbl {
     font-size: 11.5px;
-    color: var(--text-muted);
+    color: #94a3b8;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 4px;
+    letter-spacing: 1.2px;
+    margin-top: 5px;
+    font-weight: 600;
   }
   .stat-icon {
-    font-size: 26px;
-    opacity: 0.8;
+    font-size: 30px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
   }
 
   /* Action Bar */
   .toolbar-container {
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
-    border-radius: 12px;
-    padding: 16px 20px;
+    background: linear-gradient(135deg, #13221b 0%, #0d1712 100%);
+    border: 1px solid var(--gold-border);
+    border-radius: 14px;
+    padding: 18px 22px;
     margin-bottom: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
     flex-wrap: wrap;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
   .filter-pills {
     display: flex;
@@ -73,85 +100,292 @@
   }
   .filter-pill {
     padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--text-muted);
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #cbd5e1;
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--panel-border);
-    transition: all 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.2s ease;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    letter-spacing: 0.3px;
   }
-  .filter-pill:hover, .filter-pill.active {
-    color: #fff;
-    background: var(--accent-gold);
-    border-color: var(--accent-gold);
-    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+  .filter-pill:hover {
+    color: #fef08a;
+    border-color: rgba(217, 119, 6, 0.5);
+    background: rgba(217, 119, 6, 0.12);
+  }
+  .filter-pill.active {
+    color: #0b1510;
+    background: linear-gradient(135deg, #fef08a 0%, #d97706 100%);
+    border-color: #fef08a;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+    font-weight: 800;
   }
 
-  /* Table Customizations */
+  /* Royal Table Card */
   .order-table-card {
-    background: var(--panel-bg);
-    border: 1px solid var(--panel-border);
-    border-radius: 12px;
+    background: linear-gradient(180deg, #111e18 0%, #0c1611 100%);
+    border: 1px solid var(--gold-border);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  }
+  .table-orders-royal {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+  }
+  .table-orders-royal thead th {
+    background: #09120e;
+    padding: 16px 18px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #e6ca65;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid rgba(217, 119, 6, 0.35);
+    white-space: nowrap;
+  }
+  .table-orders-royal tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.2s ease;
+  }
+  .table-orders-royal tbody tr:hover {
+    background: rgba(217, 119, 6, 0.04);
+  }
+  .table-orders-royal tbody td {
+    padding: 18px;
+    vertical-align: middle;
+    font-size: 13px;
+    color: #e2e8f0;
+  }
+
+  /* Invoice Badge */
+  .inv-badge-box {
+    display: inline-block;
   }
   .inv-link {
     font-family: monospace;
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--accent-gold);
+    font-weight: 800;
+    font-size: 13.5px;
+    color: #fbbf24;
     text-decoration: none;
-    transition: color 0.2s;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s;
   }
   .inv-link:hover {
     color: #fef08a;
     text-decoration: underline;
   }
+  .tracking-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #e2e8f0;
+    font-family: monospace;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 2px 7px;
+    border-radius: 5px;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+  }
 
-  .cust-avatar {
-    width: 38px;
-    height: 38px;
+  /* Customer Avatar & Royal Monogram */
+  .cust-avatar-royal {
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border: 1px solid var(--panel-border);
-    color: var(--accent-gold);
-    font-weight: 700;
-    font-size: 13px;
+    background: radial-gradient(circle, #253d30 0%, #0d1712 100%);
+    border: 1.5px solid #d97706;
+    color: #fef08a;
+    font-weight: 800;
+    font-size: 13.5px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(217, 119, 6, 0.25);
+    letter-spacing: 0.5px;
+  }
+  .role-chip-member {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .role-chip-guest {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn-wa-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #4ade80;
+    text-decoration: none;
+    font-size: 11.5px;
+    font-weight: 600;
+    background: rgba(37, 211, 102, 0.1);
+    border: 1px solid rgba(37, 211, 102, 0.25);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-top: 4px;
+    transition: background 0.15s;
+  }
+  .btn-wa-chip:hover {
+    background: rgba(37, 211, 102, 0.25);
+    color: #86efac;
   }
 
-  .status-badge {
+  /* Royal Status Badges */
+  .badge-royal {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 12px;
+    padding: 5px 12px;
     border-radius: 20px;
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
-  .status-paid { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-  .status-unpaid { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-  
-  .status-pending { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-  .status-processing { background: rgba(245, 158, 11, 0.15); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.3); }
-  .status-completed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
-  .status-cancelled { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+  .badge-paid {
+    background: rgba(16, 185, 129, 0.16);
+    color: #34d399;
+    border: 1px solid #10b981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+  }
+  .badge-unpaid {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+  }
+  .badge-waiting-proof {
+    background: rgba(245, 158, 11, 0.18);
+    color: #fbbf24;
+    border: 1px solid #f59e0b;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+    animation: pulseGlow 2s infinite ease-in-out;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 8px rgba(245, 158, 11, 0.2); }
+    50% { box-shadow: 0 0 16px rgba(245, 158, 11, 0.45); }
+  }
 
-  .items-list-preview {
-    font-size: 12px;
-    color: #cbd5e1;
-    max-width: 240px;
-    line-height: 1.4;
+  .badge-pending    { background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
+  .badge-processing { background: rgba(245, 158, 11, 0.15); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4); }
+  .badge-completed  { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+  .badge-cancelled  { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+  /* Price & Payment */
+  .price-highlight {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #fef08a;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.3px;
+    display: block;
+  }
+  .pay-method-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #94a3b8;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 2px 7px;
+    border-radius: 5px;
+    margin-top: 4px;
+  }
+
+  /* Control Box on the Right */
+  .control-box-royal {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 210px;
+  }
+  .select-royal {
+    background: #09120e;
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    color: #e2e8f0;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 11.5px;
+    font-family: inherit;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .select-royal:focus {
+    border-color: #f59e0b;
+  }
+  .input-resi-royal {
+    background: #09120e;
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 11.5px;
+    font-family: monospace;
+    flex: 1;
+    outline: none;
+  }
+  .input-resi-royal:focus {
+    border-color: #f59e0b;
+  }
+  .btn-save-royal {
+    padding: 5px 12px;
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+    white-space: nowrap;
+  }
+  .btn-save-royal:hover {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
   }
 </style>
 
@@ -162,28 +396,28 @@
       <div class="stat-val">{{ $counts['all'] }}</div>
       <div class="stat-lbl">Semua Pesanan</div>
     </div>
-    <div class="stat-icon">📝</div>
+    <div class="stat-icon">📋</div>
   </a>
 
-  <a href="{{ route('admin.orders.verification') }}" class="stat-card" style="border-color: rgba(245, 158, 11, 0.5); background: linear-gradient(135deg, #1e293b 0%, rgba(245, 158, 11, 0.1) 100%);">
+  <a href="{{ route('admin.orders.verification') }}" class="stat-card" style="border-color: rgba(245, 158, 11, 0.5); background: linear-gradient(135deg, #231c0e 0%, #151008 100%);">
     <div>
       <div class="stat-val" style="color: #fbbf24;">{{ $counts['verification'] ?? 0 }}</div>
       <div class="stat-lbl">Antrian Verifikasi Bukti</div>
     </div>
-    <div class="stat-icon">✅</div>
+    <div class="stat-icon">⏳</div>
   </a>
 
   <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="stat-card {{ request('status') === 'pending' ? 'active' : '' }}">
     <div>
-      <div class="stat-val" style="color: {{ $counts['pending'] > 0 ? '#ef4444' : '#fff' }};">{{ $counts['pending'] }}</div>
-      <div class="stat-lbl">Pesanan Masuk (Pending)</div>
+      <div class="stat-val" style="color: {{ $counts['pending'] > 0 ? '#fbbf24' : '#fff' }};">{{ $counts['pending'] }}</div>
+      <div class="stat-lbl">Pesanan Baru (Pending)</div>
     </div>
     <div class="stat-icon">🔔</div>
   </a>
 
   <a href="{{ route('admin.orders.index', ['status' => 'processing']) }}" class="stat-card {{ request('status') === 'processing' ? 'active' : '' }}">
     <div>
-      <div class="stat-val" style="color: #f59e0b;">{{ $counts['processing'] }}</div>
+      <div class="stat-val" style="color: #fde047;">{{ $counts['processing'] }}</div>
       <div class="stat-lbl">Sedang Diproses</div>
     </div>
     <div class="stat-icon">🥖</div>
@@ -191,10 +425,10 @@
 
   <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="stat-card {{ request('status') === 'completed' ? 'active' : '' }}">
     <div>
-      <div class="stat-val" style="color: #10b981;">{{ $counts['completed'] }}</div>
-      <div class="stat-lbl">Selesai / Diterima</div>
+      <div class="stat-val" style="color: #34d399;">{{ $counts['completed'] }}</div>
+      <div class="stat-lbl">Selesai & Diterima</div>
     </div>
-    <div class="stat-icon">📦</div>
+    <div class="stat-icon">✨</div>
   </a>
 
   <a href="{{ route('admin.orders.index', ['status' => 'cancelled']) }}" class="stat-card {{ request('status') === 'cancelled' ? 'active' : '' }}">
@@ -207,8 +441,8 @@
 </div>
 
 @if (session('success'))
-  <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #34d399; padding: 14px 20px; border-radius: 10px; margin-bottom: 24px; font-size: 14px;">
-    ✅ {{ session('success') }}
+  <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%); border: 1px solid #10b981; color: #34d399; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+    <span>✅</span> <span>{{ session('success') }}</span>
   </div>
 @endif
 
@@ -218,8 +452,8 @@
     <a href="{{ route('admin.orders.index') }}" class="filter-pill {{ !request('status') ? 'active' : '' }}">
       Semua ({{ $counts['all'] }})
     </a>
-    <a href="{{ route('admin.orders.verification') }}" class="filter-pill" style="border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">
-      ✅ Antrian Verifikasi ({{ $counts['verification'] ?? 0 }})
+    <a href="{{ route('admin.orders.verification') }}" class="filter-pill" style="border-color: rgba(245, 158, 11, 0.5); color: #fbbf24;">
+      ⏳ Antrian Verifikasi ({{ $counts['verification'] ?? 0 }})
     </a>
     <a href="{{ route('admin.orders.index', ['status' => 'pending']) }}" class="filter-pill {{ request('status') === 'pending' ? 'active' : '' }}">
       🔔 Pending ({{ $counts['pending'] }})
@@ -228,7 +462,7 @@
       🥖 Diproses ({{ $counts['processing'] }})
     </a>
     <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="filter-pill {{ request('status') === 'completed' ? 'active' : '' }}">
-      ✅ Selesai ({{ $counts['completed'] }})
+      ✨ Selesai ({{ $counts['completed'] }})
     </a>
     <a href="{{ route('admin.orders.index', ['status' => 'cancelled']) }}" class="filter-pill {{ request('status') === 'cancelled' ? 'active' : '' }}">
       ❌ Dibatalkan ({{ $counts['cancelled'] }})
@@ -240,18 +474,18 @@
       @if(request('status'))
         <input type="hidden" name="status" value="{{ request('status') }}">
       @endif
-      <input type="text" name="search" class="form-control" placeholder="Cari invoice / nama / WA..." value="{{ request('search') }}" style="width: 220px; padding: 8px 12px; font-size: 13px;">
-      <button type="submit" class="btn btn-gold" style="padding: 8px 14px; font-size: 12px;">Cari</button>
+      <input type="text" name="search" class="form-control" placeholder="Cari invoice / nama / WA..." value="{{ request('search') }}" style="width: 220px; padding: 9px 14px; font-size: 12.5px; border-radius: 8px;">
+      <button type="submit" class="btn btn-gold" style="padding: 9px 16px; font-size: 12.5px; border-radius: 8px;">Cari</button>
       @if(request()->hasAny(['search', 'status']))
-        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline" style="padding: 8px 12px; font-size: 12px;">Reset</a>
+        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline" style="padding: 9px 14px; font-size: 12.5px; border-radius: 8px;">Reset</a>
       @endif
     </form>
 
     <div style="display: flex; gap: 6px;">
-      <a href="{{ route('admin.export.excel') }}" class="btn btn-outline" style="padding: 8px 12px; font-size: 12px; border-color: rgba(16, 185, 129, 0.4); color: #34d399;" title="Export Data Pesanan ke Excel">
+      <a href="{{ route('admin.export.excel') }}" class="btn btn-outline" style="padding: 8px 14px; font-size: 12px; border-color: rgba(16, 185, 129, 0.4); color: #34d399; border-radius: 8px;" title="Export Data Pesanan ke Excel">
         📊 Excel
       </a>
-      <a href="{{ route('admin.export.pdf') }}" class="btn btn-outline" style="padding: 8px 12px; font-size: 12px; border-color: rgba(239, 68, 68, 0.4); color: #f87171;" title="Export Laporan PDF">
+      <a href="{{ route('admin.export.pdf') }}" class="btn btn-outline" style="padding: 8px 14px; font-size: 12px; border-color: rgba(239, 68, 68, 0.4); color: #f87171; border-radius: 8px;" title="Export Laporan PDF">
         📄 PDF
       </a>
     </div>
@@ -261,14 +495,14 @@
 <!-- Orders Table -->
 <div class="order-table-card">
   <div class="table-responsive">
-    <table class="table">
+    <table class="table-orders-royal">
       <thead>
         <tr>
           <th>INVOICE & RESI</th>
           <th>AKUN PEMBELI & KONTAK</th>
           <th>PRODUK PESANAN</th>
           <th>PENGIRIMAN & EKSPEDISI</th>
-          <th>METODE & HARGA</th>
+          <th>METODE & TOTAL</th>
           <th>STATUS BAYAR</th>
           <th>STATUS PESANAN</th>
           <th style="text-align: right; min-width: 220px;">UPDATE STATUS & RESI</th>
@@ -288,137 +522,172 @@
             }
           @endphp
           <tr>
+            <!-- Col 1: Invoice & Resi -->
             <td>
-              <a href="{{ route('order.show', $ord->invoice_number) }}" target="_blank" class="inv-link" title="Buka faktur pesanan">
-                {{ $ord->invoice_number }}
-              </a>
-              <div style="font-size: 11px; color: #f59e0b; font-family: monospace; font-weight: 600; margin-top: 3px;" title="Resi Pembelian / Tracking Number">
-                🏷️ {{ $ord->tracking_number ?: 'Belum ada resi' }}
+              <div class="inv-badge-box">
+                <a href="{{ route('order.show', $ord->invoice_number) }}" target="_blank" class="inv-link" title="Buka faktur resmi pesanan">
+                  <span>🧾</span> {{ $ord->invoice_number }}
+                </a>
               </div>
-              <div style="font-size: 10.5px; color: var(--text-muted); margin-top: 2px;">
+              <div>
+                @if($ord->tracking_number)
+                  <div class="tracking-pill" style="color: #fbbf24; border-color: rgba(245, 158, 11, 0.3);">
+                    🏷️ {{ $ord->tracking_number }}
+                  </div>
+                @else
+                  <div class="tracking-pill" style="color: #64748b;">
+                    🏷️ Resi Belum Terbit
+                  </div>
+                @endif
+              </div>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
                 🕒 {{ $ord->created_at->diffForHumans() }}
               </div>
             </td>
 
+            <!-- Col 2: Akun Pembeli & Kontak -->
             <td>
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <div class="cust-avatar">{{ $initials }}</div>
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div class="cust-avatar-royal">{{ $initials }}</div>
                 <div>
-                  <strong style="color: #fff; font-size: 13.5px; display: block;">{{ $ord->customer_name }}</strong>
-                  <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">
-                    <a href="https://wa.me/{{ $cleanPhone }}" target="_blank" style="color: #34d399; text-decoration: none;" title="Chat WhatsApp Pemesan">
+                  <strong style="color: #fff; font-size: 14px; display: block; font-weight: 700;">{{ $ord->customer_name }}</strong>
+                  
+                  <div style="margin-top: 3px;">
+                    <a href="https://wa.me/{{ $cleanPhone }}?text={{ urlencode('Halo ' . $ord->customer_name . ', terkait pesanan ' . $ord->invoice_number . ' di Pusat Hampers Indonesia...') }}" target="_blank" class="btn-wa-chip" title="Chat WhatsApp Pemesan">
                       💬 {{ $ord->customer_phone }}
                     </a>
                   </div>
-                  <div style="margin-top: 3px;">
+
+                  <div style="margin-top: 5px;">
                     @if($ord->user_id)
-                      <span style="font-size: 10px; background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); padding: 1px 6px; border-radius: 10px; font-weight: 700;">
-                        👤 MEMBER ({{ $ord->user ? $ord->user->email : ($ord->customer_email ?: 'Terverifikasi') }})
+                      <span class="role-chip-member">
+                        👑 VIP MEMBER
                       </span>
                     @else
-                      <span style="font-size: 10px; background: rgba(255, 255, 255, 0.08); color: #94a3b8; border: 1px solid var(--panel-border); padding: 1px 6px; border-radius: 10px;">
-                        👤 TAMU (GUEST)
+                      <span class="role-chip-guest">
+                        ✨ TAMU
                       </span>
+                    @endif
+                    @if($ord->customer_email)
+                      <span style="font-size: 11px; color: #64748b; margin-left: 4px;">{{ $ord->customer_email }}</span>
                     @endif
                   </div>
                 </div>
               </div>
             </td>
 
+            <!-- Col 3: Produk Pesanan -->
             <td>
-              <div class="items-list-preview">
+              <div style="max-width: 250px;">
                 @if($ord->items && $ord->items->count() > 0)
-                  @foreach($ord->items->take(2) as $it)
-                    <div>• {{ $it->quantity }}x {{ $it->product_name }}</div>
-                  @endforeach
-                  @if($ord->items->count() > 2)
-                    <div style="font-size: 10.5px; color: var(--accent-gold);">+{{ $ord->items->count() - 2 }} produk lainnya...</div>
-                  @endif
+                  <div style="display: flex; flex-direction: column; gap: 4px;">
+                    @foreach($ord->items->take(2) as $it)
+                      <div style="font-size: 12.5px; color: #e2e8f0; line-height: 1.35;">
+                        <strong style="color: #fef08a;">{{ $it->quantity }}x</strong> {{ $it->product_name }}
+                      </div>
+                    @endforeach
+                    @if($ord->items->count() > 2)
+                      <a href="{{ route('order.show', $ord->invoice_number) }}" target="_blank" style="font-size: 11px; color: #f59e0b; text-decoration: underline; font-weight: 600; margin-top: 2px;">
+                        +{{ $ord->items->count() - 2 }} produk hampers lainnya...
+                      </a>
+                    @endif
+                  </div>
                 @else
-                  <span style="color: var(--text-muted); font-style: italic;">Item detail</span>
+                  <span style="color: #64748b; font-style: italic; font-size: 12px;">Item detail tidak tersedia</span>
                 @endif
               </div>
             </td>
 
+            <!-- Col 4: Pengiriman & Ekspedisi -->
             <td>
-              <span style="background: rgba(255,255,255,0.06); border: 1px solid var(--panel-border); padding: 3px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 600; color: #cbd5e1;">
+              <span style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; color: #94a3b8; letter-spacing: 0.5px;">
                 {{ strtoupper($ord->delivery_option) }}
               </span>
-              <div style="font-size: 11.5px; color: #cbd5e1; font-weight: 600; margin-top: 4px;">
+              <div style="font-size: 12px; color: #e2e8f0; font-weight: 600; margin-top: 4px;">
                 🚚 {{ $ord->courier_name ?: 'Kurir Toko' }}
               </div>
-              <div style="font-size: 10.5px; color: var(--text-muted); margin-top: 2px;">
+              <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
                 📅 {{ date('d M Y', strtotime($ord->delivery_date)) }}
               </div>
             </td>
 
+            <!-- Col 5: Metode & Total Harga -->
             <td>
-              <strong style="font-size: 14px; color: var(--accent-gold); display: block;">
+              <span class="price-highlight">
                 Rp {{ number_format($ord->total_amount, 0, ',', '.') }}
-              </strong>
-              <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+              </span>
+              <div class="pay-method-chip">
                 💳 {{ $ord->payment_method ?: 'Transfer Bank BCA' }}
               </div>
             </td>
 
+            <!-- Col 6: Status Bayar & Bukti -->
             <td>
               @if ($ord->payment_status === 'paid' || $ord->payment_status === 'verified')
-                <span class="status-badge status-paid">✅ LUNAS</span>
+                <span class="badge-royal badge-paid">🟢 LUNAS</span>
               @elseif ($ord->payment_status === 'waiting_verification')
-                <span class="status-badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">⏳ BUKTI MASUK</span>
+                <span class="badge-royal badge-waiting-proof">⏳ VERIFIKASI BUKTI</span>
               @else
-                <span class="status-badge status-unpaid">BELUM BAYAR</span>
+                <span class="badge-royal badge-unpaid">⚠️ BELUM BAYAR</span>
               @endif
 
               @if ($ord->payment_proof)
-                <div style="margin-top: 4px;">
-                  <a href="{{ $ord->payment_proof_url }}" target="_blank" style="font-size: 11px; color: var(--accent-gold); text-decoration: underline;">
-                    📎 Cek Bukti
+                <div style="margin-top: 6px;">
+                  <a href="{{ $ord->payment_proof_url }}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #fbbf24; text-decoration: underline; font-weight: 700;">
+                    <span>📸</span> <span>Lihat Bukti Transfer</span>
                   </a>
                 </div>
               @endif
             </td>
 
+            <!-- Col 7: Status Pesanan -->
             <td>
-              <span class="status-badge status-{{ $ord->order_status }}">
-                📌 {{ strtoupper($ord->order_status) }}
-              </span>
+              @if ($ord->order_status === 'pending')
+                <span class="badge-royal badge-pending">🔔 PENDING</span>
+              @elseif ($ord->order_status === 'processing')
+                <span class="badge-royal badge-processing">🥖 DIPROSES</span>
+              @elseif ($ord->order_status === 'completed')
+                <span class="badge-royal badge-completed">✨ SELESAI</span>
+              @else
+                <span class="badge-royal badge-cancelled">❌ DIBATALKAN</span>
+              @endif
             </td>
 
+            <!-- Col 8: Update Status & Resi -->
             <td style="text-align: right;">
-              <form action="{{ route('admin.orders.updateStatus', $ord->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
+              <form action="{{ route('admin.orders.updateStatus', $ord->id) }}" method="POST" class="control-box-royal">
                 @csrf
-                <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end;">
-                  <select name="payment_status" class="form-control" style="width: auto; padding: 4px 6px; font-size: 11px; background: #0f172a;" title="Status Pembayaran">
-                    <option value="unpaid" {{ $ord->payment_status == 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                    <option value="waiting_verification" {{ $ord->payment_status == 'waiting_verification' ? 'selected' : '' }}>Waiting Verification</option>
-                    <option value="paid" {{ $ord->payment_status == 'paid' ? 'selected' : '' }}>Paid</option>
+                <div style="display: flex; gap: 4px; justify-content: space-between;">
+                  <select name="payment_status" class="select-royal" style="flex: 1;" title="Ubah Status Pembayaran">
+                    <option value="unpaid" {{ $ord->payment_status == 'unpaid' ? 'selected' : '' }}>Belum Bayar</option>
+                    <option value="waiting_verification" {{ $ord->payment_status == 'waiting_verification' ? 'selected' : '' }}>Antrian Verifikasi</option>
+                    <option value="paid" {{ $ord->payment_status == 'paid' ? 'selected' : '' }}>Lunas</option>
                     <option value="verified" {{ $ord->payment_status == 'verified' ? 'selected' : '' }}>Verified</option>
                   </select>
 
-                  <select name="order_status" class="form-control" style="width: auto; padding: 4px 6px; font-size: 11px; background: #0f172a;" title="Status Pesanan">
+                  <select name="order_status" class="select-royal" style="flex: 1;" title="Ubah Status Pesanan">
                     <option value="pending" {{ $ord->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="processing" {{ $ord->order_status == 'processing' ? 'selected' : '' }}>Processing</option>
-                    <option value="completed" {{ $ord->order_status == 'completed' ? 'selected' : '' }}>Completed</option>
-                    <option value="cancelled" {{ $ord->order_status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                    <option value="processing" {{ $ord->order_status == 'processing' ? 'selected' : '' }}>Diproses</option>
+                    <option value="completed" {{ $ord->order_status == 'completed' ? 'selected' : '' }}>Selesai</option>
+                    <option value="cancelled" {{ $ord->order_status == 'cancelled' ? 'selected' : '' }}>Batal</option>
                   </select>
                 </div>
 
-                <div style="display: flex; gap: 4px; width: 100%; justify-content: flex-end;">
-                  <input type="text" name="tracking_number" class="form-control" value="{{ $ord->tracking_number }}" placeholder="Nomor Resi / Tracking..." style="padding: 4px 8px; font-size: 11px; width: 140px; background: #0f172a;" title="Edit Nomor Resi Pembelian">
-                  <button type="submit" class="btn btn-gold" style="padding: 4px 10px; font-size: 11px;">Simpan</button>
+                <div style="display: flex; gap: 4px;">
+                  <input type="text" name="tracking_number" class="input-resi-royal" value="{{ $ord->tracking_number }}" placeholder="Nomor Resi / Kurir..." title="Nomor Resi Pembelian">
+                  <button type="submit" class="btn-save-royal">Simpan</button>
                 </div>
               </form>
             </td>
           </tr>
         @empty
           <tr>
-            <td colspan="8" style="text-align: center; padding: 60px 20px;">
-              <div style="font-size: 40px; margin-bottom: 10px;">📭</div>
-              <h4 style="font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 4px;">Tidak Ada Pesanan Ditemukan</h4>
-              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Belum ada pesanan yang sesuai dengan filter atau kata kunci pencarian Anda.</p>
+            <td colspan="8" style="text-align: center; padding: 70px 20px;">
+              <div style="font-size: 46px; margin-bottom: 12px;">⚜️</div>
+              <h4 style="font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px;">Tidak Ada Pesanan Ditemukan</h4>
+              <p style="font-size: 13px; color: #94a3b8; margin-bottom: 18px;">Belum ada pesanan yang sesuai dengan filter atau kata kunci pencarian Anda.</p>
               @if(request()->hasAny(['search', 'status']))
-                <a href="{{ route('admin.orders.index') }}" class="btn btn-gold">Lihat Semua Pesanan</a>
+                <a href="{{ route('admin.orders.index') }}" class="btn btn-gold" style="border-radius: 8px;">Lihat Semua Pesanan</a>
               @endif
             </td>
           </tr>
