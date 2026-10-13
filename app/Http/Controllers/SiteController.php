@@ -63,13 +63,13 @@ class SiteController extends Controller
             abort(404);
         }
 
-        // Base query for category products
-        $baseQuery = Product::where('category_id', $cat->id);
+        // Base query for category products (with eager-loaded category relation)
+        $baseQuery = Product::with('category')->where('category_id', $cat->id);
 
         // Auto-heal: If category currently has no products, populate default products so the page is never blank!
         if ($baseQuery->count() === 0) {
             $this->ensureCategoryHasProducts($cat);
-            $baseQuery = Product::where('category_id', $cat->id);
+            $baseQuery = Product::with('category')->where('category_id', $cat->id);
         }
 
         // Aggregate filter options based on all products in this category

@@ -48,12 +48,24 @@ class ReviewCouponController extends Controller
     public function applyCoupon(Request $request)
     {
         $request->validate([
-            'code'     => 'required|string',
-            'subtotal' => 'required|integer|min:0',
+            'code' => 'required|string|max:50',
         ]);
 
-        $code     = strtoupper(trim($request->code));
-        $subtotal = (int) $request->subtotal;
+        $code = strtoupper(trim($request->code));
+        $cart = session()->get('cart', []);
+
+        if (empty($cart)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Keranjang belanja Anda masih kosong. Silakan pilih produk terlebih dahulu.',
+            ], 422);
+        }
+
+        // Hitung subtotal langsung dari data cart di session server
+        $subtotal = 0;
+        foreach ($cart as $item) {
+            $subtotal += ((int) ($item['price'] ?? 0)) * ((int) ($item['quantity'] ?? 1));
+        }
 
         $coupon = Coupon::where('code', $code)->first();
 

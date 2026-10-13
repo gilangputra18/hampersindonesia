@@ -440,7 +440,21 @@
           </div>
           <div class="info-item">
             <label>📞 No. Telepon / WhatsApp:</label>
-            <span>{{ $order->customer_phone }}</span>
+            <span>
+              @php
+                $isOwnerOrAdmin = auth()->check() && (auth()->id() === $order->user_id || auth()->user()->is_admin);
+                $rawPhone = $order->customer_phone ?? '';
+                if ($isOwnerOrAdmin || strlen($rawPhone) < 6) {
+                    $maskedPhone = $rawPhone;
+                } else {
+                    $maskedPhone = substr($rawPhone, 0, 4) . '••••' . substr($rawPhone, -3);
+                }
+              @endphp
+              {{ $maskedPhone }}
+              @if(!$isOwnerOrAdmin)
+                <small style="color: #64748b; font-size: 10px; display: block;">🔒 Disamarkan demi privasi</small>
+              @endif
+            </span>
           </div>
           <div class="info-item">
             <label>🚚 Ekspedisi / Kurir:</label>
@@ -460,7 +474,17 @@
           </div>
           <div class="info-item" style="grid-column: 1 / -1;">
             <label>📍 Alamat Pengiriman / Catatan:</label>
-            <span>{{ $order->address ?: 'Pick up di Store Pusat Hampers Indonesia' }}</span>
+            <span>
+              @php
+                $rawAddress = $order->address ?: 'Pick up di Store Pusat Hampers Indonesia';
+                if ($isOwnerOrAdmin || $order->delivery_option === 'pickup' || strlen($rawAddress) < 20) {
+                    $displayAddress = $rawAddress;
+                } else {
+                    $displayAddress = substr($rawAddress, 0, 18) . '... [Alamat lengkap disamarkan demi privasi data]';
+                }
+              @endphp
+              {{ $displayAddress }}
+            </span>
           </div>
         </div>
 

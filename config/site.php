@@ -6,11 +6,11 @@ return [
     'since'      => '2026',
     'hero_video' => env('HERO_VIDEO_URL', '/videos/hero.mp4'),
     'tagline'    => 'Buat perayaan Anda tak terlupakan bersama kami.',
-    'address'    => 'Jl. Contoh No. 1, Jakarta Selatan',
-    'phone'      => '(021) 000 00 00',
-    'wa'         => '+62 800-0000-000',
-    'email'      => 'hello@example.com',
-    'hours'      => 'Senin - Minggu, 07.00 - 22.00 WIB',
+    'address'    => env('STORE_ADDRESS', 'Jl. Cikajang V No. 12, Kebayoran Baru, Jakarta Selatan'),
+    'phone'      => env('STORE_PHONE', '+62 811-1522-82'),
+    'wa'         => env('STORE_WA', '+62 811-1522-82'),
+    'email'      => env('STORE_EMAIL', 'concierge@hampersindonesia.com'),
+    'hours'      => 'Senin - Minggu, 08.00 - 21.00 WIB',
 
     // Harga dalam Rupiah. Gambar produk: public/images/{slug-nama}.jpg
     'categories' => [

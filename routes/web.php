@@ -17,19 +17,6 @@ use App\Http\Controllers\SiteController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
-// Utility Route to Clear Cache on Live Server
-Route::get('/clear-cache', function() {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('view:clear');
-        \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        \Illuminate\Support\Facades\Artisan::call('config:clear');
-        \Illuminate\Support\Facades\Artisan::call('route:clear');
-        return '<div style="font-family:sans-serif; text-align:center; padding:50px;"><h2>✅ Cache & View Berhasil Dibersihkan!</h2><p>Server cPanel telah berhasil memperbarui seluruh tampilan view.</p><p><a href="/" style="display:inline-block; margin-top:15px; padding:10px 20px; background:#d97706; color:#fff; text-decoration:none; border-radius:6px;">← Kembali ke Beranda hampersindonesia.com</a></p></div>';
-    } catch (\Throwable $e) {
-        return 'Clear cache exception: ' . $e->getMessage();
-    }
-});
-
 // Public Website Routes
 Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/shop', [SiteController::class, 'category'])->name('shop');
@@ -37,12 +24,12 @@ Route::get('/shop/{slug?}', [SiteController::class, 'category'])->name('category
 Route::get('/reservations', [SiteController::class, 'reservations'])->name('reservations');
 Route::get('/menu-pdf/{slug?}', [SiteController::class, 'menuPdf'])->name('menu.pdf');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
-Route::post('/contact', [SiteController::class, 'sendContact'])->name('contact.send');
+Route::post('/contact', [SiteController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');
 Route::get('/track-order', [SiteController::class, 'track'])->name('track');
 
 // Customer Auth Routes
 Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [CustomerAuthController::class, 'login']);
+Route::post('/login', [CustomerAuthController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('logout');
 Route::get('/auth/google', [CustomerAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [CustomerAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
@@ -59,7 +46,7 @@ Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remov
 
 // Checkout & Order Routes
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.show');
-Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::post('/checkout', [CheckoutController::class, 'process'])->middleware('throttle:10,1')->name('checkout.process');
 Route::get('/order/{invoice}', [CheckoutController::class, 'showOrder'])->name('order.show');
 Route::get('/order/{invoice}/status', [CheckoutController::class, 'checkStatus'])->name('order.status');
 Route::post('/order/{invoice}/pay-midtrans', [CheckoutController::class, 'payMidtrans'])->name('order.pay_midtrans');
@@ -67,8 +54,8 @@ Route::post('/order/{invoice}/upload-payment-proof', [CheckoutController::class,
 Route::post('/api/midtrans/notification', [CheckoutController::class, 'midtransNotification'])->name('midtrans.notification');
 
 // Review & Coupon Public Routes
-Route::post('/products/{product}/review', [ReviewCouponController::class, 'submitReview'])->name('review.submit');
-Route::post('/coupon/apply', [ReviewCouponController::class, 'applyCoupon'])->name('coupon.apply');
+Route::post('/products/{product}/review', [ReviewCouponController::class, 'submitReview'])->middleware('throttle:5,1')->name('review.submit');
+Route::post('/coupon/apply', [ReviewCouponController::class, 'applyCoupon'])->middleware('throttle:15,1')->name('coupon.apply');
 Route::post('/coupon/remove', [ReviewCouponController::class, 'removeCoupon'])->name('coupon.remove');
 
 // Customer Account (Auth Required)
@@ -78,11 +65,24 @@ Route::middleware('auth')->group(function () {
 
 // Admin Authentication Routes (Dedicated URL)
 Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:5,1')->name('admin.login.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 // Protected Admin Panel Routes
 Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+    // Protected Utility Route to Clear Cache (Admin Only)
+    Route::get('/clear-cache', function() {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('view:clear');
+            \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            \Illuminate\Support\Facades\Artisan::call('config:clear');
+            \Illuminate\Support\Facades\Artisan::call('route:clear');
+            return '<div style="font-family:sans-serif; text-align:center; padding:50px;"><h2>✅ Cache & View Berhasil Dibersihkan!</h2><p>Cache sistem dan view Laravel berhasil diperbarui.</p><p><a href="/admin/dashboard" style="display:inline-block; margin-top:15px; padding:10px 20px; background:#d97706; color:#fff; text-decoration:none; border-radius:6px;">← Kembali ke Dashboard Admin</a></p></div>';
+        } catch (\Throwable $e) {
+            return 'Clear cache exception: ' . $e->getMessage();
+        }
+    })->name('clear_cache');
+
     Route::get('/', [AdminProductController::class, 'dashboard']);
     Route::get('/dashboard', [AdminProductController::class, 'dashboard'])->name('dashboard');
     

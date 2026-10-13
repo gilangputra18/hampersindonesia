@@ -161,22 +161,29 @@ class CustomerAuthController extends Controller
             }
         }
 
-        // Direct Quick Google Login Handler (for user's own Google email account)
+        // Mencegah login tanpa verifikasi Google di lingkungan non-lokal / production
+        if (!app()->environment('local') || !$request->has('demo_mode')) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Verifikasi autentikasi Google gagal atau belum dikonfigurasi. Silakan masuk menggunakan email dan password.',
+            ]);
+        }
+
+        // Mode Demo HANYA untuk lingkungan pengujian lokal (local development only)
         $request->validate([
             'email' => 'required|email',
             'name' => 'nullable|string|max:255',
         ]);
 
-        $name = $request->input('name') ?: explode('@', $request->email)[0];
-        $avatar = $request->input('avatar') ?: ('https://ui-avatars.com/api/?name=' . urlencode($name) . '&background=4285F4&color=ffffff&bold=true');
-        $googleId = $request->input('google_id') ?: ('google_' . md5($request->email));
-
         $user = User::where('email', $request->email)->first();
 
-        // Unverified fallback must never allow taking over an admin account.
+        // Tidak boleh mengambil alih akun admin
         if ($user && $user->is_admin) {
-            return redirect()->route('login')->withErrors(['email' => 'Akun ini tidak dapat masuk melalui Google tanpa verifikasi.']);
+            return redirect()->route('login')->withErrors(['email' => 'Akun admin tidak dapat masuk melalui mode demo.']);
         }
+
+        $name = $request->input('name') ?: explode('@', $request->email)[0];
+        $avatar = $request->input('avatar') ?: ('https://ui-avatars.com/api/?name=' . urlencode($name) . '&background=4285F4&color=ffffff&bold=true');
+        $googleId = $request->input('google_id') ?: ('demo_google_' . md5($request->email));
 
         if (!$user) {
             $user = User::create([
@@ -187,15 +194,11 @@ class CustomerAuthController extends Controller
                 'password' => Hash::make(Str::random(16)),
                 'is_admin' => false,
             ]);
-        } else {
-            $user->update([
-                'google_id' => $user->google_id ?: $googleId,
-                'avatar' => $user->avatar ?: $avatar,
-            ]);
         }
 
         Auth::login($user, true);
-        return redirect()->route('home')->with('success', 'Berhasil login dengan Akun Google (' . $user->email . ')!');
+        $request->session()->regenerate();
+        return redirect()->route('home')->with('success', 'Berhasil masuk (Mode Uji Lokal Google: ' . $user->email . ').');
     }
 
     public function logout(Request $request)

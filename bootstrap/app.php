@@ -13,6 +13,11 @@ $app = Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Vercel terminates TLS at its edge proxy; trust it so asset()/url() generate https:// links.
         $middleware->trustProxies(at: '*');
+
+        // Exclude payment gateway webhook from CSRF validation
+        $middleware->validateCsrfTokens(except: [
+            'api/midtrans/notification',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

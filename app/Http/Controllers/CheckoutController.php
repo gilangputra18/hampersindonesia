@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
@@ -104,59 +105,86 @@ class CheckoutController extends Controller
             $subtotal += $item['price'] * $item['quantity'];
         }
 
-        // Apply coupon discount if present
-        $appliedCoupon = session('applied_coupon');
-        $discountAmount = $appliedCoupon['discount'] ?? 0;
-        if (!empty($appliedCoupon['code'])) {
-            \App\Models\Coupon::where('code', $appliedCoupon['code'])->increment('used_count');
-        }
-
         // Tentukan nama kurir (satu kali saja)
         $courierName = $validated['delivery_option'] === 'pickup' 
             ? 'Ambil Sendiri di Boutique Store' 
             : ($validated['courier_name'] ?? 'Kurir Toko (Dedicated Bakery Delivery)');
 
         $deliveryFee = self::calculateDeliveryFee($validated['delivery_option'], $courierName, $subtotal);
+
+        // Validasi ulang kupon secara aman di database
+        $appliedCoupon = session('applied_coupon');
+        $discountAmount = 0;
+        $couponToIncrement = null;
+
+        if (!empty($appliedCoupon['code'])) {
+            $coupon = \App\Models\Coupon::where('code', $appliedCoupon['code'])->first();
+            if ($coupon && $coupon->isValidFor($subtotal)) {
+                $discountAmount = $coupon->calculateDiscount($subtotal);
+                $couponToIncrement = $coupon;
+            } else {
+                session()->forget('applied_coupon');
+            }
+        }
+
         $totalAmount = max(0, $subtotal + $deliveryFee - $discountAmount);
-
         $invoiceNumber = 'INV-' . date('Ymd') . '-' . strtoupper(Str::random(4));
-
         $paymentMethod = $validated['payment_method'] ?? 'Transfer Bank BCA';
 
         // Auto-generate Resi Pembelian / Tracking Number
         $courierPrefix = Str::upper(substr(preg_replace('/[^a-zA-Z]/', '', $courierName), 0, 3));
         $trackingNumber = ($courierPrefix ?: 'MD') . '-' . date('Ymd') . '-' . rand(1000, 9999);
 
-        $order = Order::create([
-            'user_id' => auth()->check() ? auth()->id() : null,
-            'invoice_number' => $invoiceNumber,
-            'customer_name' => $validated['customer_name'],
-            'customer_email' => $validated['customer_email'] ?? null,
-            'customer_phone' => $validated['customer_phone'],
-            'delivery_option' => $validated['delivery_option'],
-            'courier_name' => $courierName,
-            'delivery_date' => $validated['delivery_date'],
-            'delivery_fee' => $deliveryFee,
-            'address' => $validated['address'] ?? 'Store Pick up',
-            'order_note' => $validated['order_note'] ?? null,
-            'subtotal' => $subtotal,
-            'total_amount' => $totalAmount,
-            'payment_method' => $paymentMethod,
-            'tracking_number' => $trackingNumber,
-            'payment_status' => 'unpaid',
-            'order_status' => 'pending',
-        ]);
-
-        foreach ($cart as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['id'],
-                'product_name' => $item['name'],
-                'price' => $item['price'],
-                'quantity' => $item['quantity'],
-                'subtotal' => $item['price'] * $item['quantity'],
+        // Eksekusi secara atomik dalam transaksi database
+        $order = DB::transaction(function () use (
+            $validated,
+            $invoiceNumber,
+            $courierName,
+            $deliveryFee,
+            $subtotal,
+            $totalAmount,
+            $paymentMethod,
+            $trackingNumber,
+            $cart,
+            $couponToIncrement
+        ) {
+            $order = Order::create([
+                'user_id' => auth()->check() ? auth()->id() : null,
+                'invoice_number' => $invoiceNumber,
+                'customer_name' => $validated['customer_name'],
+                'customer_email' => $validated['customer_email'] ?? null,
+                'customer_phone' => $validated['customer_phone'],
+                'delivery_option' => $validated['delivery_option'],
+                'courier_name' => $courierName,
+                'delivery_date' => $validated['delivery_date'],
+                'delivery_fee' => $deliveryFee,
+                'address' => $validated['address'] ?? 'Store Pick up',
+                'order_note' => $validated['order_note'] ?? null,
+                'subtotal' => $subtotal,
+                'total_amount' => $totalAmount,
+                'payment_method' => $paymentMethod,
+                'tracking_number' => $trackingNumber,
+                'payment_status' => 'unpaid',
+                'order_status' => 'pending',
             ]);
-        }
+
+            foreach ($cart as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['id'],
+                    'product_name' => $item['name'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'subtotal' => $item['price'] * $item['quantity'],
+                ]);
+            }
+
+            if ($couponToIncrement) {
+                $couponToIncrement->increment('used_count');
+            }
+
+            return $order;
+        });
 
         // Clear cart and coupon session
         session()->forget('cart');
@@ -297,12 +325,30 @@ class CheckoutController extends Controller
     public function midtransNotification(Request $request)
     {
         $orderId = $request->input('order_id') ?? $request->input('invoice_number');
+        $statusCode = $request->input('status_code');
+        $grossAmount = $request->input('gross_amount');
+        $signatureKey = $request->input('signature_key');
         $transactionStatus = $request->input('transaction_status');
         $fraudStatus = $request->input('fraud_status');
 
-        if ($orderId) {
-            $order = Order::where('invoice_number', $orderId)->first();
-            if ($order) {
+        if (!$orderId) {
+            return response()->json(['error' => 'Missing order ID'], 400);
+        }
+
+        $paySettings = \App\Http\Controllers\Admin\AdminPaymentController::getPaymentSettings();
+        $serverKey = $paySettings['midtrans_server_key'] ?? '';
+
+        // Verifikasi keaslian signature jika server key dikonfigurasi
+        if (!empty($serverKey) && !empty($signatureKey) && !empty($statusCode) && !empty($grossAmount)) {
+            $expectedSignature = hash('sha512', $orderId . $statusCode . $grossAmount . $serverKey);
+            if ($signatureKey !== $expectedSignature) {
+                return response()->json(['error' => 'Signature key invalid'], 403);
+            }
+        }
+
+        $order = Order::where('invoice_number', $orderId)->first();
+        if ($order) {
+            DB::transaction(function () use ($order, $transactionStatus, $fraudStatus) {
                 if (in_array($transactionStatus, ['capture', 'settlement'])) {
                     if ($transactionStatus == 'capture' && $fraudStatus == 'challenge') {
                         $order->update(['payment_status' => 'unpaid']);
@@ -310,6 +356,7 @@ class CheckoutController extends Controller
                         $order->update([
                             'payment_status' => 'paid',
                             'order_status' => ($order->order_status === 'pending') ? 'processing' : $order->order_status,
+                            'payment_method' => 'Midtrans Gateway',
                         ]);
                     }
                 } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
@@ -317,7 +364,7 @@ class CheckoutController extends Controller
                 } elseif ($transactionStatus == 'pending') {
                     $order->update(['payment_status' => 'unpaid']);
                 }
-            }
+            });
         }
 
         return response()->json(['status' => 'ok']);
@@ -336,7 +383,8 @@ class CheckoutController extends Controller
         ]);
 
         $file = $request->file('payment_proof');
-        $fileName = 'proof_' . $order->invoice_number . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $extension = $file->extension() ?: ($file->getClientOriginalExtension() ?: 'jpg');
+        $fileName = 'proof_' . Str::slug($order->invoice_number) . '_' . time() . '.' . $extension;
 
         $destinationPath = public_path('uploads/payment_proofs');
         if (!file_exists($destinationPath)) {

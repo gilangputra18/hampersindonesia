@@ -62,43 +62,60 @@ class AdminProductController extends Controller
         $netProfit = $totalRevenue - $totalCost;
         $profitMargin = $totalRevenue > 0 ? round(($netProfit / $totalRevenue) * 100, 1) : 65.0;
 
-        // 2. Trend Data (for Chart.js Line Graph)
+        // 2. Trend Data (for Chart.js Line Graph) - Single Query Optimization
         $dates = [];
         $salesTrend = [];
 
         if ($period === 'today') {
+            $todayOrders = Order::whereDate('created_at', Carbon::today())
+                ->where('payment_status', 'paid')
+                ->get(['created_at', 'total_amount']);
+
             for ($h = 0; $h < 24; $h += 2) {
-                $hStart = Carbon::today()->addHours($h);
-                $hEnd = Carbon::today()->addHours($h + 2);
-                $hourTotal = Order::whereBetween('created_at', [$hStart, $hEnd])
-                    ->where('payment_status', 'paid')
-                    ->sum('total_amount');
+                $hEnd = $h + 2;
+                $hourTotal = $todayOrders->filter(function ($o) use ($h, $hEnd) {
+                    $hour = (int) $o->created_at->format('H');
+                    return $hour >= $h && $hour < $hEnd;
+                })->sum('total_amount');
+
                 $dates[] = sprintf('%02d:00', $h);
                 $salesTrend[] = (int) $hourTotal;
             }
         } elseif ($period === 'this_year') {
+            $yearOrders = Order::whereYear('created_at', Carbon::now()->year)
+                ->where('payment_status', 'paid')
+                ->get(['created_at', 'total_amount']);
+
             for ($m = 1; $m <= 12; $m++) {
                 $mDate = Carbon::now()->month($m);
-                $monthTotal = Order::whereYear('created_at', Carbon::now()->year)
-                    ->whereMonth('created_at', $m)
-                    ->where('payment_status', 'paid')
-                    ->sum('total_amount');
+                $monthTotal = $yearOrders->filter(function ($o) use ($m) {
+                    return (int) $o->created_at->format('m') === $m;
+                })->sum('total_amount');
+
                 $dates[] = $mDate->format('M');
                 $salesTrend[] = (int) $monthTotal;
             }
         } else {
             $daysCount = $startDate && $endDate ? max(1, (int)$startDate->diffInDays($endDate)) : 30;
             $daysCount = min($daysCount, 60);
+
+            $periodOrders = Order::whereBetween('created_at', [$startDate, $endDate])
+                ->where('payment_status', 'paid')
+                ->get(['created_at', 'total_amount']);
+
+            $dailyTotals = [];
+            foreach ($periodOrders as $o) {
+                $d = $o->created_at->format('Y-m-d');
+                $dailyTotals[$d] = ($dailyTotals[$d] ?? 0) + (int) $o->total_amount;
+            }
+
             for ($i = $daysCount - 1; $i >= 0; $i--) {
                 $dateObj = Carbon::now()->subDays($i);
                 $dateStr = $dateObj->format('Y-m-d');
                 $labelStr = $dateObj->format('d M');
-                $dayTotal = Order::whereDate('created_at', $dateStr)
-                    ->where('payment_status', 'paid')
-                    ->sum('total_amount');
 
                 $dates[] = $labelStr;
-                $salesTrend[] = (int) $dayTotal;
+                $salesTrend[] = (int) ($dailyTotals[$dateStr] ?? 0);
             }
         }
 

@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    # Block direct access to sensitive system files (.env, .sqlite, composer.*, artisan, etc.)
+    RewriteRule ^(\.env|\.git|\.editorconfig|composer\.(json|lock)|package\.json|phpunit\.xml|artisan|Caddyfile|Dockerfile.*|vercel\.json) - [F,L,NC]
+    RewriteRule ^(database/.*\.sqlite|database/.*\.db|storage/logs/.*) - [F,L,NC]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -24,3 +28,14 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ public/index.php [L]
 </IfModule>
+
+# Fallback security for non-rewrite handlers
+<FilesMatch "^\.env|composer\.(json|lock)|package\.json|artisan|\.sqlite$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>

@@ -16,24 +16,38 @@
   $availability = is_array($item) ? 'in_stock' : ($item->availability ?? 'in_stock');
   $gallery = is_array($item) ? [$imageUrl, $secondaryUrl] : ($item->gallery_urls ?? [$imageUrl]);
   
-  $productReviews = [
-    [
-      'name' => 'Adeline Wijaya',
-      'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-      'rating' => 5,
-      'title' => 'Rasa Sangat Lezat & Kemasan Mewah VIP!',
-      'body' => 'Bahan-bahannya terasa sangat berkualitas tinggi dan butter impornya begitu harum. Packaging hampers eksklusif dan harum banget.',
-      'date' => '2 hari yang lalu'
-    ],
-    [
-      'name' => 'Clarissa Putri',
-      'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
-      'rating' => 5,
-      'title' => 'Pengiriman Cepat & Fast Response',
-      'body' => 'Teksturnya lembut dan rasanya pas di lidah, pengiriman dedicated courier sangat aman tanpa cacat.',
-      'date' => '4 hari yang lalu'
-    ]
-  ];
+  $productReviews = [];
+  if (!is_array($item) && $item->relationLoaded('reviews') && $item->reviews->isNotEmpty()) {
+      $productReviews = $item->reviews->take(4)->map(function ($r) {
+          return [
+              'name' => $r->reviewer_name,
+              'avatar' => $r->avatar_url ?? ('https://ui-avatars.com/api/?name=' . urlencode($r->reviewer_name) . '&background=d97706&color=ffffff&bold=true'),
+              'rating' => $r->rating,
+              'title' => $r->title ?: 'Ulasan Pelanggan VIP',
+              'body' => $r->body,
+              'date' => $r->created_at ? $r->created_at->diffForHumans() : 'Baru saja'
+          ];
+      })->toArray();
+  } else {
+      $productReviews = [
+          [
+              'name' => 'Adeline Wijaya',
+              'avatar' => 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+              'rating' => 5,
+              'title' => 'Rasa Sangat Lezat & Kemasan Mewah VIP!',
+              'body' => 'Bahan-bahannya terasa sangat berkualitas tinggi dan butter impornya begitu harum. Packaging hampers eksklusif dan harum banget.',
+              'date' => '2 hari yang lalu'
+          ],
+          [
+              'name' => 'Clarissa Putri',
+              'avatar' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
+              'rating' => 5,
+              'title' => 'Pengiriman Cepat & Fast Response',
+              'body' => 'Teksturnya lembut dan rasanya pas di lidah, pengiriman dedicated courier sangat aman tanpa cacat.',
+              'date' => '4 hari yang lalu'
+          ]
+      ];
+  }
 @endphp
 <div class="card card-hover-flip product-detail-trigger"
      data-id="{{ $id }}"
