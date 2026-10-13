@@ -5,11 +5,14 @@
 
 @section('content')
 <style>
+  /* =============================================
+     PDF HEADER CARD
+  ============================================= */
   .pdf-header-card {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 16px;
-    padding: 26px 32px;
+    padding: 26px 28px;
     margin-bottom: 32px;
     display: flex;
     justify-content: space-between;
@@ -39,6 +42,7 @@
     align-items: center;
     gap: 12px;
     margin-bottom: 6px;
+    flex-wrap: wrap;
   }
   .pdf-header-title p {
     font-size: 14px;
@@ -47,14 +51,14 @@
     line-height: 1.6;
   }
 
+  /* =============================================
+     RES CARD GRID
+  ============================================= */
   .res-card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
     gap: 28px;
     margin-bottom: 40px;
-  }
-  @media (max-width: 768px) {
-    .res-card-grid { grid-template-columns: 1fr; }
   }
 
   .res-item-card {
@@ -82,6 +86,7 @@
     font-weight: 700;
     color: #f8fafc;
     margin-bottom: 4px;
+    word-break: break-word;
   }
   .res-item-sub {
     font-size: 12px;
@@ -100,8 +105,13 @@
     padding: 12px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
+  /* =============================================
+     PDF STATUS BOX
+  ============================================= */
   .pdf-status-box {
     background: rgba(15, 23, 42, 0.8);
     border: 1px solid rgba(212, 175, 55, 0.25);
@@ -109,6 +119,38 @@
     padding: 16px;
     margin-bottom: 20px;
   }
+  .pdf-file-row {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #94a3b8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pdf-file-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .pdf-upload-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pdf-upload-row input[type="file"] {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+    color: #94a3b8;
+    max-width: 100%;
+  }
+
+  /* =============================================
+     STATUS BADGE
+  ============================================= */
   .status-badge {
     display: inline-flex;
     align-items: center;
@@ -118,6 +160,8 @@
     font-size: 12px;
     font-weight: 600;
     margin-bottom: 12px;
+    word-break: break-word;
+    max-width: 100%;
   }
   .badge-active {
     background: rgba(34, 197, 94, 0.15);
@@ -130,6 +174,9 @@
     border: 1px solid rgba(59, 130, 246, 0.3);
   }
 
+  /* =============================================
+     BUTTONS
+  ============================================= */
   .btn-gold {
     background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
     color: #000;
@@ -144,6 +191,7 @@
     gap: 8px;
     text-decoration: none;
     font-size: 13px;
+    white-space: nowrap;
   }
   .btn-gold:hover {
     transform: translateY(-2px);
@@ -163,6 +211,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
   }
   .btn-outline-gold:hover {
     background: #d4af37;
@@ -178,12 +227,25 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
   }
   .btn-danger-sm:hover {
     background: rgba(239, 68, 68, 0.3);
   }
+  .res-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 16px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-  /* Modal Styling */
+  /* =============================================
+     MODAL
+  ============================================= */
   .custom-modal {
     position: fixed;
     inset: 0;
@@ -193,7 +255,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 16px;
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
@@ -210,7 +272,7 @@
     max-width: 620px;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 28px;
+    padding: 24px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   }
   .modal-header {
@@ -233,6 +295,194 @@
     color: #94a3b8;
     font-size: 24px;
     cursor: pointer;
+    flex-shrink: 0;
+  }
+  .form-input-std {
+    width: 100%;
+    padding: 10px 14px;
+    background: #0f172a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .modal-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .global-pdf-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+  .global-pdf-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .global-upload-form {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .global-upload-form input[type="file"] {
+    font-size: 13px;
+    color: #94a3b8;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* =============================================
+     MOBILE RESPONSIVE
+  ============================================= */
+  @media (max-width: 768px) {
+    .res-card-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .pdf-header-card {
+      padding: 18px 16px;
+      gap: 16px;
+    }
+    .pdf-header-card > div:last-child {
+      width: 100%;
+    }
+    .pdf-header-card > div:last-child .btn-gold {
+      width: 100%;
+      justify-content: center;
+    }
+    .pdf-header-title h3 {
+      font-size: 18px;
+    }
+    .pdf-header-title p {
+      font-size: 13px;
+    }
+    .res-item-card {
+      padding: 16px;
+    }
+    .res-item-banner {
+      height: 160px;
+    }
+    .pdf-file-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .pdf-file-actions {
+      width: 100%;
+    }
+    .pdf-upload-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .pdf-upload-row input[type="file"] {
+      width: 100%;
+    }
+    .pdf-upload-row .btn-outline-gold {
+      width: 100%;
+      justify-content: center;
+    }
+    .status-badge {
+      font-size: 11px;
+      padding: 5px 10px;
+    }
+    .modal-grid-2 {
+      grid-template-columns: 1fr;
+    }
+    .modal-box {
+      padding: 18px 14px;
+      max-height: 88vh;
+    }
+    .modal-header h4 {
+      font-size: 16px;
+    }
+    .modal-footer {
+      flex-direction: column;
+    }
+    .modal-footer button,
+    .modal-footer .btn-gold {
+      width: 100%;
+      justify-content: center;
+    }
+    .res-card-bottom {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .res-card-bottom button,
+    .res-card-bottom form {
+      width: 100%;
+    }
+    .res-card-bottom button {
+      justify-content: center;
+    }
+    .res-card-bottom .btn-outline-gold,
+    .res-card-bottom .btn-danger-sm {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+    .global-pdf-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .global-pdf-actions {
+      width: 100%;
+      flex-direction: column;
+    }
+    .global-pdf-actions a,
+    .global-pdf-actions .btn-outline-gold {
+      width: 100%;
+      justify-content: center;
+    }
+    .global-pdf-actions form {
+      width: 100%;
+    }
+    .global-pdf-actions .btn-danger-sm {
+      width: 100%;
+      text-align: center;
+    }
+    .global-upload-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .global-upload-form .btn-gold {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .pdf-header-title h3 {
+      font-size: 16px;
+      gap: 8px;
+    }
+    .res-item-title {
+      font-size: 17px;
+    }
+    .res-item-card {
+      padding: 14px 12px;
+    }
+    .pdf-status-box {
+      padding: 12px;
+    }
   }
 </style>
 
@@ -293,9 +543,9 @@
           </div>
 
           @if($res->pdf_path && file_exists(public_path($res->pdf_path)))
-            <div style="margin-top: 10px; font-size: 12px; color: #94a3b8; display: flex; justify-content: space-between; align-items: center;">
+            <div class="pdf-file-row">
               <span>📁 <strong>File:</strong> {{ basename($res->pdf_path) }}</span>
-              <div style="display: flex; gap: 8px;">
+              <div class="pdf-file-actions">
                 <a href="{{ route('menu.pdf', $res->slug) }}" target="_blank" class="btn-outline-gold">
                   👁️ Lihat PDF
                 </a>
@@ -312,15 +562,15 @@
           <form action="{{ route('admin.menu_pdf.item_upload_pdf', $res->id) }}" method="POST" enctype="multipart/form-data" style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1);">
             @csrf
             <label style="font-size: 12px; color: #cbd5e1; display: block; margin-bottom: 6px;">📤 Unggah/Ganti PDF Kustom khusus (Max 20MB):</label>
-            <div style="display: flex; gap: 10px; align-items: center;">
-              <input type="file" name="menu_pdf" accept=".pdf" required style="font-size: 12px; color: #94a3b8; flex: 1;">
-              <button type="submit" class="btn-outline-gold" style="white-space: nowrap;">⚡ Upload PDF</button>
+            <div class="pdf-upload-row">
+              <input type="file" name="menu_pdf" accept=".pdf" required>
+              <button type="submit" class="btn-outline-gold">⚡ Upload PDF</button>
             </div>
           </form>
         </div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; margin-top: 10px;">
+      <div class="res-card-bottom">
         <button onclick="editReservation({{ json_encode($res) }})" class="btn-outline-gold">
           ✏️ Edit Paket & WA
         </button>
@@ -338,13 +588,13 @@
 </div>
 
 <!-- Global PDF Catalog Management Section -->
-<div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; margin-top: 40px;">
-  <h4 style="font-size: 18px; color: #f8fafc; margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
+<div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; margin-top: 40px;">
+  <h4 style="font-size: 18px; color: #f8fafc; margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
     <span>🌐 PDF Menu Utama / Global Website</span>
   </h4>
   <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Berkas ini dijadikan cadangan (fallback) untuk link "Restaurant Menu 📄" di navbar header utama website apabila paket reservasi tidak memiliki PDF khusus.</p>
 
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; background: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; border: 1px solid rgba(212, 175, 55, 0.2);">
+  <div class="global-pdf-row">
     <div>
       @if($hasGlobalPdf && $globalFileInfo)
         <span class="status-badge badge-active">🟢 PDF Global Aktif: {{ $globalFileInfo['name'] }} ({{ $globalFileInfo['size'] }})</span>
@@ -354,7 +604,7 @@
       @endif
     </div>
 
-    <div style="display: flex; gap: 12px; align-items: center;">
+    <div class="global-pdf-actions">
       <a href="{{ route('menu.pdf') }}" target="_blank" class="btn-outline-gold">👁️ Pratinjau PDF Utama</a>
       @if($hasGlobalPdf)
         <form action="{{ route('admin.menu_pdf.destroy') }}" method="POST" onsubmit="return confirm('Hapus PDF Global?')">
@@ -366,9 +616,9 @@
     </div>
   </div>
 
-  <form action="{{ route('admin.menu_pdf.upload') }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+  <form action="{{ route('admin.menu_pdf.upload') }}" method="POST" enctype="multipart/form-data" class="global-upload-form">
     @csrf
-    <input type="file" name="menu_pdf" accept=".pdf" required style="font-size: 13px; color: #94a3b8; flex: 1;">
+    <input type="file" name="menu_pdf" accept=".pdf" required>
     <button type="submit" class="btn-gold">📤 Upload PDF Global Baru</button>
   </form>
 </div>
@@ -385,41 +635,41 @@
       @csrf
       <div style="margin-bottom: 16px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Judul Paket Reservasi *</label>
-        <input type="text" name="title" required placeholder="misal: WEDDING & PRIVATE CELEBRATIONS" style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+        <input type="text" name="title" required placeholder="misal: WEDDING & PRIVATE CELEBRATIONS" class="form-input-std">
       </div>
 
       <div style="margin-bottom: 16px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Sub-Judul / Topik</label>
-        <input type="text" name="subtitle" placeholder="misal: EXCLUSIVE LUXURY PACKAGE" style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+        <input type="text" name="subtitle" placeholder="misal: EXCLUSIVE LUXURY PACKAGE" class="form-input-std">
       </div>
 
       <div style="margin-bottom: 16px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Deskripsi Paket *</label>
-        <textarea name="description" rows="4" required placeholder="Ketik deskripsi paket di sini..." style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;"></textarea>
+        <textarea name="description" rows="4" required placeholder="Ketik deskripsi paket di sini..." class="form-input-std"></textarea>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div class="modal-grid-2">
         <div>
           <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Nomor WhatsApp Reservasi</label>
-          <input type="text" name="whatsapp_number" value="62811152282" style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+          <input type="text" name="whatsapp_number" value="62811152282" class="form-input-std">
         </div>
         <div>
           <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Pesan Otomatis WhatsApp</label>
-          <input type="text" name="whatsapp_text" placeholder="Halo PUSAT HAMPERS INDONESIA..." style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+          <input type="text" name="whatsapp_text" placeholder="Halo PUSAT HAMPERS INDONESIA..." class="form-input-std">
         </div>
       </div>
 
       <div style="margin-bottom: 16px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Foto Banner Paket</label>
-        <input type="file" name="image" accept="image/*" style="font-size: 12px; color: #94a3b8;">
+        <input type="file" name="image" accept="image/*" style="font-size: 12px; color: #94a3b8; width: 100%;">
       </div>
 
       <div style="margin-bottom: 24px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Upload Berkas PDF Menu khusus Paket Ini (Opsional)</label>
-        <input type="file" name="menu_pdf" accept=".pdf" style="font-size: 12px; color: #94a3b8;">
+        <input type="file" name="menu_pdf" accept=".pdf" style="font-size: 12px; color: #94a3b8; width: 100%;">
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 12px;">
+      <div class="modal-footer">
         <button type="button" onclick="closeModal('addReservationModal')" style="padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; border-radius: 8px; cursor: pointer;">Batal</button>
         <button type="submit" class="btn-gold">Simpan Paket Baru</button>
       </div>
@@ -439,36 +689,36 @@
       @csrf
       <div style="margin-bottom: 16px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Judul Paket Reservasi *</label>
-        <input type="text" id="edit_title" name="title" required style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+        <input type="text" id="edit_title" name="title" required class="form-input-std">
       </div>
 
       <div style="margin-bottom: 16px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Sub-Judul / Topik</label>
-        <input type="text" id="edit_subtitle" name="subtitle" style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+        <input type="text" id="edit_subtitle" name="subtitle" class="form-input-std">
       </div>
 
       <div style="margin-bottom: 16px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Deskripsi Paket *</label>
-        <textarea id="edit_description" name="description" rows="4" required style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;"></textarea>
+        <textarea id="edit_description" name="description" rows="4" required class="form-input-std"></textarea>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div class="modal-grid-2">
         <div>
           <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Nomor WhatsApp Reservasi</label>
-          <input type="text" id="edit_whatsapp_number" name="whatsapp_number" style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+          <input type="text" id="edit_whatsapp_number" name="whatsapp_number" class="form-input-std">
         </div>
         <div>
           <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Pesan Otomatis WhatsApp</label>
-          <input type="text" id="edit_whatsapp_text" name="whatsapp_text" style="width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+          <input type="text" id="edit_whatsapp_text" name="whatsapp_text" class="form-input-std">
         </div>
       </div>
 
       <div style="margin-bottom: 24px;">
         <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Ganti Foto Banner Paket (Opsional)</label>
-        <input type="file" name="image" accept="image/*" style="font-size: 12px; color: #94a3b8;">
+        <input type="file" name="image" accept="image/*" style="font-size: 12px; color: #94a3b8; width: 100%;">
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 12px;">
+      <div class="modal-footer">
         <button type="button" onclick="closeModal('editReservationModal')" style="padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; border-radius: 8px; cursor: pointer;">Batal</button>
         <button type="submit" class="btn-gold">Simpan Perubahan</button>
       </div>
