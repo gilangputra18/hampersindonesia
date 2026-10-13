@@ -214,6 +214,77 @@
     .feature-arrow-left { left: 8px; }
     .feature-arrow-right { right: 8px; }
   }
+
+  /* ===================== MOBILE TYPOGRAPHY & LAYOUT ===================== */
+  .sec-title-home {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 5vw, 34px);
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+  }
+  .sec-desc-home {
+    color: #475569;
+    font-size: clamp(13px, 3.5vw, 16px);
+    font-weight: 500;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .reviews-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(20px, 5vw, 36px);
+    color: #ffffff;
+    font-weight: 800;
+    margin-bottom: 30px;
+  }
+  .reviews-lead {
+    color: #e6ca65;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: clamp(10px, 2.5vw, 12px);
+    font-weight: 700;
+  }
+  .bestseller-lead {
+    color: #b45309;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-size: clamp(12px, 3vw, 15px);
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      height: min(60vh, 420px);
+    }
+    .hero-headline {
+      font-size: clamp(22px, 7vw, 36px) !important;
+      letter-spacing: 1px;
+    }
+    .hero-subtext {
+      font-size: 13px !important;
+    }
+    .hero-btn-gold {
+      font-size: 12px;
+      padding: 11px 24px;
+      letter-spacing: 1.5px;
+    }
+    .sec-title-home {
+      font-size: clamp(18px, 5.5vw, 26px);
+    }
+    .sec-desc-home {
+      font-size: 13px;
+    }
+    .reviews-heading {
+      font-size: clamp(18px, 5.5vw, 26px);
+    }
+    .reviews-lead {
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+    .bestseller-lead {
+      font-size: 12px;
+    }
+  }
 </style>
 
 <p class="banner">{{ config('site.tagline') }}</p>
@@ -282,8 +353,8 @@
 
 <section class="sec" style="background: #ffffff;">
   <div style="text-align: center; margin-bottom: 28px;">
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 800; color: #0f172a; margin-bottom: 10px;">Saatnya Menikmati Hidangan</h2>
-    <p class="lead" style="color: #475569; font-size: 16px; font-weight: 500; max-width: 680px; margin: 0 auto;">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
+    <h2 class="sec-title-home">Saatnya Menikmati Hidangan</h2>
+    <p class="sec-desc-home">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
   </div>
   <div class="grid5">
     @foreach ($treats as $t) @include('partials.card', ['item' => $t, 'slug' => 'light-bites', 'from' => true]) @endforeach
@@ -310,8 +381,8 @@
 </section>
 
 <section class="sec grey" style="background: #f8faf9; padding: 60px 20px;">
-  <p class="lead" style="color: #b45309; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;">Jelajahi produk-produk yang paling diminati di toko kami</p>
-  <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(26px, 3.8vw, 36px); font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 2.5px; margin: 0 0 28px 0;">
+  <p class="bestseller-lead">Jelajahi produk-produk yang paling diminati di toko kami</p>
+  <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(20px, 3.8vw, 36px); font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 2.5px; margin: 0 0 28px 0;">
     PRODUK TERLARIS
   </h2>
   <div class="grid5">
@@ -326,8 +397,8 @@
 
 @if(isset($reviews) && count($reviews) > 0)
 <section class="sec" style="background: #0d1713; color: #fff; padding: 60px 20px;">
-  <p class="lead" style="color: #e6ca65; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; font-weight: 700;">⚜️ Ulasan & Pengalaman Pelanggan VIP ⚜️</p>
-  <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 36px; color: #ffffff; font-weight: 800; margin-bottom: 30px;">Kata Mereka Tentang Pusat Hampers Indonesia</h2>
+  <p class="reviews-lead">⚜️ Ulasan & Pengalaman Pelanggan VIP ⚜️</p>
+  <h2 class="reviews-heading">Kata Mereka Tentang Pusat Hampers Indonesia</h2>
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; text-align: left;">
     @foreach($reviews as $rev)
