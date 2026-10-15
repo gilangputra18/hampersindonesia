@@ -858,35 +858,39 @@
   .social-icons-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 12px;
+    gap: 12px;
+    margin-top: 14px;
   }
   @media (max-width: 768px) {
     .social-icons-row {
       justify-content: flex-start;
     }
   }
-  .social-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(217, 119, 6, 0.3);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #f59e0b;
-    transition: all 0.2s ease;
+  .footer-col .social-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
     text-decoration: none !important;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    border: 1.5px solid rgba(254, 240, 138, 0.45) !important;
   }
-  .social-icon svg {
-    width: 16px;
-    height: 16px;
+  .footer-col .social-icon:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 6px 18px rgba(217, 119, 6, 0.5);
+    border-color: #fef08a !important;
   }
-  .social-icon:hover {
-    background: #d97706;
-    color: #0d1713;
-    border-color: #f59e0b;
+  .footer-col .social-icon svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
   }
 
   .footer-bottom-bar {
@@ -1494,14 +1498,33 @@
       <p>📞 Telp: {{ config('site.phone') }}</p>
 
       <div class="social-icons-row">
-        <a href="https://instagram.com" target="_blank" class="social-icon" title="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path></svg>
+        <a href="https://instagram.com" target="_blank" class="social-icon" title="Instagram Resmi Pusat Hampers">
+          <svg viewBox="0 0 36 36">
+            <defs>
+              <radialGradient id="igGradient" cx="20%" cy="110%" r="120%">
+                <stop offset="0%" stop-color="#FFDD55"/>
+                <stop offset="15%" stop-color="#FF543E"/>
+                <stop offset="50%" stop-color="#C837AB"/>
+                <stop offset="100%" stop-color="#405DE6"/>
+              </radialGradient>
+            </defs>
+            <rect width="36" height="36" rx="18" fill="url(#igGradient)"/>
+            <rect x="9" y="9" width="18" height="18" rx="5" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+            <circle cx="18" cy="18" r="4.2" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+            <circle cx="22.8" cy="13.2" r="1.3" fill="#FFFFFF"/>
+          </svg>
         </a>
-        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}" target="_blank" class="social-icon" title="WhatsApp VIP">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}" target="_blank" class="social-icon" title="WhatsApp VIP Concierge">
+          <svg viewBox="0 0 36 36">
+            <circle cx="18" cy="18" r="18" fill="#25D366"/>
+            <path d="M18 7.5C12.2 7.5 7.5 12.2 7.5 18c0 2 .5 3.9 1.6 5.6L7.5 28.5l5.1-1.5c1.6.9 3.4 1.5 5.4 1.5 5.8 0 10.5-4.7 10.5-10.5S23.8 7.5 18 7.5zm5.7 14.5c-.2.7-1.3 1.3-1.8 1.4-.5.1-1.1.2-3.2-.6-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.2.1.3 0 .5-.1.2-.2.3-.3.4-.1.1-.3.3-.4.4-.1.1-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.2.3.1 1.8.8 2.1 1 .3.2.5.2.6.4.1.2.1 1.1-.1 1.7z" fill="#FFFFFF"/>
+          </svg>
         </a>
-        <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+        <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook Resmi Pusat Hampers">
+          <svg viewBox="0 0 36 36">
+            <circle cx="18" cy="18" r="18" fill="#1877F2"/>
+            <path d="M20.2 18.5h2.8l.4-3.5h-3.2v-2.2c0-.9.3-1.6 1.6-1.6h1.7V8.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.7h-3v3.5h3v8.5h3.4v-8.5z" fill="#FFFFFF"/>
+          </svg>
         </a>
       </div>
     </div>
