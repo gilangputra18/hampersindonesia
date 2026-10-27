@@ -174,24 +174,169 @@
   }
   
 
+  /* Hamburger Menu Wrapper Button (Matching User Reference Image) */
+  .header-menu-wrap-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    outline: none;
+    text-decoration: none;
+  }
+  .header-menu-wrap-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .hamburger-icon-bars {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 15px;
+  }
+  .hamburger-icon-bars span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .header-menu-wrap-btn:hover .hamburger-icon-bars span {
+    background: #fef08a;
+  }
+  .menu-btn-text {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #f1f5f9;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+  .header-menu-wrap-btn:hover .menu-btn-text {
+    color: #fef08a;
+  }
+
+  /* Unified Luxury Header Bar */
+  .luxury-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 40px;
+    background: #16050e;
+    border-bottom: 2px solid #b89243;
+    gap: 20px;
+    position: relative;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+  }
+  .header-left-col {
+    display: flex;
+    align-items: center;
+    min-width: 130px;
+  }
+  .header-center-col {
+    flex: 1;
+    text-align: center;
+  }
+  .luxury-brand-link {
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  .logo-title-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    letter-spacing: .24em;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff3c4 0%, #e6ca65 40%, #c59b27 75%, #fef08a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    display: inline-block;
+  }
+  .logo-subtext-clean {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    letter-spacing: .35em;
+    color: #cbd5e1;
+    font-weight: 600;
+    margin-top: 4px;
+    text-shadow: none;
+    -webkit-text-fill-color: #cbd5e1;
+  }
+  .header-right-col {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    min-width: 130px;
+  }
+
+  @media (max-width: 900px) {
+    .luxury-header-bar {
+      padding: 10px 14px;
+      gap: 10px;
+    }
+    .header-left-col, .header-right-col {
+      min-width: auto;
+    }
+    .logo-title-text {
+      font-size: clamp(16px, 4vw, 22px) !important;
+      letter-spacing: 1px !important;
+    }
+    .logo-subtext-clean {
+      display: none;
+    }
+    .menu-btn-text {
+      font-size: 18px;
+    }
+    .hamburger-icon-bars {
+      width: 19px;
+      height: 13px;
+    }
+    .nav-text-label {
+      display: none !important;
+    }
+  }
+
+  /* Off-Canvas Slide-In Drawer (Wrapping the Navigation Menu) */
   .mobile-drawer-overlay {
     position: fixed;
     inset: 0;
-    background: #ffffff;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    transform: translateY(-100%);
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(6px);
+    z-index: 99999;
     opacity: 0;
     visibility: hidden;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, visibility 0.35s ease;
-    overflow-y: auto;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    display: flex;
   }
   .mobile-drawer-overlay.open {
-    transform: translateY(0);
     opacity: 1;
     visibility: visible;
+  }
+  .drawer-panel-inner {
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.4);
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+  }
+  .mobile-drawer-overlay.open .drawer-panel-inner {
+    transform: translateX(0);
   }
   .souvia-drawer-topbar {
     display: flex;
@@ -1300,65 +1445,56 @@
 </head>
 <body>
 
-<!-- Header Main Royal Logo at the VERY TOP (Sticky Wrapper) -->
+<!-- Header Main Royal Logo & Navigation (Sticky Wrapper) -->
 <header class="site-header-sticky-wrapper">
-  <div class="head">
-    <a href="{{ route('home') }}" class="logo">
-      <span class="fleur-icon">⚜️</span> PUSAT HAMPERS INDONESIA <span class="fleur-icon">⚜️</span>
-      <small>PUSAT HAMPERS, GIFT BOX & PARCEL GOURMET • INDONESIA • DIDIRIKAN {{ config('site.since') }}</small>
-    </a>
-  </div>
-
-  <!-- Dedicated Souvia-Style Mobile Top Header Bar -->
-  <div class="souvia-mobile-topbar">
-    <a href="{{ route('home') }}" class="souvia-drawer-brand">
-      ⚜️ {{ config('site.brand') }}
-    </a>
-    <div class="souvia-drawer-search-wrap">
-      <input type="text" class="trigger-live-search" placeholder="Cari produk..." readonly>
+  <!-- Unified Ultra-Luxurious Royal Header Bar (Matching Reference Image 5 & User Menu Request) -->
+  <div class="luxury-header-bar">
+    <!-- Left: Hamburger Wrap "☰ Menu" matching user's requested screenshot -->
+    <div class="header-left-col">
+      <button type="button" class="header-menu-wrap-btn" id="open-menu-drawer-btn" title="Buka Menu Navigasi">
+        <span class="hamburger-icon-bars">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <span class="menu-btn-text">Menu</span>
+      </button>
     </div>
-    <button type="button" class="three-dots-btn" id="open-three-dots-btn" style="display: block; font-size: 24px; color: #fff;">
-      ≡
-    </button>
-  </div>
 
-  <!-- Ultra-Luxurious Royal Header Top Bar (Controls Bar) -->
-  <div class="top">
-    <nav>
-      <a href="{{ route('home') }}">HOME</a>
-      <a href="{{ route('shop') }}">PRODUK</a>
-      <a href="{{ route('menu.pdf') }}" target="_blank">PRICELIST</a>
-      <a href="{{ route('home') }}#gallery">GALLERY</a>
-      <a href="javascript:void(0)" class="open-payment-modal-btn">PEMBAYARAN & PENGIRIMAN</a>
-      <a href="javascript:void(0)" class="open-terms-modal-btn">SYARAT & KETENTUAN</a>
-      <a href="{{ route('track') }}">LACAK PESANAN</a>
-    </nav>
+    <!-- Center: Brand Logo -->
+    <div class="header-center-col">
+      <a href="{{ route('home') }}" class="luxury-brand-link">
+        <span class="fleur-icon">⚜️</span>
+        <span class="logo-title-text">{{ config('site.brand') }}</span>
+        <span class="fleur-icon">⚜️</span>
+        <small class="logo-subtext-clean">PUSAT HAMPERS, GIFT BOX & PARCEL GOURMET • INDONESIA</small>
+      </a>
+    </div>
 
-    <!-- Right Header Controls: Search, User Actions, Cart, 3-Dots -->
-    <div class="header-right-group">
-
-      <!-- 1. Menu Cari (Search) on the Left -->
+    <!-- Right: Search, Account, Cart -->
+    <div class="header-right-col">
+      <!-- 1. Search Button -->
       <button type="button" class="header-icon-btn" id="open-search-btn" title="Cari Produk (Live Search)">
         <span style="color: #38bdf8;">🔍</span> <span class="nav-text-label">CARI</span>
       </button>
 
-      <!-- 2. Tombol Masuk / Akun (Side-by-side with Keranjang) -->
+      <!-- 2. Account Button -->
       @auth
         <div class="user-action-group">
           <a href="{{ route('my.orders') }}" class="top-text-link" title="Riwayat Pesanan Saya">
-            <span>📦</span> <span class="nav-text-label">PESANAN SAYA</span>
+            <span>📦</span> <span class="nav-text-label">PESANAN</span>
           </a>
 
           @if(Auth::user()->is_admin)
             <a href="{{ route('admin.dashboard') }}" class="top-text-link" style="color: #fef08a;" title="Dashboard Admin">
-              <span>🛡️</span> <span class="nav-text-label">ADMIN PANEL</span>
+              <span>🛡️</span> <span class="nav-text-label">ADMIN</span>
             </a>
           @endif
 
           <form action="{{ route('logout') }}" method="POST" style="display: inline; margin: 0;">
             @csrf
             <button type="submit" class="top-text-link" style="color: #f87171;" title="Keluar (Logout)">
-              <span>🚪</span> <span class="nav-text-label">KELUAR</span>
+              <span>🚪</span>
             </button>
           </form>
         </div>
@@ -1368,7 +1504,7 @@
         </a>
       @endauth
 
-      <!-- 3. Tombol Keranjang (Side-by-side with Masuk) -->
+      <!-- 3. Cart Button -->
       <a href="{{ route('cart.index') }}" class="header-icon-btn" title="Keranjang Belanja">
         <span>🛒</span> <span class="nav-text-label">KERANJANG</span>
         @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
@@ -1376,88 +1512,8 @@
           <span class="cart-badge">{{ $cartQty }}</span>
         @endif
       </a>
-
-      <!-- 4. 3-Dots Mobile & Desktop Menu Trigger Button -->
-      <button type="button" class="three-dots-btn" id="open-three-dots-btn-desktop" title="Menu Lengkap">
-        ⋮
-      </button>
     </div>
   </div>
-
-  <!-- Main Category Navigation -->
-  <div class="nav-main-wrapper">
-    <nav class="main">
-        @foreach (config('site.categories') as $slug => $c)
-          <div class="nav-item-has-mega" style="display: inline-block;">
-            <a href="{{ route('category', $slug) }}" class="main-nav-link {{ request()->is('shop/'.$slug) ? 'active' : '' }}">
-              {{ $c['title'] }}
-            </a>
-
-            <!-- Mega Menu Dropdown Panel -->
-            <div class="mega-menu-dropdown">
-              <div class="mega-menu-inner">
-                <!-- Column 1: Category -->
-                <div>
-                  <div class="mega-column-title">{{ strtoupper($c['title']) }}</div>
-                  <div class="mega-link-list">
-                    <a href="{{ route('category', $slug) }}" style="font-weight: 600; color: #fef08a;">Lihat Semua {{ $c['title'] }} →</a>
-                    @foreach (array_slice($c['items'], 0, 4) as $item)
-                      <a href="{{ route('category', $slug) }}">{{ $item[0] }}</a>
-                    @endforeach
-                  </div>
-                </div>
-
-                <!-- Column 2: Flavors -->
-                <div>
-                  <div class="mega-column-title">VARIAN RASA</div>
-                  <div class="mega-link-list">
-                    <a href="{{ route('category', $slug) }}?flavors[]=Chocolate">Cokelat</a>
-                    <a href="{{ route('category', $slug) }}?flavors[]=Cheese">Keju</a>
-                    <a href="{{ route('category', $slug) }}?flavors[]=Coffee">Kopi</a>
-                    <a href="{{ route('category', $slug) }}?flavors[]=Pandan">Pandan</a>
-                    <a href="{{ route('category', $slug) }}?flavors[]=Berry">Buah Beri</a>
-                  </div>
-                </div>
-
-                <!-- Column 3: Types -->
-                <div>
-                  <div class="mega-column-title">KATEGORI BENTUK</div>
-                  <div class="mega-link-list">
-                    <a href="{{ route('category', $slug) }}?types[]=Round">Kue Bulat</a>
-                    <a href="{{ route('category', $slug) }}?types[]=Square">Kue Kotak</a>
-                    <a href="{{ route('category', $slug) }}?types[]=Whole+Cake">Kue Utuh (Whole)</a>
-                    <a href="{{ route('category', $slug) }}?types[]=Gift+Box">Kotak Hadiah</a>
-                    <a href="{{ route('category', $slug) }}?types[]=The+Classics">Varian Klasik</a>
-                  </div>
-                </div>
-
-                <!-- Column 4: 2 Featured Products -->
-                <div>
-                  <div class="mega-column-title">PRODUK UNGGULAN</div>
-                  <div class="mega-featured-grid">
-                    @php
-                      $feat1 = $c['items'][0] ?? ['Tiramisu', 525000];
-                      $feat2 = $c['items'][1] ?? ['Berry Tart', 295000];
-                      $slug1 = \Illuminate\Support\Str::slug($feat1[0]);
-                      $slug2 = \Illuminate\Support\Str::slug($feat2[0]);
-                    @endphp
-                    <a href="{{ route('category', $slug) }}" class="mega-card">
-                      <img src="{{ asset('images/' . $slug1 . '.jpg') }}" alt="{{ $feat1[0] }}" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
-                      <div class="mega-card-title">{{ $feat1[0] }}</div>
-                    </a>
-                    <a href="{{ route('category', $slug) }}" class="mega-card">
-                      <img src="{{ asset('images/' . $slug2 . '.jpg') }}" alt="{{ $feat2[0] }}" onerror="this.src='{{ asset('images/cat-cakes.jpg') }}'">
-                      <div class="mega-card-title">{{ $feat2[0] }}</div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        @endforeach
-        <a href="{{ route('menu.pdf') }}" target="_blank" class="main-nav-link">Menu Restoran PDF 📄</a>
-      </nav>
-    </div>
 </header>
 
 <main>@yield('content')</main>
@@ -1475,75 +1531,77 @@
   </div>
 </div>
 
-<!-- Mobile & 3-Dots Slide-down Navigation Drawer Modal (Matching Reference Images 1 & 2) -->
+<!-- Slide-In Navigation Drawer Modal (Wrapping the Navigation Menu) -->
 <div class="mobile-drawer-overlay" id="mobile-drawer-modal">
-  <div class="souvia-drawer-topbar">
-    <a href="{{ route('home') }}" class="souvia-drawer-brand">
-      ⚜️ {{ config('site.brand') }}
-    </a>
-    <button type="button" class="mobile-drawer-close" id="close-three-dots-btn" title="Tutup Menu">✕</button>
-  </div>
-
-  <div class="drawer-search-container">
-    <div class="drawer-search-input-wrap trigger-live-search">
-      <span>🔍</span>
-      <input type="text" placeholder="Cari produk..." readonly>
+  <div class="drawer-panel-inner">
+    <div class="souvia-drawer-topbar">
+      <a href="{{ route('home') }}" class="souvia-drawer-brand">
+        ⚜️ {{ config('site.brand') }}
+      </a>
+      <button type="button" class="mobile-drawer-close" id="close-three-dots-btn" title="Tutup Menu">✕</button>
     </div>
-  </div>
 
-  <div class="drawer-menu-list">
-    <a href="{{ route('shop') }}" class="drawer-menu-link">
-      <span>PRODUK</span>
-      <span class="drawer-arrow">›</span>
-    </a>
-    <a href="{{ route('menu.pdf') }}" target="_blank" class="drawer-menu-link">
-      <span>PRICELIST</span>
-      <span class="drawer-arrow">›</span>
-    </a>
-    <a href="{{ route('home') }}#gallery" class="drawer-menu-link">
-      <span>GALLERY</span>
-      <span class="drawer-arrow">›</span>
-    </a>
-    <button type="button" class="drawer-menu-link open-payment-modal-btn">
-      <span>PEMBAYARAN & PENGIRIMAN</span>
-      <span class="drawer-arrow">›</span>
-    </button>
-    <button type="button" class="drawer-menu-link open-terms-modal-btn">
-      <span>SYARAT & KETENTUAN</span>
-      <span class="drawer-arrow">›</span>
-    </button>
-  </div>
+    <div class="drawer-search-container">
+      <div class="drawer-search-input-wrap trigger-live-search">
+        <span>🔍</span>
+        <input type="text" placeholder="Cari produk..." readonly>
+      </div>
+    </div>
 
-  <div class="drawer-utility-section">
-    <a href="{{ route('track') }}" class="drawer-sub-link">
-      <span>📦 Lacak Pesanan Real-Time</span>
-      <span class="drawer-arrow">›</span>
-    </a>
-    <a href="{{ route('cart.index') }}" class="drawer-sub-link">
-      <span>🛒 Keranjang Belanja</span>
-      @if ($cartQty > 0)
-        <span class="cart-pill-badge">{{ $cartQty }}</span>
-      @endif
-    </a>
-
-    @auth
-      <a href="{{ route('my.orders') }}" class="drawer-sub-link">
-        <span>📋 Riwayat Pesanan Saya</span>
+    <div class="drawer-menu-list">
+      <a href="{{ route('shop') }}" class="drawer-menu-link">
+        <span>PRODUK</span>
+        <span class="drawer-arrow">›</span>
       </a>
-      @if(Auth::user()->is_admin)
-        <a href="{{ route('admin.dashboard') }}" class="drawer-sub-link" style="color: #d97706; font-weight: 700;">
-          <span>🛡️ Dashboard Admin</span>
+      <a href="{{ route('menu.pdf') }}" target="_blank" class="drawer-menu-link">
+        <span>PRICELIST</span>
+        <span class="drawer-arrow">›</span>
+      </a>
+      <a href="{{ route('home') }}#gallery" class="drawer-menu-link">
+        <span>GALLERY</span>
+        <span class="drawer-arrow">›</span>
+      </a>
+      <button type="button" class="drawer-menu-link open-payment-modal-btn">
+        <span>PEMBAYARAN & PENGIRIMAN</span>
+        <span class="drawer-arrow">›</span>
+      </button>
+      <button type="button" class="drawer-menu-link open-terms-modal-btn">
+        <span>SYARAT & KETENTUAN</span>
+        <span class="drawer-arrow">›</span>
+      </button>
+    </div>
+
+    <div class="drawer-utility-section">
+      <a href="{{ route('track') }}" class="drawer-sub-link">
+        <span>📦 Lacak Pesanan Real-Time</span>
+        <span class="drawer-arrow">›</span>
+      </a>
+      <a href="{{ route('cart.index') }}" class="drawer-sub-link">
+        <span>🛒 Keranjang Belanja</span>
+        @if ($cartQty > 0)
+          <span class="cart-pill-badge">{{ $cartQty }}</span>
+        @endif
+      </a>
+
+      @auth
+        <a href="{{ route('my.orders') }}" class="drawer-sub-link">
+          <span>📋 Riwayat Pesanan Saya</span>
         </a>
-      @endif
-      <form action="{{ route('logout') }}" method="POST" style="margin-top: 6px;">
-        @csrf
-        <button type="submit" class="drawer-logout-btn">KELUAR (LOGOUT)</button>
-      </form>
-    @else
-      <a href="{{ route('login') }}" class="drawer-sub-link" style="color: #2563eb; font-weight: 700;">
-        <span>👤 Masuk / Daftar Akun</span>
-      </a>
-    @endauth
+        @if(Auth::user()->is_admin)
+          <a href="{{ route('admin.dashboard') }}" class="drawer-sub-link" style="color: #d97706; font-weight: 700;">
+            <span>🛡️ Dashboard Admin</span>
+          </a>
+        @endif
+        <form action="{{ route('logout') }}" method="POST" style="margin-top: 6px;">
+          @csrf
+          <button type="submit" class="drawer-logout-btn">KELUAR (LOGOUT)</button>
+        </form>
+      @else
+        <a href="{{ route('login') }}" class="drawer-sub-link" style="color: #2563eb; font-weight: 700;">
+          <span>👤 Masuk / Daftar Akun</span>
+        </a>
+      @endauth
+    </div>
   </div>
 </div>
 
@@ -1783,9 +1841,18 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // 3-Dots & Hamburger Mobile Drawer Toggle Logic
+  // Hamburger "☰ Menu" Wrap Drawer Toggle Logic (Matching User's Request)
+  const openMenuDrawerBtn = document.getElementById('open-menu-drawer-btn');
   const closeThreeDotsBtn = document.getElementById('close-three-dots-btn');
   const mobileDrawerModal = document.getElementById('mobile-drawer-modal');
+
+  if (openMenuDrawerBtn && mobileDrawerModal) {
+    openMenuDrawerBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      mobileDrawerModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
 
   document.querySelectorAll('.three-dots-btn').forEach(btn => {
     btn.addEventListener('click', function (e) {
@@ -1803,6 +1870,23 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.style.overflow = '';
     });
   }
+
+  // Close drawer when clicking outside the panel on the backdrop overlay
+  if (mobileDrawerModal) {
+    mobileDrawerModal.addEventListener('click', function (e) {
+      if (e.target === mobileDrawerModal) {
+        mobileDrawerModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobileDrawerModal && mobileDrawerModal.classList.contains('open')) {
+      mobileDrawerModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
 
   // Info Modals (Pembayaran & Pengiriman, Syarat & Ketentuan)
   const paymentModal = document.getElementById('modal-payment-shipping');

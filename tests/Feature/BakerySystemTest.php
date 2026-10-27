@@ -43,6 +43,9 @@ class BakerySystemTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Royal Emerald Hamper');
         $response->assertSee("Have a bite, you can't stop!", false);
+        $response->assertSee('header-menu-wrap-btn');
+        $response->assertSee('menu-btn-text');
+        $response->assertSee('Menu');
         $response->assertSee('Produk Berkualitas');
         $response->assertSee('Jaminan Kualitas');
         $response->assertDontSee('wa.me');
