@@ -1017,7 +1017,7 @@
     if (heroTrack && heroSlides.length > 1) {
       let currentIndex = 0;
       const totalSlides = heroSlides.length;
-      const autoplayInterval = {{ $heroSettings['interval'] ?? 5000 }};
+      const autoplayInterval = {{ $heroSettings['interval'] ?? 4000 }};
       const isAutoplay = {{ ($heroSettings['autoplay'] ?? true) ? 'true' : 'false' }};
       let timer = null;
 

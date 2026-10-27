@@ -168,9 +168,9 @@ class BakerySystemTest extends TestCase
         $bannerResponse->assertStatus(200);
         $bannerResponse->assertSee('Hero Banner Slider');
 
-        // 5. Hero Banner Slider settings can be saved
+        // 5. Hero Banner Slider settings can be saved (default 4 detik)
         $settingPost = $this->post('/admin/hero-banner/settings', [
-            'interval' => 6000,
+            'interval' => 4000,
             'autoplay' => 1,
             'direction' => 'right',
         ]);

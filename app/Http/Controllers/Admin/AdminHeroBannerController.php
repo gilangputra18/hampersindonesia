@@ -84,7 +84,7 @@ class AdminHeroBannerController extends Controller
         }
         return [
             'autoplay' => true,
-            'interval' => 5000, // 5 detik
+            'interval' => 4000, // 4 detik
             'direction' => 'right', // geser ke kanan
         ];
     }

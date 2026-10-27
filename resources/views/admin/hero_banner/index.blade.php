@@ -201,8 +201,8 @@
       <label style="display: block; font-size: 12.5px; color: #cbd5e1; margin-bottom: 6px;">
         Kecepatan Interval Geser (Milidetik)
       </label>
-      <input type="number" name="interval" value="{{ $settings['interval'] ?? 5000 }}" min="2000" max="20000" step="500" style="width: 100%; padding: 9px 12px; background: #0f172a; border: 1px solid var(--panel-border); border-radius: 8px; color: #fff;">
-      <small style="color: #64748b; font-size: 11px;">Contoh: 5000 = gambar bergeser setiap 5 detik</small>
+      <input type="number" name="interval" value="{{ $settings['interval'] ?? 4000 }}" min="1000" max="20000" step="500" style="width: 100%; padding: 9px 12px; background: #0f172a; border: 1px solid var(--panel-border); border-radius: 8px; color: #fff;">
+      <small style="color: #64748b; font-size: 11px;">Contoh: 4000 = gambar bergeser otomatis setiap 4 detik</small>
     </div>
 
     <div style="display: flex; align-items: center; gap: 8px; padding-bottom: 10px;">
