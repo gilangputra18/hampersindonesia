@@ -214,4 +214,91 @@ class BakerySystemTest extends TestCase
         $response->assertSee('0812••••890');
         $response->assertDontSee('081234567890');
     }
+
+    public function test_mobile_bottom_navigation_is_rendered(): void
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertSee('mobile-bottom-nav-bar');
+        $response->assertSee('bottomNavCartBadge');
+        $response->assertSee('Shop');
+        $response->assertSee('Account');
+        $response->assertSee('Cart');
+    }
+
+    public function test_order_invoice_pdf_view_renders_correctly(): void
+    {
+        $order = Order::create([
+            'invoice_number' => 'INV-TEST-PDF-001',
+            'customer_name' => 'Siti Nurhaliza',
+            'customer_phone' => '081987654321',
+            'customer_email' => 'siti@example.com',
+            'delivery_option' => 'delivery',
+            'delivery_date' => now()->addDays(1),
+            'address' => 'Jl. Sudirman Kav 25, Jakarta Selatan',
+            'subtotal' => 750000,
+            'total_amount' => 750000,
+            'payment_status' => 'paid',
+            'payment_method' => 'BCA Virtual Account',
+            'order_status' => 'processing',
+        ]);
+
+        $order->items()->create([
+            'product_name' => 'Royal Emerald Hamper',
+            'quantity' => 1,
+            'price' => 750000,
+            'subtotal' => 750000,
+        ]);
+
+        $response = $this->get('/order/INV-TEST-PDF-001/invoice-pdf');
+        $response->assertStatus(200);
+        $response->assertSee('INV-TEST-PDF-001');
+        $response->assertSee('Siti Nurhaliza');
+        $response->assertSee('Jl. Sudirman Kav 25, Jakarta Selatan');
+        $response->assertSee('FAKTUR PENGIRIMAN &amp; INVOICE', false);
+        $response->assertSee('Royal Emerald Hamper');
+        $response->assertSee('window.print()');
+    }
+
+    public function test_admin_can_delete_completed_or_test_order(): void
+    {
+        $admin = User::create([
+            'name' => 'Admin Super',
+            'email' => 'admin-delete@test.com',
+            'password' => Hash::make('secret123'),
+        ]);
+        $admin->is_admin = true;
+        $admin->save();
+
+        $order = Order::create([
+            'invoice_number' => 'INV-TEST-DELETE',
+            'customer_name' => 'Hapus Saya',
+            'customer_phone' => '081233333333',
+            'delivery_option' => 'pickup',
+            'delivery_date' => now(),
+            'subtotal' => 100000,
+            'total_amount' => 100000,
+            'payment_status' => 'paid',
+            'order_status' => 'completed',
+        ]);
+
+        $order->items()->create([
+            'product_name' => 'Test Item',
+            'quantity' => 1,
+            'price' => 100000,
+            'subtotal' => 100000,
+        ]);
+
+        // Unauthenticated user cannot delete
+        $guestDelete = $this->delete('/admin/orders/' . $order->id);
+        $guestDelete->assertRedirect('/admin/login');
+        $this->assertDatabaseHas('orders', ['id' => $order->id]);
+
+        // Authenticated admin can delete
+        $this->actingAs($admin);
+        $adminDelete = $this->delete('/admin/orders/' . $order->id);
+        $adminDelete->assertRedirect(route('admin.orders.index'));
+        $adminDelete->assertSessionHas('success');
+        $this->assertDatabaseMissing('orders', ['id' => $order->id]);
+    }
 }

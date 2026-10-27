@@ -678,6 +678,21 @@
                   <button type="submit" class="btn-save-royal">Simpan</button>
                 </div>
               </form>
+
+              <!-- Aksi Tambahan: Cetak Faktur PDF & Hapus Pesanan (Sesuai Permintaan User Image 2) -->
+              <div style="display: flex; gap: 6px; margin-top: 6px; justify-content: flex-end; align-items: center;">
+                <a href="{{ route('order.invoice.pdf', $ord->invoice_number) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; font-size: 11px; font-weight: 700; background: #0284c7; color: #fff; text-decoration: none; border-radius: 6px; border: 1px solid #38bdf8; transition: all 0.2s;" title="Cetak Faktur / Surat Jalan PDF">
+                  🖨️ Faktur PDF
+                </a>
+
+                <form action="{{ route('admin.orders.destroy', $ord->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesanan #{{ $ord->invoice_number }} dari database?');" style="margin: 0; display: inline;">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; font-size: 11px; font-weight: 700; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; border-radius: 6px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#ef4444'; this.style.color='#fff';" onmouseout="this.style.background='rgba(239, 68, 68, 0.15)'; this.style.color='#f87171';" title="Hapus pesanan ini">
+                    🗑️ Hapus
+                  </button>
+                </form>
+              </div>
             </td>
           </tr>
         @empty

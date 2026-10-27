@@ -306,26 +306,193 @@
       min-width: auto;
     }
     .logo-title-majestic {
-      font-size: clamp(15px, 4.2vw, 22px) !important;
-      letter-spacing: 0.16em !important;
-      white-space: normal !important;
+      font-size: clamp(14px, 3.8vw, 19px) !important;
+      letter-spacing: 0.12em !important;
+      white-space: nowrap !important;
     }
     .logo-subtext-clean {
-      font-size: 8px;
-      letter-spacing: 0.14em;
+      font-size: 8.5px;
+      letter-spacing: 0.12em;
     }
     .fleur-crest-top, .fleur-crest-bottom {
-      font-size: 13px;
+      font-size: 12px;
+      margin: 1px 0;
     }
     .menu-btn-text {
-      font-size: 18px;
+      font-size: 16px;
     }
     .hamburger-icon-bars {
-      width: 19px;
-      height: 13px;
+      width: 18px;
+      height: 12px;
     }
     .nav-text-label {
       display: none !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding-bottom: 60px; /* Space for fixed bottom mobile navigation */
+    }
+    .luxury-header-bar {
+      padding: 8px 10px !important;
+      gap: 6px !important;
+      min-height: 52px !important;
+      max-width: 100vw !important;
+      box-sizing: border-box !important;
+    }
+    .header-left-col {
+      flex: 0 0 auto !important;
+      min-width: auto !important;
+    }
+    .header-menu-wrap-btn {
+      padding: 6px 8px !important;
+      gap: 6px !important;
+    }
+    .menu-btn-text {
+      font-size: 13.5px !important;
+    }
+    .hamburger-icon-bars {
+      width: 16px !important;
+      height: 11px !important;
+    }
+    .header-center-col {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+      text-align: center !important;
+      padding: 0 4px !important;
+    }
+    .luxury-brand-stack {
+      padding: 0 !important;
+      max-width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .fleur-crest-top, .fleur-crest-bottom {
+      display: none !important; /* Hide fleur crests on mobile to keep header sleek */
+    }
+    .logo-title-majestic {
+      font-size: clamp(11.5px, 3.4vw, 14.5px) !important;
+      letter-spacing: 0.08em !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      line-height: 1.2 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .logo-subtext-clean {
+      display: none !important; /* Hide long subtext on mobile */
+    }
+    .header-right-col {
+      flex: 0 0 auto !important;
+      min-width: auto !important;
+      gap: 6px !important;
+      justify-content: flex-end !important;
+    }
+    .header-icon-btn, .top-text-link {
+      padding: 6px 5px !important;
+      font-size: 13.5px !important;
+      gap: 2px !important;
+    }
+    .user-action-group {
+      gap: 6px !important;
+    }
+    .nav-text-label {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .luxury-header-bar {
+      padding: 6px 6px !important;
+      gap: 4px !important;
+    }
+    .logo-title-majestic {
+      font-size: 11px !important;
+      letter-spacing: 0.04em !important;
+    }
+    .menu-btn-text {
+      display: none !important;
+    }
+    .header-icon-btn, .top-text-link {
+      padding: 4px 4px !important;
+    }
+  }
+
+  /* Mobile Bottom Navigation Bar (Matching Android Reference Image 1) */
+  .mobile-bottom-nav-bar {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .mobile-bottom-nav-bar {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: #14050e;
+      border-top: 1px solid rgba(230, 202, 101, 0.25);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.55);
+      z-index: 9998;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 6px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .mobile-bnav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #94a3b8;
+      background: transparent;
+      border: none;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.2s ease;
+      flex: 1;
+      max-width: 100px;
+      outline: none;
+    }
+    .mobile-bnav-item.active,
+    .mobile-bnav-item:hover {
+      color: #fef08a;
+    }
+    .mobile-bnav-icon {
+      font-size: 20px;
+      line-height: 1;
+      margin-bottom: 2px;
+      position: relative;
+      display: inline-block;
+    }
+    .mobile-bnav-text {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+    }
+    .mobile-bnav-badge {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background: linear-gradient(135deg, #b89243, #e6ca65);
+      color: #081711;
+      font-size: 9.5px;
+      font-weight: 800;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 6px rgba(0,0,0,0.6);
     }
   }
 
@@ -2147,6 +2314,26 @@
   </div>
 </footer>
 
+<!-- Mobile Bottom Navigation Bar (Matching Android Reference Image 1) -->
+<nav class="mobile-bottom-nav-bar" aria-label="Navigasi Android Mobile">
+  <a href="{{ route('shop') }}" class="mobile-bnav-item {{ request()->routeIs('shop') || request()->routeIs('category') || request()->routeIs('home') ? 'active' : '' }}">
+    <span class="mobile-bnav-icon">🏪</span>
+    <span class="mobile-bnav-text">Shop</span>
+  </a>
+  <a href="@auth {{ route('my.orders') }} @else {{ route('login') }} @endauth" class="mobile-bnav-item {{ request()->routeIs('login') || request()->routeIs('my.orders') ? 'active' : '' }}">
+    <span class="mobile-bnav-icon">👤</span>
+    <span class="mobile-bnav-text">Account</span>
+  </a>
+  <button type="button" class="mobile-bnav-item" onclick="if(window.openShoppingCartDrawer){window.openShoppingCartDrawer();}else{window.location.href='{{ route('cart.index') }}';}">
+    <span class="mobile-bnav-icon">
+      🛒
+      @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
+      <span class="mobile-bnav-badge" id="bottomNavCartBadge" style="{{ $cartQty > 0 ? '' : 'display:none;' }}">{{ $cartQty }}</span>
+    </span>
+    <span class="mobile-bnav-text">Cart</span>
+  </button>
+</nav>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   // Hamburger "☰ Menu" Wrap Drawer Toggle Logic (Matching User's Request)
@@ -2606,11 +2793,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const body = document.getElementById('cartDrawerBody');
     const footer = document.getElementById('cartDrawerFooter');
     const badge = document.getElementById('headerCartBadge');
+    const bottomNavBadge = document.getElementById('bottomNavCartBadge');
     const subtotalEl = document.getElementById('drawerSubtotalVal');
 
     if (badge) {
       badge.textContent = cartCount;
-      badge.style.display = cartCount > 0 ? 'inline-block' : 'none';
+      badge.style.display = cartCount > 0 ? 'flex' : 'none';
+    }
+    if (bottomNavBadge) {
+      bottomNavBadge.textContent = cartCount;
+      bottomNavBadge.style.display = cartCount > 0 ? 'flex' : 'none';
     }
 
     if (subtotalEl) {

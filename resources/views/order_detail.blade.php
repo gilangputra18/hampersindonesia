@@ -154,6 +154,11 @@
           </div>
         @endif
       </div>
+      <div style="margin-top: 10px;">
+        <a href="{{ route('order.invoice.pdf', $order->invoice_number) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: #0284c7; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 13px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3); transition: background 0.2s;">
+          🖨️ Cetak / Unduh Faktur PDF (Print)
+        </a>
+      </div>
       <p style="font-size: 13px; color: #64756d; margin-top: 4px;">Dibuat pada {{ $order->created_at->format('d M Y, H:i') }} WIB</p>
     </div>
 
@@ -483,8 +488,13 @@
       </div>
     </div>
 
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="{{ route('home') }}" style="color: #64756d; text-decoration: none; font-size: 13px;">← Kembali ke Halaman Utama Toko</a>
+    <div style="display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 36px;">
+      <a href="{{ route('order.invoice.pdf', $order->invoice_number) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: #0284c7; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 13.5px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);">
+        🖨️ Cetak / Unduh Faktur PDF (Print)
+      </a>
+      <a href="{{ route('home') }}" style="color: #64756d; text-decoration: none; font-size: 13.5px; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff;">
+        ← Kembali ke Toko
+      </a>
     </div>
   </div>
 </div>

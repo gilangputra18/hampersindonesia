@@ -221,6 +221,12 @@ class CheckoutController extends Controller
         return view('order_detail', compact('order', 'waLink'));
     }
 
+    public function printInvoice(string $invoice)
+    {
+        $order = Order::with(['items', 'items.product'])->where('invoice_number', $invoice)->firstOrFail();
+        return view('order-invoice-pdf', compact('order'));
+    }
+
     public function payMidtrans(Request $request, $invoice)
     {
         $order = Order::where('invoice_number', $invoice)->firstOrFail();

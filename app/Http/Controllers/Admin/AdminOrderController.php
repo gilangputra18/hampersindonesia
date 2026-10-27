@@ -141,6 +141,15 @@ class AdminOrderController extends Controller
         return back()->with('success', 'Detail & status pesanan ' . $order->invoice_number . ' telah diperbarui!');
     }
 
+    public function destroy(Order $order)
+    {
+        $invoice = $order->invoice_number;
+        $order->items()->delete();
+        $order->delete();
+
+        return redirect()->route('admin.orders.index')->with('success', "Pesanan #{$invoice} berhasil dihapus dari sistem.");
+    }
+
     public function getNotifications(Request $request)
     {
         $pendingOrdersCount = Order::where('order_status', 'pending')->count();

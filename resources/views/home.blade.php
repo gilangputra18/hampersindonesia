@@ -583,6 +583,78 @@
     transform: scale(1.04);
   }
 
+  /* Mobile Android Typography & 2-Column Card Optimization */
+  @media (max-width: 640px) {
+    .hero-wine-title {
+      font-size: clamp(22px, 6vw, 36px) !important;
+      letter-spacing: 1px !important;
+      margin-bottom: 10px !important;
+    }
+    .hero-signature-quote {
+      font-size: clamp(16px, 4.2vw, 22px) !important;
+      margin-bottom: 12px !important;
+    }
+    .hero-wine-desc {
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+      margin-bottom: 20px !important;
+    }
+    .btn-gold-luxury {
+      padding: 11px 28px !important;
+      font-size: 12px !important;
+      letter-spacing: 1.5px !important;
+    }
+    .showcase-row-section {
+      padding: 36px 12px 28px 12px !important;
+    }
+    .showcase-title-ref {
+      font-size: clamp(18px, 5.2vw, 24px) !important;
+      letter-spacing: 0.8px !important;
+      margin-bottom: 6px !important;
+    }
+    .showcase-header-ref {
+      margin-bottom: 18px !important;
+    }
+    .cat-title-ref {
+      font-size: clamp(18px, 5.2vw, 24px) !important;
+      margin-bottom: 14px !important;
+    }
+    .cat-eyebrow-ref {
+      font-size: 16px !important;
+    }
+    .category-slider-section {
+      padding: 40px 12px 30px 12px !important;
+    }
+    .story-cert-section {
+      padding: 40px 14px !important;
+    }
+    .story-title {
+      font-size: clamp(18px, 5vw, 24px) !important;
+      margin-bottom: 10px !important;
+    }
+    .story-desc {
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+    }
+    .ref-white-body {
+      padding: 10px 8px 12px 8px !important;
+    }
+    .ref-white-title {
+      font-size: 13px !important;
+      min-height: 36px !important;
+      line-height: 1.3 !important;
+      margin-bottom: 4px !important;
+    }
+    .ref-white-price {
+      font-size: 13px !important;
+      margin-bottom: 8px !important;
+    }
+    .ref-white-cart-btn {
+      font-size: 12px !important;
+      padding: 4px 8px !important;
+    }
+  }
+
   /* Split Reviews & Gallery Section (Matching Reference Image 5) */
   .split-reviews-gallery {
     background: #11030b;
