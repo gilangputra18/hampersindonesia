@@ -352,4 +352,78 @@ class BakerySystemTest extends TestCase
         $response->assertSee('revPrevBtn');
         $response->assertSee('revNextBtn');
     }
+
+    public function test_checkout_page_renders_with_greeting_cards_and_trust_badges(): void
+    {
+        $product = Product::first();
+        $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+
+        $response = $this->get('/checkout');
+        $response->assertStatus(200);
+        $response->assertSee('DETAIL PEMESAN &amp; PENGIRIMAN', false);
+        $response->assertSee('Kartu Ucapan Spesial Hantaran');
+        $response->assertSee('Kirim sebagai Hadiah / Kado');
+        $response->assertSee('Transfer Bank BCA');
+        $response->assertSee('QRIS Instant Payment');
+        $response->assertSee('Enkripsi SSL 256-Bit');
+        $response->assertSee('Garansi Kemasan Aman');
+        $response->assertDontSee('wa.me');
+    }
+
+    public function test_checkout_processing_saves_greeting_card_and_gift_recipient_in_order_note(): void
+    {
+        $product = Product::first();
+        $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+
+        $postData = [
+            'customer_name' => 'Budi Santoso',
+            'customer_phone' => '081234567890',
+            'customer_email' => 'budi@test.com',
+            'delivery_option' => 'delivery',
+            'courier_name' => 'Kurir Toko (Dedicated Bakery Delivery)',
+            'delivery_date' => now()->addDays(2)->format('Y-m-d'),
+            'address' => 'Jl. Kemang Raya No. 10',
+            'city' => 'Jakarta Selatan',
+            'postal_code' => '12730',
+            'is_gift' => '1',
+            'recipient_name' => 'Ibu Rina Suryani',
+            'recipient_phone' => '081987654321',
+            'card_to' => 'Ibu Rina & Keluarga',
+            'card_from' => 'Keluarga Budi Santoso',
+            'card_message' => 'Selamat Hari Raya Idul Fitri 1447 H. Mohon maaf lahir batin.',
+            'payment_method' => 'Transfer Bank BCA',
+            'terms' => '1',
+        ];
+
+        $response = $this->post(route('checkout.process'), $postData);
+        $response->assertRedirect();
+
+        $order = Order::where('customer_name', 'Budi Santoso')->latest()->first();
+        $this->assertNotNull($order);
+        $this->assertStringContainsString('Jakarta Selatan', $order->address);
+        $this->assertStringContainsString('12730', $order->address);
+        $this->assertStringContainsString('[KARTU UCAPAN HAMPERS]', $order->order_note);
+        $this->assertStringContainsString('Ibu Rina & Keluarga', $order->order_note);
+        $this->assertStringContainsString('Selamat Hari Raya Idul Fitri', $order->order_note);
+        $this->assertStringContainsString('[KIRIM SEBAGAI HADIAH', $order->order_note);
+        $this->assertStringContainsString('Ibu Rina Suryani', $order->order_note);
+    }
 }

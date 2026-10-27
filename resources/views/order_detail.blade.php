@@ -449,6 +449,17 @@
       </div>
     </div>
 
+    @if ($order->order_note)
+      <div style="background: #fdfcf7; border: 1px solid #e7dfc6; padding: 18px 22px; border-radius: 8px; margin-top: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
+        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #1e2d27; font-size: 14px; margin-bottom: 10px;">
+          <span style="font-size: 18px;">🎁</span> <span>Kartu Ucapan Hantaran &amp; Catatan Pesanan:</span>
+        </div>
+        <div style="font-size: 13.5px; color: #2d3748; line-height: 1.7; white-space: pre-line; background: #ffffff; padding: 14px 18px; border-radius: 6px; border: 1px dashed #d1c7a7;">
+{!! nl2br(e($order->order_note)) !!}
+        </div>
+      </div>
+    @endif
+
     <!-- Items Table -->
     <div style="overflow-x: auto;">
       <table class="invoice-table">

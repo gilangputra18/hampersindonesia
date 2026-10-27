@@ -644,6 +644,13 @@
               <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
                 📅 {{ date('d M Y', strtotime($ord->delivery_date)) }}
               </div>
+              @if($ord->order_note)
+                <div style="margin-top: 6px;">
+                  <button type="button" onclick="alert('DETAIL KARTU UCAPAN / CATATAN PESANAN:\n\n' + {{ json_encode($ord->order_note) }})" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                    <span>🎁</span> <span>Lihat Ucapan</span>
+                  </button>
+                </div>
+              @endif
             </td>
 
             <!-- Col 5: Metode & Total Harga -->

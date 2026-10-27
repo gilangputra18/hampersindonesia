@@ -438,7 +438,7 @@
         <p><strong>Layanan Ekspedisi:</strong> {{ $order->expedition ?: 'Kurir Khusus / Ambil Sendiri' }}</p>
         <p><strong>Nomor Resi:</strong> <code>{{ $order->tracking_number ?: 'Menunggu Penjemputan Kurir' }}</code></p>
         <p><strong>Metode Bayar:</strong> {{ strtoupper($order->payment_method) }}</p>
-        <p><strong>Catatan Khusus:</strong> {{ $order->notes ?: '-' }}</p>
+        <p><strong>Catatan Khusus / Ucapan:</strong><br>{!! nl2br(e($order->order_note ?: ($order->notes ?: '-'))) !!}</p>
       </div>
     </div>
 

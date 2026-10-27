@@ -92,6 +92,16 @@ class CheckoutController extends Controller
             'payment_method' => 'nullable|string|max:100',
             'delivery_date' => ['required', 'date', 'after_or_equal:' . now()->addDay()->format('Y-m-d')],
             'address' => 'required_if:delivery_option,delivery|nullable|string',
+            'city' => 'nullable|string|max:100',
+            'postal_code' => 'nullable|string|max:15',
+            'address_notes' => 'nullable|string|max:255',
+            'is_gift' => 'nullable|in:0,1',
+            'recipient_name' => 'nullable|string|max:100',
+            'recipient_phone' => 'nullable|string|max:30',
+            'card_to' => 'nullable|string|max:100',
+            'card_from' => 'nullable|string|max:100',
+            'card_message' => 'nullable|string|max:1000',
+            'custom_order_note' => 'nullable|string|max:1000',
             'order_note' => 'nullable|string',
             'terms' => 'required',
         ], [
@@ -135,6 +145,71 @@ class CheckoutController extends Controller
         $courierPrefix = Str::upper(substr(preg_replace('/[^a-zA-Z]/', '', $courierName), 0, 3));
         $trackingNumber = ($courierPrefix ?: 'MD') . '-' . date('Ymd') . '-' . rand(1000, 9999);
 
+        // Format alamat lengkap dengan Kota & Kode Pos jika tersedia
+        $finalAddress = $validated['address'] ?? 'Store Pick up';
+        if ($validated['delivery_option'] === 'delivery') {
+            $addr = trim($validated['address'] ?? '');
+            $city = trim($request->input('city', ''));
+            $postalCode = trim($request->input('postal_code', ''));
+
+            $extras = [];
+            if ($city !== '' && !str_contains(strtolower($addr), strtolower($city))) {
+                $extras[] = $city;
+            }
+            if ($postalCode !== '' && !str_contains($addr, $postalCode)) {
+                $extras[] = 'Kode Pos: ' . $postalCode;
+            }
+            if (!empty($extras)) {
+                $finalAddress = $addr . ' (' . implode(', ', $extras) . ')';
+            } else {
+                $finalAddress = $addr;
+            }
+        }
+
+        // Format Catatan Pesanan & Kartu Ucapan Hantaran
+        $noteSections = [];
+
+        // 1. Kartu Ucapan Hantaran
+        $cardTo = trim($request->input('card_to', ''));
+        $cardFrom = trim($request->input('card_from', ''));
+        $cardMsg = trim($request->input('card_message', ''));
+        if ($cardTo !== '' || $cardFrom !== '' || $cardMsg !== '') {
+            $cardText = "🎁 [KARTU UCAPAN HAMPERS]\n";
+            if ($cardTo !== '') $cardText .= "Kepada: " . $cardTo . "\n";
+            if ($cardFrom !== '') $cardText .= "Dari: " . $cardFrom . "\n";
+            if ($cardMsg !== '') $cardText .= "Pesan: " . $cardMsg;
+            $noteSections[] = trim($cardText);
+        }
+
+        // 2. Penerima Hadiah Berbeda
+        if ($request->input('is_gift') == '1') {
+            $recName = trim($request->input('recipient_name', ''));
+            $recPhone = trim($request->input('recipient_phone', ''));
+            if ($recName !== '' || $recPhone !== '') {
+                $giftText = "🎀 [KIRIM SEBAGAI HADIAH (PENERIMA BERBEDA)]\n";
+                if ($recName !== '') $giftText .= "Nama Penerima: " . $recName . "\n";
+                if ($recPhone !== '') $giftText .= "No. Telepon / WA: " . $recPhone . "\n";
+                $giftText .= "(Catatan Toko: Jangan sertakan nota harga fisik dalam paket)";
+                $noteSections[] = trim($giftText);
+            }
+        }
+
+        // 3. Patokan Alamat Pengiriman
+        $addrNotes = trim($request->input('address_notes', ''));
+        if ($addrNotes !== '') {
+            $noteSections[] = "📍 [PATOKAN ALAMAT]: " . $addrNotes;
+        }
+
+        // 4. Catatan Pesanan Tambahan (dari form checkout atau keranjang)
+        $customNote = trim($request->input('custom_order_note', ''));
+        $oldNote = trim($request->input('order_note', ''));
+        $freeNote = $customNote !== '' ? $customNote : $oldNote;
+        if ($freeNote !== '' && $freeNote !== '-') {
+            $noteSections[] = "📝 [CATATAN TAMBAHAN]: " . $freeNote;
+        }
+
+        $finalOrderNote = !empty($noteSections) ? implode("\n\n", $noteSections) : null;
+
         // Eksekusi secara atomik dalam transaksi database
         $order = DB::transaction(function () use (
             $validated,
@@ -146,7 +221,9 @@ class CheckoutController extends Controller
             $paymentMethod,
             $trackingNumber,
             $cart,
-            $couponToIncrement
+            $couponToIncrement,
+            $finalAddress,
+            $finalOrderNote
         ) {
             $order = Order::create([
                 'user_id' => auth()->check() ? auth()->id() : null,
@@ -158,8 +235,8 @@ class CheckoutController extends Controller
                 'courier_name' => $courierName,
                 'delivery_date' => $validated['delivery_date'],
                 'delivery_fee' => $deliveryFee,
-                'address' => $validated['address'] ?? 'Store Pick up',
-                'order_note' => $validated['order_note'] ?? null,
+                'address' => $finalAddress,
+                'order_note' => $finalOrderNote,
                 'subtotal' => $subtotal,
                 'total_amount' => $totalAmount,
                 'payment_method' => $paymentMethod,
