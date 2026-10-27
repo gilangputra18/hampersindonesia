@@ -294,6 +294,12 @@
     <a href="{{ route('admin.export.pdf', request()->all()) }}" target="_blank" class="btn-export btn-pdf" title="Cetak Laporan PDF">
       📄 Export PDF
     </a>
+    <a href="{{ route('admin.clear_cache') }}" class="btn-export" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);" title="Bersihkan Cache & Refresh Tampilan">
+      🧹 Refresh Cache
+    </a>
+    <a href="{{ route('admin.git_pull') }}" class="btn-export" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4);" title="Tarik Update dari GitHub" onclick="return confirm('Tarik pembaruan kode terbaru dari GitHub ke server hosting sekarang?');">
+      🚀 Tarik Update GitHub
+    </a>
   </div>
 </div>
 

@@ -83,6 +83,23 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
         }
     })->name('clear_cache');
 
+    // Protected Utility Route to Pull Latest Code from GitHub (Admin Only)
+    Route::get('/git-pull', function() {
+        try {
+            $output = [];
+            $code = 0;
+            exec('git pull origin main 2>&1', $output, $code);
+            \Illuminate\Support\Facades\Artisan::call('view:clear');
+            \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            \Illuminate\Support\Facades\Artisan::call('config:clear');
+            \Illuminate\Support\Facades\Artisan::call('route:clear');
+            $log = implode("\n", $output);
+            return '<div style="font-family:sans-serif; text-align:center; padding:50px;"><h2>🚀 Git Pull & Cache Refresh Berhasil!</h2><p>Kode terbaru ditarik dari GitHub dan cache view Laravel telah dibersihkan.</p><pre style="background:#f1f5f9; padding:20px; text-align:left; max-width:650px; margin:20px auto; border-radius:8px; font-size:13px; font-family:monospace; color:#0f172a;">' . htmlspecialchars($log ?: 'Git command executed successfully.') . '</pre><p><a href="/admin/dashboard" style="display:inline-block; margin-top:15px; padding:10px 20px; background:#d97706; color:#fff; text-decoration:none; border-radius:6px;">← Kembali ke Dashboard Admin</a></p></div>';
+        } catch (\Throwable $e) {
+            return 'Git pull exception: ' . $e->getMessage();
+        }
+    })->name('git_pull');
+
     Route::get('/', [AdminProductController::class, 'dashboard']);
     Route::get('/dashboard', [AdminProductController::class, 'dashboard'])->name('dashboard');
     
