@@ -25,7 +25,10 @@
   .badge-active   { background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
   .badge-inactive { background: #fee2e2; color: #991b1b; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media(max-width:640px) { .form-grid { grid-template-columns: 1fr; } }
+  @media(max-width:640px) {
+    .coupon-card { padding: 16px 14px !important; margin-bottom: 20px !important; }
+    .form-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  }
 </style>
 
 {{-- Flash Message --}}

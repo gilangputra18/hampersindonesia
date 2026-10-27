@@ -25,14 +25,14 @@
 @endif
 
 {{-- Stats Bar --}}
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px;">
-  <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;padding:16px 20px;">
-    <div style="font-size:24px;font-weight:700;color:#fff;">{{ $reviews->total() }}</div>
-    <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Total Ulasan</div>
+<div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;margin-bottom:20px;">
+  <div style="background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:10px;padding:12px 14px;">
+    <div style="font-size:20px;font-weight:700;color:#fff;">{{ $reviews->total() }}</div>
+    <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;">Total Ulasan</div>
   </div>
-  <div style="background:var(--panel-bg);border:1px solid #f59e0b;border-radius:10px;padding:16px 20px;">
-    <div style="font-size:24px;font-weight:700;color:#fbbf24;">{{ $pendingCount }}</div>
-    <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Menunggu Moderasi</div>
+  <div style="background:var(--panel-bg);border:1px solid #f59e0b;border-radius:10px;padding:12px 14px;">
+    <div style="font-size:20px;font-weight:700;color:#fbbf24;">{{ $pendingCount }}</div>
+    <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;">Menunggu Moderasi</div>
   </div>
 </div>
 

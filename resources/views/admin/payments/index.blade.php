@@ -208,6 +208,33 @@
     box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   }
+
+  @media (max-width: 640px) {
+    .payment-header-card {
+      padding: 16px 14px !important;
+      margin-bottom: 20px !important;
+    }
+    .payment-grid {
+      grid-template-columns: 1fr !important;
+      gap: 14px !important;
+      margin-bottom: 20px !important;
+    }
+    .payment-card {
+      padding: 16px 14px !important;
+    }
+    .mini-invoice-mock {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+      padding: 14px !important;
+    }
+    .instructions-card, .preview-box {
+      padding: 16px 14px !important;
+    }
+    .btn-save-gold {
+      width: 100% !important;
+      justify-content: center !important;
+    }
+  }
 </style>
 
 <!-- 1. Header Banner -->

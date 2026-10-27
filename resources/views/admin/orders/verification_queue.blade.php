@@ -114,6 +114,43 @@
     font-size: 13px;
     color: #e2e8f0;
   }
+
+  /* Mobile Responsiveness for Verification Queue */
+  @media (max-width: 768px) {
+    .metric-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      margin-bottom: 18px !important;
+    }
+    .metric-card {
+      padding: 12px 14px !important;
+      border-radius: 10px !important;
+    }
+    .metric-card:last-child {
+      grid-column: 1 / -1 !important;
+      padding: 10px 14px !important;
+    }
+    .metric-num {
+      font-size: 22px !important;
+    }
+    .metric-label {
+      font-size: 9.5px !important;
+      letter-spacing: 0.5px !important;
+      margin-top: 3px !important;
+    }
+    .metric-card div[style*="font-size: 36px"] {
+      font-size: 24px !important;
+    }
+    .panel-royal {
+      padding: 14px 12px !important;
+      border-radius: 12px !important;
+    }
+    .table-orders-royal thead th,
+    .table-orders-royal tbody td {
+      padding: 10px 12px !important;
+      font-size: 12px !important;
+    }
+  }
 </style>
 
 <div class="metric-grid">

@@ -23,6 +23,18 @@
       grid-template-columns: 1fr;
     }
   }
+  @media (max-width: 600px) {
+    .checkout-page {
+      padding: 20px 12px 60px 12px;
+    }
+    .checkout-box {
+      padding: 18px 14px !important;
+    }
+    .checkout-input-grid {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+    }
+  }
 
   .checkout-box {
     background: #fff;
@@ -148,7 +160,7 @@
           <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ old('customer_name', auth()->check() ? auth()->user()->name : '') }}" placeholder="Contoh: Budi Santoso" required>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="checkout-input-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
           <div class="form-group">
             <label for="customer_phone">No. WhatsApp *</label>
             <input type="tel" name="customer_phone" id="customer_phone" class="form-control" value="{{ old('customer_phone', auth()->check() ? (auth()->user()->phone ?? '') : '') }}" placeholder="081234567890" required>

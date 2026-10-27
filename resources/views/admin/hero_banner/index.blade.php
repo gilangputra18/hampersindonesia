@@ -160,6 +160,20 @@
     color: #fff;
     box-shadow: 0 20px 50px rgba(0,0,0,0.6);
   }
+
+  @media (max-width: 640px) {
+    .banner-header-card {
+      padding: 16px 14px !important;
+      margin-bottom: 20px !important;
+    }
+    .slide-card-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+    .modal-content {
+      padding: 18px 14px !important;
+    }
+  }
 </style>
 
 @if(session('success'))

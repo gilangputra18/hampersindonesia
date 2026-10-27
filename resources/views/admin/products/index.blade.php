@@ -83,6 +83,24 @@
     text-align: center;
     border-top: 1px solid var(--panel-border);
   }
+
+  @media (max-width: 768px) {
+    .search-container {
+      width: 100% !important;
+      min-width: 100% !important;
+    }
+    #search-form > div[style*="width: 200px"] {
+      width: 100% !important;
+    }
+    #search-form > div[style*="margin-left: auto"] {
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+    #search-form > div[style*="margin-left: auto"] .btn {
+      flex: 1 1 auto !important;
+      justify-content: center !important;
+    }
+  }
 </style>
 
 <div class="panel" style="margin-bottom: 24px;">

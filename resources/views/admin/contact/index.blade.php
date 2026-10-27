@@ -196,6 +196,40 @@
     margin-bottom: 8px;
     white-space: nowrap;
   }
+
+  @media (max-width: 768px) {
+    .stat-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      margin-bottom: 18px !important;
+    }
+    .stat-card {
+      padding: 12px 14px !important;
+      border-radius: 10px !important;
+    }
+    .stat-val {
+      font-size: 20px !important;
+    }
+    .stat-lbl {
+      font-size: 9.5px !important;
+      letter-spacing: 0.5px !important;
+    }
+    .stat-icon {
+      font-size: 22px !important;
+    }
+    .msg-item {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+      padding: 14px 12px !important;
+    }
+    .msg-actions {
+      justify-content: flex-start !important;
+      width: 100% !important;
+    }
+    .date-time {
+      text-align: left !important;
+    }
+  }
 </style>
 
 <!-- Stat Cards Overview Bar -->

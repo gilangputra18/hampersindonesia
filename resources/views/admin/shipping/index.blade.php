@@ -129,6 +129,28 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
   }
+
+  @media (max-width: 640px) {
+    .shipping-header-card {
+      padding: 16px 14px !important;
+      margin-bottom: 20px !important;
+    }
+    .shipping-grid {
+      grid-template-columns: 1fr !important;
+      gap: 14px !important;
+      margin-bottom: 20px !important;
+    }
+    .shipping-card {
+      padding: 16px 14px !important;
+    }
+    .tips-card {
+      padding: 16px 14px !important;
+    }
+    .btn-save-shipping {
+      width: 100% !important;
+      justify-content: center !important;
+    }
+  }
 </style>
 
 <!-- 1. Header Banner -->
