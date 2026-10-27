@@ -237,37 +237,29 @@
   .header-left-col {
     display: flex;
     align-items: center;
-    min-width: 130px;
-  }
-  .header-center-col {
-    flex: 1;
-    text-align: center;
+    flex: 1 1 auto;
+    min-width: 0;
   }
   .luxury-brand-stack {
     display: inline-flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     text-decoration: none;
-    text-align: center;
-    padding: 2px 10px;
+    text-align: left;
+    padding: 2px 0;
     transition: transform 0.25s ease;
   }
   .luxury-brand-stack:hover {
-    transform: scale(1.02);
+    transform: scale(1.01);
   }
   .fleur-crest-top, .fleur-crest-bottom {
-    display: block;
-    font-size: 19px;
-    line-height: 1;
-    color: #e6ca65;
-    margin: 2px 0;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    display: none;
   }
   .logo-title-majestic {
     font-family: 'Cormorant Garamond', 'Cinzel', serif;
-    font-size: 30px;
-    letter-spacing: 0.32em;
+    font-size: 26px;
+    letter-spacing: 0.22em;
     line-height: 1.15;
     background: linear-gradient(135deg, #fff3c4 0%, #e6ca65 40%, #c59b27 75%, #fef08a 100%);
     -webkit-background-clip: text;
@@ -281,11 +273,11 @@
   .logo-subtext-clean {
     display: block;
     font-family: 'Outfit', sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.32em;
+    font-size: 9px;
+    letter-spacing: 0.24em;
     color: #cbd5e1;
     font-weight: 600;
-    margin-top: 4px;
+    margin-top: 3px;
     text-transform: uppercase;
     -webkit-text-fill-color: #cbd5e1;
   }
@@ -293,40 +285,22 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 16px;
-    min-width: 130px;
+    flex: 0 0 auto;
+    min-width: auto;
   }
 
   @media (max-width: 900px) {
     .luxury-header-bar {
-      padding: 10px 14px;
-      gap: 10px;
-    }
-    .header-left-col, .header-right-col {
-      min-width: auto;
+      padding: 10px 18px;
     }
     .logo-title-majestic {
-      font-size: clamp(14px, 3.8vw, 19px) !important;
+      font-size: clamp(14px, 3.8vw, 20px) !important;
       letter-spacing: 0.12em !important;
       white-space: nowrap !important;
     }
     .logo-subtext-clean {
-      font-size: 8.5px;
+      font-size: 8px;
       letter-spacing: 0.12em;
-    }
-    .fleur-crest-top, .fleur-crest-bottom {
-      font-size: 12px;
-      margin: 1px 0;
-    }
-    .menu-btn-text {
-      font-size: 16px;
-    }
-    .hamburger-icon-bars {
-      width: 18px;
-      height: 12px;
-    }
-    .nav-text-label {
-      display: none !important;
     }
   }
 
@@ -335,47 +309,27 @@
       padding-bottom: 60px; /* Space for fixed bottom mobile navigation */
     }
     .luxury-header-bar {
-      padding: 8px 10px !important;
-      gap: 6px !important;
+      padding: 8px 12px !important;
       min-height: 52px !important;
       max-width: 100vw !important;
       box-sizing: border-box !important;
     }
     .header-left-col {
-      flex: 0 0 auto !important;
-      min-width: auto !important;
-    }
-    .header-menu-wrap-btn {
-      padding: 6px 8px !important;
-      gap: 6px !important;
-    }
-    .menu-btn-text {
-      font-size: 13.5px !important;
-    }
-    .hamburger-icon-bars {
-      width: 16px !important;
-      height: 11px !important;
-    }
-    .header-center-col {
       flex: 1 1 auto !important;
       min-width: 0 !important;
       overflow: hidden !important;
-      text-align: center !important;
-      padding: 0 4px !important;
     }
     .luxury-brand-stack {
       padding: 0 !important;
+      align-items: flex-start !important;
+      text-align: left !important;
       max-width: 100% !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
     }
     .fleur-crest-top, .fleur-crest-bottom {
-      display: none !important; /* Hide fleur crests on mobile to keep header sleek */
+      display: none !important;
     }
     .logo-title-majestic {
-      font-size: clamp(11.5px, 3.4vw, 14.5px) !important;
+      font-size: clamp(13px, 4.2vw, 16.5px) !important;
       letter-spacing: 0.08em !important;
       white-space: nowrap !important;
       overflow: hidden !important;
@@ -385,41 +339,40 @@
       padding: 0 !important;
     }
     .logo-subtext-clean {
-      display: none !important; /* Hide long subtext on mobile */
+      display: none !important;
     }
     .header-right-col {
       flex: 0 0 auto !important;
       min-width: auto !important;
-      gap: 6px !important;
-      justify-content: flex-end !important;
+      margin-left: 8px !important;
     }
-    .header-icon-btn, .top-text-link {
-      padding: 6px 5px !important;
+    .header-menu-wrap-btn {
+      padding: 6px 12px !important;
+      gap: 7px !important;
+    }
+    .menu-btn-text {
       font-size: 13.5px !important;
-      gap: 2px !important;
     }
-    .user-action-group {
-      gap: 6px !important;
-    }
-    .nav-text-label {
-      display: none !important;
+    .hamburger-icon-bars {
+      width: 16px !important;
+      height: 11px !important;
     }
   }
 
   @media (max-width: 380px) {
     .luxury-header-bar {
-      padding: 6px 6px !important;
-      gap: 4px !important;
+      padding: 6px 10px !important;
     }
     .logo-title-majestic {
-      font-size: 11px !important;
-      letter-spacing: 0.04em !important;
+      font-size: 12px !important;
+      letter-spacing: 0.05em !important;
+    }
+    .header-menu-wrap-btn {
+      padding: 5px 8px !important;
+      gap: 5px !important;
     }
     .menu-btn-text {
-      display: none !important;
-    }
-    .header-icon-btn, .top-text-link {
-      padding: 4px 4px !important;
+      font-size: 12.5px !important;
     }
   }
 
@@ -496,7 +449,7 @@
     }
   }
 
-  /* Off-Canvas Slide-In Drawer (Wrapping the Navigation Menu) */
+  /* Off-Canvas Slide-In Drawer (Wrapping the Navigation Menu - Slides from Right) */
   .mobile-drawer-overlay {
     position: fixed;
     inset: 0;
@@ -507,6 +460,7 @@
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     display: flex;
+    justify-content: flex-end;
   }
   .mobile-drawer-overlay.open {
     opacity: 1;
@@ -519,8 +473,8 @@
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.4);
-    transform: translateX(-100%);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
+    transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
   }
@@ -1859,72 +1813,32 @@
 </style>
 </head>
 <body>
+@php
+  $cartQty = array_sum(array_column(session('cart', []), 'quantity'));
+@endphp
 
 <!-- Header Main Royal Logo & Navigation (Sticky Wrapper) -->
 <header class="site-header-sticky-wrapper">
-  <!-- Unified Ultra-Luxurious Royal Header Bar (Matching Reference Image 5 & User Menu Request) -->
+  <!-- Unified Ultra-Luxurious Royal Header Bar (Brand on Left, Menu on Right) -->
   <div class="luxury-header-bar">
-    <!-- Left: Hamburger Wrap "☰ Menu" matching user's requested screenshot -->
+    <!-- Left: Brand Logo Stacked Crest (Left Aligned) -->
     <div class="header-left-col">
+      <a href="{{ route('home') }}" class="luxury-brand-stack" title="{{ config('site.brand') }}">
+        <span class="logo-title-majestic">{{ config('site.brand') }}</span>
+        <span class="logo-subtext-clean">PUSAT HAMPERS, GIFT BOX &amp; PARCEL GOURMET • INDONESIA</span>
+      </a>
+    </div>
+
+    <!-- Right: Menu Button (User requested menu on the right) -->
+    <div class="header-right-col">
       <button type="button" class="header-menu-wrap-btn" id="open-menu-drawer-btn" title="Buka Menu Navigasi">
+        <span class="menu-btn-text">Menu</span>
         <span class="hamburger-icon-bars">
           <span></span>
           <span></span>
           <span></span>
         </span>
-        <span class="menu-btn-text">Menu</span>
       </button>
-    </div>
-
-    <!-- Center: Brand Logo Stacked Crest (Matching Image 2 Reference) -->
-    <div class="header-center-col">
-      <a href="{{ route('home') }}" class="luxury-brand-stack" title="{{ config('site.brand') }}">
-        <span class="fleur-crest-top">⚜</span>
-        <span class="logo-title-majestic">{{ config('site.brand') }}</span>
-        <span class="fleur-crest-bottom">⚜</span>
-        <span class="logo-subtext-clean">PUSAT HAMPERS, GIFT BOX &amp; PARCEL GOURMET • INDONESIA</span>
-      </a>
-    </div>
-
-    <!-- Right: Search, Account, Cart -->
-    <div class="header-right-col">
-      <!-- 1. Search Button -->
-      <button type="button" class="header-icon-btn" id="open-search-btn" title="Cari Produk (Live Search)">
-        <span style="color: #38bdf8;">🔍</span> <span class="nav-text-label">CARI</span>
-      </button>
-
-      <!-- 2. Account Button -->
-      @auth
-        <div class="user-action-group">
-          <a href="{{ route('my.orders') }}" class="top-text-link" title="Riwayat Pesanan Saya">
-            <span>📦</span> <span class="nav-text-label">PESANAN</span>
-          </a>
-
-          @if(Auth::user()->is_admin)
-            <a href="{{ route('admin.dashboard') }}" class="top-text-link" style="color: #fef08a;" title="Dashboard Admin">
-              <span>🛡️</span> <span class="nav-text-label">ADMIN</span>
-            </a>
-          @endif
-
-          <form action="{{ route('logout') }}" method="POST" style="display: inline; margin: 0;">
-            @csrf
-            <button type="submit" class="top-text-link" style="color: #f87171;" title="Keluar (Logout)">
-              <span>🚪</span>
-            </button>
-          </form>
-        </div>
-      @else
-        <a href="{{ route('login') }}" class="header-icon-btn" title="Akun Saya / Login">
-          <span style="color: #a855f7;">👤</span> <span class="nav-text-label">MASUK</span>
-        </a>
-      @endauth
-
-      <!-- 3. Cart Button -->
-      <a href="{{ route('cart.index') }}" class="header-icon-btn" id="open-cart-drawer-btn" title="Keranjang Belanja">
-        <span>🛒</span> <span class="nav-text-label">KERANJANG</span>
-        @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
-        <span class="cart-badge" id="headerCartBadge" style="{{ $cartQty > 0 ? '' : 'display:none;' }}">{{ $cartQty }}</span>
-      </a>
     </div>
   </div>
 </header>

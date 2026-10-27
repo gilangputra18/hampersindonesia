@@ -206,84 +206,251 @@
     box-shadow: 0 0 10px rgba(230, 202, 101, 0.6);
   }
 
-  /* Story & Certification Section */
+  /* Brand Story & Quality Certification Section (Royal Luxury Redesign) */
   .story-cert-section {
-    background: #ffffff;
-    padding: 60px 20px;
-    color: #0f172a;
+    background: linear-gradient(135deg, #17050f 0%, #230816 50%, #15040e 100%);
+    padding: 70px 24px;
+    color: #ffffff;
+    position: relative;
+    border-top: 1px solid rgba(230, 202, 101, 0.25);
+    border-bottom: 1px solid rgba(230, 202, 101, 0.25);
+    overflow: hidden;
+  }
+  .story-cert-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 60%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(230, 202, 101, 0.08) 0%, transparent 70%);
+    pointer-events: none;
   }
   .story-cert-inner {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 40px;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
     align-items: center;
+    position: relative;
+    z-index: 2;
   }
+  .story-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(230, 202, 101, 0.1);
+    border: 1px solid rgba(230, 202, 101, 0.35);
+    color: #fef08a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 14px rgba(230, 202, 101, 0.15);
+  }
+  .story-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 16px 0;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.5px;
+  }
+  .story-divider-gold {
+    width: 64px;
+    height: 3px;
+    background: var(--gold-gradient);
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  .story-desc {
+    font-size: 14.5px;
+    color: #e2e8f0;
+    line-height: 1.8;
+    margin: 0 0 24px 0;
+    max-width: 620px;
+  }
+  .story-action-wrap {
+    margin-bottom: 28px;
+  }
+  .btn-story-luxury {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold-gradient);
+    color: #12030a;
+    padding: 13px 30px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 12.5px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(230, 202, 101, 0.35);
+    transition: all 0.3s ease;
+  }
+  .btn-story-luxury:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(254, 240, 138, 0.5);
+    color: #000;
+  }
+  .story-trust-badges {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .trust-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .trust-icon {
+    font-size: 22px;
+  }
+  .trust-badge-item strong {
+    display: block;
+    font-size: 14px;
+    color: #fef08a;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .trust-badge-item small {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+
+  /* 3 Luxury Badges on the right */
+  .story-right-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cert-card-luxury {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(230, 202, 101, 0.3);
+    border-radius: 14px;
+    padding: 16px 20px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  }
+  .cert-card-luxury:hover {
+    transform: translateX(6px);
+    border-color: #fef08a;
+    background: rgba(230, 202, 101, 0.08);
+  }
+  .cert-gold-ring {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 202, 101, 0.25) 0%, rgba(22, 5, 14, 0.6) 100%);
+    border: 1.5px solid #e6ca65;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(230, 202, 101, 0.3);
+  }
+  .cert-luxury-label {
+    margin: 0 0 2px 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+  .cert-luxury-sub {
+    margin: 0 0 6px 0;
+    font-size: 12px;
+    color: #cbd5e1;
+  }
+  .cert-mini-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #081711;
+    background: linear-gradient(135deg, #fff3c4, #e6ca65);
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
   @media (max-width: 820px) {
     .story-cert-inner {
       grid-template-columns: 1fr;
       text-align: center;
-      gap: 30px;
+      gap: 32px;
+    }
+    .story-divider-gold {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .story-desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .story-trust-badges {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .story-right-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .cert-card-luxury {
+      flex-direction: column;
+      text-align: center;
+      padding: 14px 8px;
+      gap: 10px;
+    }
+    .cert-luxury-label {
+      font-size: 12.5px;
+    }
+    .cert-luxury-sub {
+      font-size: 10.5px;
+      display: none;
     }
   }
-  .story-tag {
-    color: #b45309;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .story-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: 800;
-    color: #12030a;
-    line-height: 1.25;
-    margin: 0 0 16px 0;
-  }
-  .story-desc {
-    font-size: 14.5px;
-    color: #475569;
-    line-height: 1.75;
-    margin: 0 0 20px 0;
-  }
-  .cert-badges-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    background: #fdfbf7;
-    padding: 24px;
-    border-radius: 12px;
-    border: 1px solid rgba(217, 119, 6, 0.2);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-  }
-  @media (max-width: 500px) {
-    .cert-badges-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
+
+  @media (max-width: 480px) {
+    .story-cert-section {
+      padding: 44px 14px;
     }
-  }
-  .cert-item {
-    text-align: center;
-  }
-  .cert-icon {
-    font-size: 28px;
-    margin-bottom: 6px;
-    display: block;
-  }
-  .cert-label {
-    font-size: 12px;
-    font-weight: 800;
-    color: #12030a;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .cert-sub {
-    font-size: 11px;
-    color: #64748b;
-    margin-top: 2px;
+    .story-right-cards {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .cert-gold-ring {
+      width: 38px;
+      height: 38px;
+      font-size: 18px;
+    }
+    .cert-card-luxury {
+      padding: 12px 6px;
+    }
+    .cert-luxury-label {
+      font-size: 11px;
+    }
+    .cert-mini-badge {
+      font-size: 8px;
+      padding: 1px 5px;
+    }
   }
 
   /* Best Seller Category Slider (Matching Reference Image 1) */
@@ -482,16 +649,41 @@
     max-width: 1200px;
     margin: 0 auto;
   }
-  @media (max-width: 1050px) {
+  @media (max-width: 820px) {
     .ref-white-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 14px !important;
+      padding: 10px 16px 20px 16px !important;
+      margin-left: -16px !important;
+      margin-right: -16px !important;
+      scrollbar-width: none !important;
+      scroll-behavior: smooth !important;
+    }
+    .ref-white-grid::-webkit-scrollbar {
+      display: none !important;
+    }
+    .ref-white-card {
+      flex: 0 0 200px !important;
+      max-width: 210px !important;
+      min-width: 180px !important;
+      scroll-snap-align: start !important;
     }
   }
   @media (max-width: 500px) {
     .ref-white-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 12px !important;
+      padding: 8px 14px 18px 14px !important;
+      margin-left: -12px !important;
+      margin-right: -12px !important;
+    }
+    .ref-white-card {
+      flex: 0 0 170px !important;
+      max-width: 180px !important;
+      min-width: 155px !important;
     }
   }
   .ref-white-card {
@@ -838,36 +1030,79 @@
   @endif
 </section>
 
-<!-- Brand Story & Quality Certification Section -->
+<!-- Brand Story & Quality Certification Section (Royal Luxury Redesign) -->
 <section class="story-cert-section">
   <div class="story-cert-inner">
-    <div>
-      <div class="story-tag">⚜️ CERITA RASA KAMI ⚜️</div>
-      <h2 class="story-title">Dedikasi Kemewahan & Kelezatan Sejak Awal</h2>
+    <div class="story-left-content">
+      <div class="story-tag-pill">
+        <span>⚜️</span>
+        <span>CERITA RASA KAMI</span>
+        <span>⚜️</span>
+      </div>
+      <h2 class="story-title">Dedikasi Kemewahan &amp; Kelezatan Sejak Awal</h2>
+      <div class="story-divider-gold"></div>
       <p class="story-desc">
-        Setiap produk diracik secara teliti menggunakan mentega impor murni, rempah pilihan, dan bahan alami terbaik tanpa pemanis buatan maupun pengawet berbahaya. Kami mempersembahkan kehangatan bingkisan premium yang meninggalkan kenangan tak terlupakan bagi keluarga, kerabat, dan mitra bisnis Anda.
+        Setiap bingkisan diracik secara teliti menggunakan mentega impor murni, rempah istimewa, dan resep warisan artisanal tanpa pemanis buatan maupun pengawet. Kami mempersembahkan kehangatan hampers gourmet terbaik yang meninggalkan kenangan tak terlupakan bagi keluarga, sahabat, dan mitra bisnis terhormat Anda.
       </p>
-      <a href="{{ route('shop') }}" style="color: #b45309; font-weight: 700; font-size: 13px; text-decoration: none; letter-spacing: 1px;">
-        LIHAT SEMUA PILIHAN HAMPERS →
-      </a>
+      
+      <div class="story-action-wrap">
+        <a href="{{ route('shop') }}" class="btn-story-luxury">
+          <span>Lihat Semua Pilihan Hampers</span>
+          <span style="font-size: 13px;">❯</span>
+        </a>
+      </div>
+
+      <!-- Trust highlights -->
+      <div class="story-trust-badges">
+        <div class="trust-badge-item">
+          <span class="trust-icon">⭐</span>
+          <div>
+            <strong>4.9 / 5.0</strong>
+            <small>Rating Kepuasan</small>
+          </div>
+        </div>
+        <div class="trust-badge-item">
+          <span class="trust-icon">📦</span>
+          <div>
+            <strong>15.000+</strong>
+            <small>Hampers Terkirim</small>
+          </div>
+        </div>
+        <div class="trust-badge-item">
+          <span class="trust-icon">👑</span>
+          <div>
+            <strong>Artisanal</strong>
+            <small>Standar VIP</small>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div>
-      <div class="cert-badges-grid">
-        <div class="cert-item">
-          <span class="cert-icon">🌿</span>
-          <div class="cert-label">100% Halal</div>
-          <div class="cert-sub">LPPOM MUI & BPOM</div>
+    <div class="story-right-cards">
+      <div class="cert-card-luxury">
+        <div class="cert-gold-ring">🌿</div>
+        <div class="cert-card-text">
+          <h4 class="cert-luxury-label">100% Halal</h4>
+          <p class="cert-luxury-sub">LPPOM MUI &amp; BPOM Resmi</p>
+          <span class="cert-mini-badge">TERJAMIN HIGIENIS</span>
         </div>
-        <div class="cert-item">
-          <span class="cert-icon">🧈</span>
-          <div class="cert-label">Pure Butter</div>
-          <div class="cert-sub">Bahan Baku Premium</div>
+      </div>
+
+      <div class="cert-card-luxury">
+        <div class="cert-gold-ring">🧈</div>
+        <div class="cert-card-text">
+          <h4 class="cert-luxury-label">Pure Wijsman Butter</h4>
+          <p class="cert-luxury-sub">Bahan Baku Impor Premium</p>
+          <span class="cert-mini-badge">WANGI &amp; LEMBUT</span>
         </div>
-        <div class="cert-item">
-          <span class="cert-icon">🛡️</span>
-          <div class="cert-label">0% Pengawet</div>
-          <div class="cert-sub">Higienis & Segar</div>
+      </div>
+
+      <div class="cert-card-luxury">
+        <div class="cert-gold-ring">🛡️</div>
+        <div class="cert-card-text">
+          <h4 class="cert-luxury-label">0% Pengawet</h4>
+          <p class="cert-luxury-sub">Fresh Baked Every Day</p>
+          <span class="cert-mini-badge">ALAMI &amp; SEHAT</span>
         </div>
       </div>
     </div>
@@ -912,7 +1147,7 @@
   </div>
 
   <div class="ref-white-grid">
-    @foreach ($bigBites->take(4) as $p)
+    @foreach ($bigBites->take(8) as $p)
       @include('partials.card-white', ['item' => $p, 'slug' => 'light-bites'])
     @endforeach
   </div>
@@ -928,7 +1163,7 @@
   </div>
 
   <div class="ref-white-grid">
-    @foreach ($loyangMini->take(4) as $p)
+    @foreach ($loyangMini->take(8) as $p)
       @include('partials.card-white', ['item' => $p, 'slug' => 'cakes'])
     @endforeach
   </div>
@@ -944,7 +1179,7 @@
   </div>
 
   <div class="ref-white-grid">
-    @foreach ($other->take(4) as $p)
+    @foreach ($other->take(8) as $p)
       @include('partials.card-white', ['item' => $p, 'slug' => 'hampers'])
     @endforeach
   </div>

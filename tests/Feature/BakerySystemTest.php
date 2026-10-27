@@ -54,6 +54,12 @@ class BakerySystemTest extends TestCase
         $response->assertSee('Other');
         $response->assertSee('luxury-brand-stack');
         $response->assertSee('logo-title-majestic');
+        $response->assertSee('CERITA RASA KAMI');
+        $response->assertSee('Pure Wijsman Butter');
+        $response->assertSee('100% Halal');
+        $response->assertSee('0% Pengawet');
+        $response->assertSee('Lihat Semua Pilihan Hampers');
+        $response->assertDontSee('id="open-search-btn"', false);
         $response->assertDontSee('wa.me');
     }
 

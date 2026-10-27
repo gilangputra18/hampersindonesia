@@ -40,23 +40,23 @@ class SiteController extends Controller
         // Featured showcase rows by category matching reference
         $bigBites = Product::with(['category', 'reviews'])
             ->whereHas('category', function($q) { $q->whereIn('slug', ['mooncake', 'cookies', 'light-bites']); })
-            ->take(4)->get();
+            ->take(8)->get();
         if ($bigBites->isEmpty()) {
-            $bigBites = $best->take(4);
+            $bigBites = $best->take(8);
         }
 
         $loyangMini = Product::with(['category', 'reviews'])
             ->whereHas('category', function($q) { $q->whereIn('slug', ['cakes', 'breads']); })
-            ->take(4)->get();
+            ->take(8)->get();
         if ($loyangMini->isEmpty()) {
-            $loyangMini = $best->skip(2)->take(4);
+            $loyangMini = $best->skip(2)->take(8);
         }
 
         $other = Product::with(['category', 'reviews'])
             ->whereHas('category', function($q) { $q->whereIn('slug', ['hampers', 'cookies', 'light-bites']); })
-            ->skip(2)->take(4)->get();
+            ->skip(2)->take(8)->get();
         if ($other->isEmpty()) {
-            $other = $best->take(4);
+            $other = $best->take(8);
         }
 
         $cakes = $loyangMini;
