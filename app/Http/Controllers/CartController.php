@@ -47,10 +47,17 @@ class CartController extends Controller
         session()->put('cart', $cart);
 
         if ($request->ajax() || $request->wantsJson()) {
+            $subtotal = 0;
+            foreach ($cart as $item) {
+                $subtotal += $item['price'] * $item['quantity'];
+            }
             return response()->json([
                 'success' => true,
                 'message' => $product->name . ' ditambahkan ke keranjang!',
                 'cart_count' => array_sum(array_column($cart, 'quantity')),
+                'cart' => $cart,
+                'subtotal' => $subtotal,
+                'subtotal_formatted' => 'Rp ' . number_format($subtotal, 0, ',', '.'),
             ]);
         }
 

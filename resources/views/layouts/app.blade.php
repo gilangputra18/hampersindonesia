@@ -1463,6 +1463,232 @@
   .pm-btn-wa:hover {
     background: #128c7e;
   }
+
+  /* ================= SHOPPING CART DRAWER (MATCHING REFERENCE IMAGE 2) ================= */
+  .cart-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+  }
+  .cart-drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .cart-drawer-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 420px;
+    background: #fffdf9;
+    color: #1e293b;
+    z-index: 10001;
+    box-shadow: -10px 0 35px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .cart-drawer-overlay.open .cart-drawer-panel {
+    transform: translateX(0);
+  }
+  .cart-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    background: #ffffff;
+  }
+  .cart-drawer-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #12030a;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .cart-drawer-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #64748b;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: color 0.2s;
+  }
+  .cart-drawer-close:hover {
+    color: #0f172a;
+  }
+  .cart-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .cart-drawer-item {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    position: relative;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .cart-drawer-remove-btn {
+    position: absolute;
+    top: 0;
+    left: -4px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+    z-index: 2;
+  }
+  .cart-drawer-thumb {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0d0208;
+    flex-shrink: 0;
+  }
+  .cart-drawer-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cart-drawer-item-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .cart-drawer-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cart-drawer-item-qty-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .cart-drawer-mini-qty {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #ffffff;
+  }
+  .cart-drawer-mini-btn {
+    width: 24px;
+    height: 24px;
+    background: #f8fafc;
+    border: none;
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+    cursor: pointer;
+  }
+  .cart-drawer-mini-val {
+    width: 28px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+  .cart-drawer-item-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #475569;
+  }
+  .cart-drawer-footer {
+    padding: 20px 24px 28px 24px;
+    border-top: 1px solid #f1f5f9;
+    background: #ffffff;
+  }
+  .cart-drawer-subtotal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .cart-drawer-subtotal-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  .cart-drawer-subtotal-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  .cart-drawer-checkout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 20px;
+    background: #9b3820;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(155, 56, 32, 0.4);
+    transition: all 0.25s ease;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .cart-drawer-checkout-btn:hover {
+    background: #b94427;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 56, 32, 0.5);
+  }
+  .cart-drawer-view-cart {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: #64748b;
+    text-decoration: underline;
+  }
+  .cart-drawer-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #64748b;
+  }
 </style>
 </head>
 <body>
@@ -1527,12 +1753,10 @@
       @endauth
 
       <!-- 3. Cart Button -->
-      <a href="{{ route('cart.index') }}" class="header-icon-btn" title="Keranjang Belanja">
+      <a href="{{ route('cart.index') }}" class="header-icon-btn" id="open-cart-drawer-btn" title="Keranjang Belanja">
         <span>🛒</span> <span class="nav-text-label">KERANJANG</span>
         @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
-        @if ($cartQty > 0)
-          <span class="cart-badge">{{ $cartQty }}</span>
-        @endif
+        <span class="cart-badge" id="headerCartBadge" style="{{ $cartQty > 0 ? '' : 'display:none;' }}">{{ $cartQty }}</span>
       </a>
     </div>
   </div>
@@ -1623,6 +1847,68 @@
           <span>👤 Masuk / Daftar Akun</span>
         </a>
       @endauth
+    </div>
+  </div>
+</div>
+
+<!-- Shopping Cart Off-canvas Drawer (Matching Reference Image 2) -->
+<div class="cart-drawer-overlay" id="shopping-cart-drawer">
+  <div class="cart-drawer-panel">
+    <div class="cart-drawer-header">
+      <h3 class="cart-drawer-title">SHOPPING CART</h3>
+      <button type="button" class="cart-drawer-close" id="close-cart-drawer-btn" title="Tutup Keranjang">✕</button>
+    </div>
+
+    <div class="cart-drawer-body" id="cartDrawerBody">
+      @php
+        $drawerCart = session('cart', []);
+        $drawerSubtotal = 0;
+        foreach ($drawerCart as $dItem) {
+          $drawerSubtotal += ($dItem['price'] * $dItem['quantity']);
+        }
+      @endphp
+
+      @if(count($drawerCart) > 0)
+        @foreach($drawerCart as $pId => $item)
+          <div class="cart-drawer-item" data-cart-item-id="{{ $pId }}">
+            <button type="button" class="cart-drawer-remove-btn" onclick="removeDrawerCartItem({{ $pId }})" title="Hapus dari keranjang">✕</button>
+            <div class="cart-drawer-thumb">
+              <img src="{{ $item['image_url'] ?? asset('images/cat-hampers.jpg') }}" alt="{{ $item['name'] }}" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
+            </div>
+            <div class="cart-drawer-item-info">
+              <h4 class="cart-drawer-item-name" title="{{ $item['name'] }}">{{ $item['name'] }}</h4>
+              <div class="cart-drawer-item-qty-row">
+                <div class="cart-drawer-mini-qty">
+                  <button type="button" class="cart-drawer-mini-btn" onclick="updateDrawerCartItem({{ $pId }}, 'decrease')">-</button>
+                  <span class="cart-drawer-mini-val" id="drawerQty-{{ $pId }}">{{ $item['quantity'] }}</span>
+                  <button type="button" class="cart-drawer-mini-btn" onclick="updateDrawerCartItem({{ $pId }}, 'increase')">+</button>
+                </div>
+                <div class="cart-drawer-item-price">
+                  <span id="drawerPrice-{{ $pId }}">{{ $item['quantity'] }} x Rp {{ number_format($item['price'], 0, ',', '.') }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endforeach
+      @else
+        <div class="cart-drawer-empty">
+          <div style="font-size: 38px; margin-bottom: 12px;">🛒</div>
+          <p style="margin: 0; font-size: 14px;">Keranjang belanja Anda masih kosong.</p>
+        </div>
+      @endif
+    </div>
+
+    <div class="cart-drawer-footer" id="cartDrawerFooter" style="{{ count($drawerCart) > 0 ? '' : 'display: none;' }}">
+      <div class="cart-drawer-subtotal-row">
+        <span class="cart-drawer-subtotal-label">Subtotal:</span>
+        <span class="cart-drawer-subtotal-val" id="drawerSubtotalVal">Rp {{ number_format($drawerSubtotal, 0, ',', '.') }}</span>
+      </div>
+      <a href="{{ route('checkout.show') }}" class="cart-drawer-checkout-btn">
+        Checkout ➔
+      </a>
+      <a href="{{ route('cart.index') }}" class="cart-drawer-view-cart">
+        Lihat Keranjang Lengkap
+      </a>
     </div>
   </div>
 </div>
@@ -2283,6 +2569,156 @@ document.addEventListener('DOMContentLoaded', function () {
         searchModal.classList.add('open');
         setTimeout(() => publicSearchInput.focus(), 100);
       }
+    });
+  });
+
+  // ================= SHOPPING CART DRAWER (MATCHING REFERENCE IMAGE 2) =================
+  const openCartDrawerBtn = document.getElementById('open-cart-drawer-btn');
+  const cartDrawerModal = document.getElementById('shopping-cart-drawer');
+  const closeCartDrawerBtn = document.getElementById('close-cart-drawer-btn');
+
+  if (openCartDrawerBtn && cartDrawerModal) {
+    openCartDrawerBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      cartDrawerModal.classList.add('open');
+    });
+  }
+  if (closeCartDrawerBtn && cartDrawerModal) {
+    closeCartDrawerBtn.addEventListener('click', function() {
+      cartDrawerModal.classList.remove('open');
+    });
+    cartDrawerModal.addEventListener('click', function(e) {
+      if (e.target === cartDrawerModal) {
+        cartDrawerModal.classList.remove('open');
+      }
+    });
+  }
+
+  window.openShoppingCartDrawer = function() {
+    if (cartDrawerModal) cartDrawerModal.classList.add('open');
+  };
+
+  window.closeShoppingCartDrawer = function() {
+    if (cartDrawerModal) cartDrawerModal.classList.remove('open');
+  };
+
+  window.renderCartDrawer = function(cart, subtotal, subtotalFormatted, cartCount) {
+    const body = document.getElementById('cartDrawerBody');
+    const footer = document.getElementById('cartDrawerFooter');
+    const badge = document.getElementById('headerCartBadge');
+    const subtotalEl = document.getElementById('drawerSubtotalVal');
+
+    if (badge) {
+      badge.textContent = cartCount;
+      badge.style.display = cartCount > 0 ? 'inline-block' : 'none';
+    }
+
+    if (subtotalEl) {
+      subtotalEl.textContent = subtotalFormatted || ('Rp ' + Number(subtotal).toLocaleString('id-ID'));
+    }
+
+    if (!body) return;
+
+    const items = Object.entries(cart || {});
+    if (items.length === 0) {
+      body.innerHTML = `
+        <div class="cart-drawer-empty">
+          <div style="font-size: 38px; margin-bottom: 12px;">🛒</div>
+          <p style="margin: 0; font-size: 14px;">Keranjang belanja Anda masih kosong.</p>
+        </div>
+      `;
+      if (footer) footer.style.display = 'none';
+      return;
+    }
+
+    if (footer) footer.style.display = 'block';
+
+    let html = '';
+    items.forEach(([pId, item]) => {
+      const priceFormatted = 'Rp ' + Number(item.price).toLocaleString('id-ID');
+      html += `
+        <div class="cart-drawer-item" data-cart-item-id="${pId}">
+          <button type="button" class="cart-drawer-remove-btn" onclick="removeDrawerCartItem(${pId})" title="Hapus dari keranjang">✕</button>
+          <div class="cart-drawer-thumb">
+            <img src="${item.image_url || '{{ asset("images/cat-hampers.jpg") }}'}" alt="${item.name}" onerror="this.src='{{ asset("images/cat-hampers.jpg") }}';">
+          </div>
+          <div class="cart-drawer-item-info">
+            <h4 class="cart-drawer-item-name" title="${item.name}">${item.name}</h4>
+            <div class="cart-drawer-item-qty-row">
+              <div class="cart-drawer-mini-qty">
+                <button type="button" class="cart-drawer-mini-btn" onclick="updateDrawerCartItem(${pId}, 'decrease')">-</button>
+                <span class="cart-drawer-mini-val" id="drawerQty-${pId}">${item.quantity}</span>
+                <button type="button" class="cart-drawer-mini-btn" onclick="updateDrawerCartItem(${pId}, 'increase')">+</button>
+              </div>
+              <div class="cart-drawer-item-price">
+                <span id="drawerPrice-${pId}">${item.quantity} x ${priceFormatted}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    body.innerHTML = html;
+  };
+
+  window.updateDrawerCartItem = function(productId, action) {
+    fetch('{{ route("cart.update") }}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ product_id: productId, action: action })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        window.renderCartDrawer(data.cart, data.subtotal, data.subtotal_formatted, data.cart_count);
+      }
+    });
+  };
+
+  window.removeDrawerCartItem = function(productId) {
+    window.updateDrawerCartItem(productId, 'remove');
+  };
+
+  // Intercept all .ajax-add-cart-form submissions
+  document.addEventListener('submit', function(e) {
+    const form = e.target.closest('.ajax-add-cart-form');
+    if (!form) return;
+
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Menambahkan...';
+    }
+
+    const formData = new FormData(form);
+    fetch('{{ route("cart.add") }}', {
+      method: 'POST',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept': 'application/json'
+      },
+      body: formData
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+      if (data.success) {
+        window.renderCartDrawer(data.cart, data.subtotal, data.subtotal_formatted, data.cart_count);
+        window.openShoppingCartDrawer();
+      }
+    })
+    .catch(() => {
+      form.submit();
     });
   });
 });

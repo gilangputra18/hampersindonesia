@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/shop', [SiteController::class, 'category'])->name('shop');
 Route::get('/shop/{slug?}', [SiteController::class, 'category'])->name('category');
+Route::get('/product/{slug}', [SiteController::class, 'product'])->name('product.detail');
 Route::get('/reservations', [SiteController::class, 'reservations'])->name('reservations');
 Route::get('/menu-pdf/{slug?}', [SiteController::class, 'menuPdf'])->name('menu.pdf');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');

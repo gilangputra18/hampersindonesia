@@ -75,6 +75,21 @@ class BakerySystemTest extends TestCase
         $response->assertDontSee('shop-acc-item');
     }
 
+    public function test_product_detail_page_loads_matching_reference_layout(): void
+    {
+        $product = Product::first();
+        $response = $this->get('/product/' . $product->slug);
+        $response->assertStatus(200);
+        $response->assertSee($product->name);
+        $response->assertSee('Add to cart');
+        $response->assertSee('Informasi Produk');
+        $response->assertSee('Komposisi (Bahan-bahan)');
+        $response->assertSee('Informasi Penyimpanan');
+        $response->assertSee('You also like');
+        $response->assertSee('shopping-cart-drawer');
+        $response->assertDontSee('wa.me');
+    }
+
     public function test_cart_can_add_item_and_retrieve_session(): void
     {
         $product = Product::first();

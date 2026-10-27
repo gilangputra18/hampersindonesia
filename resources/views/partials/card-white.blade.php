@@ -42,34 +42,29 @@
   }
 @endphp
 
-<div class="ref-white-card product-detail-trigger"
-     data-id="{{ $id }}"
-     data-name="{{ $name }}"
-     data-price="Rp {{ number_format($price, 0, ',', '.') }}"
-     data-raw-price="{{ $price }}"
-     data-image="{{ $imageUrl }}"
-     data-gallery="{{ json_encode($gallery) }}"
-     data-reviews="{{ json_encode($productReviews) }}"
-     data-category="{{ strtoupper($itemSlug) }}"
-     data-flavor="{{ $flavor }}"
-     data-size="{{ $size }}"
-     data-type="{{ $type }}"
-     data-availability="{{ $availability == 'pre_order' ? 'Pre-Order (Pesan Dulu)' : 'Ready Stock (Tersedia)' }}"
-     data-items="{{ json_encode($includedItems) }}">
-  <div class="ref-white-img-wrap">
+@php
+  $prodSlug = is_array($item) ? \Illuminate\Support\Str::slug($name) : ($item->slug ?: \Illuminate\Support\Str::slug($name));
+  $detailUrl = route('product.detail', $prodSlug);
+@endphp
+
+<div class="ref-white-card" data-product-id="{{ $id }}">
+  <a href="{{ $detailUrl }}" class="ref-white-img-wrap" title="{{ $name }}">
     <img src="{{ $imageUrl }}" alt="{{ $name }}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';">
-  </div>
+  </a>
   <div class="ref-white-body">
-    <h3 class="ref-white-title" title="{{ $name }}">{{ $name }}</h3>
+    <a href="{{ $detailUrl }}" style="text-decoration: none; color: inherit;" title="{{ $name }}">
+      <h3 class="ref-white-title">{{ $name }}</h3>
+    </a>
     <div class="ref-white-price">Rp {{ number_format($price, 0, ',', '.') }}</div>
     @if ($id > 0)
-      <form action="{{ route('cart.add') }}" method="POST" class="ref-white-cart-form" onclick="event.stopPropagation();">
+      <form action="{{ route('cart.add') }}" method="POST" class="ref-white-cart-form ajax-add-cart-form" onclick="event.stopPropagation();">
         @csrf
         <input type="hidden" name="product_id" value="{{ $id }}">
+        <input type="hidden" name="quantity" value="1">
         <button type="submit" class="ref-white-cart-btn">Add to cart</button>
       </form>
     @else
-      <a href="{{ route('shop') }}" class="ref-white-cart-btn" onclick="event.stopPropagation();">Add to cart</a>
+      <a href="{{ $detailUrl }}" class="ref-white-cart-btn">Add to cart</a>
     @endif
   </div>
 </div>

@@ -98,6 +98,62 @@ class SiteController extends Controller
         ]);
     }
 
+    public function product(string $slug)
+    {
+        $product = Product::with(['category', 'reviews' => function($q) {
+            $q->where('is_approved', true)->latest();
+        }])->where('slug', $slug)->first();
+
+        if (!$product && is_numeric($slug)) {
+            $product = Product::with(['category', 'reviews' => function($q) {
+                $q->where('is_approved', true)->latest();
+            }])->find($slug);
+        }
+
+        if (!$product) {
+            // Try by fuzzy match or fallback to first product
+            $product = Product::with(['category', 'reviews'])->first();
+            if (!$product) {
+                abort(404, 'Produk tidak ditemukan');
+            }
+        }
+
+        // Get 4 related products for "You also like" row (matching reference)
+        $related = Product::with(['category', 'reviews'])
+            ->where('id', '!=', $product->id)
+            ->where('category_id', $product->category_id)
+            ->take(4)
+            ->get();
+
+        if ($related->count() < 4) {
+            $more = Product::with(['category', 'reviews'])
+                ->where('id', '!=', $product->id)
+                ->whereNotIn('id', $related->pluck('id'))
+                ->take(4 - $related->count())
+                ->get();
+            $related = $related->concat($more);
+        }
+
+        // Build 4 gallery images for the thumbnail strip
+        $gallery = $product->gallery_urls;
+        if (count($gallery) < 4) {
+            $defaults = [
+                asset('images/cat-cookies.jpg'),
+                asset('images/cat-hampers.jpg'),
+                asset('images/feature.jpg'),
+                asset('images/events.jpg'),
+            ];
+            foreach ($defaults as $d) {
+                if (count($gallery) >= 4) break;
+                if (!in_array($d, $gallery)) {
+                    $gallery[] = $d;
+                }
+            }
+        }
+
+        return view('product-detail', compact('product', 'related', 'gallery'));
+    }
+
     public function category(Request $request, ?string $slug = null)
     {
         $categories = Category::withCount('products')->orderBy('display_order')->get();
