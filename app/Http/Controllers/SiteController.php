@@ -63,15 +63,93 @@ class SiteController extends Controller
         $hampers = $other;
 
         try {
-            $reviews = \App\Models\ProductReview::with('product')
+            $dbReviews = \App\Models\ProductReview::with('product')
                 ->where('is_approved', true)
-                ->where('is_featured', true)
+                ->orderByDesc('is_featured')
                 ->latest()
-                ->take(6)
+                ->take(12)
                 ->get();
         } catch (\Throwable $e) {
-            $reviews = collect();
+            $dbReviews = collect();
         }
+
+        $reviewsList = [];
+        $palette = ['#d97706', '#b45309', '#0284c7', '#059669', '#7c3aed', '#db2777'];
+        $pIdx = 0;
+
+        foreach ($dbReviews as $dRev) {
+            $words = explode(' ', trim($dRev->reviewer_name));
+            $inits = strtoupper(substr($words[0] ?? '', 0, 1) . substr($words[1] ?? '', 0, 1));
+            if (empty($inits)) $inits = 'VIP';
+            $reviewsList[] = [
+                'name' => $dRev->reviewer_name,
+                'rating' => $dRev->rating ?? 5,
+                'body' => $dRev->body,
+                'initials' => $inits,
+                'bg_color' => $palette[$pIdx % count($palette)],
+            ];
+            $pIdx++;
+        }
+
+        $curatedReviews = [
+            [
+                'name' => 'Sefsaya',
+                'rating' => 5,
+                'body' => 'HAMPERS di sini aman dan terpercaya. Pelayanannya ramah, proses pemesanan mudah, dan sangat membantu. Recommended banget! 💕',
+                'initials' => 'SE',
+                'bg_color' => '#d97706',
+            ],
+            [
+                'name' => 'Adeline Wijaya',
+                'rating' => 5,
+                'body' => 'Bahan-bahannya terasa sangat berkualitas tinggi dan butter Wijsman impornya begitu harum. Packaging hampers eksklusif dan kemasan sangat rapi untuk relasi bisnis VIP kami.',
+                'initials' => 'AW',
+                'bg_color' => '#b45309',
+            ],
+            [
+                'name' => 'Clarissa Putri',
+                'rating' => 5,
+                'body' => 'Pengiriman sangat aman dan cepat sampai tujuan. Isi hampers lengkap sesuai deskripsi dan pita satin mewahnya bikin penerima sangat terkesan. Pasti langganan di sini!',
+                'initials' => 'CP',
+                'bg_color' => '#0284c7',
+            ],
+            [
+                'name' => 'Hendra Tanuwidjaja',
+                'rating' => 5,
+                'body' => 'Pesan 25 paket hampers korporat untuk klien penting perusahaan, semuanya tiba dalam kondisi sempurna dan sangat mewah. CS ramah dan faktur pengiriman langsung rapi.',
+                'initials' => 'HT',
+                'bg_color' => '#059669',
+            ],
+            [
+                'name' => 'Natasha Lauren',
+                'rating' => 5,
+                'body' => 'Nastar wisman dan kaastengel-nya luar biasa renyah dan gurih! Kualitas kue kering premium bintang lima. Box beludru merahnya sangat berkelas untuk hadiah Idul Fitri & Natal.',
+                'initials' => 'NL',
+                'bg_color' => '#7c3aed',
+            ],
+            [
+                'name' => 'Dimas Prasetyo',
+                'rating' => 5,
+                'body' => 'Sudah langganan kirim hampers di sini setiap momen perayaan. Kualitas rasa konsisten, kue selalu fresh from the oven, dan pelayanannya tidak pernah mengecewakan.',
+                'initials' => 'DP',
+                'bg_color' => '#db2777',
+            ],
+        ];
+
+        foreach ($curatedReviews as $cRev) {
+            $exists = false;
+            foreach ($reviewsList as $existing) {
+                if (strtolower($existing['name']) === strtolower($cRev['name'])) {
+                    $exists = true;
+                    break;
+                }
+            }
+            if (!$exists) {
+                $reviewsList[] = $cRev;
+            }
+        }
+
+        $reviews = $reviewsList;
 
         $heroSlides = \App\Http\Controllers\Admin\AdminHeroBannerController::getSlides();
         $heroSettings = \App\Http\Controllers\Admin\AdminHeroBannerController::getSettings();

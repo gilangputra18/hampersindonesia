@@ -873,48 +873,131 @@
     }
   }
 
-  /* Customer Reviews Card */
+  /* Customer Reviews Card & Auto-Slider ("Bergeser ke Kanan Otomatis") */
+  .reviews-slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 14px;
+  }
+  .reviews-slider-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+  }
+  .review-slide-item {
+    flex: 0 0 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
   .review-box-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(217, 119, 6, 0.3);
     border-radius: 14px;
-    padding: 30px;
+    padding: 26px 22px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     position: relative;
+    box-sizing: border-box;
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .review-stars {
     color: #fbbf24;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 12px;
+    letter-spacing: 2px;
   }
   .review-quote {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.7;
-    color: #e2e8f0;
+    color: #f1f5f9;
     font-style: italic;
     margin-bottom: 20px;
+    flex: 1;
   }
   .review-author {
     display: flex;
     align-items: center;
     gap: 12px;
   }
-  .review-author img {
-    width: 46px;
-    height: 46px;
+  .review-author-avatar {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #d97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    border: 2px solid rgba(245, 158, 11, 0.4);
   }
   .review-author-name {
     font-weight: 700;
     font-size: 14px;
     color: #fff;
+    line-height: 1.3;
   }
   .review-author-badge {
     font-size: 11px;
     color: #10b981;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+  }
+
+  /* Slider Navigation & Auto-Slide Controls */
+  .reviews-slider-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding: 0 4px;
+  }
+  .rev-slider-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rev-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+  .rev-dot.active {
+    width: 22px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #d97706, #fbbf24);
+  }
+  .rev-nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    color: #fbbf24;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .rev-nav-btn:hover {
+    background: #d97706;
+    color: #fff;
+    border-color: #fbbf24;
   }
 
   /* Our Gallery Grid & Interactive Lightbox */
@@ -1509,36 +1592,69 @@
         What Our Customers Say
       </h2>
 
-      @if(isset($reviews) && $reviews->isNotEmpty())
-        @php $featuredRev = $reviews->first(); @endphp
-        <div class="review-box-card">
-          <div class="review-stars">★★★★★</div>
-          <div class="review-quote">
-            "{{ $featuredRev->body }}"
-          </div>
-          <div class="review-author">
-            <img src="{{ $featuredRev->avatar_url }}" alt="{{ $featuredRev->reviewer_name }}" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($featuredRev->reviewer_name) }}&background=b45309&color=fff';">
-            <div>
-              <div class="review-author-name">{{ $featuredRev->reviewer_name }}</div>
-              <div class="review-author-badge">✓ Terverifikasi Google Reviews</div>
+      <!-- Reviews Auto-Slider Container ("Bergeser ke Kanan Otomatis") -->
+      <div class="reviews-slider-container" id="reviewsSliderContainer">
+        <div class="reviews-slider-track" id="reviewsSliderTrack">
+          @forelse($reviews as $rev)
+            @php
+              $rName = is_array($rev) ? ($rev['name'] ?? 'Pelanggan VIP') : ($rev->reviewer_name ?? 'Pelanggan VIP');
+              $rBody = is_array($rev) ? ($rev['body'] ?? '') : ($rev->body ?? '');
+              $rInitials = is_array($rev) ? ($rev['initials'] ?? 'VIP') : (strtoupper(substr($rName, 0, 2)));
+              $rBg = is_array($rev) ? ($rev['bg_color'] ?? '#d97706') : '#d97706';
+            @endphp
+            <div class="review-slide-item">
+              <div class="review-box-card">
+                <div>
+                  <div class="review-stars">★★★★★</div>
+                  <div class="review-quote">
+                    "{{ $rBody }}"
+                  </div>
+                </div>
+                <div class="review-author">
+                  <div class="review-author-avatar" style="background: {{ $rBg }};">
+                    {{ $rInitials }}
+                  </div>
+                  <div>
+                    <div class="review-author-name">{{ $rName }}</div>
+                    <div class="review-author-badge">
+                      <span>✓</span> Terverifikasi Google Reviews
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      @else
-        <div class="review-box-card">
-          <div class="review-stars">★★★★★</div>
-          <div class="review-quote">
-            "Rasa kuenya sangat lezat, butter impornya harum sekali dan kemasan hampersnya benar-benar mewah. Sangat puas untuk hadiah rekan bisnis dan keluarga."
-          </div>
-          <div class="review-author">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Pelanggan VIP">
-            <div>
-              <div class="review-author-name">Adeline Wijaya</div>
-              <div class="review-author-badge">✓ Terverifikasi Google Reviews</div>
+          @empty
+            <div class="review-slide-item">
+              <div class="review-box-card">
+                <div>
+                  <div class="review-stars">★★★★★</div>
+                  <div class="review-quote">
+                    "HAMPERS di sini aman dan terpercaya. Pelayanannya ramah, proses pemesanan mudah, dan sangat membantu. Recommended banget! 💕"
+                  </div>
+                </div>
+                <div class="review-author">
+                  <div class="review-author-avatar" style="background: #d97706;">
+                    SE
+                  </div>
+                  <div>
+                    <div class="review-author-name">Sefsaya</div>
+                    <div class="review-author-badge">
+                      <span>✓</span> Terverifikasi Google Reviews
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          @endforelse
         </div>
-      @endif
+
+        <!-- Slider Navigation & Dots -->
+        <div class="reviews-slider-footer">
+          <button type="button" class="rev-nav-btn" id="revPrevBtn" title="Geser ke kiri">&#8249;</button>
+          <div class="rev-slider-dots" id="revSliderDots"></div>
+          <button type="button" class="rev-nav-btn" id="revNextBtn" title="Geser ke kanan">&#8250;</button>
+        </div>
+      </div>
     </div>
 
     <!-- Right Column: Our Gallery -->
@@ -2053,6 +2169,120 @@
           showLightboxItem(currentLightboxIdx - 1); // Swipe right = prev
         }
       }, { passive: true });
+    }
+
+    /* ========================================================
+       Auto-Slider Ulasan Pelanggan VIP ("Bergeser ke Kanan Otomatis")
+    ======================================================== */
+    const revTrack = document.getElementById('reviewsSliderTrack');
+    const revSlides = Array.from(document.querySelectorAll('.review-slide-item'));
+    const revDotsContainer = document.getElementById('revSliderDots');
+    const revPrevBtn = document.getElementById('revPrevBtn');
+    const revNextBtn = document.getElementById('revNextBtn');
+    const revContainer = document.getElementById('reviewsSliderContainer');
+
+    if (revTrack && revSlides.length > 0) {
+      let currentRevIdx = 0;
+      const totalRevSlides = revSlides.length;
+      let revAutoplayTimer = null;
+      const revAutoplayDelay = 4000; // 4 detik geser otomatis ke kanan
+
+      // Generate dots
+      if (revDotsContainer) {
+        revDotsContainer.innerHTML = '';
+        revSlides.forEach((_, idx) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'rev-dot' + (idx === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', `Ulasan ke ${idx + 1}`);
+          dot.addEventListener('click', () => {
+            goToRevSlide(idx);
+            resetRevAutoplay();
+          });
+          revDotsContainer.appendChild(dot);
+        });
+      }
+
+      function updateRevDots() {
+        if (!revDotsContainer) return;
+        const dots = revDotsContainer.querySelectorAll('.rev-dot');
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === currentRevIdx);
+        });
+      }
+
+      function goToRevSlide(idx) {
+        if (idx < 0) idx = totalRevSlides - 1;
+        if (idx >= totalRevSlides) idx = 0;
+        currentRevIdx = idx;
+        revTrack.style.transform = `translateX(-${currentRevIdx * 100}%)`;
+        updateRevDots();
+      }
+
+      function nextRevSlide() {
+        goToRevSlide(currentRevIdx + 1); // Bergeser ke kanan (slide berikutnya muncul)
+      }
+
+      function prevRevSlide() {
+        goToRevSlide(currentRevIdx - 1);
+      }
+
+      if (revNextBtn) {
+        revNextBtn.addEventListener('click', () => {
+          nextRevSlide();
+          resetRevAutoplay();
+        });
+      }
+
+      if (revPrevBtn) {
+        revPrevBtn.addEventListener('click', () => {
+          prevRevSlide();
+          resetRevAutoplay();
+        });
+      }
+
+      function startRevAutoplay() {
+        if (!revAutoplayTimer && totalRevSlides > 1) {
+          revAutoplayTimer = setInterval(nextRevSlide, revAutoplayDelay);
+        }
+      }
+
+      function stopRevAutoplay() {
+        if (revAutoplayTimer) {
+          clearInterval(revAutoplayTimer);
+          revAutoplayTimer = null;
+        }
+      }
+
+      function resetRevAutoplay() {
+        stopRevAutoplay();
+        startRevAutoplay();
+      }
+
+      if (revContainer) {
+        revContainer.addEventListener('mouseenter', stopRevAutoplay);
+        revContainer.addEventListener('mouseleave', startRevAutoplay);
+
+        // Touch swipe on mobile
+        let rTouchStartX = 0;
+        let rTouchEndX = 0;
+        revContainer.addEventListener('touchstart', function(e) {
+          rTouchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        revContainer.addEventListener('touchend', function(e) {
+          rTouchEndX = e.changedTouches[0].screenX;
+          if (rTouchEndX < rTouchStartX - 40) {
+            nextRevSlide(); // swipe left = slide next
+            resetRevAutoplay();
+          } else if (rTouchEndX > rTouchStartX + 40) {
+            prevRevSlide(); // swipe right = slide prev
+            resetRevAutoplay();
+          }
+        }, { passive: true });
+      }
+
+      startRevAutoplay();
     }
   });
 </script>

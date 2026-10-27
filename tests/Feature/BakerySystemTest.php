@@ -339,4 +339,17 @@ class BakerySystemTest extends TestCase
         $response->assertSee('Pure Wijsman Butter Cookies');
         $response->assertSee('Basque Burnt Cheesecake');
     }
+
+    public function test_homepage_has_reviews_auto_slider_with_multiple_reviews(): void
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertSee('reviewsSliderContainer');
+        $response->assertSee('reviewsSliderTrack');
+        $response->assertSee('Sefsaya');
+        $response->assertSee('Adeline Wijaya');
+        $response->assertSee('Clarissa Putri');
+        $response->assertSee('revPrevBtn');
+        $response->assertSee('revNextBtn');
+    }
 }
