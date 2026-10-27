@@ -913,11 +913,52 @@
     font-weight: 600;
   }
 
-  /* Our Gallery Grid */
+  /* Our Gallery Grid & Interactive Lightbox */
+  .gallery-filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .gallery-filter-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .gallery-tab-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    color: #cbd5e1;
+    padding: 6px 13px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: inherit;
+  }
+  .gallery-tab-btn:hover {
+    background: rgba(217, 119, 6, 0.2);
+    border-color: #f59e0b;
+    color: #fff;
+  }
+  .gallery-tab-btn.active {
+    background: linear-gradient(135deg, #d97706, #fbbf24);
+    border-color: #fbbf24;
+    color: #12030b;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+  }
+
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
   .gallery-item {
     border-radius: 10px;
@@ -927,15 +968,251 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     background: #18060f;
+    cursor: pointer;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .gallery-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(245, 158, 11, 0.6);
+    box-shadow: 0 8px 24px rgba(217, 119, 6, 0.25);
   }
   .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: block;
   }
   .gallery-item:hover img {
-    transform: scale(1.1);
+    transform: scale(1.09);
+  }
+  .gallery-item-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(17, 3, 11, 0.9) 0%, rgba(17, 3, 11, 0.3) 50%, rgba(0,0,0,0) 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px 12px;
+  }
+  .gallery-item:hover .gallery-item-overlay {
+    opacity: 1;
+  }
+  .gallery-item-zoom-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(217, 119, 6, 0.9);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+  .gallery-item-tag {
+    font-size: 9px;
+    color: #fbbf24;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .gallery-item-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Fullscreen Interactive Lightbox Modal */
+  .gallery-lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(8, 1, 5, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .gallery-lightbox-modal.active {
+    display: flex;
+    opacity: 1;
+  }
+  .lightbox-content-box {
+    position: relative;
+    max-width: 620px;
+    width: 100%;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #180510;
+    border: 1px solid rgba(217, 119, 6, 0.4);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.85), 0 0 40px rgba(217, 119, 6, 0.2);
+    animation: zoomLightbox 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes zoomLightbox {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .lightbox-img-wrap {
+    width: 100%;
+    height: 380px;
+    background: #0a0106;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 640px) {
+    .lightbox-img-wrap {
+      height: 270px;
+    }
+  }
+  .lightbox-img-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+  .lightbox-info-bar {
+    width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(180deg, #180510 0%, #10020a 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    box-sizing: border-box;
+  }
+  .lightbox-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .lightbox-cat-badge {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .lightbox-counter-text {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .lightbox-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: #fff;
+    font-weight: 700;
+    margin: 0 0 3px 0;
+    line-height: 1.3;
+  }
+  .lightbox-desc {
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.45;
+    margin: 0;
+  }
+  .lightbox-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+  }
+  .lightbox-close-btn:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+    transform: rotate(90deg);
+  }
+  .lightbox-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(217, 119, 6, 0.45);
+    color: #fbbf24;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .lightbox-nav-btn:hover {
+    background: #d97706;
+    color: #fff;
+    transform: translateY(-50%) scale(1.08);
+  }
+  .lightbox-prev-btn { left: 10px; }
+  .lightbox-next-btn { right: 10px; }
+
+  @media (max-width: 640px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 8px !important;
+    }
+    .gallery-item-overlay {
+      display: none !important;
+    }
+    .lightbox-info-bar {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      padding: 12px 14px !important;
+      gap: 10px !important;
+    }
+    .lightbox-info-bar a {
+      width: 100% !important;
+      text-align: center !important;
+      justify-content: center !important;
+    }
+    .lightbox-nav-btn {
+      width: 36px !important;
+      height: 36px !important;
+      font-size: 20px !important;
+    }
   }
 
   /* 4-Pillar Value Proposition Bar (Sage Green Pastel - Strictly NO WhatsApp!) */
@@ -1234,33 +1511,220 @@
       <div style="color: #fbbf24; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">
         📸 GALERI FOTO ARTISANAL
       </div>
-      <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 32px); color: #fff; margin: 0 0 20px 0;">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 32px); color: #fff; margin: 0 0 16px 0;">
         Our Gallery
       </h2>
 
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="{{ asset('images/feature.jpg') }}" alt="Hampers Creation" loading="lazy">
+      <!-- Filter Tabs: Macam-Macam Isi Galeri -->
+      <div class="gallery-filter-tabs">
+        <button type="button" class="gallery-tab-btn active" data-filter="all">✨ Semua (12)</button>
+        <button type="button" class="gallery-tab-btn" data-filter="hampers">🎁 Luxury Hampers</button>
+        <button type="button" class="gallery-tab-btn" data-filter="cookies">🍪 Artisan Cookies</button>
+        <button type="button" class="gallery-tab-btn" data-filter="cakes">🎂 Cakes & Tarts</button>
+        <button type="button" class="gallery-tab-btn" data-filter="special">🌙 Special Edition</button>
+      </div>
+
+      <div class="gallery-grid" id="mainGalleryGrid">
+        <!-- 1. Hampers Rose Velvet Box -->
+        <div class="gallery-item" data-category="hampers"
+             data-img="{{ asset('images/rose.jpg') }}"
+             data-badge="🎁 Luxury Hampers"
+             data-title="Hampers Rose Velvet Box"
+             data-desc="Trunk velvet box merah mewah berisi aneka cookies toples, macarons artisan, dan teh premium eksklusif.">
+          <img src="{{ asset('images/rose.jpg') }}" alt="Hampers Rose Velvet Box" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-title">Rose Velvet Box</div>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="{{ asset('images/cat-hampers.jpg') }}" alt="Luxury Box" loading="lazy">
+
+        <!-- 2. Royal Heritage Hamper Basket -->
+        <div class="gallery-item" data-category="hampers"
+             data-img="{{ asset('images/feature.jpg') }}"
+             data-badge="🎁 Luxury Hampers"
+             data-title="Royal Heritage Hamper Basket"
+             data-desc="Keranjang anyam gourmet rotan dengan pita satin, sparkling beverage, dan toples cookies wisman.">
+          <img src="{{ asset('images/feature.jpg') }}" alt="Royal Heritage Hamper Basket" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-title">Royal Basket</div>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="{{ asset('images/cat-cakes.jpg') }}" alt="Artisanal Tart" loading="lazy">
+
+        <!-- 3. Hampers Calla Royal Set -->
+        <div class="gallery-item" data-category="hampers"
+             data-img="{{ asset('images/calla.jpg') }}"
+             data-badge="🎁 Luxury Hampers"
+             data-title="Hampers Calla Royal Set"
+             data-desc="Gift box eksklusif dengan aksen pita emas mewah dan seleksi kue kering artisanal mentega murni.">
+          <img src="{{ asset('images/calla.jpg') }}" alt="Hampers Calla Royal Set" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-title">Calla Royal Set</div>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="{{ asset('images/rose.jpg') }}" alt="Celebration Parcel" loading="lazy">
+
+        <!-- 4. Hampers Iris Luxury Trunk -->
+        <div class="gallery-item" data-category="hampers"
+             data-img="{{ asset('images/iris.jpg') }}"
+             data-badge="🎁 Luxury Hampers"
+             data-title="Hampers Iris Luxury Trunk"
+             data-desc="Kotak hampers koper mewah berpita emas elegan cocok untuk hantaran korporat & perayaan keluarga.">
+          <img src="{{ asset('images/iris.jpg') }}" alt="Hampers Iris Luxury Trunk" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-title">Iris Luxury Trunk</div>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="{{ asset('images/cat-cookies.jpg') }}" alt="Gourmet Cookies" loading="lazy">
+
+        <!-- 5. Pure Wijsman Butter Cookies -->
+        <div class="gallery-item" data-category="cookies"
+             data-img="{{ asset('images/butter-cookies-jar.jpg') }}"
+             data-badge="🍪 Artisan Cookies"
+             data-title="Pure Wijsman Butter Cookies"
+             data-desc="Kue semprit klasik mentega murni Wijsman Belanda dengan tekstur renyah dan lumer di mulut.">
+          <img src="{{ asset('images/butter-cookies-jar.jpg') }}" alt="Pure Wijsman Butter Cookies" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🍪 Artisan Cookies</div>
+            <div class="gallery-item-title">Butter Cookies Jar</div>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="{{ asset('images/events.jpg') }}" alt="Festive Gift Set" loading="lazy">
+
+        <!-- 6. Royal Nastar Nanas Wijsman -->
+        <div class="gallery-item" data-category="cookies"
+             data-img="{{ asset('images/nastar-pineapple.jpg') }}"
+             data-badge="🍪 Artisan Cookies"
+             data-title="Royal Nastar Nanas Wijsman"
+             data-desc="Kue nastar bulat emas beroles butter Wijsman dengan selai nanas segar caramel homemade.">
+          <img src="{{ asset('images/nastar-pineapple.jpg') }}" alt="Royal Nastar Nanas Wijsman" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🍪 Artisan Cookies</div>
+            <div class="gallery-item-title">Nastar Wijsman</div>
+          </div>
+        </div>
+
+        <!-- 7. Premium Edam Kaastengel -->
+        <div class="gallery-item" data-category="cookies"
+             data-img="{{ asset('images/kaastengel.jpg') }}"
+             data-badge="🍪 Artisan Cookies"
+             data-title="Premium Edam Kaastengel"
+             data-desc="Kue kering keju Edam tua Belanda asli berpadu taburan keju cheddar gurih renyah.">
+          <img src="{{ asset('images/kaastengel.jpg') }}" alt="Premium Edam Kaastengel" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🍪 Artisan Cookies</div>
+            <div class="gallery-item-title">Edam Kaastengel</div>
+          </div>
+        </div>
+
+        <!-- 8. Basque Burnt Cheesecake -->
+        <div class="gallery-item" data-category="cakes"
+             data-img="{{ asset('images/basque-burnt-cheesecake.jpg') }}"
+             data-badge="🎂 Cakes & Tarts"
+             data-title="Basque Burnt Cheesecake"
+             data-desc="Kue keju panggang ala Basque dengan bagian atas karamel harum dan tengah yang creamy lembut.">
+          <img src="{{ asset('images/basque-burnt-cheesecake.jpg') }}" alt="Basque Burnt Cheesecake" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🎂 Cakes & Tarts</div>
+            <div class="gallery-item-title">Burnt Cheesecake</div>
+          </div>
+        </div>
+
+        <!-- 9. Fresh Artisanal Berry Tart -->
+        <div class="gallery-item" data-category="cakes"
+             data-img="{{ asset('images/berry-tart.jpg') }}"
+             data-badge="🎂 Cakes & Tarts"
+             data-title="Fresh Artisanal Berry Tart"
+             data-desc="Tart pastry renyah butter Wijsman bermahkotakan aneka buah berry segar dan krim vanilla lembut.">
+          <img src="{{ asset('images/berry-tart.jpg') }}" alt="Fresh Artisanal Berry Tart" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🎂 Cakes & Tarts</div>
+            <div class="gallery-item-title">Fresh Berry Tart</div>
+          </div>
+        </div>
+
+        <!-- 10. Classic Mascarpone Tiramisu -->
+        <div class="gallery-item" data-category="cakes"
+             data-img="{{ asset('images/tiramisu.jpg') }}"
+             data-badge="🎂 Cakes & Tarts"
+             data-title="Classic Mascarpone Tiramisu"
+             data-desc="Dessert Italia autentik dengan ladyfinger beraroma kopi arabika dan krim mascarpone lembut.">
+          <img src="{{ asset('images/tiramisu.jpg') }}" alt="Classic Mascarpone Tiramisu" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🎂 Cakes & Tarts</div>
+            <div class="gallery-item-title">Classic Tiramisu</div>
+          </div>
+        </div>
+
+        <!-- 11. Mooncake Hampers Celebration Box -->
+        <div class="gallery-item" data-category="special"
+             data-img="{{ asset('images/cat-mooncake.jpg') }}"
+             data-badge="🌙 Special Edition"
+             data-title="Mooncake Hampers Celebration Box"
+             data-desc="Paket hampers spesial festival kue bulan dengan motif tradisional emas dan rasa lotus autentik.">
+          <img src="{{ asset('images/cat-mooncake.jpg') }}" alt="Mooncake Hampers Celebration Box" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🌙 Special Edition</div>
+            <div class="gallery-item-title">Mooncake Box</div>
+          </div>
+        </div>
+
+        <!-- 12. Gourmet Bites Celebration Box of 6 -->
+        <div class="gallery-item" data-category="special"
+             data-img="{{ asset('images/box-of-6.jpg') }}"
+             data-badge="🌙 Special Edition"
+             data-title="Gourmet Bites Celebration Box of 6"
+             data-desc="Koleksi 6 varian kue dan pastri signature dalam kemasan kotak kado berpita emas premium.">
+          <img src="{{ asset('images/box-of-6.jpg') }}" alt="Gourmet Bites Celebration Box of 6" loading="lazy">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-zoom-icon">🔍</div>
+            <div class="gallery-item-tag">🌙 Special Edition</div>
+            <div class="gallery-item-title">Gourmet Box of 6</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Fullscreen Interactive Lightbox Modal -->
+<div class="gallery-lightbox-modal" id="galleryLightboxModal" role="dialog" aria-modal="true" aria-label="Pratinjau Galeri">
+  <div class="lightbox-content-box" id="lightboxContentBox">
+    <button type="button" class="lightbox-close-btn" id="lightboxCloseBtn" title="Tutup (Esc)">&times;</button>
+    <button type="button" class="lightbox-nav-btn lightbox-prev-btn" id="lightboxPrevBtn" title="Sebelumnya (←)">&#8249;</button>
+    <button type="button" class="lightbox-nav-btn lightbox-next-btn" id="lightboxNextBtn" title="Berikutnya (→)">&#8250;</button>
+
+    <div class="lightbox-img-wrap">
+      <img id="lightboxActiveImg" src="" alt="Pratinjau Galeri Foto">
+    </div>
+
+    <div class="lightbox-info-bar">
+      <div style="flex: 1; min-width: 0;">
+        <div class="lightbox-badge-row">
+          <span class="lightbox-cat-badge" id="lightboxCatBadge">🎁 LUXURY HAMPERS</span>
+          <span class="lightbox-counter-text" id="lightboxCounter">1 / 12</span>
+        </div>
+        <h3 class="lightbox-title" id="lightboxTitle">Judul Foto</h3>
+        <p class="lightbox-desc" id="lightboxDesc">Deskripsi isi galeri foto produk.</p>
+      </div>
+      <div>
+        <a href="{{ route('shop') }}" class="btn-gold" style="padding: 8px 16px; font-size: 12px; border-radius: 6px; text-decoration: none;">
+          <span>Belanja 🛍️</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- 4-Pillar Value Proposition Bar (Matching Reference Image 5 - Strictly NO WhatsApp!) -->
 <section class="value-pillars-bar">
@@ -1429,6 +1893,131 @@
       }
 
       startAutoplay();
+    }
+
+    /* ========================================================
+       Interactive Gallery: Filter Tabs & Fullscreen Lightbox
+    ======================================================== */
+    const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+    const filterTabs = document.querySelectorAll('.gallery-tab-btn');
+    const lightboxModal = document.getElementById('galleryLightboxModal');
+    const lightboxContentBox = document.getElementById('lightboxContentBox');
+    const lightboxImg = document.getElementById('lightboxActiveImg');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxCatBadge = document.getElementById('lightboxCatBadge');
+    const lightboxDesc = document.getElementById('lightboxDesc');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
+    const lightboxPrevBtn = document.getElementById('lightboxPrevBtn');
+    const lightboxNextBtn = document.getElementById('lightboxNextBtn');
+
+    let visibleGalleryItems = [...galleryItems];
+    let currentLightboxIdx = 0;
+
+    // Filter Tabs Click Logic
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        const filterVal = this.getAttribute('data-filter');
+
+        galleryItems.forEach(item => {
+          const itemCat = item.getAttribute('data-category');
+          if (filterVal === 'all' || itemCat === filterVal) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        visibleGalleryItems = galleryItems.filter(item => item.style.display !== 'none');
+      });
+    });
+
+    function showLightboxItem(index) {
+      if (!visibleGalleryItems.length) return;
+      if (index < 0) index = visibleGalleryItems.length - 1;
+      if (index >= visibleGalleryItems.length) index = 0;
+
+      currentLightboxIdx = index;
+      const targetItem = visibleGalleryItems[index];
+
+      const imgSrc = targetItem.getAttribute('data-img');
+      const title = targetItem.getAttribute('data-title');
+      const badge = targetItem.getAttribute('data-badge');
+      const desc = targetItem.getAttribute('data-desc');
+
+      if (lightboxImg) {
+        lightboxImg.style.opacity = '0.3';
+        setTimeout(() => {
+          lightboxImg.src = imgSrc;
+          lightboxImg.alt = title;
+          if (lightboxTitle) lightboxTitle.textContent = title;
+          if (lightboxCatBadge) lightboxCatBadge.textContent = badge;
+          if (lightboxDesc) lightboxDesc.textContent = desc;
+          if (lightboxCounter) lightboxCounter.textContent = `${index + 1} / ${visibleGalleryItems.length}`;
+          lightboxImg.style.opacity = '1';
+        }, 80);
+      }
+    }
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', function() {
+        const itemIdx = visibleGalleryItems.indexOf(this);
+        if (itemIdx !== -1) {
+          showLightboxItem(itemIdx);
+          if (lightboxModal) {
+            lightboxModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+      });
+    });
+
+    function closeLightbox() {
+      if (lightboxModal) {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
+    if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', () => showLightboxItem(currentLightboxIdx - 1));
+    if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', () => showLightboxItem(currentLightboxIdx + 1));
+
+    if (lightboxModal) {
+      lightboxModal.addEventListener('click', function(e) {
+        if (lightboxContentBox && !lightboxContentBox.contains(e.target)) {
+          closeLightbox();
+        }
+      });
+    }
+
+    // Keyboard navigation (Esc, Left, Right)
+    document.addEventListener('keydown', function(e) {
+      if (lightboxModal && lightboxModal.classList.contains('active')) {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showLightboxItem(currentLightboxIdx - 1);
+        if (e.key === 'ArrowRight') showLightboxItem(currentLightboxIdx + 1);
+      }
+    });
+
+    // Touch Swipe Support for Lightbox (Mobile)
+    let lbTouchStartX = 0;
+    let lbTouchEndX = 0;
+    if (lightboxContentBox) {
+      lightboxContentBox.addEventListener('touchstart', function(e) {
+        lbTouchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      lightboxContentBox.addEventListener('touchend', function(e) {
+        lbTouchEndX = e.changedTouches[0].screenX;
+        if (lbTouchEndX < lbTouchStartX - 40) {
+          showLightboxItem(currentLightboxIdx + 1); // Swipe left = next
+        } else if (lbTouchEndX > lbTouchStartX + 40) {
+          showLightboxItem(currentLightboxIdx - 1); // Swipe right = prev
+        }
+      }, { passive: true });
     }
   });
 </script>

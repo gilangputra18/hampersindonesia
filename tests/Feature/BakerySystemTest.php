@@ -327,4 +327,16 @@ class BakerySystemTest extends TestCase
         $response->assertDontSee('Outside Catering');
         $response->assertDontSee('Dine In');
     }
+
+    public function test_homepage_has_interactive_gallery_and_lightbox(): void
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertSee('gallery-filter-tabs');
+        $response->assertSee('galleryLightboxModal');
+        $response->assertSee('Hampers Rose Velvet Box');
+        $response->assertSee('Royal Heritage Hamper Basket');
+        $response->assertSee('Pure Wijsman Butter Cookies');
+        $response->assertSee('Basque Burnt Cheesecake');
+    }
 }
