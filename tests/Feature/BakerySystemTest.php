@@ -42,6 +42,10 @@ class BakerySystemTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
         $response->assertSee('Royal Emerald Hamper');
+        $response->assertSee("Have a bite, you can't stop!", false);
+        $response->assertSee('Produk Berkualitas');
+        $response->assertSee('Jaminan Kualitas');
+        $response->assertDontSee('wa.me');
     }
 
     public function test_shop_page_loads_with_products(): void
@@ -49,6 +53,17 @@ class BakerySystemTest extends TestCase
         $response = $this->get('/shop');
         $response->assertStatus(200);
         $response->assertSee('Royal Emerald Hamper');
+        $response->assertSee('PRODUK');
+        $response->assertDontSee('shop-acc-item'); // Confirms old sidebar filters removed
+        $response->assertDontSee('wa.me');
+    }
+
+    public function test_category_page_displays_clean_layout_without_sidebar_filters(): void
+    {
+        $response = $this->get('/shop/hampers');
+        $response->assertStatus(200);
+        $response->assertSee('Royal Emerald Hamper');
+        $response->assertDontSee('shop-acc-item');
     }
 
     public function test_cart_can_add_item_and_retrieve_session(): void

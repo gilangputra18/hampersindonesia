@@ -197,106 +197,262 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 14px;
-    background: linear-gradient(135deg, #ea580c 0%, #d97706 100%);
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #18060f 0%, #2a0b1b 100%);
     gap: 10px;
     position: sticky;
     top: 0;
     z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
   .souvia-drawer-brand {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 16px;
-    letter-spacing: 1px;
-    color: #ffffff;
+    font-size: 17px;
+    letter-spacing: 1.5px;
+    color: #fef08a;
     font-weight: 700;
     text-decoration: none;
     white-space: nowrap;
-  }
-  .souvia-drawer-search-wrap {
-    flex: 1;
-    max-width: 220px;
-  }
-  .souvia-drawer-search-wrap input {
-    width: 100%;
-    padding: 7px 12px;
-    border-radius: 6px;
-    border: none;
-    font-size: 12px;
-    font-family: 'Outfit', sans-serif;
-    color: #334155;
-    background: #ffffff;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    cursor: pointer;
+    text-transform: uppercase;
   }
   .mobile-drawer-close {
     background: none;
     border: none;
     color: #ffffff;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
     line-height: 1;
-    padding: 2px 6px;
+    padding: 4px 8px;
   }
 
-  /* Accordion Menu List (Reference Image 2) */
-  .souvia-accordion-menu {
-    padding: 12px 16px 40px;
+  /* Drawer Navigation & Menu Styles (Matching Reference Images 1 & 2) */
+  .drawer-search-container {
+    padding: 14px 16px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .drawer-search-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .drawer-search-input-wrap input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Outfit', sans-serif;
+    color: #334155;
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+  }
+  .drawer-menu-list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    padding: 6px 16px;
     background: #ffffff;
   }
-  .souvia-accordion-menu .accordion-item {
-    border-bottom: 1px solid #f1f5f9;
-  }
-  .souvia-accordion-menu .accordion-header, .souvia-accordion-menu .accordion-link {
-    width: 100%;
+  .drawer-menu-link {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 16px 8px;
+    border-bottom: 1px solid #f1f5f9;
     background: none;
-    border: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #1e293b;
     font-family: 'Outfit', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #0f172a;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
     text-align: left;
+    transition: color 0.2s ease, transform 0.2s ease;
   }
-  .souvia-accordion-menu .accordion-header:hover, .souvia-accordion-menu .accordion-link:hover {
-    color: #ea580c;
+  .drawer-menu-link:hover {
+    color: #b45309;
+    transform: translateX(4px);
   }
-  .souvia-accordion-menu .acc-icon {
-    font-size: 14px;
-    color: #64748b;
-    transition: transform 0.25s ease;
+  .drawer-arrow {
+    font-size: 20px;
+    color: #94a3b8;
+    font-weight: 300;
   }
-  .souvia-accordion-menu .accordion-item.active .acc-icon {
-    transform: rotate(180deg);
-    color: #ea580c;
-  }
-  .souvia-accordion-menu .accordion-body {
-    display: none;
-    flex-direction: column;
-    padding: 4px 12px 14px 20px;
-    gap: 10px;
+  .drawer-utility-section {
+    padding: 18px 16px 36px;
     background: #f8fafc;
-    border-radius: 6px;
-    margin-bottom: 8px;
-  }
-  .souvia-accordion-menu .accordion-item.active .accordion-body {
+    border-top: 1px solid #e2e8f0;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  .souvia-accordion-menu .accordion-body a {
+  .drawer-sub-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-family: 'Outfit', sans-serif;
     font-size: 13.5px;
-    color: #334155;
+    color: #475569;
+    font-weight: 600;
     text-decoration: none;
-    padding: 6px 0;
-    transition: color 0.15s;
+    padding: 8px 6px;
+    border-radius: 6px;
+  }
+  .drawer-sub-link:hover {
+    color: #0f172a;
+    background: #f1f5f9;
+  }
+  .drawer-logout-btn {
+    width: 100%;
+    padding: 11px;
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .cart-pill-badge {
+    background: #d97706;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+
+  /* Info Modals (Pembayaran & Pengiriman, Syarat & Ketentuan) */
+  .info-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(6px);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .info-modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  .info-modal-box {
+    background: #ffffff;
+    border-radius: 14px;
+    max-width: 650px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    border: 1px solid #e2e8f0;
+    animation: modalScaleUp 0.25s ease-out;
+  }
+  @keyframes modalScaleUp {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .info-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 5;
+  }
+  .info-modal-close:hover {
+    background: #ef4444;
+    color: #fff;
+  }
+  .info-modal-header {
+    background: linear-gradient(135deg, #18060f 0%, #2a0b1b 100%);
+    color: #fff;
+    padding: 26px 24px 20px;
+    text-align: center;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+  }
+  .info-modal-crest {
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
+  .info-modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: #fef08a;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .info-modal-subtitle {
+    font-size: 12.5px;
+    color: #cbd5e1;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
+  }
+  .info-modal-body {
+    padding: 24px;
+    color: #334155;
+    font-family: 'Outfit', sans-serif;
+  }
+  .info-modal-section {
+    margin-bottom: 22px;
+  }
+  .info-section-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .info-modal-section p {
+    font-size: 13.5px;
+    line-height: 1.6;
+    margin: 0 0 8px 0;
+  }
+  .info-check-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #475569;
+  }
+  .info-check-list li {
+    margin-bottom: 6px;
   }
   .souvia-accordion-menu .accordion-body a:hover {
     color: #ea580c;
@@ -1156,10 +1312,10 @@
   <!-- Dedicated Souvia-Style Mobile Top Header Bar -->
   <div class="souvia-mobile-topbar">
     <a href="{{ route('home') }}" class="souvia-drawer-brand">
-      ⚜️ HAMPERS
+      ⚜️ {{ config('site.brand') }}
     </a>
     <div class="souvia-drawer-search-wrap">
-      <input type="text" class="trigger-live-search" placeholder="Search Product..." readonly>
+      <input type="text" class="trigger-live-search" placeholder="Cari produk..." readonly>
     </div>
     <button type="button" class="three-dots-btn" id="open-three-dots-btn" style="display: block; font-size: 24px; color: #fff;">
       ≡
@@ -1169,9 +1325,13 @@
   <!-- Ultra-Luxurious Royal Header Top Bar (Controls Bar) -->
   <div class="top">
     <nav>
-      <a href="{{ route('reservations') }}">🍷 RESERVASI & ACARA</a>
-      <a href="{{ route('contact') }}">💬 KONTAK & LAYANAN</a>
-      <a href="{{ route('track') }}">📦 LACAK PESANAN REAL-TIME</a>
+      <a href="{{ route('home') }}">HOME</a>
+      <a href="{{ route('shop') }}">PRODUK</a>
+      <a href="{{ route('menu.pdf') }}" target="_blank">PRICELIST</a>
+      <a href="{{ route('home') }}#gallery">GALLERY</a>
+      <a href="javascript:void(0)" class="open-payment-modal-btn">PEMBAYARAN & PENGIRIMAN</a>
+      <a href="javascript:void(0)" class="open-terms-modal-btn">SYARAT & KETENTUAN</a>
+      <a href="{{ route('track') }}">LACAK PESANAN</a>
     </nav>
 
     <!-- Right Header Controls: Search, User Actions, Cart, 3-Dots -->
@@ -1315,83 +1475,160 @@
   </div>
 </div>
 
-<!-- Mobile & 3-Dots Slide-down Navigation Drawer Modal -->
+<!-- Mobile & 3-Dots Slide-down Navigation Drawer Modal (Matching Reference Images 1 & 2) -->
 <div class="mobile-drawer-overlay" id="mobile-drawer-modal">
-  <div class="souvia-drawer-topbar" style="background: linear-gradient(135deg, #111f18 0%, #1c3026 100%); border-bottom: 1px solid rgba(255,255,255,0.1);">
-    <a href="{{ route('home') }}" class="souvia-drawer-brand" style="color: #fef08a;">
-      ⚜️ PUSAT HAMPERS INDONESIA
+  <div class="souvia-drawer-topbar">
+    <a href="{{ route('home') }}" class="souvia-drawer-brand">
+      ⚜️ {{ config('site.brand') }}
     </a>
-    <div class="souvia-drawer-search-wrap">
-      <input type="text" class="trigger-live-search" placeholder="Cari hampers..." readonly>
-    </div>
     <button type="button" class="mobile-drawer-close" id="close-three-dots-btn" title="Tutup Menu">✕</button>
   </div>
 
-  <div class="souvia-accordion-menu">
-    {{-- Dynamic Categories Accordion --}}
-    @foreach (config('site.categories') as $slug => $c)
-      <div class="accordion-item">
-        <button type="button" class="accordion-header">
-          <span>🎁 {{ strtoupper($c['title']) }}</span>
-          <span class="acc-icon">▼</span>
-        </button>
-        <div class="accordion-body">
-          <a href="{{ route('category', $slug) }}" style="font-weight: 700; color: #d97706;">Lihat Semua {{ $c['title'] }} →</a>
-          @foreach ($c['items'] as $item)
-            <a href="{{ route('category', $slug) }}">{{ $item[0] }}</a>
-          @endforeach
-        </div>
-      </div>
-    @endforeach
-
-    {{-- Varian Rasa Accordion --}}
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>🍫 VARIAN RASA</span>
-        <span class="acc-icon">▼</span>
-      </button>
-      <div class="accordion-body">
-        <a href="{{ route('shop') }}?flavors[]=Chocolate">Cokelat (Chocolate)</a>
-        <a href="{{ route('shop') }}?flavors[]=Cheese">Keju (Cheese)</a>
-        <a href="{{ route('shop') }}?flavors[]=Coffee">Kopi (Coffee)</a>
-        <a href="{{ route('shop') }}?flavors[]=Pandan">Pandan</a>
-        <a href="{{ route('shop') }}?flavors[]=Berry">Buah Beri (Berry)</a>
-      </div>
+  <div class="drawer-search-container">
+    <div class="drawer-search-input-wrap trigger-live-search">
+      <span>🔍</span>
+      <input type="text" placeholder="Cari produk..." readonly>
     </div>
+  </div>
 
-    {{-- Kategori Bentuk Accordion --}}
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>📐 KATEGORI BENTUK / TIPE</span>
-        <span class="acc-icon">▼</span>
-      </button>
-      <div class="accordion-body">
-        <a href="{{ route('shop') }}?types[]=Gift+Box">Kotak Hadiah (Gift Box)</a>
-        <a href="{{ route('shop') }}?types[]=Round">Kue Bulat (Round)</a>
-        <a href="{{ route('shop') }}?types[]=Square">Kue Kotak (Square)</a>
-        <a href="{{ route('shop') }}?types[]=Whole+Cake">Kue Utuh (Whole)</a>
-      </div>
-    </div>
+  <div class="drawer-menu-list">
+    <a href="{{ route('shop') }}" class="drawer-menu-link">
+      <span>PRODUK</span>
+      <span class="drawer-arrow">›</span>
+    </a>
+    <a href="{{ route('menu.pdf') }}" target="_blank" class="drawer-menu-link">
+      <span>PRICELIST</span>
+      <span class="drawer-arrow">›</span>
+    </a>
+    <a href="{{ route('home') }}#gallery" class="drawer-menu-link">
+      <span>GALLERY</span>
+      <span class="drawer-arrow">›</span>
+    </a>
+    <button type="button" class="drawer-menu-link open-payment-modal-btn">
+      <span>PEMBAYARAN & PENGIRIMAN</span>
+      <span class="drawer-arrow">›</span>
+    </button>
+    <button type="button" class="drawer-menu-link open-terms-modal-btn">
+      <span>SYARAT & KETENTUAN</span>
+      <span class="drawer-arrow">›</span>
+    </button>
+  </div>
 
-    {{-- Quick Navigation Links --}}
-    <a href="{{ route('shop') }}" class="accordion-link">🛍️ KATALOG LENGKAP HAMPERS</a>
-    <a href="{{ route('reservations') }}" class="accordion-link">🍷 RESERVASI & ACARA</a>
-    <a href="{{ route('track') }}" class="accordion-link">📦 LACAK PESANAN REAL-TIME</a>
-    <a href="{{ route('contact') }}" class="accordion-link">💬 KONTAK & LAYANAN</a>
-    <a href="{{ route('cart.index') }}" class="accordion-link">🛒 KERANJANG BELANJA</a>
+  <div class="drawer-utility-section">
+    <a href="{{ route('track') }}" class="drawer-sub-link">
+      <span>📦 Lacak Pesanan Real-Time</span>
+      <span class="drawer-arrow">›</span>
+    </a>
+    <a href="{{ route('cart.index') }}" class="drawer-sub-link">
+      <span>🛒 Keranjang Belanja</span>
+      @if ($cartQty > 0)
+        <span class="cart-pill-badge">{{ $cartQty }}</span>
+      @endif
+    </a>
 
     @auth
-      <a href="{{ route('my.orders') }}" class="accordion-link">📦 RIWAYAT PESANAN SAYA</a>
+      <a href="{{ route('my.orders') }}" class="drawer-sub-link">
+        <span>📋 Riwayat Pesanan Saya</span>
+      </a>
       @if(Auth::user()->is_admin)
-        <a href="{{ route('admin.dashboard') }}" class="accordion-link" style="color: #d97706; font-weight: 700;">🛡️ DASHBOARD ADMIN</a>
+        <a href="{{ route('admin.dashboard') }}" class="drawer-sub-link" style="color: #d97706; font-weight: 700;">
+          <span>🛡️ Dashboard Admin</span>
+        </a>
       @endif
-      <form action="{{ route('logout') }}" method="POST" style="margin-top: 10px;">
+      <form action="{{ route('logout') }}" method="POST" style="margin-top: 6px;">
         @csrf
-        <button type="submit" class="pm-btn" style="background: #ef4444; color: #fff; border: none; width: 100%; border-radius: 8px;">KELUAR (LOGOUT)</button>
+        <button type="submit" class="drawer-logout-btn">KELUAR (LOGOUT)</button>
       </form>
     @else
-      <a href="{{ route('login') }}" class="accordion-link" style="color: #2563eb; font-weight: 700;">👤 MASUK / DAFTAR AKUN</a>
+      <a href="{{ route('login') }}" class="drawer-sub-link" style="color: #2563eb; font-weight: 700;">
+        <span>👤 Masuk / Daftar Akun</span>
+      </a>
     @endauth
+  </div>
+</div>
+
+<!-- Modal Pembayaran & Pengiriman Popup -->
+<div class="info-modal-overlay" id="modal-payment-shipping">
+  <div class="info-modal-box">
+    <button type="button" class="info-modal-close close-info-modal" title="Tutup Modal">✕</button>
+    <div class="info-modal-header">
+      <div class="info-modal-crest">💳 🚚</div>
+      <h3 class="info-modal-title">PEMBAYARAN & PENGIRIMAN</h3>
+      <p class="info-modal-subtitle">Informasi Transaksi Aman & Layanan Pengiriman Terpercaya</p>
+    </div>
+    <div class="info-modal-body">
+      <div class="info-modal-section">
+        <div class="info-section-title">💳 1. METODE PEMBAYARAN</div>
+        <p>Kami menyediakan berbagai metode pembayaran yang fleksibel, aman, dan terverifikasi otomatis:</p>
+        <ul class="info-check-list">
+          <li><strong>Virtual Account Bank:</strong> BCA, Mandiri, BRI, BNI, dan Permata (verifikasi otomatis 24/7).</li>
+          <li><strong>QRIS Instan:</strong> GoPay, OVO, ShopeePay, Dana, LinkAja, dan BCA Mobile via scan kode QR.</li>
+          <li><strong>Kartu Kredit & Debit:</strong> Visa, MasterCard, dan JCB dengan proteksi keamanan 3D Secure.</li>
+          <li><strong>Transfer Bank Manual:</strong> Upload bukti transfer dapat dilakukan langsung pada halaman pesanan.</li>
+        </ul>
+      </div>
+
+      <div class="info-modal-section">
+        <div class="info-section-title">🚚 2. METODE & JANGKAUAN PENGIRIMAN</div>
+        <p>Setiap produk dipacking secara eksklusif dengan perlindungan optimal agar tiba dalam kondisi sempurna:</p>
+        <ul class="info-check-list">
+          <li><strong>Instant Courier (1-3 Jam):</strong> Khusus produk kue basah, tart, dan hidangan segar area Jabodetabek.</li>
+          <li><strong>Same Day Courier:</strong> Pengiriman di hari yang sama dengan kurir khusus handling makanan dan hampers.</li>
+          <li><strong>Dedicated Hampers Courier:</strong> Pengiriman kurir butik ber-AC khusus pesanan parcel & hampers VIP.</li>
+          <li><strong>Ekspedisi 1-2 Hari (Nasional):</strong> Pengiriman luar kota dengan box kayu, bubble wrap tebal, dan asuransi.</li>
+        </ul>
+      </div>
+
+      <div class="info-modal-section">
+        <div class="info-section-title">🛡️ 3. JAMINAN KUALITAS & KEAMANAN</div>
+        <p>Semua pesanan dilindungi dengan <strong>Garansi 100% Penggantian Baru</strong> bila produk diterima dalam kondisi rusak selama proses pengiriman. Cukup lampirkan rekaman video unboxing saat paket pertama kali dibuka.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Syarat & Ketentuan Popup -->
+<div class="info-modal-overlay" id="modal-terms">
+  <div class="info-modal-box">
+    <button type="button" class="info-modal-close close-info-modal" title="Tutup Modal">✕</button>
+    <div class="info-modal-header">
+      <div class="info-modal-crest">📜</div>
+      <h3 class="info-modal-title">SYARAT & KETENTUAN</h3>
+      <p class="info-modal-subtitle">Panduan & Ketentuan Pemesanan di {{ config('site.brand') }}</p>
+    </div>
+    <div class="info-modal-body">
+      <div class="info-modal-section">
+        <div class="info-section-title">📌 1. KETENTUAN PEMESANAN</div>
+        <ul class="info-check-list">
+          <li>Pemesanan produk ready stock diproses dan dikirim pada hari yang sama untuk konfirmasi pembayaran sebelum pukul 15.00 WIB.</li>
+          <li>Pemesanan Pre-Order (Custom Hampers / Kue Tart Spesial) disarankan dilakukan minimal H-2 sebelum tanggal pengiriman.</li>
+          <li>Pastikan data alamat pengiriman, nomor telepon penerima, dan tanggal pengiriman telah diisi dengan lengkap dan benar.</li>
+        </ul>
+      </div>
+
+      <div class="info-modal-section">
+        <div class="info-section-title">💌 2. KARTU UCAPAN & PERSONALISASI</div>
+        <ul class="info-check-list">
+          <li>Setiap paket hampers mendapatkan <strong>Gratis Kartu Ucapan Eksklusif</strong>.</li>
+          <li>Pesan ucapan dapat dicantumkan pada kolom catatan pesanan saat proses checkout.</li>
+          <li>Untuk pesanan korporat (B2B / Custom Branding Logo), silakan konsultasikan melalui form kontak kami.</li>
+        </ul>
+      </div>
+
+      <div class="info-modal-section">
+        <div class="info-section-title">🔄 3. KEBIJAKAN PENGEMBALIAN & RETUR</div>
+        <ul class="info-check-list">
+          <li>Penggantian produk rusak dilayani maksimal 1x24 jam sejak paket diterima oleh penerima.</li>
+          <li>Wajib melampirkan foto resi pengiriman dan rekaman video unboxing paket saat dibuka.</li>
+          <li>Produk yang sudah dikonsumsi atau salah penyimpanan oleh penerima tidak dapat dikembalikan.</li>
+        </ul>
+      </div>
+
+      <div class="info-modal-section">
+        <div class="info-section-title">✨ 4. STANDAR KUALITAS & SERTIFIKASI</div>
+        <p>Seluruh produk kami diproduksi menggunakan bahan bermutu tinggi, 100% Halal berstandar BPOM & MUI, dan higienis tanpa menggunakan pengawet kimia berbahaya.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1478,16 +1715,17 @@
       <h4>BUTIK & LOKASI</h4>
       <p>📍 {{ config('site.address') }}</p>
       <p>⏰ {{ config('site.hours') }}</p>
-      <p>📱 WA VIP: <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}" style="display:inline; color:#fef08a;">{{ config('site.wa') }}</a></p>
+      <p>📞 Layanan Pelanggan: {{ config('site.phone') }}</p>
     </div>
 
     <!-- Col 2: Akses Cepat & Koleksi -->
     <div class="footer-col">
-      <h4>KOLEKSI & LAYANAN</h4>
-      <a href="{{ route('category', 'hampers') }}">🎁 Hampers & Gift Box Mewah</a>
-      <a href="{{ route('category', 'mooncake') }}">🥮 Paket Hadiah Mooncake</a>
-      <a href="{{ route('category', 'cakes') }}">🎂 Kue & Tart Artisanal</a>
-      <a href="{{ route('reservations') }}">🍷 Reservasi Meja & Acara</a>
+      <h4>MENU UTAMA & LAYANAN</h4>
+      <a href="{{ route('shop') }}">🛍️ Produk & Koleksi Lengkap</a>
+      <a href="{{ route('menu.pdf') }}" target="_blank">📄 Pricelist & Katalog PDF</a>
+      <a href="{{ route('home') }}#gallery">📸 Galeri Hampers & Karya</a>
+      <a href="javascript:void(0)" class="open-payment-modal-btn">💳 Pembayaran & Pengiriman</a>
+      <a href="javascript:void(0)" class="open-terms-modal-btn">📜 Syarat & Ketentuan</a>
       <a href="{{ route('track') }}">📦 Lacak Pesanan Real-Time</a>
     </div>
 
@@ -1514,16 +1752,16 @@
             <circle cx="22.8" cy="13.2" r="1.3" fill="#FFFFFF"/>
           </svg>
         </a>
-        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', config('site.wa')) }}" target="_blank" class="social-icon" title="WhatsApp VIP Concierge">
-          <svg viewBox="0 0 36 36">
-            <circle cx="18" cy="18" r="18" fill="#25D366"/>
-            <path d="M18 7.5C12.2 7.5 7.5 12.2 7.5 18c0 2 .5 3.9 1.6 5.6L7.5 28.5l5.1-1.5c1.6.9 3.4 1.5 5.4 1.5 5.8 0 10.5-4.7 10.5-10.5S23.8 7.5 18 7.5zm5.7 14.5c-.2.7-1.3 1.3-1.8 1.4-.5.1-1.1.2-3.2-.6-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.2c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.4.2.5.7 1.7.8 1.8.1.2.1.3 0 .5-.1.2-.2.3-.3.4-.1.1-.3.3-.4.4-.1.1-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.3 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1.2-.2.8-1 1-1.3.2-.3.4-.3.7-.2.3.1 1.8.8 2.1 1 .3.2.5.2.6.4.1.2.1 1.1-.1 1.7z" fill="#FFFFFF"/>
-          </svg>
-        </a>
         <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook Resmi Pusat Hampers">
           <svg viewBox="0 0 36 36">
             <circle cx="18" cy="18" r="18" fill="#1877F2"/>
             <path d="M20.2 18.5h2.8l.4-3.5h-3.2v-2.2c0-.9.3-1.6 1.6-1.6h1.7V8.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.7h-3v3.5h3v8.5h3.4v-8.5z" fill="#FFFFFF"/>
+          </svg>
+        </a>
+        <a href="mailto:{{ config('site.email') }}" class="social-icon" title="Kirim Email Langsung">
+          <svg viewBox="0 0 36 36">
+            <circle cx="18" cy="18" r="18" fill="#d97706"/>
+            <path d="M10 12h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2V14c0-1.1.9-2 2-2zm0 2v.5l8 5 8-5V14H10zm16 10V17.5l-7.4 4.6c-.3.2-.8.2-1.2 0L10 17.5V24h16z" fill="#FFFFFF"/>
           </svg>
         </a>
       </div>
@@ -1565,6 +1803,51 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.style.overflow = '';
     });
   }
+
+  // Info Modals (Pembayaran & Pengiriman, Syarat & Ketentuan)
+  const paymentModal = document.getElementById('modal-payment-shipping');
+  const termsModal = document.getElementById('modal-terms');
+
+  document.querySelectorAll('.open-payment-modal-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (mobileDrawerModal) mobileDrawerModal.classList.remove('open');
+      if (paymentModal) {
+        paymentModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  document.querySelectorAll('.open-terms-modal-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (mobileDrawerModal) mobileDrawerModal.classList.remove('open');
+      if (termsModal) {
+        termsModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  document.querySelectorAll('.close-info-modal').forEach(btn => {
+    btn.addEventListener('click', function () {
+      if (paymentModal) paymentModal.classList.remove('open');
+      if (termsModal) termsModal.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  [paymentModal, termsModal].forEach(modal => {
+    if (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === this) {
+          this.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+  });
 
   const openSearchBtn = document.getElementById('open-search-btn');
   const closeSearchBtn = document.getElementById('close-search-btn');

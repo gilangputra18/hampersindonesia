@@ -183,7 +183,7 @@
       <div class="form-group-custom">
         <div class="password-label-row">
           <label for="customer_pwd" style="margin-bottom: 0;">Kata Sandi</label>
-          <a href="#" onclick="alert('Silakan hubungi Concierge Toko kami via WhatsApp (+62 811 152 282) untuk mereset kata sandi Anda.'); return false;" class="forgot-link">Lupa sandi?</a>
+          <a href="#" onclick="alert('Silakan hubungi Concierge Layanan kami via email ({{ config('site.email') }}) atau telepon ({{ config('site.phone') }}) untuk mereset kata sandi Anda.'); return false;" class="forgot-link">Lupa sandi?</a>
         </div>
         <div style="position: relative; display: flex; align-items: center;">
           <input type="password" name="password" id="customer_pwd" class="input-custom" placeholder="Masukkan kata sandi" required style="padding-right: 46px;">

@@ -1,610 +1,715 @@
 @extends('layouts.app')
+
+@section('title', config('site.brand') . ' | Pusat Hampers & Hadiah Mewah Indonesia')
+
 @section('content')
-<section class="hero">
-  <video id="hv" autoplay muted loop playsinline poster="{{ asset('images/hero-poster.jpg') }}">
-    <source src="https://assets.mixkit.co/videos/preview/mixkit-pastry-chef-making-a-cake-41223-large.mp4" type="video/mp4">
-    <source src="https://cdn.coverr.co/videos/coverr-baking-fresh-bread-5764/1080p.mp4" type="video/mp4">
-    <source src="{{ config('site.hero_video') }}" type="video/mp4">
-  </video>
-
-  <div class="hero-overlay-content">
-    <h1 class="hero-headline">ELEGANSI HADIAH TERBAIK INDONESIA</h1>
-    <p class="hero-subtext">Temukan Koleksi Hampers Mewah dan Bingkisan Eksklusif untuk Setiap Momen Berharga.</p>
-    <div style="margin-top: 24px;">
-      <a href="{{ route('category', 'hampers') }}" class="hero-btn-gold">JELAJAHI KOLEKSI</a>
-    </div>
-  </div>
-</section>
-
 <style>
-  @keyframes kenburns-video {
-    0% {
-      transform: scale(1.0) translate(0, 0);
-    }
-    50% {
-      transform: scale(1.12) translate(-1.5%, -1%);
-    }
-    100% {
-      transform: scale(1.05) translate(1%, 1.5%);
-    }
+  /* ===================== THE GOLDEN BITES LUXURY THEME (MATCHING IMAGE 5) ===================== */
+  :root {
+    --wine-dark: #16050e;
+    --wine-surface: #200814;
+    --wine-card: #280b1a;
+    --gold-bright: #fef08a;
+    --gold-accent: #e6ca65;
+    --gold-deep: #b45309;
+    --gold-gradient: linear-gradient(135deg, #fff3c4 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);
   }
 
-  .hero {
+  /* Hero Section */
+  .hero-wine {
     position: relative;
-    background: #091711;
-    height: min(75vh, 650px);
-    overflow: hidden;
-  }
-  .hero video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    animation: kenburns-video 25s infinite alternate ease-in-out;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(9, 23, 17, 0.4) 0%, rgba(9, 23, 17, 0.85) 100%);
-    pointer-events: none;
-  }
-
-  .hero-overlay-content {
-    position: absolute;
-    top: 52%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    text-align: center;
-    color: #fff;
-    width: 90%;
-    max-width: 850px;
-  }
-  .hero-headline {
-    font-family: 'Playfair Display', 'Cormorant Garamond', serif;
-    font-size: clamp(30px, 5vw, 56px);
-    font-weight: 800;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, #fff3c4 0%, #e6ca65 40%, #c59b27 75%, #fef08a 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.2;
-    margin-bottom: 16px;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-    text-transform: uppercase;
-  }
-  .hero-subtext {
-    font-size: clamp(14px, 2vw, 18px);
-    color: #e2e8f0;
-    letter-spacing: 0.5px;
-    font-weight: 400;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.9);
-    max-width: 680px;
-    margin: 0 auto;
-  }
-  .hero-btn-gold {
-    display: inline-block;
-    background: linear-gradient(135deg, #b89243 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);
-    color: #0c2217;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: 14px;
-    letter-spacing: 2px;
-    padding: 14px 36px;
-    border-radius: 50px;
-    text-decoration: none;
-    box-shadow: 0 6px 20px rgba(197, 155, 39, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
-    transition: all 0.3s ease;
-    border: 1px solid #fef08a;
-    text-transform: uppercase;
-  }
-  .hero-btn-gold:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 10px 28px rgba(230, 202, 101, 0.6);
-    color: #000;
-  }
-  /* Auto-sliding Feature Banner Slider Styling */
-  .feature-slider-container {
-    max-width: 1100px;
-    margin: 50px auto;
-    aspect-ratio: 16/6;
-    border-radius: 14px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.18);
-    border: 1px solid rgba(217, 119, 6, 0.3);
-    position: relative;
-    overflow: hidden;
-    background: #0d1713;
-  }
-  .feature-slider-track {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  .feature-slide {
-    min-width: 100%;
-    height: 100%;
-    display: block;
-    position: relative;
-  }
-  .feature-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .feature-slider-btn {
-    position: absolute;
-    inset: auto 0 35px;
-    text-align: center;
-    font: 700 16px 'Outfit', var(--serif, serif);
-    letter-spacing: .3em;
-    text-transform: uppercase;
-    color: #0d1713;
-    background: rgba(254, 240, 138, 0.95);
-    padding: 12px 32px;
-    width: fit-content;
-    margin: 0 auto;
-    border-radius: 6px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-    border: 1px solid #f59e0b;
-    transition: all 0.25s ease;
-    text-decoration: none;
-    z-index: 10;
-  }
-  .feature-slider-btn:hover {
-    background: linear-gradient(135deg, #d97706, #f59e0b);
-    color: #fff;
-    transform: scale(1.05);
-  }
-  .feature-slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(13, 23, 19, 0.6);
-    color: #fef08a;
-    border: 1px solid rgba(254, 240, 138, 0.4);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
+    background: radial-gradient(circle at center, #2e0d1f 0%, #16050e 100%);
+    min-height: 520px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(4px);
+    overflow: hidden;
+    padding: 70px 20px;
+    text-align: center;
   }
-  .feature-slider-arrow:hover {
-    background: rgba(217, 119, 6, 0.9);
-    color: #fff;
-    transform: translateY(-50%) scale(1.1);
-  }
-  .feature-arrow-left { left: 16px; }
-  .feature-arrow-right { right: 16px; }
-
-  .feature-slider-dots {
+  .hero-wine video {
     position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 10;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.28;
+    filter: brightness(0.7) contrast(1.1);
+    pointer-events: none;
   }
-  .feature-slider-dots .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
-    cursor: pointer;
-    transition: all 0.25s ease;
-  }
-  .feature-slider-dots .dot.active {
-    background: #f59e0b;
-    width: 28px;
-    border-radius: 6px;
-  }
-  @media (max-width: 768px) {
-    .feature-slider-container { margin: 20px 12px; aspect-ratio: 16/9; }
-    .feature-slider-btn { font-size: 12px; padding: 8px 18px; bottom: 16px; letter-spacing: .2em; }
-    .feature-slider-arrow { width: 32px; height: 32px; font-size: 14px; }
-    .feature-arrow-left { left: 8px; }
-    .feature-arrow-right { right: 8px; }
-  }
-
-  /* ===================== MOBILE TYPOGRAPHY & LAYOUT ===================== */
-  .sec-title-home {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(20px, 5vw, 34px);
-    font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 10px;
-  }
-  .sec-desc-home {
-    color: #475569;
-    font-size: clamp(13px, 3.5vw, 16px);
-    font-weight: 500;
-    max-width: 680px;
+  .hero-wine-overlay {
+    position: relative;
+    z-index: 5;
+    max-width: 850px;
     margin: 0 auto;
   }
-  .reviews-heading {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(20px, 5vw, 36px);
-    color: #ffffff;
-    font-weight: 800;
-    margin-bottom: 30px;
-  }
-  .reviews-lead {
-    color: #e6ca65;
+  .hero-brand-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: clamp(10px, 2.5vw, 12px);
-    font-weight: 700;
+    color: var(--gold-bright);
+    border: 1px solid rgba(254, 240, 138, 0.4);
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
   }
-  .bestseller-lead {
-    color: #b45309;
-    font-weight: 700;
+  .hero-wine-title {
+    font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 6vw, 62px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.15;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+  }
+  .hero-signature-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(22px, 3.5vw, 34px);
+    font-style: italic;
+    color: #fde047;
+    margin: 0 0 18px 0;
     letter-spacing: 1px;
-    margin-bottom: 8px;
-    font-size: clamp(12px, 3vw, 15px);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  }
+  .hero-wine-desc {
+    font-size: clamp(14px, 2vw, 17px);
+    color: #f1f5f9;
+    letter-spacing: 0.5px;
+    line-height: 1.7;
+    max-width: 680px;
+    margin: 0 auto 30px auto;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  }
+  .btn-gold-luxury {
+    display: inline-block;
+    background: var(--gold-gradient);
+    color: #12030a;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 13.5px;
+    letter-spacing: 2.5px;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(230, 202, 101, 0.35);
+    transition: all 0.3s ease;
+    border: 1px solid #fff3bd;
+    text-transform: uppercase;
+  }
+  .btn-gold-luxury:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 32px rgba(254, 240, 138, 0.55);
+    color: #000;
   }
 
-  @media (max-width: 640px) {
-    .hero {
-      height: min(60vh, 420px);
+  /* Story & Certification Section */
+  .story-cert-section {
+    background: #ffffff;
+    padding: 60px 20px;
+    color: #0f172a;
+  }
+  .story-cert-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 820px) {
+    .story-cert-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 30px;
     }
-    .hero-headline {
-      font-size: clamp(22px, 7vw, 36px) !important;
-      letter-spacing: 1px;
+  }
+  .story-tag {
+    color: #b45309;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .story-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 800;
+    color: #12030a;
+    line-height: 1.25;
+    margin: 0 0 16px 0;
+  }
+  .story-desc {
+    font-size: 14.5px;
+    color: #475569;
+    line-height: 1.75;
+    margin: 0 0 20px 0;
+  }
+  .cert-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    background: #fdfbf7;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(217, 119, 6, 0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  }
+  @media (max-width: 500px) {
+    .cert-badges-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
-    .hero-subtext {
-      font-size: 13px !important;
+  }
+  .cert-item {
+    text-align: center;
+  }
+  .cert-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .cert-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: #12030a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .cert-sub {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  /* Best Seller Category Slider (Matching Reference Image 4 & 5) */
+  .category-slider-section {
+    background: var(--wine-dark);
+    padding: 70px 20px;
+    color: #fff;
+    text-align: center;
+  }
+  .sec-heading-gold {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    margin: 0 0 8px 0;
+  }
+  .sec-subtitle-gold {
+    font-size: 13px;
+    color: #cbd5e1;
+    letter-spacing: 1px;
+    margin: 0 auto 36px auto;
+    max-width: 600px;
+  }
+  .home-category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  @media (max-width: 650px) {
+    .home-category-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
-    .hero-btn-gold {
-      font-size: 12px;
-      padding: 11px 24px;
-      letter-spacing: 1.5px;
+  }
+  .home-cat-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    display: block;
+    text-decoration: none;
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    background: #0d0208;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .home-cat-card:hover {
+    transform: translateY(-4px);
+    border-color: #f59e0b;
+  }
+  .home-cat-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .home-cat-card:hover img {
+    transform: scale(1.08);
+  }
+  .home-cat-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(6px);
+    color: #12030a;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 9px 12px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.2s;
+  }
+  .home-cat-card:hover .home-cat-badge {
+    background: #ffffff;
+    color: #b45309;
+  }
+
+  /* Product Showcase Rows */
+  .product-showcase-section {
+    background: var(--wine-surface);
+    padding: 70px 20px;
+    color: #fff;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .showcase-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .showcase-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 3.5vw, 30px);
+    font-weight: 800;
+    color: var(--gold-bright);
+    margin: 0;
+  }
+  .showcase-link {
+    color: #cbd5e1;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .showcase-link:hover {
+    color: var(--gold-bright);
+  }
+  .product-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  @media (max-width: 1050px) {
+    .product-showcase-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
-    .sec-title-home {
-      font-size: clamp(18px, 5.5vw, 26px);
+  }
+  @media (max-width: 500px) {
+    .product-showcase-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
-    .sec-desc-home {
-      font-size: 13px;
+  }
+
+  /* Split Reviews & Gallery Section (Matching Reference Image 5) */
+  .split-reviews-gallery {
+    background: #11030b;
+    padding: 80px 20px;
+    color: #fff;
+    border-top: 1px solid rgba(217, 119, 6, 0.2);
+  }
+  .split-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 45px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .split-container {
+      grid-template-columns: 1fr;
+      gap: 50px;
     }
-    .reviews-heading {
-      font-size: clamp(18px, 5.5vw, 26px);
+  }
+
+  /* Customer Reviews Card */
+  .review-box-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .review-stars {
+    color: #fbbf24;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .review-quote {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #e2e8f0;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .review-author img {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #d97706;
+  }
+  .review-author-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+  }
+  .review-author-badge {
+    font-size: 11px;
+    color: #10b981;
+    font-weight: 600;
+  }
+
+  /* Our Gallery Grid */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .gallery-item {
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    background: #18060f;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .gallery-item:hover img {
+    transform: scale(1.1);
+  }
+
+  /* 4-Pillar Value Proposition Bar (Sage Green Pastel - Strictly NO WhatsApp!) */
+  .value-pillars-bar {
+    background: #eaf3ee;
+    padding: 36px 20px;
+    border-top: 1px solid #d1e5db;
+    border-bottom: 1px solid #d1e5db;
+    color: #143325;
+  }
+  .value-pillars-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 880px) {
+    .value-pillars-inner {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
     }
-    .reviews-lead {
-      font-size: 10px;
-      letter-spacing: 2px;
+  }
+  @media (max-width: 500px) {
+    .value-pillars-inner {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      text-align: center;
     }
-    .bestseller-lead {
-      font-size: 12px;
+  }
+  .pillar-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  @media (max-width: 500px) {
+    .pillar-item {
+      flex-direction: column;
+      gap: 6px;
     }
+  }
+  .pillar-icon {
+    font-size: 28px;
+    color: #15803d;
+    flex-shrink: 0;
+  }
+  .pillar-text h4 {
+    margin: 0 0 3px 0;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #0f2c1f;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .pillar-text p {
+    margin: 0;
+    font-size: 12px;
+    color: #3e5a4d;
+    line-height: 1.4;
   }
 </style>
 
-<p class="banner">{{ config('site.tagline') }}</p>
+<!-- Hero Section (Matching Reference Image 5) -->
+<section class="hero-wine">
+  <video autoplay muted loop playsinline poster="{{ asset('images/hero-poster.jpg') }}">
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-pastry-chef-making-a-cake-41223-large.mp4" type="video/mp4">
+    <source src="https://cdn.coverr.co/videos/coverr-baking-fresh-bread-5764/1080p.mp4" type="video/mp4">
+  </video>
 
-<!-- Auto-Sliding 4-Image Feature Banner Carousel -->
-<div class="feature-slider-container">
-  <div class="feature-slider-track" id="feature-slider-track">
-    <!-- Slide 1: Primary Gourmet Hampers -->
-    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Hampers Gourmet Premium">
-      <img src="{{ asset('images/feature.jpg') }}" alt="Pusat Hampers Indonesia - Gourmet Collection">
-    </a>
-    <!-- Slide 2: Luxury Hampers Box -->
-    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Koleksi Hampers Mewah Eksklusif">
-      <img src="{{ asset('images/cat-hampers.jpg') }}" alt="Pusat Hampers Indonesia - Luxury Box">
-    </a>
-    <!-- Slide 3: Royal Rose & Emerald Parcel -->
-    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Hampers Edisi Spesial Festival">
-      <img src="{{ asset('images/rose.jpg') }}" alt="Pusat Hampers Indonesia - Royal Rose">
-    </a>
-    <!-- Slide 4: Festive Celebration Gift Set -->
-    <a class="feature-slide" href="{{ route('category', 'hampers') }}" title="Pilihan Hadiah Acara & Selebrasi">
-      <img src="{{ asset('images/events.jpg') }}" alt="Pusat Hampers Indonesia - Celebration Set">
-    </a>
+  <div class="hero-wine-overlay">
+    <span class="hero-brand-badge">⚜️ PUSAT HAMPERS INDONESIA ⚜️</span>
+    <h1 class="hero-wine-title">{{ config('site.brand') }}</h1>
+    <p class="hero-signature-quote">"Have a bite, you can't stop!"</p>
+    <p class="hero-wine-desc">
+      Cita rasa premium Indonesia untuk setiap momen berharga, dibuat dengan bahan-bahan pilihan berkualitas tinggi berstandar artisanal internasional.
+    </p>
+    <a href="{{ route('shop') }}" class="btn-gold-luxury">JELAJAHI KOLEKSI</a>
   </div>
+</section>
 
-  <!-- Overlaid Button in Center -->
-  <a href="{{ route('category', 'hampers') }}" class="feature-slider-btn">
-    BELANJA SEKARANG
-  </a>
+<!-- Brand Story & Quality Certification Section -->
+<section class="story-cert-section">
+  <div class="story-cert-inner">
+    <div>
+      <div class="story-tag">⚜️ CERITA RASA KAMI ⚜️</div>
+      <h2 class="story-title">Dedikasi Kemewahan & Kelezatan Sejak Awal</h2>
+      <p class="story-desc">
+        Setiap produk diracik secara teliti menggunakan mentega impor murni, rempah pilihan, dan bahan alami terbaik tanpa pemanis buatan maupun pengawet berbahaya. Kami mempersembahkan kehangatan bingkisan premium yang meninggalkan kenangan tak terlupakan bagi keluarga, kerabat, dan mitra bisnis Anda.
+      </p>
+      <a href="{{ route('shop') }}" style="color: #b45309; font-weight: 700; font-size: 13px; text-decoration: none; letter-spacing: 1px;">
+        LIHAT SEMUA PILIHAN HAMPERS →
+      </a>
+    </div>
 
-  <!-- Navigation Arrows -->
-  <button type="button" class="feature-slider-arrow feature-arrow-left" id="feature-prev-btn" title="Gambar Sebelumnya">❮</button>
-  <button type="button" class="feature-slider-arrow feature-arrow-right" id="feature-next-btn" title="Gambar Selanjutnya">❯</button>
-
-  <!-- Indicator Dots -->
-  <div class="feature-slider-dots" id="feature-slider-dots">
-    <span class="dot active" data-index="0"></span>
-    <span class="dot" data-index="1"></span>
-    <span class="dot" data-index="2"></span>
-    <span class="dot" data-index="3"></span>
-  </div>
-</div>
-
-<section class="band" style="background: #f8faf9; padding: 60px 20px; text-align: center;">
-  <div style="display: inline-block; margin-bottom: 28px; position: relative;">
-    <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(24px, 3.8vw, 36px); font-weight: 800; color: #0f172a; letter-spacing: 3px; text-transform: uppercase; margin: 0;">
-      KOLEKSI UNGGULAN KAMI
-    </h2>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px;">
-      <span style="height: 1px; width: 70px; background: linear-gradient(90deg, transparent, #c59b27);"></span>
-      <span style="color: #c59b27; font-size: 14px;">❖</span>
-      <span style="height: 1px; width: 70px; background: linear-gradient(90deg, #c59b27, transparent);"></span>
+    <div>
+      <div class="cert-badges-grid">
+        <div class="cert-item">
+          <span class="cert-icon">🌿</span>
+          <div class="cert-label">100% Halal</div>
+          <div class="cert-sub">LPPOM MUI & BPOM</div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🧈</span>
+          <div class="cert-label">Pure Butter</div>
+          <div class="cert-sub">Bahan Baku Premium</div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🛡️</span>
+          <div class="cert-label">0% Pengawet</div>
+          <div class="cert-sub">Higienis & Segar</div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="grid4">
-    @foreach ($gifts as $g)
-      <a class="tile" href="{{ route('category', $g) }}">
-        <span class="ph" style="display: block; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px;">
-          <img src="{{ asset('images/cat-'.$g.'.jpg') }}" alt="{{ config("site.categories.$g.title") }}" style="width: 100%; height: 100%; object-fit: cover; display: block;" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';">
-        </span>
-        <span class="n">{{ config("site.categories.$g.title") }}</span>
-      </a>
+</section>
+
+<!-- Best Seller / Kategori Produk Slider (Matching Reference Image 4 & 5) -->
+<section class="category-slider-section">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <h2 class="sec-heading-gold">KATEGORI PRODUK UNGGULAN</h2>
+    <p class="sec-subtitle-gold">Pilihan bingkisan mewah dan kuliner artisanal favorit untuk merayakan hari istimewa.</p>
+
+    <div class="home-category-grid">
+      @foreach ($categories as $c)
+        @php
+          $catImage = asset('images/cat-' . $c->slug . '.jpg');
+        @endphp
+        <a href="{{ route('category', $c->slug) }}" class="home-cat-card">
+          <img src="{{ $catImage }}" alt="{{ $c->title }}" loading="lazy" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
+          <div class="home-cat-badge">
+            {{ $c->title }} ({{ $c->products_count }} Produk)
+          </div>
+        </a>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+<!-- Product Showcase Row 1: Big Bites & Koleksi Favorit -->
+<section class="product-showcase-section">
+  <div class="showcase-header">
+    <h2 class="showcase-title">Pilihan Favorit & Big Bites</h2>
+    <a href="{{ route('shop') }}" class="showcase-link">Lihat Semua →</a>
+  </div>
+
+  <div class="product-showcase-grid">
+    @foreach ($best->take(4) as $p)
+      @include('partials.card', ['item' => $p, 'from' => true])
     @endforeach
   </div>
 </section>
 
-<section class="sec" style="background: #ffffff;">
-  <div style="text-align: center; margin-bottom: 28px;">
-    <h2 class="sec-title-home">Saatnya Menikmati Hidangan</h2>
-    <p class="sec-desc-home">Rayakan setiap momen dengan sajian lezat yang tak tergoyahkan, sempurna untuk berbagi dan dinikmati bersama.</p>
+<!-- Product Showcase Row 2: Kue Tart & Artisanal Bakery -->
+<section class="product-showcase-section" style="background: var(--wine-dark);">
+  <div class="showcase-header">
+    <h2 class="showcase-title">Kue & Tart Artisanal</h2>
+    <a href="{{ route('category', 'cakes') }}" class="showcase-link">Lihat Semua Kue →</a>
   </div>
-  <div class="grid5">
-    @foreach ($treats as $t) @include('partials.card', ['item' => $t, 'slug' => 'light-bites', 'from' => true]) @endforeach
-  </div>
-  <div style="text-align: center; margin-top: 30px;">
-    <a class="btn-gold-pill" href="{{ route('category', 'light-bites') }}">Lihat Semua Hidangan Ringan</a>
-  </div>
-</section>
 
-<section class="split">
-  <div class="ph" style="aspect-ratio: 16/10; position: relative; overflow: hidden; background: #0d1713 url('{{ asset('images/reservation-dinein.jpg') }}') center/cover no-repeat;">
-    <video autoplay muted loop playsinline poster="{{ asset('images/reservation-dinein.jpg') }}" style="width: 100%; height: 100%; object-fit: cover; animation: kenburns-video 20s infinite alternate ease-in-out;">
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-baker-shaping-the-dough-41222-large.mp4" type="video/mp4">
-      <source src="https://cdn.coverr.co/videos/coverr-chef-decorating-a-cake-4573/1080p.mp4" type="video/mp4">
-      <img src="{{ asset('images/reservation-dinein.jpg') }}" alt="Private Events" style="width: 100%; height: 100%; object-fit: cover;">
-    </video>
-  </div>
-  <div class="navy">
-    <h2>Apakah Anda mencari tempat untuk merayakan acara pribadi Anda?</h2>
-    <p><b>Kami siap melayani Anda!</b></p>
-    <p>Berkumpullah bersama orang-orang tercinta di ruangan mewah yang dirancang khusus untuk keluarga, kerabat, dan acara penting.</p>
-    <a class="btn ghost" href="{{ route('reservations') }}">Pesan Tempat Sekarang</a>
-  </div>
-</section>
-
-<section class="sec grey" style="background: #f8faf9; padding: 60px 20px;">
-  <p class="bestseller-lead">Jelajahi produk-produk yang paling diminati di toko kami</p>
-  <h2 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: clamp(20px, 3.8vw, 36px); font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 2.5px; margin: 0 0 28px 0;">
-    PRODUK TERLARIS
-  </h2>
-  <div class="grid5">
-    @foreach ($best as $b)
-      @include('partials.card', ['item' => $b, 'slug' => ($b->category->slug ?? 'hampers'), 'from' => true])
+  <div class="product-showcase-grid">
+    @foreach ($cakes->take(4) as $p)
+      @include('partials.card', ['item' => $p, 'slug' => 'cakes', 'from' => true])
     @endforeach
   </div>
-  <div style="text-align: center; margin-top: 15px;">
-    <a class="btn-gold-pill" href="{{ route('category', 'hampers') }}">LIHAT SEMUA KOLEKSI PRODUK</a>
+</section>
+
+<!-- Product Showcase Row 3: Parsel & Hampers Mewah -->
+<section class="product-showcase-section">
+  <div class="showcase-header">
+    <h2 class="showcase-title">Hampers & Paket Bingkisan VIP</h2>
+    <a href="{{ route('category', 'hampers') }}" class="showcase-link">Lihat Semua Hampers →</a>
+  </div>
+
+  <div class="product-showcase-grid">
+    @foreach ($hampers->take(4) as $p)
+      @include('partials.card', ['item' => $p, 'slug' => 'hampers', 'from' => true])
+    @endforeach
   </div>
 </section>
 
-@if(isset($reviews) && count($reviews) > 0)
-<section class="sec" style="background: #0d1713; color: #fff; padding: 60px 20px;">
-  <p class="reviews-lead">⚜️ Ulasan & Pengalaman Pelanggan VIP ⚜️</p>
-  <h2 class="reviews-heading">Kata Mereka Tentang Pusat Hampers Indonesia</h2>
+<!-- Split Section: What Our Customers Say & Our Gallery (Matching Reference Image 5) -->
+<section class="split-reviews-gallery" id="gallery">
+  <div class="split-container">
+    <!-- Left Column: What Our Customers Say -->
+    <div>
+      <div style="color: #fbbf24; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">
+        ⭐ TESTIMONI PELANGGAN VIP ⭐
+      </div>
+      <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 32px); color: #fff; margin: 0 0 20px 0;">
+        What Our Customers Say
+      </h2>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; text-align: left;">
-    @foreach($reviews as $rev)
-      <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(217, 119, 6, 0.25); border-radius: 12px; padding: 24px; position: relative;">
-        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-          <img src="{{ $rev->avatar_url }}" alt="{{ $rev->reviewer_name }}" style="width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #d97706; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-          <div>
-            <div style="font-size: 15px; font-weight: 700; color: #fff;">{{ $rev->reviewer_name }}</div>
-            <div style="color: #f59e0b; font-size: 14px; margin-top: 2px;">{{ $rev->stars }}</div>
+      @if(isset($reviews) && $reviews->isNotEmpty())
+        @php $featuredRev = $reviews->first(); @endphp
+        <div class="review-box-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-quote">
+            "{{ $featuredRev->body }}"
+          </div>
+          <div class="review-author">
+            <img src="{{ $featuredRev->avatar_url }}" alt="{{ $featuredRev->reviewer_name }}" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($featuredRev->reviewer_name) }}&background=b45309&color=fff';">
+            <div>
+              <div class="review-author-name">{{ $featuredRev->reviewer_name }}</div>
+              <div class="review-author-badge">✓ Terverifikasi Google Reviews</div>
+            </div>
           </div>
         </div>
-
-        @if($rev->title)
-          <div style="font-size: 15px; font-weight: 700; color: #fef08a; margin-bottom: 8px;">"{{ $rev->title }}"</div>
-        @endif
-
-        <p style="font-size: 13.5px; color: #cad8d1; line-height: 1.65; margin: 0; font-family: 'Outfit', sans-serif;">
-          {{ $rev->body }}
-        </p>
-
-        @if($rev->product)
-          <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 11.5px; color: #8fa59b;">
-            📦 Produk: <strong style="color: #f59e0b;">{{ $rev->product->name }}</strong>
+      @else
+        <div class="review-box-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-quote">
+            "Rasa kuenya sangat lezat, butter impornya harum sekali dan kemasan hampersnya benar-benar mewah. Sangat puas untuk hadiah rekan bisnis dan keluarga."
           </div>
-        @endif
-      </div>
-    @endforeach
-  </div>
-</section>
-@endif
+          <div class="review-author">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Pelanggan VIP">
+            <div>
+              <div class="review-author-name">Adeline Wijaya</div>
+              <div class="review-author-badge">✓ Terverifikasi Google Reviews</div>
+            </div>
+          </div>
+        </div>
+      @endif
+    </div>
 
-<!-- FAQ Section (Hal Yang Sering Ditanyakan) -->
-<section style="background: #f8faf9; padding: 70px 20px; color: #0f172a; font-family: 'Outfit', sans-serif;">
-  <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
-    <div style="text-align: center; margin-bottom: 40px; width: 100%;">
-      <h2 style="font-family: 'Outfit', sans-serif; font-size: clamp(24px, 3.5vw, 32px); font-weight: 800; color: #0f172a; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 auto; display: inline-block; position: relative;">
-        HAL YANG SERING DITANYAKAN
-        <span style="display: block; width: 60px; height: 3px; background: linear-gradient(90deg, #d97706, #f59e0b); margin: 12px auto 0 auto; border-radius: 2px;"></span>
+    <!-- Right Column: Our Gallery -->
+    <div>
+      <div style="color: #fbbf24; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">
+        📸 GALERI FOTO ARTISANAL
+      </div>
+      <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 32px); color: #fff; margin: 0 0 20px 0;">
+        Our Gallery
       </h2>
-    </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-      {{-- FAQ Item 1 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Apa saja yang ada dalam hampers?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Setiap hampers berisi pilihan produk premium eksklusif, seperti cookies gourmet, artisan treats, sajadah/merchandise, parfum mewah, dan item pilihan berkualitas tinggi lainnya. Untuk melihat secara detail, Anda bisa menekan tombol “Lihat Rincian Isi Hampers” atau “More Details”.
-        </p>
-      </div>
-
-      {{-- FAQ Item 2 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Apakah bisa custom isi hampers?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Tentu! Kami menyediakan opsi custom hampers sesuai dengan kebutuhan dan budget Anda. Hubungi WhatsApp pada website untuk konsultasi lebih lanjut.
-        </p>
-      </div>
-
-      {{-- FAQ Item 3 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Berapa lama proses pengiriman?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Pengiriman dalam kota biasanya memakan waktu 1–3 hari kerja, sedangkan luar kota mengikuti estimasi ekspedisi yang dipilih.
-        </p>
-      </div>
-
-      {{-- FAQ Item 4 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Apakah bisa pre-order untuk hampers?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Tentu! Dengan melakukan pre-order, Anda dapat memastikan ketersediaan hampers terbaik sekaligus memilih jadwal pengiriman sesuai keinginan Anda.
-        </p>
-      </div>
-
-      {{-- FAQ Item 5 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Apakah tersedia kartu ucapan dalam hampers?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Ya! Kami menyediakan kartu ucapan gratis yang bisa disesuaikan dengan permintaan Anda.
-        </p>
-      </div>
-
-      {{-- FAQ Item 6 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Bagaimana cara pemesanan?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Anda bisa memesan langsung melalui WhatsApp pada website dan kami akan siap membantu Anda.
-        </p>
-      </div>
-
-      {{-- FAQ Item 7 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Apakah ada minimal pemesanan untuk hampers corporate?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Pesan hampers corporate tanpa batasan jumlah. Hubungi kami untuk detail dan penawaran spesial.
-        </p>
-      </div>
-
-      {{-- FAQ Item 8 --}}
-      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); text-align: left;">
-        <h3 style="font-size: 15.5px; font-weight: 700; color: #0f172a; margin: 0 0 10px 0; line-height: 1.4;">
-          Bisakah pengiriman langsung ke alamat penerima?
-        </h3>
-        <p style="font-size: 13.5px; color: #475569; line-height: 1.6; margin: 0;">
-          Tentu! Kami bisa mengirimkan hampers langsung ke alamat penerima dengan pengemasan aman dan rapi.
-        </p>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="{{ asset('images/feature.jpg') }}" alt="Hampers Creation" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="{{ asset('images/cat-hampers.jpg') }}" alt="Luxury Box" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="{{ asset('images/cat-cakes.jpg') }}" alt="Artisanal Tart" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="{{ asset('images/rose.jpg') }}" alt="Celebration Parcel" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="{{ asset('images/cat-cookies.jpg') }}" alt="Gourmet Cookies" loading="lazy">
+        </div>
+        <div class="gallery-item">
+          <img src="{{ asset('images/events.jpg') }}" alt="Festive Gift Set" loading="lazy">
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const videos = document.querySelectorAll('video');
-    videos.forEach(v => {
-      v.play().catch(e => console.log('Autoplay handled', e));
-    });
+<!-- 4-Pillar Value Proposition Bar (Matching Reference Image 5 - Strictly NO WhatsApp!) -->
+<section class="value-pillars-bar">
+  <div class="value-pillars-inner">
+    <div class="pillar-item">
+      <span class="pillar-icon">⭐</span>
+      <div class="pillar-text">
+        <h4>Produk Berkualitas</h4>
+        <p>100% bahan premium tanpa bahan pengawet berbahaya</p>
+      </div>
+    </div>
 
-    // Auto-sliding 4-Image Feature Banner Carousel
-    const track = document.getElementById('feature-slider-track');
-    const slides = document.querySelectorAll('.feature-slide');
-    const dots = document.querySelectorAll('.feature-slider-dots .dot');
-    const prevBtn = document.getElementById('feature-prev-btn');
-    const nextBtn = document.getElementById('feature-next-btn');
+    <div class="pillar-item">
+      <span class="pillar-icon">🚚</span>
+      <div class="pillar-text">
+        <h4>Pengiriman Cepat</h4>
+        <p>Pengemasan aman & kurir terpercaya tiba tepat waktu</p>
+      </div>
+    </div>
 
-    if (track && slides.length > 0) {
-      let currentIndex = 0;
-      const totalSlides = slides.length;
-      let slideTimer = null;
+    <div class="pillar-item">
+      <span class="pillar-icon">💳</span>
+      <div class="pillar-text">
+        <h4>Pembayaran Fleksibel</h4>
+        <p>Mendukung Virtual Account, QRIS, & Kartu Kredit</p>
+      </div>
+    </div>
 
-      function goToSlide(index) {
-        currentIndex = (index + totalSlides) % totalSlides;
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-        dots.forEach((dot, idx) => {
-          if (idx === currentIndex) {
-            dot.classList.add('active');
-          } else {
-            dot.classList.remove('active');
-          }
-        });
-      }
-
-      function nextSlide() {
-        goToSlide(currentIndex + 1);
-      }
-
-      function prevSlide() {
-        goToSlide(currentIndex - 1);
-      }
-
-      function startTimer() {
-        stopTimer();
-        slideTimer = setInterval(nextSlide, 3500); // Shift right every 3.5s
-      }
-
-      function stopTimer() {
-        if (slideTimer) clearInterval(slideTimer);
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          nextSlide();
-          startTimer();
-        });
-      }
-
-      if (prevBtn) {
-        prevBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          prevSlide();
-          startTimer();
-        });
-      }
-
-      dots.forEach(dot => {
-        dot.addEventListener('click', function () {
-          const idx = parseInt(this.getAttribute('data-index'));
-          goToSlide(idx);
-          startTimer();
-        });
-      });
-
-      const container = document.querySelector('.feature-slider-container');
-      if (container) {
-        container.addEventListener('mouseenter', stopTimer);
-        container.addEventListener('mouseleave', startTimer);
-      }
-
-      startTimer();
-    }
-  });
-</script>
+    <div class="pillar-item">
+      <span class="pillar-icon">🛡️</span>
+      <div class="pillar-text">
+        <h4>Jaminan Kualitas</h4>
+        <p>Garansi penggantian bila paket rusak saat pengiriman</p>
+      </div>
+    </div>
+  </div>
+</section>
 @endsection

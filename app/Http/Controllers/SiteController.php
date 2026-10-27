@@ -10,19 +10,21 @@ class SiteController extends Controller
 {
     public function home()
     {
-        $treats = Product::with('category')->where('is_treat', true)->take(8)->get();
-        if ($treats->count() < 5) {
+        $categories = Category::withCount('products')->orderBy('display_order')->get();
+
+        $treats = Product::with(['category', 'reviews'])->where('is_treat', true)->take(8)->get();
+        if ($treats->count() < 4) {
             $treatCategory = Category::where('slug', 'light-bites')->first();
             if ($treatCategory) {
-                $treats = $treatCategory->products()->take(8)->get();
+                $treats = $treatCategory->products()->with(['category', 'reviews'])->take(8)->get();
             }
         }
 
         // Fetch best sellers first, and expand with diverse luxury items to give a rich variety of at least 8 items
-        $best = Product::with('category')->where('is_best_seller', true)->get();
+        $best = Product::with(['category', 'reviews'])->where('is_best_seller', true)->get();
         if ($best->count() < 8) {
             $existingIds = $best->pluck('id')->toArray();
-            $supplement = Product::with('category')
+            $supplement = Product::with(['category', 'reviews'])
                 ->whereNotIn('id', $existingIds)
                 ->whereIn('availability', ['in_stock', 'pre_order'])
                 ->orderBy('display_order', 'asc')
@@ -32,7 +34,29 @@ class SiteController extends Controller
         }
 
         if ($best->isEmpty()) {
-            $best = Product::with('category')->latest()->take(8)->get();
+            $best = Product::with(['category', 'reviews'])->latest()->take(8)->get();
+        }
+
+        // Featured showcase rows by category
+        $bigBites = Product::with(['category', 'reviews'])
+            ->whereHas('category', function($q) { $q->whereIn('slug', ['light-bites', 'breads']); })
+            ->take(4)->get();
+        if ($bigBites->isEmpty()) {
+            $bigBites = $best->take(4);
+        }
+
+        $cakes = Product::with(['category', 'reviews'])
+            ->whereHas('category', function($q) { $q->whereIn('slug', ['cakes', 'mooncake']); })
+            ->take(4)->get();
+        if ($cakes->isEmpty()) {
+            $cakes = $best->skip(2)->take(4);
+        }
+
+        $hampers = Product::with(['category', 'reviews'])
+            ->whereHas('category', function($q) { $q->whereIn('slug', ['hampers', 'cookies']); })
+            ->take(4)->get();
+        if ($hampers->isEmpty()) {
+            $hampers = $best->take(4);
         }
 
         try {
@@ -47,55 +71,61 @@ class SiteController extends Controller
         }
 
         return view('home', [
-            'gifts'   => ['hampers', 'cakes', 'cookies', 'breads'],
-            'treats'  => $treats,
-            'best'    => $best,
-            'reviews' => $reviews,
+            'categories' => $categories,
+            'gifts'      => ['hampers', 'cakes', 'cookies', 'breads', 'light-bites', 'mooncake'],
+            'treats'     => $treats,
+            'best'       => $best,
+            'bigBites'   => $bigBites,
+            'cakes'      => $cakes,
+            'hampers'    => $hampers,
+            'reviews'    => $reviews,
         ]);
     }
 
-    public function category(Request $request, ?string $slug = 'hampers')
+    public function category(Request $request, ?string $slug = null)
     {
-        $slug = $slug ?: 'hampers';
-        $cat = Category::where('slug', $slug)->first() ?? Category::first();
+        $categories = Category::withCount('products')->orderBy('display_order')->get();
+        $isAllProducts = empty($slug) || $slug === 'all';
 
-        if (!$cat) {
-            abort(404);
+        if ($isAllProducts) {
+            $cat = null;
+            $baseQuery = Product::with(['category', 'reviews']);
+        } else {
+            $cat = Category::where('slug', $slug)->first() ?? Category::first();
+            if ($cat) {
+                $baseQuery = Product::with(['category', 'reviews'])->where('category_id', $cat->id);
+                // Auto-heal: If category currently has no products, populate default products
+                if ($baseQuery->count() === 0) {
+                    $this->ensureCategoryHasProducts($cat);
+                    $baseQuery = Product::with(['category', 'reviews'])->where('category_id', $cat->id);
+                }
+            } else {
+                $baseQuery = Product::with(['category', 'reviews']);
+            }
         }
 
-        // Base query for category products (with eager-loaded category relation)
-        $baseQuery = Product::with('category')->where('category_id', $cat->id);
-
-        // Auto-heal: If category currently has no products, populate default products so the page is never blank!
-        if ($baseQuery->count() === 0) {
-            $this->ensureCategoryHasProducts($cat);
-            $baseQuery = Product::with('category')->where('category_id', $cat->id);
+        if ($search = $request->get('q')) {
+            $baseQuery->where('name', 'like', "%{$search}%");
         }
 
-        // Aggregate filter options based on all products in this category
-        $allCategoryProducts = (clone $baseQuery)->get();
+        $sort = $request->get('sort', 'latest');
+        switch ($sort) {
+            case 'price_asc':
+                $baseQuery->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $baseQuery->orderBy('price', 'desc');
+                break;
+            case 'name_asc':
+                $baseQuery->orderBy('name', 'asc');
+                break;
+            case 'latest':
+            default:
+                $baseQuery->latest();
+                break;
+        }
 
-        $types = $allCategoryProducts->pluck('type')->filter()->unique()->values();
-        $flavors = $allCategoryProducts->pluck('flavor')->filter()->unique()->values();
-        $sizes = $allCategoryProducts->pluck('size')->filter()->unique()->values();
-        $availabilities = $allCategoryProducts->pluck('availability')->filter()->unique()->values();
-
-        $minPriceLimit = $allCategoryProducts->min('price') ?? 0;
-        $maxPriceLimit = $allCategoryProducts->max('price') ?? 10000000;
-
-        // Apply active filters
-        $filters = [
-            'category' => $slug,
-            'types' => (array) $request->get('types', []),
-            'flavors' => (array) $request->get('flavors', []),
-            'sizes' => (array) $request->get('sizes', []),
-            'availabilities' => (array) $request->get('availabilities', []),
-            'min_price' => $request->get('min_price', $minPriceLimit),
-            'max_price' => $request->get('max_price', $maxPriceLimit),
-            'sort' => $request->get('sort', 'latest'),
-        ];
-
-        $filteredProducts = (clone $baseQuery)->filter($filters)->get();
+        $filteredProducts = $baseQuery->get();
 
         // AJAX response for live filter updates
         if ($request->ajax() || $request->wantsJson()) {
@@ -107,16 +137,19 @@ class SiteController extends Controller
         }
 
         return view('category', [
-            'slug' => $slug,
-            'cat' => $cat,
-            'products' => $filteredProducts,
-            'types' => $types,
-            'flavors' => $flavors,
-            'sizes' => $sizes,
-            'availabilities' => $availabilities,
-            'minPriceLimit' => $minPriceLimit,
-            'maxPriceLimit' => $maxPriceLimit,
-            'filters' => $filters,
+            'slug'          => $slug ?: 'all',
+            'cat'           => $cat,
+            'isAllProducts' => $isAllProducts,
+            'categories'    => $categories,
+            'products'      => $filteredProducts,
+            'sort'          => $sort,
+            'types'         => [],
+            'flavors'       => [],
+            'sizes'         => [],
+            'availabilities'=> [],
+            'minPriceLimit' => 0,
+            'maxPriceLimit' => 10000000,
+            'filters'       => ['sort' => $sort],
         ]);
     }
 
