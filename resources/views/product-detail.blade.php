@@ -336,17 +336,162 @@
 
   /* You Also Like Section */
   .pdetail-you-like-sec {
-    margin-top: 80px;
-    padding-top: 50px;
+    margin-top: 60px;
+    padding-top: 40px;
     border-top: 1px solid #e2e8f0;
   }
   .pdetail-you-like-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 4vw, 32px);
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(22px, 4vw, 30px);
     font-weight: 800;
     color: #12030a;
     text-align: center;
-    margin: 0 0 32px 0;
+    margin: 0 0 28px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* White Product Card Grid & Card Styling for Related Products */
+  .ref-white-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .ref-white-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 1px solid #f1f5f9;
+    position: relative;
+  }
+  .ref-white-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+  }
+  .ref-white-img-wrap {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ref-white-img-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    transition: transform 0.4s ease;
+  }
+  .ref-white-card:hover .ref-white-img-wrap img {
+    transform: scale(1.06);
+  }
+  .ref-white-body {
+    padding: 16px 14px 18px 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+  }
+  .ref-white-title {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 40px;
+  }
+  .ref-white-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 12px;
+  }
+  .ref-white-cart-form {
+    width: 100%;
+    margin-top: auto;
+  }
+  .ref-white-cart-btn {
+    background: transparent;
+    border: none;
+    color: #0f172a;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .ref-white-cart-btn:hover {
+    color: #b45309;
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 820px) {
+    .pdetail-page-bg {
+      padding: 16px 12px 60px 12px;
+    }
+    .ref-white-grid {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 12px !important;
+      padding: 6px 12px 18px 12px !important;
+      margin-left: -12px !important;
+      margin-right: -12px !important;
+      scrollbar-width: none !important;
+      scroll-behavior: smooth !important;
+    }
+    .ref-white-grid::-webkit-scrollbar {
+      display: none !important;
+    }
+    .ref-white-card {
+      flex: 0 0 170px !important;
+      max-width: 180px !important;
+      min-width: 155px !important;
+      scroll-snap-align: start !important;
+    }
+    .ref-white-body {
+      padding: 10px 8px 12px 8px !important;
+    }
+    .ref-white-title {
+      font-size: 12.5px !important;
+      min-height: 34px !important;
+      line-height: 1.3 !important;
+      margin-bottom: 4px !important;
+    }
+    .ref-white-price {
+      font-size: 13px !important;
+      margin-bottom: 8px !important;
+    }
+    .ref-white-cart-btn {
+      font-size: 12px !important;
+      padding: 4px 6px !important;
+    }
   }
 </style>
 

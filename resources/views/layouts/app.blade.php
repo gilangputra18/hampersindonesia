@@ -31,6 +31,27 @@
     color: #000 !important;
   }
 
+  /* Universal Image & Product Card Sizing Safety */
+  img {
+    max-width: 100%;
+  }
+  .ref-white-img-wrap {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+  }
+  .ref-white-img-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
   /* Ultra-Luxurious Dark Royal Emerald & Gold Header Bar */
   .top {
     display: flex;
