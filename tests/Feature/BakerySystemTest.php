@@ -48,6 +48,12 @@ class BakerySystemTest extends TestCase
         $response->assertSee('Menu');
         $response->assertSee('Produk Berkualitas');
         $response->assertSee('Jaminan Kualitas');
+        $response->assertSee('Kategori Produk');
+        $response->assertSee('Big Bites');
+        $response->assertSee('Loyang Mini');
+        $response->assertSee('Other');
+        $response->assertSee('luxury-brand-stack');
+        $response->assertSee('logo-title-majestic');
         $response->assertDontSee('wa.me');
     }
 

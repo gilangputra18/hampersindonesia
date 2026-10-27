@@ -188,129 +188,182 @@
     margin-top: 2px;
   }
 
-  /* Best Seller Category Slider (Matching Reference Image 4 & 5) */
+  /* Best Seller Category Slider (Matching Reference Image 1) */
   .category-slider-section {
     background: var(--wine-dark);
-    padding: 70px 20px;
+    padding: 70px 20px 50px 20px;
     color: #fff;
     text-align: center;
+    position: relative;
   }
-  .sec-heading-gold {
+  .cat-eyebrow-ref {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(20px, 3.5vw, 26px);
+    color: #e6ca65;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+  .cat-title-ref {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 4vw, 36px);
+    font-size: clamp(26px, 4.5vw, 40px);
     font-weight: 800;
-    letter-spacing: 2px;
     background: var(--gold-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    margin: 0 0 8px 0;
-  }
-  .sec-subtitle-gold {
-    font-size: 13px;
-    color: #cbd5e1;
+    text-transform: capitalize;
+    margin: 0 0 28px 0;
     letter-spacing: 1px;
-    margin: 0 auto 36px auto;
-    max-width: 600px;
   }
-  .home-category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+  .cat-slider-outer {
+    position: relative;
     max-width: 1200px;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
-  @media (max-width: 650px) {
-    .home-category-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+  .cat-slider-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 10px 4px 20px 4px;
+    width: 100%;
   }
-  .home-cat-card {
+  .cat-slider-track::-webkit-scrollbar {
+    display: none;
+  }
+  .ref-cat-card {
+    flex: 0 0 calc(25% - 15px);
+    min-width: 230px;
     position: relative;
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
     aspect-ratio: 1/1;
     display: block;
     text-decoration: none;
-    border: 1px solid rgba(217, 119, 6, 0.3);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    border: 1.5px solid rgba(230, 202, 101, 0.3);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
     background: #0d0208;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  .home-cat-card:hover {
-    transform: translateY(-4px);
-    border-color: #f59e0b;
+  @media (max-width: 768px) {
+    .ref-cat-card {
+      flex: 0 0 calc(50% - 10px);
+      min-width: 160px;
+    }
   }
-  .home-cat-card img {
+  .ref-cat-card:hover {
+    transform: translateY(-5px);
+    border-color: #fef08a;
+    box-shadow: 0 12px 30px rgba(230, 202, 101, 0.25);
+  }
+  .ref-cat-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
   }
-  .home-cat-card:hover img {
+  .ref-cat-card:hover img {
     transform: scale(1.08);
   }
-  .home-cat-badge {
+  .ref-cat-pill {
     position: absolute;
-    bottom: 12px;
-    left: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(6px);
+    bottom: 14px;
+    left: 12px;
+    right: 12px;
+    background: #ffffff;
     color: #12030a;
-    font-size: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 12.5px;
     font-weight: 700;
     padding: 9px 12px;
     border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: all 0.2s;
+    transition: all 0.25s ease;
   }
-  .home-cat-card:hover .home-cat-badge {
-    background: #ffffff;
+  .ref-cat-card:hover .ref-cat-pill {
+    background: #fff3c4;
     color: #b45309;
   }
+  .cat-nav-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(22, 5, 14, 0.9);
+    border: 1.5px solid #e6ca65;
+    color: #fef08a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    user-select: none;
+    z-index: 5;
+  }
+  .cat-nav-btn:hover {
+    background: #e6ca65;
+    color: #16050e;
+    transform: scale(1.1);
+  }
+  @media (max-width: 600px) {
+    .cat-nav-btn {
+      display: none;
+    }
+  }
 
-  /* Product Showcase Rows */
-  .product-showcase-section {
-    background: var(--wine-surface);
-    padding: 70px 20px;
-    color: #fff;
+  /* Product Showcase Rows (Matching Reference Image 1) */
+  .showcase-row-section {
+    padding: 60px 20px 50px 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
-  .showcase-header {
+  .showcase-header-ref {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: 1200px;
-    margin: 0 auto 30px auto;
-    flex-wrap: wrap;
-    gap: 12px;
+    margin: 0 auto 24px auto;
   }
-  .showcase-title {
+  .showcase-title-ref {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(20px, 3.5vw, 30px);
-    font-weight: 800;
-    color: var(--gold-bright);
-    margin: 0;
-  }
-  .showcase-link {
-    color: #cbd5e1;
-    font-size: 12px;
+    font-size: clamp(24px, 4vw, 34px);
     font-weight: 700;
-    letter-spacing: 1px;
+    color: #fef08a;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+  .showcase-arrow-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(230, 202, 101, 0.6);
+    color: #fef08a;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
     text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
   }
-  .showcase-link:hover {
-    color: var(--gold-bright);
+  .showcase-arrow-btn:hover {
+    background: #e6ca65;
+    color: #16050e;
+    transform: scale(1.08);
   }
-  .product-showcase-grid {
+
+  /* White Product Card (Matching Reference Image 1) */
+  .ref-white-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
@@ -318,16 +371,104 @@
     margin: 0 auto;
   }
   @media (max-width: 1050px) {
-    .product-showcase-grid {
+    .ref-white-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
   }
   @media (max-width: 500px) {
-    .product-showcase-grid {
+    .ref-white-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
+  }
+  .ref-white-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 1px solid #f1f5f9;
+    position: relative;
+  }
+  .ref-white-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+  }
+  .ref-white-img-wrap {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ref-white-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .ref-white-card:hover .ref-white-img-wrap img {
+    transform: scale(1.06);
+  }
+  .ref-white-body {
+    padding: 16px 14px 18px 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+  }
+  .ref-white-title {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 42px;
+  }
+  .ref-white-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 12px;
+  }
+  .ref-white-cart-form {
+    width: 100%;
+    margin-top: auto;
+  }
+  .ref-white-cart-btn {
+    background: transparent;
+    border: none;
+    color: #0f172a;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .ref-white-cart-btn:hover {
+    color: #b45309;
+    text-decoration: underline;
+    transform: scale(1.04);
   }
 
   /* Split Reviews & Gallery Section (Matching Reference Image 5) */
@@ -535,66 +676,72 @@
   </div>
 </section>
 
-<!-- Best Seller / Kategori Produk Slider (Matching Reference Image 4 & 5) -->
+<!-- Best Seller / Kategori Produk Slider (Matching Reference Image 1) -->
 <section class="category-slider-section">
   <div style="max-width: 1200px; margin: 0 auto;">
-    <h2 class="sec-heading-gold">KATEGORI PRODUK UNGGULAN</h2>
-    <p class="sec-subtitle-gold">Pilihan bingkisan mewah dan kuliner artisanal favorit untuk merayakan hari istimewa.</p>
+    <div class="cat-eyebrow-ref">Best Seller</div>
+    <h2 class="cat-title-ref">Kategori Produk</h2>
 
-    <div class="home-category-grid">
-      @foreach ($categories as $c)
-        @php
-          $catImage = asset('images/cat-' . $c->slug . '.jpg');
-        @endphp
-        <a href="{{ route('category', $c->slug) }}" class="home-cat-card">
-          <img src="{{ $catImage }}" alt="{{ $c->title }}" loading="lazy" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
-          <div class="home-cat-badge">
-            {{ $c->title }} ({{ $c->products_count }} Produk)
-          </div>
-        </a>
-      @endforeach
+    <div class="cat-slider-outer">
+      <button type="button" class="cat-nav-btn prev-btn" id="catSliderPrev" aria-label="Kategori Sebelumnya">❮</button>
+      
+      <div class="cat-slider-track" id="catSliderTrack">
+        @foreach ($categories as $c)
+          @php
+            $catImage = asset('images/cat-' . $c->slug . '.jpg');
+          @endphp
+          <a href="{{ route('category', $c->slug) }}" class="ref-cat-card">
+            <img src="{{ $catImage }}" alt="{{ $c->title }}" loading="lazy" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
+            <div class="ref-cat-pill">
+              {{ $c->title }}
+            </div>
+          </a>
+        @endforeach
+      </div>
+
+      <button type="button" class="cat-nav-btn next-btn" id="catSliderNext" aria-label="Kategori Berikutnya">❯</button>
     </div>
   </div>
 </section>
 
-<!-- Product Showcase Row 1: Big Bites & Koleksi Favorit -->
-<section class="product-showcase-section">
-  <div class="showcase-header">
-    <h2 class="showcase-title">Pilihan Favorit & Big Bites</h2>
-    <a href="{{ route('shop') }}" class="showcase-link">Lihat Semua →</a>
+<!-- Product Showcase Row 1: Big Bites (Matching Reference Image 1) -->
+<section class="showcase-row-section" style="background: var(--wine-surface);">
+  <div class="showcase-header-ref">
+    <h2 class="showcase-title-ref">Big Bites</h2>
+    <a href="{{ route('category', 'light-bites') }}" class="showcase-arrow-btn" title="Lihat Semua Big Bites">❯</a>
   </div>
 
-  <div class="product-showcase-grid">
-    @foreach ($best->take(4) as $p)
-      @include('partials.card', ['item' => $p, 'from' => true])
+  <div class="ref-white-grid">
+    @foreach ($bigBites->take(4) as $p)
+      @include('partials.card-white', ['item' => $p, 'slug' => 'light-bites'])
     @endforeach
   </div>
 </section>
 
-<!-- Product Showcase Row 2: Kue Tart & Artisanal Bakery -->
-<section class="product-showcase-section" style="background: var(--wine-dark);">
-  <div class="showcase-header">
-    <h2 class="showcase-title">Kue & Tart Artisanal</h2>
-    <a href="{{ route('category', 'cakes') }}" class="showcase-link">Lihat Semua Kue →</a>
+<!-- Product Showcase Row 2: Loyang Mini (Matching Reference Image 1) -->
+<section class="showcase-row-section" style="background: var(--wine-dark);">
+  <div class="showcase-header-ref">
+    <h2 class="showcase-title-ref">Loyang Mini</h2>
+    <a href="{{ route('category', 'cakes') }}" class="showcase-arrow-btn" title="Lihat Semua Loyang Mini">❯</a>
   </div>
 
-  <div class="product-showcase-grid">
-    @foreach ($cakes->take(4) as $p)
-      @include('partials.card', ['item' => $p, 'slug' => 'cakes', 'from' => true])
+  <div class="ref-white-grid">
+    @foreach ($loyangMini->take(4) as $p)
+      @include('partials.card-white', ['item' => $p, 'slug' => 'cakes'])
     @endforeach
   </div>
 </section>
 
-<!-- Product Showcase Row 3: Parsel & Hampers Mewah -->
-<section class="product-showcase-section">
-  <div class="showcase-header">
-    <h2 class="showcase-title">Hampers & Paket Bingkisan VIP</h2>
-    <a href="{{ route('category', 'hampers') }}" class="showcase-link">Lihat Semua Hampers →</a>
+<!-- Product Showcase Row 3: Other (Matching Reference Image 1) -->
+<section class="showcase-row-section" style="background: var(--wine-surface);">
+  <div class="showcase-header-ref">
+    <h2 class="showcase-title-ref">Other</h2>
+    <a href="{{ route('shop') }}" class="showcase-arrow-btn" title="Lihat Semua Koleksi">❯</a>
   </div>
 
-  <div class="product-showcase-grid">
-    @foreach ($hampers->take(4) as $p)
-      @include('partials.card', ['item' => $p, 'slug' => 'hampers', 'from' => true])
+  <div class="ref-white-grid">
+    @foreach ($other->take(4) as $p)
+      @include('partials.card-white', ['item' => $p, 'slug' => 'hampers'])
     @endforeach
   </div>
 </section>
@@ -712,4 +859,20 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const track = document.getElementById('catSliderTrack');
+    const prev = document.getElementById('catSliderPrev');
+    const next = document.getElementById('catSliderNext');
+    if (track && prev && next) {
+      prev.addEventListener('click', function() {
+        track.scrollBy({ left: -260, behavior: 'smooth' });
+      });
+      next.addEventListener('click', function() {
+        track.scrollBy({ left: 260, behavior: 'smooth' });
+      });
+    }
+  });
+</script>
 @endsection

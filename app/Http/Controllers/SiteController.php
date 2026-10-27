@@ -37,27 +37,30 @@ class SiteController extends Controller
             $best = Product::with(['category', 'reviews'])->latest()->take(8)->get();
         }
 
-        // Featured showcase rows by category
+        // Featured showcase rows by category matching reference
         $bigBites = Product::with(['category', 'reviews'])
-            ->whereHas('category', function($q) { $q->whereIn('slug', ['light-bites', 'breads']); })
+            ->whereHas('category', function($q) { $q->whereIn('slug', ['mooncake', 'cookies', 'light-bites']); })
             ->take(4)->get();
         if ($bigBites->isEmpty()) {
             $bigBites = $best->take(4);
         }
 
-        $cakes = Product::with(['category', 'reviews'])
-            ->whereHas('category', function($q) { $q->whereIn('slug', ['cakes', 'mooncake']); })
+        $loyangMini = Product::with(['category', 'reviews'])
+            ->whereHas('category', function($q) { $q->whereIn('slug', ['cakes', 'breads']); })
             ->take(4)->get();
-        if ($cakes->isEmpty()) {
-            $cakes = $best->skip(2)->take(4);
+        if ($loyangMini->isEmpty()) {
+            $loyangMini = $best->skip(2)->take(4);
         }
 
-        $hampers = Product::with(['category', 'reviews'])
-            ->whereHas('category', function($q) { $q->whereIn('slug', ['hampers', 'cookies']); })
-            ->take(4)->get();
-        if ($hampers->isEmpty()) {
-            $hampers = $best->take(4);
+        $other = Product::with(['category', 'reviews'])
+            ->whereHas('category', function($q) { $q->whereIn('slug', ['hampers', 'cookies', 'light-bites']); })
+            ->skip(2)->take(4)->get();
+        if ($other->isEmpty()) {
+            $other = $best->take(4);
         }
+
+        $cakes = $loyangMini;
+        $hampers = $other;
 
         try {
             $reviews = \App\Models\ProductReview::with('product')
@@ -76,8 +79,10 @@ class SiteController extends Controller
             'treats'     => $treats,
             'best'       => $best,
             'bigBites'   => $bigBites,
+            'loyangMini' => $loyangMini,
             'cakes'      => $cakes,
             'hampers'    => $hampers,
+            'other'      => $other,
             'reviews'    => $reviews,
         ]);
     }

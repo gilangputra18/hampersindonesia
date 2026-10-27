@@ -6,7 +6,7 @@
 <title>@yield('title', config('site.brand'))</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400;1,600&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/site.css') }}">
 <style>
   .btn-gold-pill {
@@ -243,33 +243,50 @@
     flex: 1;
     text-align: center;
   }
-  .luxury-brand-link {
-    display: inline-block;
+  .luxury-brand-stack {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
-    text-transform: uppercase;
     text-align: center;
-    transition: all 0.3s ease;
+    padding: 2px 10px;
+    transition: transform 0.25s ease;
   }
-  .logo-title-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    letter-spacing: .24em;
-    line-height: 1.1;
+  .luxury-brand-stack:hover {
+    transform: scale(1.02);
+  }
+  .fleur-crest-top, .fleur-crest-bottom {
+    display: block;
+    font-size: 19px;
+    line-height: 1;
+    color: #e6ca65;
+    margin: 2px 0;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  }
+  .logo-title-majestic {
+    font-family: 'Cormorant Garamond', 'Cinzel', serif;
+    font-size: 30px;
+    letter-spacing: 0.32em;
+    line-height: 1.15;
     background: linear-gradient(135deg, #fff3c4 0%, #e6ca65 40%, #c59b27 75%, #fef08a 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700;
-    display: inline-block;
+    text-transform: uppercase;
+    display: block;
+    white-space: nowrap;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   }
   .logo-subtext-clean {
     display: block;
     font-family: 'Outfit', sans-serif;
     font-size: 10px;
-    letter-spacing: .35em;
+    letter-spacing: 0.32em;
     color: #cbd5e1;
     font-weight: 600;
     margin-top: 4px;
-    text-shadow: none;
+    text-transform: uppercase;
     -webkit-text-fill-color: #cbd5e1;
   }
   .header-right-col {
@@ -288,12 +305,17 @@
     .header-left-col, .header-right-col {
       min-width: auto;
     }
-    .logo-title-text {
-      font-size: clamp(16px, 4vw, 22px) !important;
-      letter-spacing: 1px !important;
+    .logo-title-majestic {
+      font-size: clamp(15px, 4.2vw, 22px) !important;
+      letter-spacing: 0.16em !important;
+      white-space: normal !important;
     }
     .logo-subtext-clean {
-      display: none;
+      font-size: 8px;
+      letter-spacing: 0.14em;
+    }
+    .fleur-crest-top, .fleur-crest-bottom {
+      font-size: 13px;
     }
     .menu-btn-text {
       font-size: 18px;
@@ -1461,13 +1483,13 @@
       </button>
     </div>
 
-    <!-- Center: Brand Logo -->
+    <!-- Center: Brand Logo Stacked Crest (Matching Image 2 Reference) -->
     <div class="header-center-col">
-      <a href="{{ route('home') }}" class="luxury-brand-link">
-        <span class="fleur-icon">⚜️</span>
-        <span class="logo-title-text">{{ config('site.brand') }}</span>
-        <span class="fleur-icon">⚜️</span>
-        <small class="logo-subtext-clean">PUSAT HAMPERS, GIFT BOX & PARCEL GOURMET • INDONESIA</small>
+      <a href="{{ route('home') }}" class="luxury-brand-stack" title="{{ config('site.brand') }}">
+        <span class="fleur-crest-top">⚜</span>
+        <span class="logo-title-majestic">{{ config('site.brand') }}</span>
+        <span class="fleur-crest-bottom">⚜</span>
+        <span class="logo-subtext-clean">PUSAT HAMPERS, GIFT BOX &amp; PARCEL GOURMET • INDONESIA</span>
       </a>
     </div>
 
