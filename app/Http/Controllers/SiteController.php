@@ -73,17 +73,28 @@ class SiteController extends Controller
             $reviews = collect();
         }
 
+        $heroSlides = \App\Http\Controllers\Admin\AdminHeroBannerController::getSlides();
+        $heroSettings = \App\Http\Controllers\Admin\AdminHeroBannerController::getSettings();
+        $activeSlides = array_values(array_filter($heroSlides, function($s) {
+            return ($s['is_active'] ?? true);
+        }));
+        if (empty($activeSlides)) {
+            $activeSlides = $heroSlides;
+        }
+
         return view('home', [
-            'categories' => $categories,
-            'gifts'      => ['hampers', 'cakes', 'cookies', 'breads', 'light-bites', 'mooncake'],
-            'treats'     => $treats,
-            'best'       => $best,
-            'bigBites'   => $bigBites,
-            'loyangMini' => $loyangMini,
-            'cakes'      => $cakes,
-            'hampers'    => $hampers,
-            'other'      => $other,
-            'reviews'    => $reviews,
+            'heroSlides'   => $activeSlides,
+            'heroSettings' => $heroSettings,
+            'categories'   => $categories,
+            'gifts'        => ['hampers', 'cakes', 'cookies', 'breads', 'light-bites', 'mooncake'],
+            'treats'       => $treats,
+            'best'         => $best,
+            'bigBites'     => $bigBites,
+            'loyangMini'   => $loyangMini,
+            'cakes'        => $cakes,
+            'hampers'      => $hampers,
+            'other'        => $other,
+            'reviews'      => $reviews,
         ]);
     }
 

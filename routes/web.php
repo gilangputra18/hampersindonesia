@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminCouponReviewController;
+use App\Http\Controllers\Admin\AdminHeroBannerController;
 use App\Http\Controllers\Admin\AdminMenuPdfController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminPaymentController;
@@ -165,4 +166,12 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
     Route::post('/reviews/{review}/approve', [AdminCouponReviewController::class, 'reviewApprove'])->name('reviews.approve');
     Route::post('/reviews/{review}/featured', [AdminCouponReviewController::class, 'reviewToggleFeatured'])->name('reviews.featured');
     Route::delete('/reviews/{review}', [AdminCouponReviewController::class, 'reviewDestroy'])->name('reviews.destroy');
+
+    // Hero Banner Slider Management (Edit Gambar Bergeser)
+    Route::get('/hero-banner', [AdminHeroBannerController::class, 'index'])->name('hero_banner.index');
+    Route::post('/hero-banner/slide', [AdminHeroBannerController::class, 'storeSlide'])->name('hero_banner.store');
+    Route::post('/hero-banner/slide/{id}/update', [AdminHeroBannerController::class, 'updateSlide'])->name('hero_banner.update');
+    Route::post('/hero-banner/slide/{id}/toggle', [AdminHeroBannerController::class, 'toggleSlide'])->name('hero_banner.toggle');
+    Route::delete('/hero-banner/slide/{id}', [AdminHeroBannerController::class, 'destroySlide'])->name('hero_banner.destroy');
+    Route::post('/hero-banner/settings', [AdminHeroBannerController::class, 'updateSettings'])->name('hero_banner.settings');
 });

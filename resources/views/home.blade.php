@@ -15,33 +15,62 @@
     --gold-gradient: linear-gradient(135deg, #fff3c4 0%, #e6ca65 35%, #c59b27 70%, #997317 100%);
   }
 
-  /* Hero Section */
+  /* Hero Slider Section (Gambar Bergeser ke Kanan) */
   .hero-wine {
     position: relative;
-    background: radial-gradient(circle at center, #2e0d1f 0%, #16050e 100%);
-    min-height: 520px;
+    background: #16050e;
+    min-height: 560px;
+    overflow: hidden;
+    padding: 0;
+  }
+  .hero-slider-track {
+    display: flex;
+    height: 100%;
+    min-height: 560px;
+    transition: transform 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+  }
+  .hero-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    min-height: 560px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    padding: 70px 20px;
     text-align: center;
+    padding: 80px 20px 90px 20px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
-  .hero-wine video {
+  .hero-slide-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.28;
-    filter: brightness(0.7) contrast(1.1);
-    pointer-events: none;
+    filter: brightness(0.62) contrast(1.12);
+    transition: transform 6s ease;
+  }
+  .hero-slide.active .hero-slide-bg {
+    transform: scale(1.04);
+  }
+  .hero-slide-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(30, 8, 20, 0.45) 0%, rgba(18, 5, 14, 0.85) 100%);
+    z-index: 2;
   }
   .hero-wine-overlay {
     position: relative;
     z-index: 5;
-    max-width: 850px;
+    max-width: 860px;
     margin: 0 auto;
+    animation: heroFadeIn 0.8s ease-out;
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .hero-brand-badge {
     display: inline-block;
@@ -53,7 +82,7 @@
     padding: 6px 18px;
     border-radius: 50px;
     margin-bottom: 20px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(4px);
   }
   .hero-wine-title {
@@ -106,6 +135,75 @@
     transform: translateY(-3px) scale(1.03);
     box-shadow: 0 12px 32px rgba(254, 240, 138, 0.55);
     color: #000;
+  }
+  .hero-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(18, 5, 14, 0.75);
+    border: 1.5px solid #e6ca65;
+    color: #fef08a;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    user-select: none;
+  }
+  .hero-nav-arrow:hover {
+    background: #e6ca65;
+    color: #12030a;
+    transform: translateY(-50%) scale(1.1);
+  }
+  .hero-nav-prev {
+    left: 24px;
+  }
+  .hero-nav-next {
+    right: 24px;
+  }
+  @media (max-width: 650px) {
+    .hero-nav-arrow {
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
+    .hero-nav-prev { left: 10px; }
+    .hero-nav-next { right: 10px; }
+  }
+  .hero-dots-container {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+  }
+  .hero-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    border: 1.5px solid rgba(230, 202, 101, 0.6);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+  .hero-dot.active {
+    width: 32px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fff3c4, #e6ca65);
+    border-color: #fff3c4;
+    box-shadow: 0 0 10px rgba(230, 202, 101, 0.6);
   }
 
   /* Story & Certification Section */
@@ -322,44 +420,58 @@
     }
   }
 
-  /* Product Showcase Rows (Matching Reference Image 1) */
+  /* Product Showcase Rows (Matching Reference Image 1 & Centered Titles) */
   .showcase-row-section {
     padding: 60px 20px 50px 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
   .showcase-header-ref {
+    text-align: center;
+    margin: 0 auto 30px auto;
+    max-width: 800px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto 24px auto;
+    justify-content: center;
   }
   .showcase-title-ref {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 4vw, 34px);
-    font-weight: 700;
-    color: #fef08a;
-    margin: 0;
-    letter-spacing: 0.5px;
+    font-size: clamp(26px, 4.5vw, 38px);
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    text-align: center;
+    letter-spacing: 1.5px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
   }
-  .showcase-arrow-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid rgba(230, 202, 101, 0.6);
-    color: #fef08a;
+  .showcase-sub-link-wrap {
+    margin-top: 4px;
+    text-align: center;
+  }
+  .showcase-center-pill {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    font-size: 16px;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #cbd5e1;
     text-decoration: none;
-    transition: all 0.2s ease;
+    padding: 6px 18px;
+    border-radius: 50px;
+    border: 1px solid rgba(230, 202, 101, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.25s ease;
   }
-  .showcase-arrow-btn:hover {
-    background: #e6ca65;
-    color: #16050e;
-    transform: scale(1.08);
+  .showcase-center-pill:hover {
+    background: var(--gold-gradient);
+    color: #12030a;
+    border-color: #fff3c4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(230, 202, 101, 0.3);
   }
 
   /* White Product Card (Matching Reference Image 1) */
@@ -622,22 +734,36 @@
   }
 </style>
 
-<!-- Hero Section (Matching Reference Image 5) -->
-<section class="hero-wine">
-  <video autoplay muted loop playsinline poster="{{ asset('images/hero-poster.jpg') }}">
-    <source src="https://assets.mixkit.co/videos/preview/mixkit-pastry-chef-making-a-cake-41223-large.mp4" type="video/mp4">
-    <source src="https://cdn.coverr.co/videos/coverr-baking-fresh-bread-5764/1080p.mp4" type="video/mp4">
-  </video>
-
-  <div class="hero-wine-overlay">
-    <span class="hero-brand-badge">⚜️ PUSAT HAMPERS INDONESIA ⚜️</span>
-    <h1 class="hero-wine-title">{{ config('site.brand') }}</h1>
-    <p class="hero-signature-quote">"Have a bite, you can't stop!"</p>
-    <p class="hero-wine-desc">
-      Cita rasa premium Indonesia untuk setiap momen berharga, dibuat dengan bahan-bahan pilihan berkualitas tinggi berstandar artisanal internasional.
-    </p>
-    <a href="{{ route('shop') }}" class="btn-gold-luxury">JELAJAHI KOLEKSI</a>
+<!-- Hero Slider Section (Gambar Bergeser ke Kanan - Custom Admin Enabled) -->
+<section class="hero-wine" id="heroBannerSection" aria-label="Hero Banner Slider">
+  <div class="hero-slider-track" id="heroSliderTrack">
+    @foreach ($heroSlides as $idx => $slide)
+      <div class="hero-slide {{ $idx === 0 ? 'active' : '' }}" data-slide-index="{{ $idx }}">
+        <img src="{{ $slide['image'] }}" alt="{{ $slide['title'] }}" class="hero-slide-bg" loading="{{ $idx === 0 ? 'eager' : 'lazy' }}" onerror="this.src='{{ asset('images/hero-poster.jpg') }}';">
+        <div class="hero-slide-overlay"></div>
+        <div class="hero-wine-overlay">
+          <span class="hero-brand-badge">{{ $slide['badge'] ?? '⚜️ PUSAT HAMPERS INDONESIA ⚜️' }}</span>
+          <h1 class="hero-wine-title">{{ $slide['title'] ?? config('site.brand') }}</h1>
+          <p class="hero-signature-quote">{!! $slide['quote'] ?? '"Have a bite, you can&#039;t stop!"' !!}</p>
+          <p class="hero-wine-desc">{{ $slide['desc'] ?? 'Cita rasa premium Indonesia untuk setiap momen berharga, dibuat dengan bahan-bahan pilihan berkualitas tinggi berstandar artisanal internasional.' }}</p>
+          <a href="{{ $slide['btn_url'] ?? route('shop') }}" class="btn-gold-luxury">{{ $slide['btn_text'] ?? 'JELAJAHI KOLEKSI' }}</a>
+        </div>
+      </div>
+    @endforeach
   </div>
+
+  @if(count($heroSlides) > 1)
+    <!-- Navigation Buttons (Geser ke Kiri / Geser ke Kanan) -->
+    <button type="button" class="hero-nav-arrow hero-nav-prev" id="heroPrevBtn" aria-label="Slide Sebelumnya">❮</button>
+    <button type="button" class="hero-nav-arrow hero-nav-next" id="heroNextBtn" aria-label="Slide Berikutnya (Geser ke Kanan)">❯</button>
+
+    <!-- Slide Indicator Dots -->
+    <div class="hero-dots-container" id="heroDotsContainer">
+      @foreach ($heroSlides as $idx => $slide)
+        <button type="button" class="hero-dot {{ $idx === 0 ? 'active' : '' }}" data-slide-to="{{ $idx }}" aria-label="Ke Slide {{ $idx + 1 }}"></button>
+      @endforeach
+    </div>
+  @endif
 </section>
 
 <!-- Brand Story & Quality Certification Section -->
@@ -704,11 +830,13 @@
   </div>
 </section>
 
-<!-- Product Showcase Row 1: Big Bites (Matching Reference Image 1) -->
+<!-- Product Showcase Row 1: Big Bites (Matching Reference Image 1 & Centered Title) -->
 <section class="showcase-row-section" style="background: var(--wine-surface);">
-  <div class="showcase-header-ref">
+  <div class="showcase-header-ref text-center">
     <h2 class="showcase-title-ref">Big Bites</h2>
-    <a href="{{ route('category', 'light-bites') }}" class="showcase-arrow-btn" title="Lihat Semua Big Bites">❯</a>
+    <div class="showcase-sub-link-wrap">
+      <a href="{{ route('category', 'light-bites') }}" class="showcase-center-pill">Lihat Semua Big Bites ❯</a>
+    </div>
   </div>
 
   <div class="ref-white-grid">
@@ -718,11 +846,13 @@
   </div>
 </section>
 
-<!-- Product Showcase Row 2: Loyang Mini (Matching Reference Image 1) -->
+<!-- Product Showcase Row 2: Loyang Mini (Matching Reference Image 1 & Centered Title) -->
 <section class="showcase-row-section" style="background: var(--wine-dark);">
-  <div class="showcase-header-ref">
+  <div class="showcase-header-ref text-center">
     <h2 class="showcase-title-ref">Loyang Mini</h2>
-    <a href="{{ route('category', 'cakes') }}" class="showcase-arrow-btn" title="Lihat Semua Loyang Mini">❯</a>
+    <div class="showcase-sub-link-wrap">
+      <a href="{{ route('category', 'cakes') }}" class="showcase-center-pill">Lihat Semua Loyang Mini ❯</a>
+    </div>
   </div>
 
   <div class="ref-white-grid">
@@ -732,11 +862,13 @@
   </div>
 </section>
 
-<!-- Product Showcase Row 3: Other (Matching Reference Image 1) -->
+<!-- Product Showcase Row 3: Other (Matching Reference Image 1 & Centered Title) -->
 <section class="showcase-row-section" style="background: var(--wine-surface);">
-  <div class="showcase-header-ref">
+  <div class="showcase-header-ref text-center">
     <h2 class="showcase-title-ref">Other</h2>
-    <a href="{{ route('shop') }}" class="showcase-arrow-btn" title="Lihat Semua Koleksi">❯</a>
+    <div class="showcase-sub-link-wrap">
+      <a href="{{ route('shop') }}" class="showcase-center-pill">Lihat Semua Koleksi ❯</a>
+    </div>
   </div>
 
   <div class="ref-white-grid">
@@ -862,6 +994,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // 1. Kategori Slider Track (Scroll Horizontal)
     const track = document.getElementById('catSliderTrack');
     const prev = document.getElementById('catSliderPrev');
     const next = document.getElementById('catSliderNext');
@@ -872,6 +1005,123 @@
       next.addEventListener('click', function() {
         track.scrollBy({ left: 260, behavior: 'smooth' });
       });
+    }
+
+    // 2. Hero Banner Slider (Gambar Bergeser ke Kanan Otomatis & Manual)
+    const heroTrack = document.getElementById('heroSliderTrack');
+    const heroPrevBtn = document.getElementById('heroPrevBtn');
+    const heroNextBtn = document.getElementById('heroNextBtn');
+    const heroDots = document.querySelectorAll('.hero-dot');
+    const heroSlides = document.querySelectorAll('.hero-slide');
+
+    if (heroTrack && heroSlides.length > 1) {
+      let currentIndex = 0;
+      const totalSlides = heroSlides.length;
+      const autoplayInterval = {{ $heroSettings['interval'] ?? 5000 }};
+      const isAutoplay = {{ ($heroSettings['autoplay'] ?? true) ? 'true' : 'false' }};
+      let timer = null;
+
+      function goToSlide(index) {
+        if (index < 0) {
+          currentIndex = totalSlides - 1;
+        } else if (index >= totalSlides) {
+          currentIndex = 0;
+        } else {
+          currentIndex = index;
+        }
+
+        heroTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        heroSlides.forEach((slide, i) => {
+          if (i === currentIndex) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        heroDots.forEach((dot, i) => {
+          if (i === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      if (heroNextBtn) {
+        heroNextBtn.addEventListener('click', function() {
+          nextSlide();
+          resetAutoplay();
+        });
+      }
+
+      if (heroPrevBtn) {
+        heroPrevBtn.addEventListener('click', function() {
+          prevSlide();
+          resetAutoplay();
+        });
+      }
+
+      heroDots.forEach((dot) => {
+        dot.addEventListener('click', function() {
+          const target = parseInt(this.getAttribute('data-slide-to'), 10);
+          goToSlide(target);
+          resetAutoplay();
+        });
+      });
+
+      function startAutoplay() {
+        if (isAutoplay && !timer) {
+          timer = setInterval(nextSlide, autoplayInterval);
+        }
+      }
+
+      function stopAutoplay() {
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function resetAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+      }
+
+      const heroSection = document.getElementById('heroBannerSection');
+      if (heroSection) {
+        heroSection.addEventListener('mouseenter', stopAutoplay);
+        heroSection.addEventListener('mouseleave', startAutoplay);
+
+        // Touch swipe support (Mobile)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        heroSection.addEventListener('touchstart', function(e) {
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        heroSection.addEventListener('touchend', function(e) {
+          touchEndX = e.changedTouches[0].screenX;
+          if (touchEndX < touchStartX - 40) {
+            nextSlide(); // Geser ke kanan
+            resetAutoplay();
+          } else if (touchEndX > touchStartX + 40) {
+            prevSlide(); // Geser ke kiri
+            resetAutoplay();
+          }
+        }, { passive: true });
+      }
+
+      startAutoplay();
     }
   });
 </script>

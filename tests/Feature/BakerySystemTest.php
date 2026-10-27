@@ -162,6 +162,20 @@ class BakerySystemTest extends TestCase
         $cacheResponse = $this->get('/admin/clear-cache');
         $cacheResponse->assertStatus(200);
         $cacheResponse->assertSee('Cache & View Berhasil Dibersihkan', false);
+
+        // 4. Hero Banner Slider management is accessible to admin
+        $bannerResponse = $this->get('/admin/hero-banner');
+        $bannerResponse->assertStatus(200);
+        $bannerResponse->assertSee('Hero Banner Slider');
+
+        // 5. Hero Banner Slider settings can be saved
+        $settingPost = $this->post('/admin/hero-banner/settings', [
+            'interval' => 6000,
+            'autoplay' => 1,
+            'direction' => 'right',
+        ]);
+        $settingPost->assertRedirect('/admin/hero-banner');
+        $settingPost->assertSessionHas('success');
     }
 
     public function test_tracking_page_masks_customer_phone_for_public(): void
