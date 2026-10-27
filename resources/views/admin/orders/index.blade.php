@@ -387,6 +387,41 @@
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
   }
+
+  /* Mobile Responsiveness for Admin Orders Overview */
+  @media (max-width: 768px) {
+    .stat-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      margin-bottom: 18px !important;
+    }
+    .stat-card {
+      padding: 12px 14px !important;
+      border-radius: 10px !important;
+    }
+    .stat-val {
+      font-size: 20px !important;
+    }
+    .stat-lbl {
+      font-size: 9.5px !important;
+      letter-spacing: 0.5px !important;
+      margin-top: 3px !important;
+    }
+    .stat-icon {
+      font-size: 22px !important;
+    }
+    .toolbar-container {
+      padding: 12px 14px !important;
+      gap: 12px !important;
+    }
+    .filter-pills {
+      gap: 6px !important;
+    }
+    .filter-pill {
+      padding: 6px 12px !important;
+      font-size: 11px !important;
+    }
+  }
 </style>
 
 <!-- Stat Cards Overview Bar -->

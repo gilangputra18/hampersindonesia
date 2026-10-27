@@ -159,11 +159,20 @@
       color: #1e293b;
     }
 
-    /* Product Table */
+    /* Product Table Responsive Wrapper */
+    .inv-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 24px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+    }
     .inv-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 24px;
+      margin-bottom: 0;
+      min-width: 520px;
     }
     .inv-table th, .inv-table td {
       border: 1px solid #e2e8f0;
@@ -243,19 +252,140 @@
       line-height: 1.5;
     }
 
-    @media print {
+    /* Mobile Responsiveness for Invoice Page */
+    @media (max-width: 768px) {
       body {
-        background: #fff;
-        padding: 0;
+        padding: 12px 8px;
+        background: #f1f5f9;
+      }
+      .action-bar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+        margin-bottom: 14px;
+      }
+      .btn-print {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 13.5px;
+        box-sizing: border-box;
+      }
+      .btn-back {
+        text-align: center;
+        padding: 6px;
+      }
+      .invoice-card {
+        padding: 18px 14px;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .inv-header {
+        flex-direction: column;
+        gap: 14px;
+        padding-bottom: 16px;
+        margin-bottom: 18px;
+      }
+      .inv-brand-name {
+        font-size: 20px;
+      }
+      .inv-title-box {
+        text-align: left;
+        border-top: 1px dashed #cbd5e1;
+        padding-top: 12px;
+        width: 100%;
+      }
+      .inv-main-title {
+        font-size: 16px;
+      }
+      .inv-grid-info {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 14px 12px;
+        margin-bottom: 20px;
+      }
+      .inv-calc-box {
+        width: 100%;
+        margin-bottom: 24px;
+      }
+      .inv-signatures {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        margin-top: 28px;
+        padding-top: 18px;
+      }
+      .sig-box-title {
+        margin-bottom: 40px;
+      }
+      .sig-box-line {
+        width: 60%;
+      }
+    }
+
+    /* Print Styles for A4 Paper & PDF Output */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 15mm 12mm;
+      }
+      body {
+        background: #fff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       .action-bar {
         display: none !important;
       }
       .invoice-card {
-        box-shadow: none;
-        border: none;
-        padding: 0;
-        max-width: 100%;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .inv-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+      }
+      .inv-title-box {
+        text-align: right !important;
+        border-top: none !important;
+        padding-top: 0 !important;
+        width: auto !important;
+      }
+      .inv-grid-info {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 20px !important;
+      }
+      .inv-table-wrap {
+        overflow: visible !important;
+        border: none !important;
+      }
+      .inv-table {
+        width: 100% !important;
+        min-width: 100% !important;
+      }
+      .inv-calc-box {
+        width: 300px !important;
+        margin-left: auto !important;
+      }
+      .inv-signatures {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 20px !important;
+        margin-top: 36px !important;
+      }
+      .sig-box-title {
+        margin-bottom: 55px !important;
+      }
+      .sig-box-line {
+        width: 80% !important;
       }
     }
   </style>
@@ -312,31 +442,33 @@
       </div>
     </div>
 
-    <!-- Product Table -->
-    <table class="inv-table">
-      <thead>
-        <tr>
-          <th style="width: 30px; text-align: center;">No</th>
-          <th>Nama Produk &amp; Bingkisan</th>
-          <th style="width: 80px; text-align: center;">Qty</th>
-          <th style="width: 140px; text-align: right;">Harga Satuan</th>
-          <th style="width: 140px; text-align: right;">Subtotal</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($order->items as $idx => $item)
+    <!-- Product Table (Responsive Wrapper) -->
+    <div class="inv-table-wrap">
+      <table class="inv-table">
+        <thead>
           <tr>
-            <td style="text-align: center;">{{ $idx + 1 }}</td>
-            <td>
-              <strong>{{ $item->product_name }}</strong>
-            </td>
-            <td style="text-align: center;">{{ $item->quantity }}</td>
-            <td style="text-align: right;">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
-            <td style="text-align: right;">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+            <th style="width: 30px; text-align: center;">No</th>
+            <th>Nama Produk &amp; Bingkisan</th>
+            <th style="width: 80px; text-align: center;">Qty</th>
+            <th style="width: 140px; text-align: right;">Harga Satuan</th>
+            <th style="width: 140px; text-align: right;">Subtotal</th>
           </tr>
-        @endforeach
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @foreach($order->items as $idx => $item)
+            <tr>
+              <td style="text-align: center;">{{ $idx + 1 }}</td>
+              <td>
+                <strong>{{ $item->product_name }}</strong>
+              </td>
+              <td style="text-align: center;">{{ $item->quantity }}</td>
+              <td style="text-align: right;">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
+              <td style="text-align: right;">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
 
     <!-- Calculation -->
     <div class="inv-calc-box">

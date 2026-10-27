@@ -177,6 +177,31 @@
     align-items: center;
     gap: 6px;
   }
+
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+      margin-bottom: 20px !important;
+    }
+    .stat-card {
+      padding: 14px 12px !important;
+    }
+    .stat-card .value {
+      font-size: 20px !important;
+    }
+    .stat-card .label {
+      font-size: 9.5px !important;
+      letter-spacing: 0.5px !important;
+    }
+    .stat-card .icon-badge {
+      width: 34px !important;
+      height: 34px !important;
+      font-size: 16px !important;
+      top: 12px !important;
+      right: 12px !important;
+    }
+  }
   .growth-pill {
     display: inline-flex;
     align-items: center;
