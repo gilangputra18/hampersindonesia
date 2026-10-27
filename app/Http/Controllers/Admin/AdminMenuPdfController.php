@@ -12,8 +12,6 @@ class AdminMenuPdfController extends Controller
 {
     public function index()
     {
-        $reservations = ReservationItem::orderBy('display_order')->get();
-
         $globalPdfPath = public_path('uploads/menu_catalog.pdf');
         $hasGlobalPdf = File::exists($globalPdfPath);
         $globalFileInfo = null;
@@ -27,7 +25,7 @@ class AdminMenuPdfController extends Controller
             ];
         }
 
-        return view('admin.menu_pdf.index', compact('reservations', 'hasGlobalPdf', 'globalFileInfo'));
+        return view('admin.menu_pdf.index', compact('hasGlobalPdf', 'globalFileInfo'));
     }
 
     public function uploadItemPdf(Request $request, $id)

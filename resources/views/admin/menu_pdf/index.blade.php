@@ -1,30 +1,22 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola PDF Menu & Paket Reservasi')
-@section('page_title', 'Kelola PDF Menu & Paket Reservasi Toko')
+@section('title', 'Kelola Pricelist & Katalog PDF')
+@section('page_title', 'Kelola Berkas Pricelist & Katalog PDF Toko')
 
 @section('content')
 <style>
-  /* =============================================
-     PDF HEADER CARD
-  ============================================= */
   .pdf-header-card {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 16px;
     padding: 26px 28px;
-    margin-bottom: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    margin-bottom: 28px;
     box-shadow: 0 12px 32px rgba(0,0,0,0.4);
     position: relative;
     overflow: hidden;
   }
   .pdf-header-card::after {
-    content: '📜';
+    content: '📄';
     position: absolute;
     right: 20px;
     top: 50%;
@@ -35,133 +27,39 @@
   }
   .pdf-header-title h3 {
     font-family: 'Playfair Display', serif;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--accent-gold, #d4af37);
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     flex-wrap: wrap;
   }
   .pdf-header-title p {
-    font-size: 14px;
+    font-size: 13.5px;
     color: #94a3b8;
-    max-width: 680px;
+    max-width: 720px;
     line-height: 1.6;
+    margin: 0;
   }
 
-  /* =============================================
-     RES CARD GRID
-  ============================================= */
-  .res-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
-    gap: 28px;
-    margin-bottom: 40px;
-  }
-
-  .res-item-card {
-    background: #1e293b;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  .pdf-status-card {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
     border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
+    margin-bottom: 28px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
   }
-  .res-item-banner {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-  }
-  .res-item-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #f8fafc;
-    margin-bottom: 4px;
-    word-break: break-word;
-  }
-  .res-item-sub {
-    font-size: 12px;
-    color: #d4af37;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .res-item-desc {
-    font-size: 13px;
-    color: #94a3b8;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    background: rgba(15, 23, 42, 0.5);
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-
-  /* =============================================
-     PDF STATUS BOX
-  ============================================= */
-  .pdf-status-box {
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 20px;
-  }
-  .pdf-file-row {
-    margin-top: 10px;
-    font-size: 12px;
-    color: #94a3b8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .pdf-file-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .pdf-upload-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .pdf-upload-row input[type="file"] {
-    flex: 1;
-    min-width: 0;
-    font-size: 12px;
-    color: #94a3b8;
-    max-width: 100%;
-  }
-
-  /* =============================================
-     STATUS BADGE
-  ============================================= */
   .status-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 6px 14px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 12.5px;
     font-weight: 600;
-    margin-bottom: 12px;
-    word-break: break-word;
-    max-width: 100%;
   }
   .badge-active {
     background: rgba(34, 197, 94, 0.15);
@@ -174,9 +72,25 @@
     border: 1px solid rgba(59, 130, 246, 0.3);
   }
 
-  /* =============================================
-     BUTTONS
-  ============================================= */
+  .pdf-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 16px;
+  }
+  .pdf-actions-grp {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
   .btn-gold {
     background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
     color: #000;
@@ -185,7 +99,7 @@
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -201,11 +115,11 @@
     background: transparent;
     border: 1px solid #d4af37;
     color: #d4af37;
-    padding: 8px 16px;
+    padding: 9px 18px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 12.5px;
     transition: all 0.2s;
     text-decoration: none;
     display: inline-flex;
@@ -221,271 +135,97 @@
     background: rgba(239, 68, 68, 0.15);
     color: #f87171;
     border: 1px solid rgba(239, 68, 68, 0.3);
-    padding: 8px 14px;
+    padding: 9px 16px;
     border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
     cursor: pointer;
+    font-size: 12.5px;
+    font-weight: 600;
     transition: all 0.2s;
-    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
   .btn-danger-sm:hover {
-    background: rgba(239, 68, 68, 0.3);
-  }
-  .res-card-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 16px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-    gap: 10px;
+    background: #ef4444;
+    color: #fff;
   }
 
-  /* =============================================
-     MODAL
-  ============================================= */
-  .custom-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(6px);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-  }
-  .custom-modal.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .modal-box {
-    background: #1e293b;
-    border: 1px solid rgba(212, 175, 55, 0.3);
+  .upload-box {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
     border-radius: 16px;
-    width: 100%;
-    max-width: 620px;
-    max-height: 90vh;
-    overflow-y: auto;
     padding: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
   }
-  .modal-header {
+  .upload-form-row {
     display: flex;
-    justify-content: space-between;
+    gap: 14px;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 14px;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
+    margin-top: 16px;
   }
-  .modal-header h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: #d4af37;
-    margin: 0;
-  }
-  .modal-close {
-    background: none;
-    border: none;
-    color: #94a3b8;
-    font-size: 24px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .form-input-std {
-    width: 100%;
+  .upload-form-row input[type="file"] {
+    flex: 1;
+    min-width: 240px;
     padding: 10px 14px;
     background: #0f172a;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px dashed rgba(212, 175, 55, 0.4);
     border-radius: 8px;
-    color: #fff;
-    box-sizing: border-box;
-    font-size: 14px;
-  }
-  .modal-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-  .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .global-pdf-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    background: rgba(15, 23, 42, 0.6);
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-  }
-  .global-pdf-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .global-upload-form {
-    margin-top: 20px;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .global-upload-form input[type="file"] {
+    color: #cbd5e1;
     font-size: 13px;
-    color: #94a3b8;
-    flex: 1;
-    min-width: 0;
   }
 
-  /* =============================================
-     MOBILE RESPONSIVE
-  ============================================= */
-  @media (max-width: 768px) {
-    .res-card-grid {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
+  .tips-list {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: rgba(217, 119, 6, 0.08);
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    border-radius: 10px;
+    font-size: 12.5px;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .tips-list strong {
+    color: #fbbf24;
+  }
+
+  @media (max-width: 640px) {
     .pdf-header-card {
-      padding: 18px 16px;
-      gap: 16px;
+      padding: 18px 14px !important;
+      margin-bottom: 20px !important;
     }
-    .pdf-header-card > div:last-child {
-      width: 100%;
+    .pdf-status-card, .upload-box {
+      padding: 18px 14px !important;
+      margin-bottom: 20px !important;
     }
-    .pdf-header-card > div:last-child .btn-gold {
-      width: 100%;
-      justify-content: center;
+    .pdf-info-row {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      padding: 14px !important;
     }
-    .pdf-header-title h3 {
-      font-size: 18px;
+    .pdf-actions-grp {
+      flex-direction: column !important;
+      width: 100% !important;
     }
-    .pdf-header-title p {
-      font-size: 13px;
+    .pdf-actions-grp a,
+    .pdf-actions-grp form,
+    .pdf-actions-grp button {
+      width: 100% !important;
+      justify-content: center !important;
     }
-    .res-item-card {
-      padding: 16px;
+    .upload-form-row {
+      flex-direction: column !important;
+      align-items: stretch !important;
     }
-    .res-item-banner {
-      height: 160px;
-    }
-    .pdf-file-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-    }
-    .pdf-file-actions {
-      width: 100%;
-    }
-    .pdf-upload-row {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .pdf-upload-row input[type="file"] {
-      width: 100%;
-    }
-    .pdf-upload-row .btn-outline-gold {
-      width: 100%;
-      justify-content: center;
-    }
-    .status-badge {
-      font-size: 11px;
-      padding: 5px 10px;
-    }
-    .modal-grid-2 {
-      grid-template-columns: 1fr;
-    }
-    .modal-box {
-      padding: 18px 14px;
-      max-height: 88vh;
-    }
-    .modal-header h4 {
-      font-size: 16px;
-    }
-    .modal-footer {
-      flex-direction: column;
-    }
-    .modal-footer button,
-    .modal-footer .btn-gold {
-      width: 100%;
-      justify-content: center;
-    }
-    .res-card-bottom {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .res-card-bottom button,
-    .res-card-bottom form {
-      width: 100%;
-    }
-    .res-card-bottom button {
-      justify-content: center;
-    }
-    .res-card-bottom .btn-outline-gold,
-    .res-card-bottom .btn-danger-sm {
-      width: 100%;
-      justify-content: center;
-      text-align: center;
-    }
-    .global-pdf-row {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .global-pdf-actions {
-      width: 100%;
-      flex-direction: column;
-    }
-    .global-pdf-actions a,
-    .global-pdf-actions .btn-outline-gold {
-      width: 100%;
-      justify-content: center;
-    }
-    .global-pdf-actions form {
-      width: 100%;
-    }
-    .global-pdf-actions .btn-danger-sm {
-      width: 100%;
-      text-align: center;
-    }
-    .global-upload-form {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .global-upload-form .btn-gold {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .pdf-header-title h3 {
-      font-size: 16px;
-      gap: 8px;
-    }
-    .res-item-title {
-      font-size: 17px;
-    }
-    .res-item-card {
-      padding: 14px 12px;
-    }
-    .pdf-status-box {
-      padding: 12px;
+    .upload-form-row input[type="file"],
+    .upload-form-row .btn-gold {
+      width: 100% !important;
+      justify-content: center !important;
     }
   }
 </style>
 
+{{-- Flash Notification --}}
 @if(session('ok'))
   <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; padding: 14px 20px; border-radius: 12px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
     <div style="display: flex; align-items: center; gap: 10px;">
@@ -496,254 +236,95 @@
   </div>
 @endif
 
+<!-- 1. Header Card -->
 <div class="pdf-header-card">
   <div class="pdf-header-title">
-    <h3>📜 Kelola PDF Menu & Paket Reservasi</h3>
-    <p>Di halaman ini Anda dapat menambahkan berkas PDF Menu spesifik untuk masing-masing tipe reservasi (seperti <strong>Dine In</strong>, <strong>Outside Catering</strong>, dll.), memperbarui teks & info kontak WhatsApp, serta menambahkan Paket Reservasi Baru!</p>
-  </div>
-  <div>
-    <button onclick="openModal('addReservationModal')" class="btn-gold">
-      <span>➕ Tambah Paket Reservasi Baru</span>
-    </button>
+    <h3>📄 Kelola Berkas Pricelist & Katalog PDF Toko</h3>
+    <p>
+      Atur berkas PDF Katalog & Pricelist resmi <strong>Pusat Hampers Indonesia</strong>. Berkas PDF yang diunggah di sini terhubung langsung dengan menu <strong>"PRICELIST"</strong> pada drawer dan footer website, sehingga pelanggan dapat langsung mengunduh atau membaca brosur penawaran hampers Anda.
+    </p>
   </div>
 </div>
 
-<h4 style="font-size: 18px; color: #f8fafc; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-  <span>🍽️ Daftar Paket Reservasi Toko</span>
-</h4>
+<!-- 2. Status Berkas Saat Ini -->
+<div class="pdf-status-card">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+    <h4 style="font-size: 16px; font-weight: 700; color: #f8fafc; margin: 0; display: flex; align-items: center; gap: 8px;">
+      <span>📑</span> Status Berkas Katalog PDF Saat Ini
+    </h4>
+    @if($hasGlobalPdf && $globalFileInfo)
+      <span class="status-badge badge-active">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block;"></span>
+        PDF Kustom Aktif
+      </span>
+    @else
+      <span class="status-badge badge-default">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; display: inline-block;"></span>
+        Katalog Digital Otomatis Database
+      </span>
+    @endif
+  </div>
 
-<div class="res-card-grid">
-  @foreach($reservations as $res)
-    <div class="res-item-card">
-      <div>
-        <img src="{{ $res->image_url }}" alt="{{ $res->title }}" class="res-item-banner">
-        <h3 class="res-item-title">{{ $res->title }}</h3>
-        @if($res->subtitle)
-          <div class="res-item-sub">{{ $res->subtitle }}</div>
-        @endif
-        <div class="res-item-desc">
-          {!! $res->description !!}
-        </div>
-
-        <!-- PDF Status Box -->
-        <div class="pdf-status-box">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-            <span style="font-size: 13px; font-weight: 700; color: #cbd5e1;">📄 Status PDF Menu Paket Ini:</span>
-            @if($res->pdf_path && file_exists(public_path($res->pdf_path)))
-              <span class="status-badge badge-active">
-                <span style="width: 8px; height: 8px; border-radius: 50%; background: #4ade80; display: inline-block;"></span>
-                PDF Kustom Aktif
-              </span>
-            @else
-              <span class="status-badge badge-default">
-                <span style="width: 8px; height: 8px; border-radius: 50%; background: #60a5fa; display: inline-block;"></span>
-                Katalog Digital Otomatis
-              </span>
-            @endif
-          </div>
-
-          @if($res->pdf_path && file_exists(public_path($res->pdf_path)))
-            <div class="pdf-file-row">
-              <span>📁 <strong>File:</strong> {{ basename($res->pdf_path) }}</span>
-              <div class="pdf-file-actions">
-                <a href="{{ route('menu.pdf', $res->slug) }}" target="_blank" class="btn-outline-gold">
-                  👁️ Lihat PDF
-                </a>
-                <form action="{{ route('admin.menu_pdf.item_destroy_pdf', $res->id) }}" method="POST" onsubmit="return confirm('Hapus PDF kustom untuk {{ $res->title }}?')" style="display: inline;">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn-danger-sm">🗑️ Reset</button>
-                </form>
-              </div>
-            </div>
-          @endif
-
-          <!-- Form Upload PDF specific to this item -->
-          <form action="{{ route('admin.menu_pdf.item_upload_pdf', $res->id) }}" method="POST" enctype="multipart/form-data" style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1);">
-            @csrf
-            <label style="font-size: 12px; color: #cbd5e1; display: block; margin-bottom: 6px;">📤 Unggah/Ganti PDF Kustom khusus (Max 20MB):</label>
-            <div class="pdf-upload-row">
-              <input type="file" name="menu_pdf" accept=".pdf" required>
-              <button type="submit" class="btn-outline-gold">⚡ Upload PDF</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div class="res-card-bottom">
-        <button onclick="editReservation({{ json_encode($res) }})" class="btn-outline-gold">
-          ✏️ Edit Paket & WA
-        </button>
-
-        @if($reservations->count() > 1)
-          <form action="{{ route('admin.menu_pdf.destroy_reservation', $res->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus paket reservasi {{ $res->title }}?')">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn-danger-sm">🗑️ Hapus Paket</button>
-          </form>
-        @endif
-      </div>
-    </div>
-  @endforeach
-</div>
-
-<!-- Global PDF Catalog Management Section -->
-<div style="background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; margin-top: 40px;">
-  <h4 style="font-size: 18px; color: #f8fafc; margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-    <span>🌐 PDF Menu Utama / Global Website</span>
-  </h4>
-  <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Berkas ini dijadikan cadangan (fallback) untuk link "Restaurant Menu 📄" di navbar header utama website apabila paket reservasi tidak memiliki PDF khusus.</p>
-
-  <div class="global-pdf-row">
+  <div class="pdf-info-row">
     <div>
       @if($hasGlobalPdf && $globalFileInfo)
-        <span class="status-badge badge-active">🟢 PDF Global Aktif: {{ $globalFileInfo['name'] }} ({{ $globalFileInfo['size'] }})</span>
-        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Terakhir diperbarui: {{ $globalFileInfo['updated_at'] }}</div>
+        <div style="font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px;">
+          📁 Berkas: {{ $globalFileInfo['name'] }} ({{ $globalFileInfo['size'] }})
+        </div>
+        <div style="font-size: 12px; color: #94a3b8;">
+          Terakhir diperbarui: {{ $globalFileInfo['updated_at'] }} WIB
+        </div>
       @else
-        <span class="status-badge badge-default">🔵 Katalog Digital Otomatis Database</span>
+        <div style="font-size: 13.5px; color: #cbd5e1; margin-bottom: 4px;">
+          Belum ada berkas PDF khusus yang diunggah.
+        </div>
+        <div style="font-size: 12px; color: #94a3b8;">
+          Sistem saat ini otomatis merender katalog digital berbasis produk database saat tombol Pricelist diklik pelanggan.
+        </div>
       @endif
     </div>
 
-    <div class="global-pdf-actions">
-      <a href="{{ route('menu.pdf') }}" target="_blank" class="btn-outline-gold">👁️ Pratinjau PDF Utama</a>
+    <div class="pdf-actions-grp">
+      <a href="{{ route('menu.pdf') }}" target="_blank" class="btn-outline-gold">
+        👁️ Pratinjau {{ $hasGlobalPdf ? 'PDF' : 'Katalog' }} di Tab Baru
+      </a>
       @if($hasGlobalPdf)
-        <form action="{{ route('admin.menu_pdf.destroy') }}" method="POST" onsubmit="return confirm('Hapus PDF Global?')">
+        <form action="{{ route('admin.menu_pdf.destroy') }}" method="POST" onsubmit="return confirm('Yakin ingin mereset dan menghapus berkas PDF ini?')">
           @csrf
           @method('DELETE')
-          <button type="submit" class="btn-danger-sm">🗑️ Reset PDF Global</button>
+          <button type="submit" class="btn-danger-sm">🗑️ Reset / Hapus Berkas</button>
         </form>
       @endif
     </div>
   </div>
+</div>
 
-  <form action="{{ route('admin.menu_pdf.upload') }}" method="POST" enctype="multipart/form-data" class="global-upload-form">
+<!-- 3. Form Upload PDF Baru -->
+<div class="upload-box">
+  <h4 style="font-size: 16px; font-weight: 700; color: #f8fafc; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+    <span>📤</span> Unggah Berkas PDF Pricelist / Katalog Baru
+  </h4>
+  <p style="font-size: 13px; color: #94a3b8; margin: 0 0 16px 0;">
+    Pilih berkas PDF dari komputer atau ponsel Anda. File lama akan otomatis digantikan dengan file yang baru diunggah.
+  </p>
+
+  <form action="{{ route('admin.menu_pdf.upload') }}" method="POST" enctype="multipart/form-data">
     @csrf
-    <input type="file" name="menu_pdf" accept=".pdf" required>
-    <button type="submit" class="btn-gold">📤 Upload PDF Global Baru</button>
+    <div class="upload-form-row">
+      <input type="file" name="menu_pdf" accept=".pdf" required>
+      <button type="submit" class="btn-gold">
+        <span>⚡ Upload & Publikasikan PDF</span>
+      </button>
+    </div>
   </form>
-</div>
 
-<!-- Modal: Add New Reservation Package -->
-<div class="custom-modal" id="addReservationModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h4>➕ Tambah Paket Reservasi Baru</h4>
-      <button onclick="closeModal('addReservationModal')" class="modal-close">&times;</button>
-    </div>
-
-    <form action="{{ route('admin.menu_pdf.store_reservation') }}" method="POST" enctype="multipart/form-data">
-      @csrf
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Judul Paket Reservasi *</label>
-        <input type="text" name="title" required placeholder="misal: WEDDING & PRIVATE CELEBRATIONS" class="form-input-std">
-      </div>
-
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Sub-Judul / Topik</label>
-        <input type="text" name="subtitle" placeholder="misal: EXCLUSIVE LUXURY PACKAGE" class="form-input-std">
-      </div>
-
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Deskripsi Paket *</label>
-        <textarea name="description" rows="4" required placeholder="Ketik deskripsi paket di sini..." class="form-input-std"></textarea>
-      </div>
-
-      <div class="modal-grid-2">
-        <div>
-          <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Nomor WhatsApp Reservasi</label>
-          <input type="text" name="whatsapp_number" value="62811152282" class="form-input-std">
-        </div>
-        <div>
-          <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Pesan Otomatis WhatsApp</label>
-          <input type="text" name="whatsapp_text" placeholder="Halo PUSAT HAMPERS INDONESIA..." class="form-input-std">
-        </div>
-      </div>
-
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Foto Banner Paket</label>
-        <input type="file" name="image" accept="image/*" style="font-size: 12px; color: #94a3b8; width: 100%;">
-      </div>
-
-      <div style="margin-bottom: 24px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Upload Berkas PDF Menu khusus Paket Ini (Opsional)</label>
-        <input type="file" name="menu_pdf" accept=".pdf" style="font-size: 12px; color: #94a3b8; width: 100%;">
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" onclick="closeModal('addReservationModal')" style="padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; border-radius: 8px; cursor: pointer;">Batal</button>
-        <button type="submit" class="btn-gold">Simpan Paket Baru</button>
-      </div>
-    </form>
+  <div class="tips-list">
+    <div>💡 <strong>Panduan & Tips Katalog PDF:</strong></div>
+    <ul style="margin: 6px 0 0 18px; padding: 0;">
+      <li>Format berkas wajib berupa dokumen <strong>.PDF</strong> dengan ukuran maksimal <strong>20 MB</strong>.</li>
+      <li>Sangat cocok untuk mengunggah <em>E-Catalogue</em> musiman seperti <strong>Katalog Hampers Lebaran, Natal & Tahun Baru, Imlek, atau Paket Corporate</strong>.</li>
+      <li>Pelanggan dapat langsung mengunduh atau mencetak berkas PDF ini melalui link "PRICELIST" di website Anda.</li>
+    </ul>
   </div>
 </div>
-
-<!-- Modal: Edit Existing Reservation Package -->
-<div class="custom-modal" id="editReservationModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h4>✏️ Edit Informasi Paket Reservasi</h4>
-      <button onclick="closeModal('editReservationModal')" class="modal-close">&times;</button>
-    </div>
-
-    <form id="editReservationForm" action="" method="POST" enctype="multipart/form-data">
-      @csrf
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Judul Paket Reservasi *</label>
-        <input type="text" id="edit_title" name="title" required class="form-input-std">
-      </div>
-
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Sub-Judul / Topik</label>
-        <input type="text" id="edit_subtitle" name="subtitle" class="form-input-std">
-      </div>
-
-      <div style="margin-bottom: 16px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Deskripsi Paket *</label>
-        <textarea id="edit_description" name="description" rows="4" required class="form-input-std"></textarea>
-      </div>
-
-      <div class="modal-grid-2">
-        <div>
-          <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Nomor WhatsApp Reservasi</label>
-          <input type="text" id="edit_whatsapp_number" name="whatsapp_number" class="form-input-std">
-        </div>
-        <div>
-          <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Pesan Otomatis WhatsApp</label>
-          <input type="text" id="edit_whatsapp_text" name="whatsapp_text" class="form-input-std">
-        </div>
-      </div>
-
-      <div style="margin-bottom: 24px;">
-        <label style="font-size: 13px; color: #cbd5e1; display: block; margin-bottom: 6px;">Ganti Foto Banner Paket (Opsional)</label>
-        <input type="file" name="image" accept="image/*" style="font-size: 12px; color: #94a3b8; width: 100%;">
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" onclick="closeModal('editReservationModal')" style="padding: 10px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; border-radius: 8px; cursor: pointer;">Batal</button>
-        <button type="submit" class="btn-gold">Simpan Perubahan</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-  function openModal(id) {
-    document.getElementById(id).classList.add('active');
-  }
-
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('active');
-  }
-
-  function editReservation(res) {
-    document.getElementById('edit_title').value = res.title || '';
-    document.getElementById('edit_subtitle').value = res.subtitle || '';
-    document.getElementById('edit_description').value = res.description || '';
-    document.getElementById('edit_whatsapp_number').value = res.whatsapp_number || '62811152282';
-    document.getElementById('edit_whatsapp_text').value = res.whatsapp_text || '';
-    
-    document.getElementById('editReservationForm').action = '/admin/menu-pdf/item/' + res.id + '/update';
-    openModal('editReservationModal');
-  }
-</script>
 @endsection

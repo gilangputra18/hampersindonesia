@@ -307,4 +307,24 @@ class BakerySystemTest extends TestCase
         $adminDelete->assertSessionHas('success');
         $this->assertDatabaseMissing('orders', ['id' => $order->id]);
     }
+
+    public function test_admin_pricelist_pdf_page_has_no_reservation_package(): void
+    {
+        $admin = User::create([
+            'name' => 'Admin Test',
+            'email' => 'admin-pdf@test.com',
+            'password' => Hash::make('secret123'),
+        ]);
+        $admin->is_admin = true;
+        $admin->save();
+
+        $this->actingAs($admin);
+        $response = $this->get('/admin/menu-pdf');
+        $response->assertStatus(200);
+        $response->assertSee('Kelola Berkas Pricelist &amp; Katalog PDF Toko', false);
+        $response->assertDontSee('Daftar Paket Reservasi Toko');
+        $response->assertDontSee('Tambah Paket Reservasi Baru');
+        $response->assertDontSee('Outside Catering');
+        $response->assertDontSee('Dine In');
+    }
 }

@@ -287,8 +287,8 @@
     <button onclick="window.print()" class="print-btn">
       <span>🖨️ Cetak / Simpan PDF</span>
     </button>
-    <a href="{{ route('reservations') }}" class="print-btn" style="background: rgba(255,255,255,0.1); color: #fff;">
-      <span>← Kembali</span>
+    <a href="{{ route('shop') }}" class="print-btn" style="background: rgba(255,255,255,0.1); color: #fff;">
+      <span>← Kembali ke Toko</span>
     </a>
   </div>
 

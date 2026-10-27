@@ -775,7 +775,7 @@
         @endif
       </a>
       <a href="{{ route('admin.menu_pdf.index') }}" class="nav-link {{ request()->routeIs('admin.menu_pdf.*') ? 'active' : '' }}">
-        📜 Kelola PDF Menu Toko
+        📄 Kelola Pricelist PDF
       </a>
       <a href="{{ route('admin.profile.index') }}" class="nav-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
         👤 Profil & Password

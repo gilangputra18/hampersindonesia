@@ -23,7 +23,7 @@ Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/shop', [SiteController::class, 'category'])->name('shop');
 Route::get('/shop/{slug?}', [SiteController::class, 'category'])->name('category');
 Route::get('/product/{slug}', [SiteController::class, 'product'])->name('product.detail');
-Route::get('/reservations', [SiteController::class, 'reservations'])->name('reservations');
+Route::redirect('/reservations', '/shop')->name('reservations');
 Route::get('/menu-pdf/{slug?}', [SiteController::class, 'menuPdf'])->name('menu.pdf');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::post('/contact', [SiteController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');
