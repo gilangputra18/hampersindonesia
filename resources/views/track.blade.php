@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Track Live Order | ' . config('site.brand'))
+@section('title', 'Lacak Pesanan Real-Time | ' . config('site.brand'))
 
 @section('content')
 <style>
@@ -393,7 +393,7 @@
         @if($order->order_status != 'cancelled')
           <!-- 4-Step Live Tracking Progress Stepper -->
           <div style="margin-bottom: 12px; font-size: 13px; font-weight: 700; color: #fef08a; text-transform: uppercase; letter-spacing: 1px;">
-            🚦 Live Tracking Progress:
+            🚦 Progres Pelacakan Pesanan:
           </div>
 
           <div class="tracker-stepper">
@@ -401,12 +401,12 @@
 
             <div class="step-node {{ $step >= 1 ? ($step == 1 ? 'active' : 'done') : '' }}">
               <div class="step-icon">{{ $step > 1 ? '✓' : '📝' }}</div>
-              <div class="step-label">Order Diterima<br><small style="font-size: 10px; opacity: 0.8;">Tercatat di Sistem</small></div>
+              <div class="step-label">Pesanan Diterima<br><small style="font-size: 10px; opacity: 0.8;">Tercatat di Sistem</small></div>
             </div>
 
             <div class="step-node {{ $step >= 2 ? ($step == 2 ? 'active' : 'done') : '' }}">
               <div class="step-icon">{{ $step > 2 ? '✓' : '🥖' }}</div>
-              <div class="step-label">Artisan Baking<br><small style="font-size: 10px; opacity: 0.8;">Dapur & Dapur Pâtisserie</small></div>
+              <div class="step-label">Proses Pembuatan Artisan<br><small style="font-size: 10px; opacity: 0.8;">Dapur &amp; Dapur Pâtisserie</small></div>
             </div>
 
             <div class="step-node {{ $step >= 3 ? ($step == 3 ? 'active' : 'done') : '' }}">
@@ -434,7 +434,7 @@
               @if($order->user_id)
                 <small style="color: #34d399; font-size: 11px; display: block;">🟢 Akun Member Terverifikasi</small>
               @else
-                <small style="color: #94a3b8; font-size: 11px; display: block;">⚪ Tamu (Guest Checkout)</small>
+                <small style="color: #94a3b8; font-size: 11px; display: block;">⚪ Pemesan Tamu (Tanpa Akun)</small>
               @endif
             </span>
           </div>

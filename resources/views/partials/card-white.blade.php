@@ -61,10 +61,10 @@
         @csrf
         <input type="hidden" name="product_id" value="{{ $id }}">
         <input type="hidden" name="quantity" value="1">
-        <button type="submit" class="ref-white-cart-btn">Add to cart</button>
+        <button type="submit" class="ref-white-cart-btn">+ Keranjang</button>
       </form>
     @else
-      <a href="{{ $detailUrl }}" class="ref-white-cart-btn">Add to cart</a>
+      <a href="{{ $detailUrl }}" class="ref-white-cart-btn">+ Keranjang</a>
     @endif
   </div>
 </div>

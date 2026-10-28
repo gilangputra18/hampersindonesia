@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cart | ' . config('site.brand'))
+@section('title', 'Keranjang Belanja | ' . config('site.brand'))
 
 @section('content')
 <style>

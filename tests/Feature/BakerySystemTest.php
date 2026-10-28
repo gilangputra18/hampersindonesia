@@ -89,11 +89,11 @@ class BakerySystemTest extends TestCase
         $response = $this->get('/product/' . $product->slug);
         $response->assertStatus(200);
         $response->assertSee($product->name);
-        $response->assertSee('Add to cart');
+        $response->assertSee('+ Tambah ke Keranjang');
         $response->assertSee('Informasi Produk');
         $response->assertSee('Komposisi (Bahan-bahan)');
         $response->assertSee('Informasi Penyimpanan');
-        $response->assertSee('You also like');
+        $response->assertSee('Produk Pilihan Lainnya');
         $response->assertSee('shopping-cart-drawer');
         $response->assertDontSee('wa.me');
     }
@@ -229,9 +229,9 @@ class BakerySystemTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('mobile-bottom-nav-bar');
         $response->assertSee('bottomNavCartBadge');
-        $response->assertSee('Shop');
-        $response->assertSee('Account');
-        $response->assertSee('Cart');
+        $response->assertSee('Belanja');
+        $response->assertSee('Akun');
+        $response->assertSee('Keranjang');
     }
 
     public function test_order_invoice_pdf_view_renders_correctly(): void
@@ -573,15 +573,15 @@ class BakerySystemTest extends TestCase
         $res1->assertSee('Lapis Plum Big');
         $res1->assertSee('Risoles');
         $res1->assertSee('Risoles Beef Mayo');
-        $res1->assertSee('Order on Tokopedia');
-        $res1->assertSee('Order on Website');
-        $res1->assertSee('Cetak / Download PDF');
+        $res1->assertSee('Pesan di Tokopedia');
+        $res1->assertSee('Pesan di Website');
+        $res1->assertSee('Cetak / Unduh PDF');
 
         $res2 = $this->get('/menu-pdf');
         $res2->assertStatus(200);
         $res2->assertSee('Pricelist');
-        $res2->assertSee('Order on Tokopedia');
-        $res2->assertSee('Order on Website');
+        $res2->assertSee('Pesan di Tokopedia');
+        $res2->assertSee('Pesan di Website');
     }
 
     public function test_terms_and_conditions_page_renders_matching_reference_concept(): void
@@ -638,7 +638,7 @@ class BakerySystemTest extends TestCase
         $response = $this->get('/');
         $response->assertStatus(200);
         $response->assertSee('cat-eyebrow-ref');
-        $response->assertSee('Best Seller');
+        $response->assertSee('Produk Terlaris');
         $response->assertSee('Kategori Produk');
         $response->assertSee('catSliderTrack');
         $response->assertSee('catSliderPrev');
@@ -652,7 +652,7 @@ class BakerySystemTest extends TestCase
         // 1. Gallery page loads with 3-column photo grid & lightbox
         $res = $this->get('/gallery');
         $res->assertStatus(200);
-        $res->assertSee('Gallery');
+        $res->assertSee('Galeri');
         $res->assertSee('gallery-cards-grid');
         $res->assertSee('gallery-card-item');
         $res->assertSee('Lapis Legit Original');

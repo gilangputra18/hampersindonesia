@@ -395,7 +395,7 @@
   <div class="action-bar">
     <a href="javascript:history.back()" class="btn-back">← Kembali</a>
     <button type="button" class="btn-print" onclick="window.print()">
-      🖨️ Cetak / Unduh Faktur PDF (Print)
+      🖨️ Cetak / Unduh Faktur PDF
     </button>
   </div>
 
@@ -449,7 +449,7 @@
           <tr>
             <th style="width: 30px; text-align: center;">No</th>
             <th>Nama Produk &amp; Bingkisan</th>
-            <th style="width: 80px; text-align: center;">Qty</th>
+            <th style="width: 80px; text-align: center;">Jumlah</th>
             <th style="width: 140px; text-align: right;">Harga Satuan</th>
             <th style="width: 140px; text-align: right;">Subtotal</th>
           </tr>

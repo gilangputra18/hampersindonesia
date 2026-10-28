@@ -439,7 +439,7 @@
         <thead>
           <tr>
             <th>PRODUK</th>
-            <th style="text-align: center;">QTY</th>
+            <th style="text-align: center;">JUMLAH</th>
             <th style="text-align: right;">HARGA</th>
             <th style="text-align: right;">SUBTOTAL</th>
           </tr>

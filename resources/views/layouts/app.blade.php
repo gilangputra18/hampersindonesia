@@ -1874,9 +1874,9 @@
   <div class="search-modal-box">
     <button type="button" class="search-modal-close" id="close-search-btn">✕</button>
     
-    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #1e2d27;">CARI PRODUK TOKO ROTI</h3>
+    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #1e2d27;">CARI PRODUK HAMPERS &amp; KUE</h3>
     
-    <input type="text" id="public-search-input" placeholder="Ketik nama produk toko roti (contoh: Cheesecake, Croissant, Tart)..." style="width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; font-family: inherit; color: #0f172a;" autocomplete="off" autofocus>
+    <input type="text" id="public-search-input" placeholder="Ketik nama produk hampers / kue (contoh: Nastar, Kastengel, Lapis Legit)..." style="width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; font-family: inherit; color: #0f172a;" autocomplete="off" autofocus>
 
     <div id="public-search-results" style="margin-top: 16px; overflow-y: auto; max-height: 350px;"></div>
   </div>
@@ -1905,11 +1905,11 @@
         <span class="drawer-arrow">›</span>
       </a>
       <a href="{{ route('pricelist') }}" class="drawer-menu-link">
-        <span>PRICELIST</span>
+        <span>DAFTAR HARGA</span>
         <span class="drawer-arrow">›</span>
       </a>
       <a href="{{ route('gallery') }}" class="drawer-menu-link">
-        <span>GALLERY</span>
+        <span>GALERI</span>
         <span class="drawer-arrow">›</span>
       </a>
       <a href="{{ route('payment.shipping') }}" class="drawer-menu-link">
@@ -1945,7 +1945,7 @@
         @endif
         <form action="{{ route('logout') }}" method="POST" style="margin-top: 6px;">
           @csrf
-          <button type="submit" class="drawer-logout-btn">KELUAR (LOGOUT)</button>
+          <button type="submit" class="drawer-logout-btn">KELUAR DARI AKUN</button>
         </form>
       @else
         <a href="{{ route('login') }}" class="drawer-sub-link" style="color: #9f183c; font-weight: 700;">
@@ -1960,7 +1960,7 @@
 <div class="cart-drawer-overlay" id="shopping-cart-drawer">
   <div class="cart-drawer-panel">
     <div class="cart-drawer-header">
-      <h3 class="cart-drawer-title">SHOPPING CART</h3>
+      <h3 class="cart-drawer-title">KERANJANG BELANJA</h3>
       <button type="button" class="cart-drawer-close" id="close-cart-drawer-btn" title="Tutup Keranjang">✕</button>
     </div>
 
@@ -2009,7 +2009,7 @@
         <span class="cart-drawer-subtotal-val" id="drawerSubtotalVal">Rp {{ number_format($drawerSubtotal, 0, ',', '.') }}</span>
       </div>
       <a href="{{ route('checkout.show') }}" class="cart-drawer-checkout-btn">
-        Checkout ➔
+        Lanjut ke Pembayaran ➔
       </a>
       <a href="{{ route('cart.index') }}" class="cart-drawer-view-cart">
         Lihat Keranjang Lengkap
@@ -2120,7 +2120,7 @@
         <span class="product-modal-category" id="pm-category">HAMPERS MEWAH</span>
         <h2 class="product-modal-title" id="pm-title">Nama Hampers</h2>
         <div class="product-modal-price" id="pm-price">Rp 0</div>
-        <div class="product-modal-stock" id="pm-availability">Ready Stock (Tersedia)</div>
+        <div class="product-modal-stock" id="pm-availability">Stok Tersedia</div>
         
         <!-- Breakdown Rincian Isi Paket Hampers / Produk -->
         <div class="product-modal-items-section">
@@ -2182,7 +2182,7 @@
     <div class="footer-col">
       <h4>MENU UTAMA & LAYANAN</h4>
       <a href="{{ route('shop') }}">🛍️ Produk & Koleksi Lengkap</a>
-      <a href="{{ route('pricelist') }}">📄 Pricelist & Katalog Menu</a>
+      <a href="{{ route('pricelist') }}">📄 Daftar Harga & Katalog Menu</a>
       <a href="{{ route('gallery') }}">📸 Galeri Hampers & Karya</a>
       <a href="{{ route('payment.shipping') }}">💳 Pembayaran & Pengiriman</a>
       <a href="{{ route('terms') }}">📜 Syarat & Ketentuan</a>
@@ -2207,11 +2207,11 @@
 <nav class="mobile-bottom-nav-bar" aria-label="Navigasi Android Mobile">
   <a href="{{ route('shop') }}" class="mobile-bnav-item {{ request()->routeIs('shop') || request()->routeIs('category') || request()->routeIs('home') ? 'active' : '' }}">
     <span class="mobile-bnav-icon">🏪</span>
-    <span class="mobile-bnav-text">Shop</span>
+    <span class="mobile-bnav-text">Belanja</span>
   </a>
   <a href="@auth {{ route('my.orders') }} @else {{ route('login') }} @endauth" class="mobile-bnav-item {{ request()->routeIs('login') || request()->routeIs('register') || request()->routeIs('my.orders') ? 'active' : '' }}">
     <span class="mobile-bnav-icon">👤</span>
-    <span class="mobile-bnav-text">Account</span>
+    <span class="mobile-bnav-text">Akun</span>
   </a>
   <button type="button" class="mobile-bnav-item" onclick="if(window.openShoppingCartDrawer){window.openShoppingCartDrawer();}else{window.location.href='{{ route('cart.index') }}';}">
     <span class="mobile-bnav-icon">
@@ -2219,7 +2219,7 @@
       @php $cartQty = array_sum(array_column(session('cart', []), 'quantity')); @endphp
       <span class="mobile-bnav-badge" id="bottomNavCartBadge" style="{{ $cartQty > 0 ? '' : 'display:none;' }}">{{ $cartQty }}</span>
     </span>
-    <span class="mobile-bnav-text">Cart</span>
+    <span class="mobile-bnav-text">Keranjang</span>
   </button>
 </nav>
 

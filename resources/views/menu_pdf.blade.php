@@ -568,9 +568,9 @@
   <!-- 0. Header & Breadcrumb -->
   <div class="pricelist-header-section">
     <div class="pricelist-breadcrumb">
-      <a href="{{ route('home') }}">Home</a> &gt; <span>Pricelist</span>
+      <a href="{{ route('home') }}">Beranda</a> &gt; <span>Daftar Harga (Pricelist)</span>
     </div>
-    <h1 class="pricelist-page-title">Pricelist</h1>
+    <h1 class="pricelist-page-title">Daftar Harga (Pricelist)</h1>
   </div>
 
   <!-- Main Canvas Stacker -->
@@ -604,7 +604,7 @@
 
       <!-- Main Flyer Titles -->
       <h2 class="flyer-main-title">Pusat Hampers Indonesia</h2>
-      <div class="flyer-sub-title">Pricelist</div>
+      <div class="flyer-sub-title">Daftar Harga • Pricelist</div>
 
       <!-- Dotted Menu Item List (Matching Reference Concept 1) -->
       <div class="dotted-menu-list">
@@ -745,7 +745,7 @@
       </div>
 
       <h2 class="flyer-main-title">Pusat Hampers Indonesia</h2>
-      <div class="flyer-sub-title">Pricelist</div>
+      <div class="flyer-sub-title">Daftar Harga • Pricelist</div>
 
       <!-- Split 2-Column: Left Thumbnails + Right Prices -->
       <div class="split-flyer-grid">
@@ -882,7 +882,7 @@
           <span class="flyer-logo-icon" style="color: #381f08;">⚜️</span>
           <div class="flyer-logo-meta">
             <h4 style="color: #241404;">PUSAT HAMPERS INDONESIA</h4>
-            <span style="color: #3b2208;">Authentic Artisan Recipe</span>
+            <span style="color: #3b2208;">Resep Artisan Autentik</span>
           </div>
         </div>
         <div class="halal-badge-wrap" style="background: rgba(255,255,255,0.85); border-color: #8c5a28;">
@@ -893,7 +893,7 @@
 
       <!-- Risoles Headings -->
       <h2 class="risoles-main-title">Risoles</h2>
-      <div class="risoles-sub-title">Pricelist</div>
+      <div class="risoles-sub-title">Daftar Harga • Pricelist</div>
 
       <!-- Dotted Risoles Price Rows -->
       <div style="margin-bottom: 22px;">
@@ -911,7 +911,7 @@
 
       <!-- Availability & Contact Tag -->
       <div class="risoles-tag-box">
-        <div class="risoles-tag-headline">Ready Frozen / In store</div>
+        <div class="risoles-tag-headline">Tersedia Frozen / Siap Saji di Butik</div>
         <div class="risoles-tag-phone">
           <span>📞</span> <span>{{ config('site.phone') }}</span>
         </div>
@@ -929,17 +929,17 @@
     <div class="pricelist-cta-section">
       <a href="{{ config('site.tokopedia_url', 'https://www.tokopedia.com') }}" target="_blank" rel="noopener noreferrer" class="btn-cta-tokopedia" title="Beli di Tokopedia Resmi">
         <span>🛍️</span>
-        <span>Order on Tokopedia</span>
+        <span>Pesan di Tokopedia</span>
       </a>
 
       <a href="{{ route('shop') }}" class="btn-cta-website" title="Pesan Langsung Lewat Website">
         <span>✨</span>
-        <span>Order on Website</span>
+        <span>Pesan di Website</span>
       </a>
 
       <button type="button" onclick="window.print()" class="btn-cta-print" title="Cetak atau Simpan sebagai PDF">
         <span>🖨️</span>
-        <span>Cetak / Download PDF</span>
+        <span>Cetak / Unduh PDF</span>
       </button>
     </div>
 

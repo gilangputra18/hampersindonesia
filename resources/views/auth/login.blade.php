@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login Pelanggan & Tamu | ' . config('site.brand'))
+@section('title', 'Masuk Akun Pelanggan | ' . config('site.brand'))
 
 @section('content')
 <style>
@@ -203,7 +203,7 @@
     </div>
 
     <div style="font-size: 28px; margin-bottom: 4px;">⚜️</div>
-    <h1 class="login-title">LOGIN PELANGGAN</h1>
+    <h1 class="login-title">MASUK AKUN PELANGGAN</h1>
     <p class="login-subtitle">Masuk untuk melihat pesanan, invoice resmi, dan promo eksklusif hampers</p>
 
     <!-- Opsi 1: Google Fast Login -->

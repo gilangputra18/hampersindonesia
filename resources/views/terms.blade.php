@@ -273,7 +273,7 @@
   <!-- Header & Breadcrumb -->
   <div class="terms-header-box">
     <div class="terms-breadcrumb">
-      <a href="{{ route('home') }}">Home</a> &gt; <span>Syarat &amp; Ketentuan</span>
+      <a href="{{ route('home') }}">Beranda</a> &gt; <span>Syarat &amp; Ketentuan</span>
     </div>
     <h1 class="terms-page-title">Syarat &amp; Ketentuan</h1>
   </div>

@@ -380,9 +380,9 @@
   <!-- Header & Breadcrumb -->
   <div class="gallery-header-section">
     <div class="gallery-breadcrumb">
-      <a href="{{ route('home') }}">Home</a> &raquo; <span>Gallery</span>
+      <a href="{{ route('home') }}">Beranda</a> &raquo; <span>Galeri</span>
     </div>
-    <h1 class="gallery-main-title">Gallery</h1>
+    <h1 class="gallery-main-title">Galeri</h1>
     <p class="gallery-subtitle">
       Koleksi karya seni hampers premium, kue lapis legit otentik, dan aneka suguhan artisan istimewa dari {{ config('site.brand') }}.
     </p>

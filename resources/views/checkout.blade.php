@@ -549,7 +549,7 @@
             </div>
           @else
             <div style="background: #fffbe6; border: 1px solid #ffe58f; color: #873800; padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-size: 12.5px;">
-              ℹ️ Anda memesan sebagai <strong>Tamu (Guest Checkout)</strong>. Ingin riwayat pesanan tersimpan rapi? <a href="{{ route('login') }}" style="color: #d97706; font-weight: 700; text-decoration: underline;">Masuk di sini</a> sebelum melanjutkan.
+              ℹ️ Anda memesan sebagai <strong>Tamu (Pemesanan Tanpa Akun)</strong>. Ingin riwayat pesanan tersimpan rapi? <a href="{{ route('login') }}" style="color: #d97706; font-weight: 700; text-decoration: underline;">Masuk di sini</a> sebelum melanjutkan.
             </div>
           @endif
 
@@ -577,7 +577,7 @@
             <div style="padding: 14px 16px; background: #f8faf9; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; line-height: 1.6;">
               <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                 <div>
-                  <strong>Opsi:</strong> {{ strtoupper($deliveryOption) }} ({{ $deliveryOption === 'pickup' ? 'Ambil Sendiri di Boutique Store' : 'Local Delivery via Kurir Khusus' }})<br>
+                  <strong>Opsi:</strong> {{ strtoupper($deliveryOption) }} ({{ $deliveryOption === 'pickup' ? 'Ambil Langsung di Butik Toko' : 'Pengiriman Kurir Lokal Khusus' }})<br>
                   <strong>Jadwal Pengiriman:</strong> 📅 {{ date('d F Y', strtotime($deliveryDate)) }}
                 </div>
                 <a href="{{ route('cart.index') }}" style="font-size: 11.5px; color: #d97706; text-decoration: underline; font-weight: 600;">Ubah Jadwal di Keranjang</a>
@@ -596,7 +596,7 @@
                     'JNE Express (Reguler/YES)' => '📦',
                     'J&T Express' => '🚚',
                     'GoSend / GrabExpress (Instant)' => '⚡',
-                    'Ambil Sendiri di Boutique Store' => '🏪',
+                    'Ambil Langsung di Butik Toko' => '🏪',
                   ];
                   $icon = $courierIcons[$courierName] ?? '🚚';
                 @endphp

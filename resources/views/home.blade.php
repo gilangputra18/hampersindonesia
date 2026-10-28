@@ -1793,7 +1793,7 @@
         <div class="cert-gold-ring">🛡️</div>
         <div class="cert-card-text">
           <h4 class="cert-luxury-label">0% Pengawet</h4>
-          <p class="cert-luxury-sub">Fresh Baked Every Day</p>
+          <p class="cert-luxury-sub">Dipanggang Segar Setiap Hari</p>
           <span class="cert-mini-badge">ALAMI &amp; SEHAT</span>
         </div>
       </div>
@@ -1804,7 +1804,7 @@
 <!-- Best Seller / Kategori Produk Slider (Matching Reference Image 1) -->
 <section class="category-slider-section">
   <div style="max-width: 1200px; margin: 0 auto;">
-    <div class="cat-eyebrow-ref">Best Seller</div>
+    <div class="cat-eyebrow-ref">Produk Terlaris</div>
     <h2 class="cat-title-ref">Kategori Produk</h2>
 
     <div class="cat-slider-outer">
@@ -1861,7 +1861,7 @@
 <!-- Product Showcase Row 3: Other (Matching Reference Image 1 & Centered Title) -->
 <section class="showcase-row-section" style="background: var(--wine-surface);">
   <div class="showcase-header-ref text-center">
-    <h2 class="showcase-title-ref">Other</h2>
+    <h2 class="showcase-title-ref">Koleksi Lainnya</h2>
     <div class="showcase-sub-link-wrap">
       <a href="{{ route('shop') }}" class="showcase-center-pill">Lihat Semua Koleksi ❯</a>
     </div>
@@ -1874,7 +1874,7 @@
   </div>
 </section>
 
-<!-- Split Section: Apa Kata Pelanggan Kami & Our Gallery (Matching Reference Image 5) -->
+<!-- Split Section: Apa Kata Pelanggan Kami & Galeri Kami (Matching Reference Image 5) -->
 <section class="split-reviews-gallery" id="gallery">
   <div class="split-container">
     <!-- Left Column: Apa Kata Pelanggan Kami -->
@@ -1957,29 +1957,29 @@
         📸 GALERI FOTO ARTISANAL
       </div>
       <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 32px); color: #fff; margin: 0 0 16px 0;">
-        Our Gallery
+        Galeri Kami
       </h2>
 
       <!-- Filter Tabs: Macam-Macam Isi Galeri -->
       <div class="gallery-filter-tabs">
         <button type="button" class="gallery-tab-btn active" data-filter="all">✨ Semua (12)</button>
-        <button type="button" class="gallery-tab-btn" data-filter="hampers">🎁 Luxury Hampers</button>
-        <button type="button" class="gallery-tab-btn" data-filter="cookies">🍪 Artisan Cookies</button>
-        <button type="button" class="gallery-tab-btn" data-filter="cakes">🎂 Cakes & Tarts</button>
-        <button type="button" class="gallery-tab-btn" data-filter="special">🌙 Special Edition</button>
+        <button type="button" class="gallery-tab-btn" data-filter="hampers">🎁 Hampers Mewah</button>
+        <button type="button" class="gallery-tab-btn" data-filter="cookies">🍪 Kue Kering Artisan</button>
+        <button type="button" class="gallery-tab-btn" data-filter="cakes">🎂 Aneka Kue & Tart</button>
+        <button type="button" class="gallery-tab-btn" data-filter="special">🌙 Edisi Spesial</button>
       </div>
 
       <div class="gallery-grid" id="mainGalleryGrid">
         <!-- 1. Hampers Rose Velvet Box -->
         <div class="gallery-item" data-category="hampers"
              data-img="{{ asset('images/rose.jpg') }}"
-             data-badge="🎁 Luxury Hampers"
+             data-badge="🎁 Hampers Mewah"
              data-title="Hampers Rose Velvet Box"
              data-desc="Trunk velvet box merah mewah berisi aneka cookies toples, macarons artisan, dan teh premium eksklusif.">
           <img src="{{ asset('images/rose.jpg') }}" alt="Hampers Rose Velvet Box" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-tag">🎁 Hampers Mewah</div>
             <div class="gallery-item-title">Rose Velvet Box</div>
           </div>
         </div>
@@ -1987,13 +1987,13 @@
         <!-- 2. Royal Heritage Hamper Basket -->
         <div class="gallery-item" data-category="hampers"
              data-img="{{ asset('images/feature.jpg') }}"
-             data-badge="🎁 Luxury Hampers"
+             data-badge="🎁 Hampers Mewah"
              data-title="Royal Heritage Hamper Basket"
              data-desc="Keranjang anyam gourmet rotan dengan pita satin, sparkling beverage, dan toples cookies wisman.">
           <img src="{{ asset('images/feature.jpg') }}" alt="Royal Heritage Hamper Basket" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-tag">🎁 Hampers Mewah</div>
             <div class="gallery-item-title">Royal Basket</div>
           </div>
         </div>
@@ -2001,13 +2001,13 @@
         <!-- 3. Hampers Calla Royal Set -->
         <div class="gallery-item" data-category="hampers"
              data-img="{{ asset('images/calla.jpg') }}"
-             data-badge="🎁 Luxury Hampers"
+             data-badge="🎁 Hampers Mewah"
              data-title="Hampers Calla Royal Set"
              data-desc="Gift box eksklusif dengan aksen pita emas mewah dan seleksi kue kering artisanal mentega murni.">
           <img src="{{ asset('images/calla.jpg') }}" alt="Hampers Calla Royal Set" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-tag">🎁 Hampers Mewah</div>
             <div class="gallery-item-title">Calla Royal Set</div>
           </div>
         </div>
@@ -2015,13 +2015,13 @@
         <!-- 4. Hampers Iris Luxury Trunk -->
         <div class="gallery-item" data-category="hampers"
              data-img="{{ asset('images/iris.jpg') }}"
-             data-badge="🎁 Luxury Hampers"
+             data-badge="🎁 Hampers Mewah"
              data-title="Hampers Iris Luxury Trunk"
              data-desc="Kotak hampers koper mewah berpita emas elegan cocok untuk hantaran korporat & perayaan keluarga.">
           <img src="{{ asset('images/iris.jpg') }}" alt="Hampers Iris Luxury Trunk" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🎁 Luxury Hampers</div>
+            <div class="gallery-item-tag">🎁 Hampers Mewah</div>
             <div class="gallery-item-title">Iris Luxury Trunk</div>
           </div>
         </div>
@@ -2029,13 +2029,13 @@
         <!-- 5. Pure Wijsman Butter Cookies -->
         <div class="gallery-item" data-category="cookies"
              data-img="{{ asset('images/butter-cookies-jar.jpg') }}"
-             data-badge="🍪 Artisan Cookies"
+             data-badge="🍪 Kue Kering Artisan"
              data-title="Pure Wijsman Butter Cookies"
              data-desc="Kue semprit klasik mentega murni Wijsman Belanda dengan tekstur renyah dan lumer di mulut.">
           <img src="{{ asset('images/butter-cookies-jar.jpg') }}" alt="Pure Wijsman Butter Cookies" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🍪 Artisan Cookies</div>
+            <div class="gallery-item-tag">🍪 Kue Kering Artisan</div>
             <div class="gallery-item-title">Butter Cookies Jar</div>
           </div>
         </div>
@@ -2043,13 +2043,13 @@
         <!-- 6. Royal Nastar Nanas Wijsman -->
         <div class="gallery-item" data-category="cookies"
              data-img="{{ asset('images/nastar-pineapple.jpg') }}"
-             data-badge="🍪 Artisan Cookies"
+             data-badge="🍪 Kue Kering Artisan"
              data-title="Royal Nastar Nanas Wijsman"
              data-desc="Kue nastar bulat emas beroles butter Wijsman dengan selai nanas segar caramel homemade.">
           <img src="{{ asset('images/nastar-pineapple.jpg') }}" alt="Royal Nastar Nanas Wijsman" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🍪 Artisan Cookies</div>
+            <div class="gallery-item-tag">🍪 Kue Kering Artisan</div>
             <div class="gallery-item-title">Nastar Wijsman</div>
           </div>
         </div>
@@ -2057,13 +2057,13 @@
         <!-- 7. Premium Edam Kaastengel -->
         <div class="gallery-item" data-category="cookies"
              data-img="{{ asset('images/kaastengel.jpg') }}"
-             data-badge="🍪 Artisan Cookies"
+             data-badge="🍪 Kue Kering Artisan"
              data-title="Premium Edam Kaastengel"
              data-desc="Kue kering keju Edam tua Belanda asli berpadu taburan keju cheddar gurih renyah.">
           <img src="{{ asset('images/kaastengel.jpg') }}" alt="Premium Edam Kaastengel" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🍪 Artisan Cookies</div>
+            <div class="gallery-item-tag">🍪 Kue Kering Artisan</div>
             <div class="gallery-item-title">Edam Kaastengel</div>
           </div>
         </div>
@@ -2071,13 +2071,13 @@
         <!-- 8. Basque Burnt Cheesecake -->
         <div class="gallery-item" data-category="cakes"
              data-img="{{ asset('images/basque-burnt-cheesecake.jpg') }}"
-             data-badge="🎂 Cakes & Tarts"
+             data-badge="🎂 Aneka Kue & Tart"
              data-title="Basque Burnt Cheesecake"
              data-desc="Kue keju panggang ala Basque dengan bagian atas karamel harum dan tengah yang creamy lembut.">
           <img src="{{ asset('images/basque-burnt-cheesecake.jpg') }}" alt="Basque Burnt Cheesecake" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🎂 Cakes & Tarts</div>
+            <div class="gallery-item-tag">🎂 Aneka Kue & Tart</div>
             <div class="gallery-item-title">Burnt Cheesecake</div>
           </div>
         </div>
@@ -2085,13 +2085,13 @@
         <!-- 9. Fresh Artisanal Berry Tart -->
         <div class="gallery-item" data-category="cakes"
              data-img="{{ asset('images/berry-tart.jpg') }}"
-             data-badge="🎂 Cakes & Tarts"
+             data-badge="🎂 Aneka Kue & Tart"
              data-title="Fresh Artisanal Berry Tart"
              data-desc="Tart pastry renyah butter Wijsman bermahkotakan aneka buah berry segar dan krim vanilla lembut.">
           <img src="{{ asset('images/berry-tart.jpg') }}" alt="Fresh Artisanal Berry Tart" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🎂 Cakes & Tarts</div>
+            <div class="gallery-item-tag">🎂 Aneka Kue & Tart</div>
             <div class="gallery-item-title">Fresh Berry Tart</div>
           </div>
         </div>
@@ -2099,13 +2099,13 @@
         <!-- 10. Classic Mascarpone Tiramisu -->
         <div class="gallery-item" data-category="cakes"
              data-img="{{ asset('images/tiramisu.jpg') }}"
-             data-badge="🎂 Cakes & Tarts"
+             data-badge="🎂 Aneka Kue & Tart"
              data-title="Classic Mascarpone Tiramisu"
              data-desc="Dessert Italia autentik dengan ladyfinger beraroma kopi arabika dan krim mascarpone lembut.">
           <img src="{{ asset('images/tiramisu.jpg') }}" alt="Classic Mascarpone Tiramisu" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🎂 Cakes & Tarts</div>
+            <div class="gallery-item-tag">🎂 Aneka Kue & Tart</div>
             <div class="gallery-item-title">Classic Tiramisu</div>
           </div>
         </div>
@@ -2113,13 +2113,13 @@
         <!-- 11. Mooncake Hampers Celebration Box -->
         <div class="gallery-item" data-category="special"
              data-img="{{ asset('images/cat-mooncake.jpg') }}"
-             data-badge="🌙 Special Edition"
+             data-badge="🌙 Edisi Spesial"
              data-title="Mooncake Hampers Celebration Box"
              data-desc="Paket hampers spesial festival kue bulan dengan motif tradisional emas dan rasa lotus autentik.">
           <img src="{{ asset('images/cat-mooncake.jpg') }}" alt="Mooncake Hampers Celebration Box" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🌙 Special Edition</div>
+            <div class="gallery-item-tag">🌙 Edisi Spesial</div>
             <div class="gallery-item-title">Mooncake Box</div>
           </div>
         </div>
@@ -2127,13 +2127,13 @@
         <!-- 12. Gourmet Bites Celebration Box of 6 -->
         <div class="gallery-item" data-category="special"
              data-img="{{ asset('images/box-of-6.jpg') }}"
-             data-badge="🌙 Special Edition"
+             data-badge="🌙 Edisi Spesial"
              data-title="Gourmet Bites Celebration Box of 6"
              data-desc="Koleksi 6 varian kue dan pastri signature dalam kemasan kotak kado berpita emas premium.">
           <img src="{{ asset('images/box-of-6.jpg') }}" alt="Gourmet Bites Celebration Box of 6" loading="lazy">
           <div class="gallery-item-overlay">
             <div class="gallery-item-zoom-icon">🔍</div>
-            <div class="gallery-item-tag">🌙 Special Edition</div>
+            <div class="gallery-item-tag">🌙 Edisi Spesial</div>
             <div class="gallery-item-title">Gourmet Box of 6</div>
           </div>
         </div>
@@ -2156,7 +2156,7 @@
     <div class="lightbox-info-bar">
       <div style="flex: 1; min-width: 0;">
         <div class="lightbox-badge-row">
-          <span class="lightbox-cat-badge" id="lightboxCatBadge">🎁 LUXURY HAMPERS</span>
+          <span class="lightbox-cat-badge" id="lightboxCatBadge">🎁 HAMPERS MEWAH</span>
           <span class="lightbox-counter-text" id="lightboxCounter">1 / 12</span>
         </div>
         <h3 class="lightbox-title" id="lightboxTitle">Judul Foto</h3>

@@ -501,7 +501,7 @@
     <!-- Breadcrumb & Share Button -->
     <div class="pdetail-breadcrumb-bar">
       <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-        <a href="{{ route('home') }}">Home</a>
+        <a href="{{ route('home') }}">Beranda</a>
         <span style="margin: 0 4px; color: #94a3b8;">&gt;</span>
         <a href="{{ route('category', $product->category->slug ?? 'hampers') }}">
           {{ $product->category->title ?? 'Koleksi Produk' }}
@@ -511,7 +511,7 @@
       </div>
 
       <button type="button" class="pdetail-share-btn" onclick="shareCurrentProduct()" title="Bagikan produk ini">
-        <span>🔗</span> <span>Share</span>
+        <span>🔗</span> <span>Bagikan</span>
       </button>
     </div>
 
@@ -556,13 +556,13 @@
             </div>
 
             <button type="submit" class="pdetail-add-cart-btn">
-              Add to cart
+              + Tambah ke Keranjang
             </button>
           </div>
         </form>
 
         <div style="font-size: 12.5px; color: #15803d; font-weight: 600; display: flex; align-items: center; gap: 6px;">
-          <span>✓</span> <span>Ready Stock &amp; Freshly Baked to Order</span>
+          <span>✓</span> <span>Stok Tersedia &amp; Selalu Dipanggang Segar</span>
         </div>
       </div>
     </div>
@@ -570,10 +570,10 @@
     <!-- Tabs Navigation -->
     <div class="pdetail-tabs-bar">
       <button type="button" class="pdetail-tab-btn active" id="tabBtnDesc" onclick="switchTab('desc')">
-        Description
+        Deskripsi Produk
       </button>
       <button type="button" class="pdetail-tab-btn" id="tabBtnReviews" onclick="switchTab('reviews')">
-        Reviews ({{ $product->reviews->count() }})
+        Ulasan ({{ $product->reviews->count() }})
       </button>
     </div>
 
@@ -583,11 +583,11 @@
       <table class="pdetail-meta-table">
         <tbody>
           <tr>
-            <td>SKU</td>
+            <td>Kode Produk (SKU)</td>
             <td>PHI-{{ strtoupper($product->category->slug ?? 'HAMP') }}-{{ str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</td>
           </tr>
           <tr>
-            <td>Category</td>
+            <td>Kategori</td>
             <td>
               <a href="{{ route('category', $product->category->slug ?? 'hampers') }}">
                 {{ $product->category->title ?? 'Hampers Premium' }}, Aneka Kue Premium
@@ -595,15 +595,15 @@
             </td>
           </tr>
           <tr>
-            <td>Tag</td>
+            <td>Label / Tag</td>
             <td>kue nastar toples, nastar, oleh oleh premium, hampers eksklusif, gourmet cookies</td>
           </tr>
           <tr>
-            <td>Weight</td>
+            <td>Berat</td>
             <td>{{ $product->size ?: '650 g' }}</td>
           </tr>
           <tr>
-            <td>Box</td>
+            <td>Kemasan / Box</td>
             <td>{{ $product->type ?: 'Box Exclusive Hardbox Royal' }}</td>
           </tr>
         </tbody>
@@ -750,7 +750,7 @@
 
     <!-- "You also like" Section (Matching Reference Image 1) -->
     <div class="pdetail-you-like-sec">
-      <h2 class="pdetail-you-like-title">You also like</h2>
+      <h2 class="pdetail-you-like-title">Produk Pilihan Lainnya</h2>
 
       <div class="ref-white-grid">
         @foreach ($related as $r)

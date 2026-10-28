@@ -295,7 +295,7 @@
   <!-- Header & Breadcrumb -->
   <div class="ps-header-box">
     <div class="ps-breadcrumb">
-      <a href="{{ route('home') }}">Home</a> &gt; <span>Pembayaran &amp; Pengiriman</span>
+      <a href="{{ route('home') }}">Beranda</a> &gt; <span>Pembayaran &amp; Pengiriman</span>
     </div>
     <h1 class="ps-page-title">Pembayaran &amp; Pengiriman</h1>
   </div>
@@ -348,7 +348,7 @@
           <div class="ps-sub-desc">– Visa &amp; MasterCard dengan proteksi 3D Secure</div>
         </li>
         <li class="ps-list-item">
-          <div class="ps-item-label">Alfamart / Indomaret Payment</div>
+          <div class="ps-item-label">Pembayaran Gerai Alfamart / Indomaret</div>
           <div class="ps-sub-desc">– Cetak kode bayar dan bayar di gerai terdekat</div>
         </li>
       </ul>
