@@ -1864,10 +1864,10 @@
         <span>PEMBAYARAN & PENGIRIMAN</span>
         <span class="drawer-arrow">›</span>
       </button>
-      <button type="button" class="drawer-menu-link open-terms-modal-btn">
+      <a href="{{ route('terms') }}" class="drawer-menu-link">
         <span>SYARAT & KETENTUAN</span>
         <span class="drawer-arrow">›</span>
-      </button>
+      </a>
     </div>
 
     <div class="drawer-utility-section">
@@ -2134,7 +2134,7 @@
       <a href="{{ route('pricelist') }}">📄 Pricelist & Katalog Menu</a>
       <a href="{{ route('home') }}#gallery">📸 Galeri Hampers & Karya</a>
       <a href="javascript:void(0)" class="open-payment-modal-btn">💳 Pembayaran & Pengiriman</a>
-      <a href="javascript:void(0)" class="open-terms-modal-btn">📜 Syarat & Ketentuan</a>
+      <a href="{{ route('terms') }}">📜 Syarat & Ketentuan</a>
       <a href="{{ route('track') }}">📦 Lacak Pesanan Real-Time</a>
     </div>
 

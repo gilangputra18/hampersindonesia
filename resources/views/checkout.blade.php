@@ -757,7 +757,7 @@
           <div style="margin-top: 24px;">
             <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; color: #475569; line-height: 1.5;">
               <input type="checkbox" name="terms" value="1" checked required style="margin-top: 3px; accent-color: #1e2d27;">
-              <span>Saya menyetujui <strong>Syarat &amp; Ketentuan Pemesanan</strong> serta menjamin data penerima hantaran sudah diisi dengan benar.</span>
+              <span>Saya menyetujui <a href="{{ route('terms') }}" target="_blank" style="color: inherit; text-decoration: underline;"><strong>Syarat &amp; Ketentuan Pemesanan</strong></a> serta menjamin data penerima hantaran sudah diisi dengan benar.</span>
             </label>
           </div>
 

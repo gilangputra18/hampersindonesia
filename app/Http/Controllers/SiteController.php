@@ -399,6 +399,11 @@ class SiteController extends Controller
         return view('menu_pdf', compact('categories', 'products', 'hasCustomPdf'));
     }
 
+    public function terms()
+    {
+        return view('terms');
+    }
+
     protected function ensureCategoryHasProducts(Category $cat): void
     {
         $catalog = [

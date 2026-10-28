@@ -581,4 +581,28 @@ class BakerySystemTest extends TestCase
         $res2->assertSee('Order on Tokopedia');
         $res2->assertSee('Order on Website');
     }
+
+    public function test_terms_and_conditions_page_renders_matching_reference_concept(): void
+    {
+        $res1 = $this->get('/terms');
+        $res1->assertStatus(200);
+        $res1->assertSee('Syarat &amp; Ketentuan', false);
+        $res1->assertSee('Ketentuan Umum');
+        $res1->assertSee('Produk &amp; Kualitas', false);
+        $res1->assertSee('Pemesanan');
+        $res1->assertSee('Ketersediaan Produk');
+        $res1->assertSee('Custom Order &amp; Corporate Order', false);
+        $res1->assertSee('Harga &amp; Pembayaran', false);
+        $res1->assertSee('Pengiriman');
+        $res1->assertSee('Tanggung Jawab Pengiriman');
+        $res1->assertSee('Kebijakan Refund &amp; Komplain', false);
+        $res1->assertSee('Operasional Toko');
+        $res1->assertSee('Seasonal &amp; Special Edition', false);
+        $res1->assertSee('Hak Kekayaan Intelektual');
+        $res1->assertSee('Persetujuan');
+
+        $res2 = $this->get('/syarat-ketentuan');
+        $res2->assertStatus(200);
+        $res2->assertSee('Syarat &amp; Ketentuan', false);
+    }
 }
