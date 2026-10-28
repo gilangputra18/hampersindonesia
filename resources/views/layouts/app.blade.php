@@ -1852,7 +1852,7 @@
         <span>PRODUK</span>
         <span class="drawer-arrow">›</span>
       </a>
-      <a href="{{ route('menu.pdf') }}" target="_blank" class="drawer-menu-link">
+      <a href="{{ route('pricelist') }}" class="drawer-menu-link">
         <span>PRICELIST</span>
         <span class="drawer-arrow">›</span>
       </a>
@@ -2131,7 +2131,7 @@
     <div class="footer-col">
       <h4>MENU UTAMA & LAYANAN</h4>
       <a href="{{ route('shop') }}">🛍️ Produk & Koleksi Lengkap</a>
-      <a href="{{ route('menu.pdf') }}" target="_blank">📄 Pricelist & Katalog PDF</a>
+      <a href="{{ route('pricelist') }}">📄 Pricelist & Katalog Menu</a>
       <a href="{{ route('home') }}#gallery">📸 Galeri Hampers & Karya</a>
       <a href="javascript:void(0)" class="open-payment-modal-btn">💳 Pembayaran & Pengiriman</a>
       <a href="javascript:void(0)" class="open-terms-modal-btn">📜 Syarat & Ketentuan</a>

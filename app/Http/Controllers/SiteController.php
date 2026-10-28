@@ -386,7 +386,7 @@ class SiteController extends Controller
         }
 
         $customPdfPath = public_path('uploads/menu_catalog.pdf');
-        if (\Illuminate\Support\Facades\File::exists($customPdfPath)) {
+        if (request()->has('download') && \Illuminate\Support\Facades\File::exists($customPdfPath)) {
             return response()->file($customPdfPath, [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'inline; filename="Pusat_Hampers_Indonesia_Menu_Catalog.pdf"'
@@ -394,7 +394,9 @@ class SiteController extends Controller
         }
 
         $categories = Category::with('products')->get();
-        return view('menu_pdf', compact('categories'));
+        $products = Product::where('availability', '!=', 'out_of_stock')->get();
+        $hasCustomPdf = \Illuminate\Support\Facades\File::exists($customPdfPath);
+        return view('menu_pdf', compact('categories', 'products', 'hasCustomPdf'));
     }
 
     protected function ensureCategoryHasProducts(Category $cat): void

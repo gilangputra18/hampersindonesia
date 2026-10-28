@@ -24,6 +24,7 @@ Route::get('/shop', [SiteController::class, 'category'])->name('shop');
 Route::get('/shop/{slug?}', [SiteController::class, 'category'])->name('category');
 Route::get('/product/{slug}', [SiteController::class, 'product'])->name('product.detail');
 Route::redirect('/reservations', '/shop')->name('reservations');
+Route::get('/pricelist', [SiteController::class, 'menuPdf'])->name('pricelist');
 Route::get('/menu-pdf/{slug?}', [SiteController::class, 'menuPdf'])->name('menu.pdf');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::post('/contact', [SiteController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');

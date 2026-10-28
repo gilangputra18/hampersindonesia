@@ -11,6 +11,7 @@ return [
     'wa'         => env('STORE_WA', '+62 811-1522-82'),
     'email'      => env('STORE_EMAIL', 'concierge@hampersindonesia.com'),
     'hours'      => 'Senin - Minggu, 08.00 - 21.00 WIB',
+    'tokopedia_url' => env('TOKOPEDIA_URL', 'https://www.tokopedia.com'),
 
     // Harga dalam Rupiah. Gambar produk: public/images/{slug-nama}.jpg
     'categories' => [

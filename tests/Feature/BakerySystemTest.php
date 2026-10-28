@@ -553,4 +553,32 @@ class BakerySystemTest extends TestCase
         ]);
         $dupRes->assertSessionHasErrors('email');
     }
+
+    public function test_pricelist_page_renders_luxury_concept_matching_reference(): void
+    {
+        // Both /pricelist and /menu-pdf load successfully
+        $res1 = $this->get('/pricelist');
+        $res1->assertStatus(200);
+        $res1->assertSee('Pricelist');
+        $res1->assertSee('Pusat Hampers Indonesia');
+        $res1->assertSee('HALAL INDONESIA');
+        $res1->assertSee('Kaasstengels Toples');
+        $res1->assertSee('160K');
+        $res1->assertSee('Nastar Toples');
+        $res1->assertSee('180K');
+        $res1->assertSee('Lapis Loyang Mini Original');
+        $res1->assertSee('260K');
+        $res1->assertSee('Lapis Plum Big');
+        $res1->assertSee('Risoles');
+        $res1->assertSee('Risoles Beef Mayo');
+        $res1->assertSee('Order on Tokopedia');
+        $res1->assertSee('Order on Website');
+        $res1->assertSee('Cetak / Download PDF');
+
+        $res2 = $this->get('/menu-pdf');
+        $res2->assertStatus(200);
+        $res2->assertSee('Pricelist');
+        $res2->assertSee('Order on Tokopedia');
+        $res2->assertSee('Order on Website');
+    }
 }
