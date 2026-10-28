@@ -2213,17 +2213,94 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // 1. Kategori Slider Track (Scroll Horizontal)
-    const track = document.getElementById('catSliderTrack');
-    const prev = document.getElementById('catSliderPrev');
-    const next = document.getElementById('catSliderNext');
-    if (track && prev && next) {
-      prev.addEventListener('click', function() {
-        track.scrollBy({ left: -260, behavior: 'smooth' });
+    // 1. Best Seller / Kategori Produk Slider (Bergeser Otomatis & Manual)
+    const catTrack = document.getElementById('catSliderTrack');
+    const catPrevBtn = document.getElementById('catSliderPrev');
+    const catNextBtn = document.getElementById('catSliderNext');
+    const catOuter = document.querySelector('.cat-slider-outer');
+
+    if (catTrack) {
+      let catAutoplayTimer = null;
+      const catAutoplayDelay = 3500; // Bergeser otomatis setiap 3.5 detik
+
+      function getCatStep() {
+        const card = catTrack.querySelector('.ref-cat-card');
+        return card ? (card.getBoundingClientRect().width + 20) : 260;
+      }
+
+      function slideNextCat() {
+        const step = getCatStep();
+        const maxScroll = catTrack.scrollWidth - catTrack.clientWidth;
+        if (catTrack.scrollLeft >= maxScroll - 15) {
+          // Sudah sampai ujung kanan, kembali ke awal secara mulus
+          catTrack.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          catTrack.scrollBy({ left: step, behavior: 'smooth' });
+        }
+      }
+
+      function slidePrevCat() {
+        const step = getCatStep();
+        if (catTrack.scrollLeft <= 15) {
+          // Jika di awal dan klik prev, lompat ke ujung kanan
+          catTrack.scrollTo({ left: catTrack.scrollWidth, behavior: 'smooth' });
+        } else {
+          catTrack.scrollBy({ left: -step, behavior: 'smooth' });
+        }
+      }
+
+      function startCatAutoplay() {
+        stopCatAutoplay();
+        catAutoplayTimer = setInterval(slideNextCat, catAutoplayDelay);
+      }
+
+      function stopCatAutoplay() {
+        if (catAutoplayTimer) {
+          clearInterval(catAutoplayTimer);
+          catAutoplayTimer = null;
+        }
+      }
+
+      function resetCatAutoplay() {
+        stopCatAutoplay();
+        startCatAutoplay();
+      }
+
+      if (catNextBtn) {
+        catNextBtn.addEventListener('click', function() {
+          slideNextCat();
+          resetCatAutoplay();
+        });
+      }
+
+      if (catPrevBtn) {
+        catPrevBtn.addEventListener('click', function() {
+          slidePrevCat();
+          resetCatAutoplay();
+        });
+      }
+
+      // Jeda otomatis ketika mouse diarahkan ke slider dan lanjutkan saat keluar
+      if (catOuter) {
+        catOuter.addEventListener('mouseenter', stopCatAutoplay);
+        catOuter.addEventListener('mouseleave', startCatAutoplay);
+        catOuter.addEventListener('touchstart', stopCatAutoplay, { passive: true });
+        catOuter.addEventListener('touchend', function() {
+          setTimeout(startCatAutoplay, 1500);
+        }, { passive: true });
+      }
+
+      // Hentikan autoplay jika tab tidak aktif
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          stopCatAutoplay();
+        } else {
+          startCatAutoplay();
+        }
       });
-      next.addEventListener('click', function() {
-        track.scrollBy({ left: 260, behavior: 'smooth' });
-      });
+
+      // Mulai auto-scroll saat halaman dimuat
+      startCatAutoplay();
     }
 
     // 2. Hero Banner Slider (Gambar Bergeser ke Kanan Otomatis & Manual)

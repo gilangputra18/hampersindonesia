@@ -630,4 +630,18 @@ class BakerySystemTest extends TestCase
         $res2->assertStatus(200);
         $res2->assertSee('Pembayaran &amp; Pengiriman', false);
     }
+
+    public function test_homepage_has_best_seller_kategori_produk_auto_slider(): void
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertSee('cat-eyebrow-ref');
+        $response->assertSee('Best Seller');
+        $response->assertSee('Kategori Produk');
+        $response->assertSee('catSliderTrack');
+        $response->assertSee('catSliderPrev');
+        $response->assertSee('catSliderNext');
+        $response->assertSee('slideNextCat');
+        $response->assertSee('startCatAutoplay');
+    }
 }
