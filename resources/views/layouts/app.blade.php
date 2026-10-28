@@ -1212,55 +1212,6 @@
     text-transform: uppercase;
     margin-top: 4px;
   }
-  .footer-newsletter-compact {
-    max-width: 480px;
-    margin: 20px auto 0;
-    text-align: center;
-  }
-  .footer-newsletter-compact p {
-    font-size: 12px;
-    color: #9cb3a8;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-  }
-  .newsletter-form-simple {
-    display: flex;
-    gap: 8px;
-    max-width: 420px;
-    margin: 0 auto;
-  }
-  .newsletter-form-simple input {
-    flex: 1;
-    padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(217, 119, 6, 0.3);
-    border-radius: 4px;
-    color: #fff;
-    font-size: 12px;
-    font-family: inherit;
-  }
-  .newsletter-form-simple input:focus {
-    outline: none;
-    border-color: #f59e0b;
-    background: rgba(255, 255, 255, 0.08);
-  }
-  .newsletter-form-simple button {
-    padding: 10px 18px;
-    background: linear-gradient(135deg, #b45309, #d97706);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-  }
-  .newsletter-form-simple button:hover {
-    background: linear-gradient(135deg, #d97706, #f59e0b);
-    color: #0d1713;
-  }
 
   .footer-main-content {
     max-width: 1100px;
@@ -2164,16 +2115,6 @@
   <div class="footer-royal-crest">
     <div class="royal-crest-title">⚜️ PUSAT HAMPERS INDONESIA ⚜️</div>
     <div class="royal-crest-tag">Pusat Hampers, Gift Box & Parcel Gourmet Terlengkap</div>
-
-    <div class="footer-newsletter-compact">
-      <p>Berlangganan Penawaran Eksklusif & Katalog Hampers Terbaru</p>
-      <form action="{{ route('contact.send') }}" method="POST" class="newsletter-form-simple">
-        @csrf
-        <input type="hidden" name="subject" value="Pendaftaran Klub Privilese VIP">
-        <input type="email" name="email" placeholder="Alamat Email Anda..." required>
-        <button type="submit">GABUNG VIP</button>
-      </form>
-    </div>
   </div>
 
   <!-- Main Footer Columns (Clean 3-Column Grid) -->

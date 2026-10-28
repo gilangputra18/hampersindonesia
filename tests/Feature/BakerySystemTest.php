@@ -53,6 +53,8 @@ class BakerySystemTest extends TestCase
         $response->assertSee('Loyang Mini');
         $response->assertSee('Other');
         $response->assertSee('luxury-brand-stack');
+        $response->assertDontSee('GABUNG VIP');
+        $response->assertDontSee('Berlangganan Penawaran Eksklusif');
         $response->assertSee('logo-title-majestic');
         $response->assertSee('CERITA RASA KAMI');
         $response->assertSee('Pure Wijsman Butter');
