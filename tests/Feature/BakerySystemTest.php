@@ -427,22 +427,13 @@ class BakerySystemTest extends TestCase
         $this->assertStringContainsString('Ibu Rina Suryani', $order->order_note);
     }
 
-    public function test_homepage_has_color_theme_switcher_and_burgundy_white_option(): void
+    public function test_homepage_is_styled_in_burgundy_white_theme(): void
     {
         $response = $this->get('/');
         $response->assertStatus(200);
-        $response->assertSee('siteThemeBar');
-        $response->assertSee('Burgundy Terang &amp; Putih', false);
-        $response->assertSee('swatch-burgundy-white');
-        $response->assertSee('floatingThemeToggle');
-
-        // Test theme switcher AJAX endpoint
-        $postTheme = $this->postJson(route('site.theme'), ['theme' => 'burgundy-white']);
-        $postTheme->assertStatus(200);
-        $postTheme->assertJson([
-            'success' => true,
-            'theme' => 'burgundy-white'
-        ]);
+        $response->assertSee('theme-burgundy-white');
+        $response->assertDontSee('siteThemeBar');
+        $response->assertDontSee('floatingThemeToggle');
     }
 
     public function test_product_without_gallery_strictly_displays_only_uploaded_image(): void

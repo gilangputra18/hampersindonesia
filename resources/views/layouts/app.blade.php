@@ -52,16 +52,16 @@
     display: block !important;
   }
 
-  /* Ultra-Luxurious Dark Royal Emerald & Gold Header Bar */
+  /* Ultra-Luxurious Royal Burgundy & Gold Header Bar */
   .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #050e0a;
+    background: #6a0d24;
     padding: 10px 40px;
     font-size: 11px;
-    border-bottom: 1px solid rgba(184, 146, 67, 0.25);
-    color: #e2e8f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: 'Outfit', sans-serif;
@@ -75,7 +75,7 @@
     flex-wrap: wrap;
   }
   .top nav a {
-    color: #cbd5e1;
+    color: #ffd1dc;
     text-decoration: none;
     transition: all 0.2s ease;
     font-weight: 700;
@@ -86,8 +86,8 @@
     letter-spacing: 2px;
   }
   .top nav a:hover {
-    color: #fef08a;
-    text-shadow: 0 0 8px rgba(230, 202, 101, 0.4);
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
   }
   .header-right-group {
     display: flex;
@@ -249,11 +249,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 14px 40px;
-    background: #16050e;
-    border-bottom: 2px solid #b89243;
+    background: #87102e;
+    border-bottom: 2px solid #e6ca65;
     gap: 20px;
     position: relative;
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
   }
   .header-left-col {
     display: flex;
@@ -1187,9 +1187,9 @@
 
   /* Ultra-Luxurious Minimalist Royal Footer */
   .luxury-footer {
-    background: #09120e;
-    color: #cad8d1;
-    border-top: 2px solid #b45309;
+    background: #54081c;
+    color: #ffd1dc;
+    border-top: 2px solid #e6ca65;
     font-family: 'Outfit', sans-serif;
   }
   .footer-royal-crest {
@@ -1833,17 +1833,7 @@
   }
 </style>
 </head>
-<body class="theme-{{ session('site_theme', \App\Http\Controllers\SiteController::getActiveTheme()) }}">
-<script>
-  (function() {
-    try {
-      var saved = localStorage.getItem('phi_site_theme');
-      if (saved && (saved === 'burgundy-white' || saved === 'wine-dark' || saved === 'emerald')) {
-        document.body.className = document.body.className.replace(/\btheme-[^\s]+\b/g, '').trim() + ' theme-' + saved;
-      }
-    } catch(e) {}
-  })();
-</script>
+<body class="theme-burgundy-white">
 @php
   $cartQty = array_sum(array_column(session('cart', []), 'quantity'));
 @endphp
