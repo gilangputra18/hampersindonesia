@@ -874,4 +874,35 @@ class BakerySystemTest extends TestCase
         $resetRes->assertRedirect(route('admin.greeting_cards.index'));
         $resetRes->assertSessionHas('success');
     }
+
+    public function test_payment_page_has_no_whatsapp_admin_button_and_footer_is_clean(): void
+    {
+        $order = Order::create([
+            'invoice_number' => 'INV-TEST-NOWA-001',
+            'customer_name' => 'Maya Anggraini',
+            'customer_phone' => '081234567890',
+            'customer_email' => 'maya@example.com',
+            'delivery_option' => 'delivery',
+            'delivery_date' => now()->addDays(2)->format('Y-m-d'),
+            'address' => 'Jl. Kebon Jeruk No 15, Jakarta',
+            'subtotal' => 500000,
+            'total_amount' => 520000,
+            'payment_status' => 'unpaid',
+            'payment_method' => 'Transfer Bank BCA',
+            'order_status' => 'pending',
+        ]);
+
+        $response = $this->get('/order/INV-TEST-NOWA-001');
+        $response->assertStatus(200);
+
+        // Verify "Hubungi admin via wa" button is removed from payment page
+        $response->assertDontSee('Hubungi Admin via WhatsApp');
+        $response->assertDontSee('btn-wa-confirm');
+
+        // Verify footer renders clean Butik & Menu Utama without redundant contact channels
+        $response->assertSee('BUTIK & LOKASI', false);
+        $response->assertSee('MENU UTAMA & LAYANAN', false);
+        $response->assertDontSee('HUBUNGI KAMI');
+        $response->assertDontSee('social-icons-row');
+    }
 }

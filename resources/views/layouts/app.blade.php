@@ -1214,22 +1214,19 @@
   }
 
   .footer-main-content {
-    max-width: 1100px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 36px 30px 28px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 36px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
   }
   @media (max-width: 768px) {
     .footer-main-content {
       grid-template-columns: repeat(2, 1fr) !important;
-      gap: 24px 14px !important;
+      gap: 24px 18px !important;
       text-align: left !important;
       padding: 28px 16px 20px !important;
-    }
-    .footer-col:last-child {
-      grid-column: 1 / -1 !important;
     }
     .footer-col h4 {
       font-size: 13.5px !important;
@@ -1269,44 +1266,6 @@
   }
   .footer-col a:hover {
     color: #f59e0b;
-  }
-
-  .social-icons-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 14px;
-  }
-  @media (max-width: 768px) {
-    .social-icons-row {
-      justify-content: flex-start;
-    }
-  }
-  .footer-col .social-icon {
-    width: 38px !important;
-    height: 38px !important;
-    border-radius: 50% !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-    text-decoration: none !important;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    position: relative;
-    overflow: hidden;
-    border: 1.5px solid rgba(254, 240, 138, 0.45) !important;
-  }
-  .footer-col .social-icon:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 6px 18px rgba(217, 119, 6, 0.5);
-    border-color: #fef08a !important;
-  }
-  .footer-col .social-icon svg {
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
   }
 
   .footer-bottom-bar {
@@ -2210,14 +2169,13 @@
     <div class="royal-crest-tag">Pusat Hampers, Gift Box & Parcel Gourmet Terlengkap</div>
   </div>
 
-  <!-- Main Footer Columns (Clean 3-Column Grid) -->
+  <!-- Main Footer Columns (Clean 2-Column Grid) -->
   <div class="footer-main-content">
     <!-- Col 1: Butik & Jam Operasional -->
     <div class="footer-col">
       <h4>BUTIK & LOKASI</h4>
       <p>📍 {{ config('site.address') }}</p>
       <p>⏰ {{ config('site.hours') }}</p>
-      <p>📞 Layanan Pelanggan: {{ config('site.phone') }}</p>
     </div>
 
     <!-- Col 2: Akses Cepat & Koleksi -->
@@ -2229,44 +2187,6 @@
       <a href="{{ route('payment.shipping') }}">💳 Pembayaran & Pengiriman</a>
       <a href="{{ route('terms') }}">📜 Syarat & Ketentuan</a>
       <a href="{{ route('track') }}">📦 Lacak Pesanan Real-Time</a>
-    </div>
-
-    <!-- Col 3: Hubungi Kami & Sosial Media -->
-    <div class="footer-col">
-      <h4>HUBUNGI KAMI</h4>
-      <p>✉️ <a href="mailto:{{ config('site.email') }}" style="display:inline; color:#fef08a;">{{ config('site.email') }}</a></p>
-      <p>📞 Telp: {{ config('site.phone') }}</p>
-
-      <div class="social-icons-row">
-        <a href="https://instagram.com" target="_blank" class="social-icon" title="Instagram Resmi Pusat Hampers">
-          <svg viewBox="0 0 36 36">
-            <defs>
-              <radialGradient id="igGradient" cx="20%" cy="110%" r="120%">
-                <stop offset="0%" stop-color="#FFDD55"/>
-                <stop offset="15%" stop-color="#FF543E"/>
-                <stop offset="50%" stop-color="#C837AB"/>
-                <stop offset="100%" stop-color="#405DE6"/>
-              </radialGradient>
-            </defs>
-            <rect width="36" height="36" rx="18" fill="url(#igGradient)"/>
-            <rect x="9" y="9" width="18" height="18" rx="5" fill="none" stroke="#FFFFFF" stroke-width="2"/>
-            <circle cx="18" cy="18" r="4.2" fill="none" stroke="#FFFFFF" stroke-width="2"/>
-            <circle cx="22.8" cy="13.2" r="1.3" fill="#FFFFFF"/>
-          </svg>
-        </a>
-        <a href="https://facebook.com" target="_blank" class="social-icon" title="Facebook Resmi Pusat Hampers">
-          <svg viewBox="0 0 36 36">
-            <circle cx="18" cy="18" r="18" fill="#1877F2"/>
-            <path d="M20.2 18.5h2.8l.4-3.5h-3.2v-2.2c0-.9.3-1.6 1.6-1.6h1.7V8.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.7h-3v3.5h3v8.5h3.4v-8.5z" fill="#FFFFFF"/>
-          </svg>
-        </a>
-        <a href="mailto:{{ config('site.email') }}" class="social-icon" title="Kirim Email Langsung">
-          <svg viewBox="0 0 36 36">
-            <circle cx="18" cy="18" r="18" fill="#d97706"/>
-            <path d="M10 12h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2V14c0-1.1.9-2 2-2zm0 2v.5l8 5 8-5V14H10zm16 10V17.5l-7.4 4.6c-.3.2-.8.2-1.2 0L10 17.5V24h16z" fill="#FFFFFF"/>
-          </svg>
-        </a>
-      </div>
     </div>
   </div>
 

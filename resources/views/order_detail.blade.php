@@ -92,28 +92,6 @@
     color: #78350f;
   }
 
-  .btn-wa-confirm {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 14px;
-    background: #25d366;
-    color: #fff;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 13.5px;
-    font-weight: 700;
-    margin-top: 14px;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-    transition: transform 0.2s;
-  }
-  .btn-wa-confirm:hover {
-    transform: translateY(-2px);
-    background: #1eb857;
-  }
-
   /* Items Table */
   .invoice-table {
     width: 100%;
@@ -416,11 +394,6 @@
           </div>
         @endif
       @endif
-
-      {{-- WHATSAPP CONFIRMATION BUTTON --}}
-      <a href="{{ $waLink }}" target="_blank" class="btn-wa-confirm">
-        <span>💬 Hubungi Admin via WhatsApp (+62 811 152 282)</span>
-      </a>
     @endif
 
     <!-- Customer & Delivery Details -->

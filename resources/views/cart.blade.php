@@ -492,7 +492,7 @@
         <h4>Pembayaran</h4>
         <p><strong>Pembayaran Penuh:</strong> Pembayaran penuh diperlukan sebelum pesanan diproses oleh dapur kami.</p>
         <p><strong>Metode Pembayaran:</strong> Pembayaran dapat dilakukan via Transfer BCA, Mandiri, BRI, QRIS Instant, maupun Midtrans Gateway (Verifikasi Otomatis).</p>
-        <p><strong>Bukti Transfer:</strong> Setelah melakukan pembayaran manual, harap kirim screenshot bukti transfer ke WhatsApp resmi kami di <strong>+62 811 152 282</strong>.</p>
+        <p><strong>Bukti Transfer:</strong> Setelah melakukan pembayaran, silakan unggah foto/screenshot bukti pembayaran pada halaman rincian pesanan untuk diverifikasi langsung oleh Admin Toko.</p>
 
         <h4>Pengiriman & Pengambilan Toko</h4>
         <p><strong>Pilihan Ekspedisi:</strong> Anda dapat memilih pengiriman Kurir Toko Dedicated, JNE Express, J&T Express, atau GoSend/GrabExpress Instant.</p>
