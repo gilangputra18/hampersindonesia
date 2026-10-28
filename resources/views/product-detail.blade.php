@@ -4,7 +4,7 @@
 
 @section('content')
 <style>
-  /* ================= THE GOLDEN BITES PRODUCT DETAIL PAGE (MATCHING IMAGE 1) ================= */
+  /* ================= LUXURY PRODUCT DETAIL PAGE ================= */
   .pdetail-page-bg {
     background: #fdfbf7;
     color: #1e293b;

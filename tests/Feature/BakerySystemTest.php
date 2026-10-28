@@ -600,10 +600,15 @@ class BakerySystemTest extends TestCase
         $res1->assertSee('Seasonal &amp; Special Edition', false);
         $res1->assertSee('Hak Kekayaan Intelektual');
         $res1->assertSee('Persetujuan');
+        $res1->assertSee('terms-toggle-btn');
+        $res1->assertSee('toggleTermsCard');
+        $res1->assertSee('toggleAllTerms');
+        $res1->assertDontSee('The Golden Bites');
 
         $res2 = $this->get('/syarat-ketentuan');
         $res2->assertStatus(200);
         $res2->assertSee('Syarat &amp; Ketentuan', false);
+        $res2->assertDontSee('The Golden Bites');
     }
 
     public function test_payment_and_shipping_page_renders_matching_reference_concept(): void

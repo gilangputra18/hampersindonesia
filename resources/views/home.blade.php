@@ -4,7 +4,7 @@
 
 @section('content')
 <style>
-  /* ===================== THE GOLDEN BITES LUXURY THEME (MATCHING IMAGE 5) ===================== */
+  /* ===================== LUXURY BURGUNDY WHITE THEME ===================== */
   :root {
     --wine-dark: #16050e;
     --wine-surface: #200814;

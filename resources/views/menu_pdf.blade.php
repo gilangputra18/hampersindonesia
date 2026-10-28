@@ -881,7 +881,7 @@
         <div class="flyer-brand-logo">
           <span class="flyer-logo-icon" style="color: #381f08;">⚜️</span>
           <div class="flyer-logo-meta">
-            <h4 style="color: #241404;">THE GOURMET BITES</h4>
+            <h4 style="color: #241404;">PUSAT HAMPERS INDONESIA</h4>
             <span style="color: #3b2208;">Authentic Artisan Recipe</span>
           </div>
         </div>

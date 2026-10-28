@@ -18,7 +18,7 @@
   .terms-header-box {
     text-align: center;
     max-width: 760px;
-    margin: 0 auto 36px;
+    margin: 0 auto 28px;
   }
   .terms-breadcrumb {
     font-size: 13px;
@@ -56,7 +56,34 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
+  }
+
+  /* Quick Expand/Collapse Toolbar */
+  .terms-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .btn-terms-action {
+    background: #ffffff;
+    border: 1px solid #dfcfb2;
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #614a30;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .btn-terms-action:hover {
+    background: #fbf5e7;
+    border-color: #caa436;
+    color: #9f183c;
   }
 
   /* Floating Scroll Indicator Dots (Right Side) */
@@ -98,30 +125,67 @@
     background: #ffffff;
     border: 1px solid #ebd9b8;
     border-radius: 6px;
-    padding: 24px 28px;
+    padding: 18px 24px;
     box-shadow: 0 3px 12px rgba(80, 50, 10, 0.03);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.2s ease;
     position: relative;
   }
   .terms-card:hover {
     box-shadow: 0 6px 18px rgba(80, 50, 10, 0.06);
+    border-color: #dfcfb2;
+  }
+
+  /* Interactive Card Header */
+  .terms-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    padding: 2px 0;
+  }
+  .terms-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: #fdf2f4;
+    border: 1.5px solid #9f183c;
+    color: #9f183c;
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .terms-card-header:hover .terms-toggle-btn {
+    background: #9f183c;
+    color: #ffffff;
+  }
+  .terms-card.is-closed .terms-toggle-btn {
+    background: #fdfbf5;
+    border-color: #caa436;
+    color: #caa436;
+  }
+  .terms-card.is-closed:hover .terms-toggle-btn {
+    background: #caa436;
+    color: #ffffff;
   }
 
   /* Title Heading */
   .terms-card-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 19px;
+    font-size: 18.5px;
     font-weight: 700;
     color: #241405;
-    margin: 0 0 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    margin: 0;
     letter-spacing: 0.3px;
+    transition: color 0.2s ease;
   }
-  .terms-dash-accent {
+  .terms-card-header:hover .terms-card-title {
     color: #9f183c;
-    font-weight: 800;
   }
 
   /* Content Text & Lists */
@@ -129,7 +193,15 @@
     font-size: 14px;
     line-height: 1.7;
     color: #423222;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(223, 207, 178, 0.65);
+    margin-top: 12px;
+    transition: all 0.3s ease;
   }
+  .terms-card.is-closed .terms-card-body {
+    display: none;
+  }
+
   .terms-card-body p {
     margin: 0 0 12px;
   }
@@ -162,12 +234,6 @@
     line-height: 1;
     top: 0px;
   }
-  .terms-list-dash li::before {
-    content: "–";
-    color: #8c7355;
-    font-size: 14px;
-    top: 1px;
-  }
 
   /* Bottom Notice Banner */
   .terms-bottom-banner {
@@ -189,13 +255,13 @@
       padding: 24px 12px 60px;
     }
     .terms-card {
-      padding: 18px 18px;
+      padding: 16px 16px;
     }
     .terms-page-title {
-      font-size: 30px;
+      font-size: 28px;
     }
     .terms-card-title {
-      font-size: 17px;
+      font-size: 16.5px;
     }
     .terms-card-body {
       font-size: 13.5px;
@@ -214,6 +280,16 @@
 
   <!-- Main Terms Container -->
   <div class="terms-main-container">
+
+    <!-- Expand / Collapse All Toolbar -->
+    <div class="terms-toolbar">
+      <button type="button" class="btn-terms-action" onclick="toggleAllTerms(true)" title="Buka Semua Penjelasan">
+        <span>+</span> <span>Buka Semua</span>
+      </button>
+      <button type="button" class="btn-terms-action" onclick="toggleAllTerms(false)" title="Tutup Semua Penjelasan">
+        <span>−</span> <span>Tutup Semua</span>
+      </button>
+    </div>
 
     <!-- Floating Navigation Scroll Dots (Desktop) -->
     <div class="terms-dots-nav">
@@ -234,16 +310,22 @@
 
     <!-- 1. Ketentuan Umum -->
     <div class="terms-card" id="sec-ketentuan-umum">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Ketentuan Umum</h2>
-      <div class="terms-card-body">
-        <p>Dengan mengakses dan/atau bertransaksi di website <strong>Pusat Hampers Indonesia</strong> (The Golden Bites / pusathampersindonesia.com), Anda menyatakan setuju untuk terikat dengan seluruh Syarat &amp; Ketentuan ini. Syarat &amp; Ketentuan ini dapat diperbarui sewaktu-waktu tanpa pemberitahuan terlebih dahulu, dan perubahan berlaku efektif sejak dipublikasikan di website.</p>
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-ketentuan-umum')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-ketentuan-umum">−</span>
+        <h2 class="terms-card-title">Ketentuan Umum</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-ketentuan-umum">
+        <p>Dengan mengakses dan/atau bertransaksi di website <strong>{{ config('site.brand') }}</strong> (hampersindonesia.com), Anda menyatakan setuju untuk terikat dengan seluruh Syarat &amp; Ketentuan ini. Syarat &amp; Ketentuan ini dapat diperbarui sewaktu-waktu tanpa pemberitahuan terlebih dahulu, dan perubahan berlaku efektif sejak dipublikasikan di website.</p>
       </div>
     </div>
 
     <!-- 2. Produk & Kualitas -->
     <div class="terms-card" id="sec-produk-kualitas">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Produk &amp; Kualitas</h2>
-      <div class="terms-card-body">
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-produk-kualitas')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-produk-kualitas">−</span>
+        <h2 class="terms-card-title">Produk &amp; Kualitas</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-produk-kualitas">
         <ul class="terms-list">
           <li>Seluruh produk kue, pastry, dan hampers kami diproduksi menggunakan bahan berkualitas premium tanpa bahan pengawet berbahaya.</li>
           <li>Bentuk, warna kemasan, hiasan pita, dan ornamen hampers dapat sedikit berbeda dari foto display karena proses pembuatan handmade yang unik dan ketersediaan stok aksesoris musiman.</li>
@@ -254,12 +336,15 @@
 
     <!-- 3. Pemesanan -->
     <div class="terms-card" id="sec-pemesanan">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Pemesanan</h2>
-      <div class="terms-card-body">
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-pemesanan')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-pemesanan">−</span>
+        <h2 class="terms-card-title">Pemesanan</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-pemesanan">
         <p>Pemesanan dapat dilakukan melalui:</p>
         <ul class="terms-list">
           <li>Website resmi: <strong>hampersindonesia.com</strong></li>
-          <li>Customer Service resmi (WhatsApp &amp; Telepon)</li>
+          <li>Customer Service resmi (Telepon: {{ config('site.phone') }})</li>
           <li>Marketplace resmi (Tokopedia &amp; Shopee)</li>
         </ul>
         <p>Pesanan dianggap valid dan masuk antrean proses setelah pembayaran terkonfirmasi lunas oleh sistem.</p>
@@ -268,17 +353,23 @@
 
     <!-- 4. Ketersediaan Produk -->
     <div class="terms-card" id="sec-ketersediaan">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Ketersediaan Produk</h2>
-      <div class="terms-card-body">
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-ketersediaan')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-ketersediaan">−</span>
+        <h2 class="terms-card-title">Ketersediaan Produk</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-ketersediaan">
         <p>Ketersediaan produk harian bersifat first-come, first-served. Khusus pesanan Seasonal Hampers (Idul Fitri, Natal, Imlek) atau pemesanan dalam jumlah besar (Corporate Order), disarankan melakukan Pre-Order lebih awal untuk menjamin ketersediaan slot tanggal pengiriman.</p>
       </div>
     </div>
 
     <!-- 5. Custom Order & Corporate Order -->
     <div class="terms-card" id="sec-custom-corporate">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Custom Order &amp; Corporate Order</h2>
-      <div class="terms-card-body">
-        <p>Pusat Hampers Indonesia melayani pesanan khusus (Custom Gift Box &amp; Corporate Hampers) untuk kebutuhan personal maupun perusahaan.</p>
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-custom-corporate')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-custom-corporate">−</span>
+        <h2 class="terms-card-title">Custom Order &amp; Corporate Order</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-custom-corporate">
+        <p>{{ config('site.brand') }} melayani pesanan khusus (Custom Gift Box &amp; Corporate Hampers) untuk kebutuhan personal maupun perusahaan.</p>
         <span class="terms-sub-heading">Ketentuan:</span>
         <ul class="terms-list">
           <li>Minimal order berlaku untuk custom packaging / logo branding perusahaan.</li>
@@ -290,8 +381,11 @@
 
     <!-- 6. Harga & Pembayaran -->
     <div class="terms-card" id="sec-harga-pembayaran">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Harga &amp; Pembayaran</h2>
-      <div class="terms-card-body">
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-harga-pembayaran')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-harga-pembayaran">−</span>
+        <h2 class="terms-card-title">Harga &amp; Pembayaran</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-harga-pembayaran">
         <ul class="terms-list">
           <li>Harga produk sesuai yang tercantum di katalog website saat pemesanan dilakukan.</li>
           <li>Harga dapat berubah sewaktu-waktu tanpa pemberitahuan sebelumnya mengikuti ketersediaan bahan baku premium.</li>
@@ -303,8 +397,11 @@
 
     <!-- 7. Pengiriman -->
     <div class="terms-card" id="sec-pengiriman">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Pengiriman</h2>
-      <div class="terms-card-body">
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-pengiriman')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-pengiriman">−</span>
+        <h2 class="terms-card-title">Pengiriman</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-pengiriman">
         <p>Pengiriman pesanan menggunakan kurir dengan standar pengemasan aman.</p>
         <span class="terms-sub-heading">Ketentuan estimasi dan pengiriman:</span>
         <ul class="terms-list">
@@ -323,9 +420,12 @@
 
     <!-- 8. Tanggung Jawab Pengiriman -->
     <div class="terms-card" id="sec-tanggung-jawab">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Tanggung Jawab Pengiriman</h2>
-      <div class="terms-card-body">
-        <p>Pusat Hampers Indonesia memastikan seluruh pesanan dikemas dengan standar keamanan terbaik dan diserahkan kepada kurir dalam kondisi prima.</p>
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-tanggung-jawab')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-tanggung-jawab">−</span>
+        <h2 class="terms-card-title">Tanggung Jawab Pengiriman</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-tanggung-jawab">
+        <p>{{ config('site.brand') }} memastikan seluruh pesanan dikemas dengan standar keamanan terbaik dan diserahkan kepada kurir dalam kondisi prima.</p>
         <span class="terms-sub-heading">Hal-hal yang berada di luar kendali kami:</span>
         <ul class="terms-list">
           <li>Keterlambatan pengantaran yang disebabkan oleh kendala operasional ekspedisi / cuaca ekstrem / bencana alam.</li>
@@ -337,8 +437,11 @@
 
     <!-- 9. Kebijakan Refund & Komplain -->
     <div class="terms-card" id="sec-refund-komplain">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Kebijakan Refund &amp; Komplain</h2>
-      <div class="terms-card-body">
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-refund-komplain')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-refund-komplain">−</span>
+        <h2 class="terms-card-title">Kebijakan Refund &amp; Komplain</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-refund-komplain">
         <p>Komplain atas kerusakan produk yang murni akibat kelalaian internal kami dapat diajukan maksimal <strong>1x24 jam</strong> sejak paket diterima oleh penerima, dengan wajib menyertakan:</p>
         <ul class="terms-list">
           <li>Video unboxing utuh tanpa jeda/edit sejak paket tersegel dibuka.</li>
@@ -351,11 +454,14 @@
 
     <!-- 10. Operasional Toko -->
     <div class="terms-card" id="sec-operasional">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Operasional Toko</h2>
-      <div class="terms-card-body">
-        <p>Pusat Hampers Indonesia beroperasi setiap hari:</p>
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-operasional')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-operasional">−</span>
+        <h2 class="terms-card-title">Operasional Toko</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-operasional">
+        <p>{{ config('site.brand') }} beroperasi setiap hari:</p>
         <ul class="terms-list">
-          <li><strong>Jam Operasional:</strong> 08.00 - 21.00 WIB</li>
+          <li><strong>Jam Operasional:</strong> {{ config('site.hours', '08.00 - 21.00 WIB') }}</li>
           <li><strong>Alamat Toko &amp; Galeri:</strong> {{ config('site.address') }}</li>
           <li><strong>Telepon / Kontak:</strong> {{ config('site.phone') }}</li>
         </ul>
@@ -364,8 +470,11 @@
 
     <!-- 11. Seasonal & Special Edition -->
     <div class="terms-card" id="sec-seasonal">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Seasonal &amp; Special Edition</h2>
-      <div class="terms-card-body">
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-seasonal')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-seasonal">−</span>
+        <h2 class="terms-card-title">Seasonal &amp; Special Edition</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-seasonal">
         <p>Kami merilis edisi koleksi hampers khusus pada setiap momen perayaan besar nasional:</p>
         <ul class="terms-list">
           <li>Hampers Idul Fitri / Lebaran</li>
@@ -378,29 +487,68 @@
 
     <!-- 12. Hak Kekayaan Intelektual -->
     <div class="terms-card" id="sec-hki">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Hak Kekayaan Intelektual</h2>
-      <div class="terms-card-body">
-        <p>Seluruh foto produk, teks, logo, desain grafis kemasan, konsep hampers, dan materi promosi pada website Pusat Hampers Indonesia (The Golden Bites) dilindungi oleh undang-undang Hak Cipta dan tidak boleh disalin, direproduksi, atau dipergunakan kembali tanpa izin tertulis dari manajemen.</p>
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-hki')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-hki">−</span>
+        <h2 class="terms-card-title">Hak Kekayaan Intelektual</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-hki">
+        <p>Seluruh foto produk, teks, logo, desain grafis kemasan, konsep hampers, dan materi promosi pada website <strong>{{ config('site.brand') }}</strong> dilindungi oleh undang-undang Hak Cipta dan tidak boleh disalin, direproduksi, atau dipergunakan kembali tanpa izin tertulis dari manajemen.</p>
       </div>
     </div>
 
     <!-- 13. Persetujuan -->
     <div class="terms-card" id="sec-persetujuan">
-      <h2 class="terms-card-title"><span class="terms-dash-accent">—</span> Persetujuan</h2>
-      <div class="terms-card-body">
-        <p>Dengan mengakses atau bertransaksi di website Pusat Hampers Indonesia (The Golden Bites), pelanggan dianggap telah membaca, memahami, dan menyetujui seluruh isi Syarat &amp; Ketentuan yang berlaku.</p>
+      <div class="terms-card-header" onclick="toggleTermsCard('sec-persetujuan')" role="button" tabindex="0" title="Klik untuk membuka atau menutup penjelasan">
+        <span class="terms-toggle-btn" id="icon-sec-persetujuan">−</span>
+        <h2 class="terms-card-title">Persetujuan</h2>
+      </div>
+      <div class="terms-card-body" id="body-sec-persetujuan">
+        <p>Dengan mengakses atau bertransaksi di website <strong>{{ config('site.brand') }}</strong>, pelanggan dianggap telah membaca, memahami, dan menyetujui seluruh isi Syarat &amp; Ketentuan yang berlaku.</p>
       </div>
     </div>
 
     <!-- Bottom Notice Banner -->
     <div class="terms-bottom-banner">
-      Dengan melakukan pemesanan di Pusat Hampers Indonesia (The Golden Bites), pelanggan dianggap telah menyetujui seluruh Syarat &amp; Ketentuan yang berlaku.
+      Dengan melakukan pemesanan di <strong>{{ config('site.brand') }}</strong>, pelanggan dianggap telah menyetujui seluruh Syarat &amp; Ketentuan yang berlaku.
     </div>
 
   </div>
 </div>
 
 <script>
+  // Accordion Toggle: Klik minus untuk menutup (jadi plus), klik plus untuk membuka penjelasan (jadi minus)
+  function toggleTermsCard(cardId) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
+    const isClosed = card.classList.contains('is-closed');
+    const icon = document.getElementById('icon-' + cardId);
+
+    if (isClosed) {
+      // Buka penjelasan (tampilkan body & ubah icon jadi minus)
+      card.classList.remove('is-closed');
+      if (icon) icon.textContent = '−';
+    } else {
+      // Tutup penjelasan (sembunyikan body & ubah icon jadi plus)
+      card.classList.add('is-closed');
+      if (icon) icon.textContent = '+';
+    }
+  }
+
+  // Buka Semua / Tutup Semua
+  function toggleAllTerms(shouldOpen) {
+    document.querySelectorAll('.terms-card').forEach(card => {
+      const cardId = card.id;
+      const icon = document.getElementById('icon-' + cardId);
+      if (shouldOpen) {
+        card.classList.remove('is-closed');
+        if (icon) icon.textContent = '−';
+      } else {
+        card.classList.add('is-closed');
+        if (icon) icon.textContent = '+';
+      }
+    });
+  }
+
   function setTermsDot(elem) {
     document.querySelectorAll('.terms-dot').forEach(d => d.classList.remove('active'));
     elem.classList.add('active');
