@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Laravel\Socialite\Facades\Socialite;
 
 class CustomerAuthController extends Controller
 {
@@ -91,18 +90,22 @@ class CustomerAuthController extends Controller
 
         // When Google OAuth credentials are configured, immediately redirect user to Google Account Chooser
         if ($clientId && $clientSecret && !str_contains($clientId, 'example') && !str_contains($clientId, 'your-') && strlen($clientId) > 20 && !$request->has('chooser')) {
-            try {
-                $redirectUri = $this->googleRedirectUri();
+            // Direct OAuth URL (100% reliable, official Google OAuth endpoint, zero package dependency)
+            $directUrl = $this->getDirectGoogleAuthUrl();
+            if ($directUrl) {
+                return redirect()->away($directUrl);
+            }
 
-                return Socialite::driver('google')
-                    ->redirectUrl($redirectUri)
-                    ->with(['prompt' => 'select_account'])
-                    ->redirect();
-            } catch (\Throwable $e) {
-                Log::warning('Socialite direct redirect failed, trying direct OAuth URL: ' . $e->getMessage());
-                $directUrl = $this->getDirectGoogleAuthUrl();
-                if ($directUrl) {
-                    return redirect()->away($directUrl);
+            // Fallback Socialite if class exists
+            if (class_exists(\Laravel\Socialite\Facades\Socialite::class)) {
+                try {
+                    $redirectUri = $this->googleRedirectUri();
+                    return \Laravel\Socialite\Facades\Socialite::driver('google')
+                        ->redirectUrl($redirectUri)
+                        ->with(['prompt' => 'select_account'])
+                        ->redirect();
+                } catch (\Throwable $e) {
+                    Log::warning('Socialite direct redirect failed: ' . $e->getMessage());
                 }
             }
         }
@@ -114,9 +117,14 @@ class CustomerAuthController extends Controller
 
     private function googleRedirectUri(): string
     {
-        $configured = config('services.google.redirect');
-        if ($configured && (str_starts_with($configured, 'http://') || str_starts_with($configured, 'https://'))) {
-            return $configured;
+        $currentHost = request()->getHost();
+        $isLocal = in_array($currentHost, ['localhost', '127.0.0.1', '::1']) || str_ends_with($currentHost, '.test') || str_ends_with($currentHost, '.local');
+
+        if (!$isLocal) {
+            $configured = config('services.google.redirect');
+            if ($configured && (str_starts_with($configured, 'http://') || str_starts_with($configured, 'https://'))) {
+                return $configured;
+            }
         }
 
         return route('auth.google.callback');
@@ -211,23 +219,64 @@ class CustomerAuthController extends Controller
         if ($request->has('code') && $clientId && $clientSecret && !str_contains($clientId, 'example') && !str_contains($clientId, 'your-')) {
             try {
                 $redirectUri = $this->googleRedirectUri();
+                $email = null;
+                $name = null;
+                $googleId = null;
+                $avatar = null;
 
+                // 1. Pertukaran kode otorisasi via HTTP langsung (Paling stabil, mandiri tanpa dependensi package)
                 try {
-                    $googleUser = Socialite::driver('google')
-                        ->redirectUrl($redirectUri)
-                        ->stateless()
-                        ->user();
-                } catch (\Throwable $e1) {
-                    Log::warning('Socialite stateless error, retrying stateful: ' . $e1->getMessage());
-                    $googleUser = Socialite::driver('google')
-                        ->redirectUrl($redirectUri)
-                        ->user();
+                    $tokenResponse = Http::asForm()->timeout(12)->post('https://oauth2.googleapis.com/token', [
+                        'code' => $request->input('code'),
+                        'client_id' => $clientId,
+                        'client_secret' => $clientSecret,
+                        'redirect_uri' => $redirectUri,
+                        'grant_type' => 'authorization_code',
+                    ]);
+
+                    if ($tokenResponse->successful()) {
+                        $tokenData = $tokenResponse->json();
+                        $accessToken = $tokenData['access_token'] ?? null;
+
+                        if ($accessToken) {
+                            $userResponse = Http::withToken($accessToken)->timeout(12)->get('https://www.googleapis.com/oauth2/v3/userinfo');
+                            if ($userResponse->successful()) {
+                                $googleData = $userResponse->json();
+                                $email = $googleData['email'] ?? null;
+                                $name = $googleData['name'] ?? ($googleData['given_name'] ?? explode('@', $email)[0]);
+                                $googleId = $googleData['sub'] ?? null;
+                                $avatar = $googleData['picture'] ?? null;
+                            }
+                        }
+                    } else {
+                        Log::warning('Native Google token endpoint returned error: ' . $tokenResponse->body());
+                    }
+                } catch (\Throwable $httpEx) {
+                    Log::warning('Native Google OAuth token exchange exception: ' . $httpEx->getMessage());
                 }
 
-                $email = $googleUser->getEmail();
-                $name = $googleUser->getName() ?: explode('@', $email)[0];
-                $googleId = $googleUser->getId();
-                $avatar = $googleUser->getAvatar();
+                // 2. Fallback Socialite jika tersedia di vendor
+                if (empty($email) && class_exists(\Laravel\Socialite\Facades\Socialite::class)) {
+                    try {
+                        $googleUser = \Laravel\Socialite\Facades\Socialite::driver('google')
+                            ->redirectUrl($redirectUri)
+                            ->stateless()
+                            ->user();
+
+                        $email = $googleUser->getEmail();
+                        $name = $googleUser->getName() ?: explode('@', $email)[0];
+                        $googleId = $googleUser->getId();
+                        $avatar = $googleUser->getAvatar();
+                    } catch (\Throwable $socEx) {
+                        Log::warning('Socialite fallback user fetch error: ' . $socEx->getMessage());
+                    }
+                }
+
+                if (empty($email)) {
+                    return redirect()->route('login')->withErrors([
+                        'email' => 'Gagal menghubungkan akun Google. Silakan coba lagi atau masuk menggunakan opsi email & kata sandi.'
+                    ]);
+                }
 
                 $user = User::where('google_id', $googleId)
                     ->orWhere('email', $email)
@@ -255,7 +304,9 @@ class CustomerAuthController extends Controller
                 return redirect()->intended(route('home'))->with('success', 'Berhasil login dengan akun Google ' . $user->name . '!');
             } catch (\Throwable $e) {
                 Log::error('Google OAuth callback error: ' . $e->getMessage());
-                return redirect()->route('login')->withErrors(['email' => 'Gagal menghubungkan akun Google (' . $e->getMessage() . '). Silakan coba lagi.']);
+                return redirect()->route('login')->withErrors([
+                    'email' => 'Gagal menghubungkan akun Google. Silakan coba lagi atau masuk dengan email & kata sandi.'
+                ]);
             }
         }
 

@@ -611,6 +611,32 @@ class BakerySystemTest extends TestCase
         $this->assertEquals('pelanggan.test@gmail.com', auth()->user()->email);
     }
 
+    public function test_google_auth_callback_with_authorization_code_and_native_http(): void
+    {
+        \Illuminate\Support\Facades\Http::fake([
+            'https://oauth2.googleapis.com/token' => \Illuminate\Support\Facades\Http::response([
+                'access_token' => 'mock_access_token_123',
+                'id_token' => 'mock_id_token',
+                'expires_in' => 3600,
+            ], 200),
+            'https://www.googleapis.com/oauth2/v3/userinfo' => \Illuminate\Support\Facades\Http::response([
+                'sub' => 'google_sub_998877',
+                'name' => 'Dr. Hendra Gunawan',
+                'email' => 'hendra.gunawan@gmail.com',
+                'picture' => 'https://lh3.googleusercontent.com/avatar.jpg',
+            ], 200),
+        ]);
+
+        $response = $this->get('/auth/google/callback?code=mock_auth_code_from_google');
+        $response->assertRedirect(route('home'));
+        $this->assertAuthenticated();
+
+        $user = User::where('email', 'hendra.gunawan@gmail.com')->first();
+        $this->assertNotNull($user);
+        $this->assertEquals('Dr. Hendra Gunawan', $user->name);
+        $this->assertEquals('google_sub_998877', $user->google_id);
+    }
+
     public function test_customer_registration_page_and_processing(): void
     {
         // 1. Register page loads properly with tabs and form
