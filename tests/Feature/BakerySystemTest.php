@@ -620,15 +620,15 @@ class BakerySystemTest extends TestCase
         $res1->assertSee('Virtual Account (Bank Transfer)');
         $res1->assertSee('E-Wallet');
         $res1->assertSee('QRIS');
-        $res1->assertSee('Pengiriman Domestik &amp; Internasional', false);
-        $res1->assertSee('Pengiriman Internasional (Pale Baithip)');
-        $res1->assertSee('Singapura, Malaysia, Brunei');
-        $res1->assertSee('Note:');
-        $res1->assertSee('Pajak impor dan bea cukai ditanggung oleh pembeli');
+        $res1->assertSee('Pengiriman Domestik (Indonesia)');
+        $res1->assertDontSee('Pale Baithip');
+        $res1->assertDontSee('Pengiriman Internasional');
+        $res1->assertDontSee('Pajak impor dan bea cukai');
 
         $res2 = $this->get('/payment-shipping');
         $res2->assertStatus(200);
         $res2->assertSee('Pembayaran &amp; Pengiriman', false);
+        $res2->assertDontSee('Pale Baithip');
     }
 
     public function test_homepage_has_best_seller_kategori_produk_auto_slider(): void

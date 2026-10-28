@@ -307,7 +307,6 @@
     <div class="ps-dots-nav">
       <a href="#sec-pembayaran" class="ps-dot active" title="Metode Pembayaran (Xendit)" onclick="setPsDot(this)"></a>
       <a href="#sec-pengiriman-domestik" class="ps-dot" title="Pengiriman Domestik (Indonesia)" onclick="setPsDot(this)"></a>
-      <a href="#sec-pengiriman-internasional" class="ps-dot" title="Pengiriman Internasional (Pale Baithip)" onclick="setPsDot(this)"></a>
       <a href="#sec-bantuan" class="ps-dot" title="Butuh Bantuan Pemesanan?" onclick="setPsDot(this)"></a>
     </div>
 
@@ -372,14 +371,9 @@
     <div class="ps-card" id="sec-pengiriman-domestik">
       <h2 class="ps-main-section-title">
         <span>🚚</span>
-        <span>Pengiriman Domestik &amp; Internasional</span>
-      </h2>
-
-      <h3 class="ps-sub-section-title">
-        <span>📦</span>
         <span>Pengiriman Domestik (Indonesia)</span>
-      </h3>
-      <p class="ps-card-text">Kami menggunakan ekspedisi terpercaya:</p>
+      </h2>
+      <p class="ps-card-text">Kami menggunakan ekspedisi terpercaya untuk menjamin pesanan tiba dengan aman:</p>
 
       <ul class="ps-list-group" style="gap: 6px;">
         <li class="ps-list-item">
@@ -417,68 +411,7 @@
     </div>
 
     <!-- ==========================================
-         CARD 3: PENGIRIMAN INTERNASIONAL (PALE BAITHIP)
-         ========================================== -->
-    <div class="ps-card" id="sec-pengiriman-internasional">
-      <h2 class="ps-main-section-title">
-        <span>✈️</span>
-        <span>Pengiriman Internasional (Pale Baithip)</span>
-      </h2>
-      <p class="ps-card-text">
-        Untuk pengiriman ke luar negeri, kami bermitra dengan <strong>Pale Baithip</strong> – spesialis pengiriman makanan Indonesia ke berbagai negara.
-      </p>
-
-      <h3 class="ps-sub-section-title">
-        <span>🌏</span>
-        <span>Negara yang dilayani:</span>
-      </h3>
-      <ul class="ps-list-group" style="gap: 6px;">
-        <li class="ps-list-item">
-          <div class="ps-item-label">Singapura, Malaysia, Brunei</div>
-        </li>
-        <li class="ps-list-item">
-          <div class="ps-item-label">Hong Kong, Taiwan, Korea Selatan, Jepang</div>
-        </li>
-        <li class="ps-list-item">
-          <div class="ps-item-label">Australia, New Zealand</div>
-        </li>
-        <li class="ps-list-item">
-          <div class="ps-item-label">Dan negara lain sesuai cakupan Pale Baithip</div>
-        </li>
-      </ul>
-
-      <p class="ps-card-text" style="margin-top: 14px;">
-        📦 Produk akan dikemas <strong>vakum dan food-grade safe</strong>, agar tetap aman dan higienis selama perjalanan.
-      </p>
-
-      <h3 class="ps-sub-section-title">
-        <span>⏱️</span>
-        <span>Estimasi waktu pengiriman:</span>
-      </h3>
-      <ul class="ps-list-group" style="gap: 6px;">
-        <li class="ps-list-item">
-          <div class="ps-item-label">Asia Tenggara: 3–7 hari kerja</div>
-        </li>
-        <li class="ps-list-item">
-          <div class="ps-item-label">Asia Timur &amp; Australia: 5–10 hari kerja</div>
-        </li>
-        <li class="ps-list-item">
-          <div class="ps-item-label">Amerika &amp; Eropa: 7–14 hari kerja</div>
-        </li>
-      </ul>
-
-      <!-- Quote Callout Box -->
-      <div class="ps-quote-callout">
-        <span class="ps-quote-icon">“</span>
-        <span class="ps-exclamation-badge">!</span>
-        <div class="ps-callout-content">
-          <strong>Note:</strong> Pajak impor dan bea cukai ditanggung oleh pembeli sesuai regulasi negara tujuan.
-        </div>
-      </div>
-    </div>
-
-    <!-- ==========================================
-         CARD 4: BUTUH BANTUAN PEMESANAN?
+         CARD 3: BUTUH BANTUAN PEMESANAN?
          ========================================== -->
     <div class="ps-card" id="sec-bantuan">
       <h2 class="ps-main-section-title">
@@ -486,7 +419,7 @@
         <span>Butuh bantuan pemesanan?</span>
       </h2>
       <p class="ps-card-text">
-        Hubungi layanan concierge kami untuk panduan dan konsultasi pemesanan khusus maupun pengiriman internasional:
+        Hubungi layanan concierge kami untuk panduan dan konsultasi pemesanan produk maupun hampers:
       </p>
 
       <div class="ps-cta-box">
@@ -515,7 +448,6 @@
     const cards = [
       document.getElementById('sec-pembayaran'),
       document.getElementById('sec-pengiriman-domestik'),
-      document.getElementById('sec-pengiriman-internasional'),
       document.getElementById('sec-bantuan')
     ];
     const dots = document.querySelectorAll('.ps-dot');
