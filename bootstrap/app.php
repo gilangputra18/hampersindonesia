@@ -14,9 +14,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
         // Vercel terminates TLS at its edge proxy; trust it so asset()/url() generate https:// links.
         $middleware->trustProxies(at: '*');
 
-        // Exclude payment gateway webhook from CSRF validation
+        // Exclude payment gateway webhook and Google callback from CSRF validation
         $middleware->validateCsrfTokens(except: [
             'api/midtrans/notification',
+            'auth/google/callback',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -480,4 +480,31 @@ class BakerySystemTest extends TestCase
         $dashRes->assertDontSee('#0f172a');
         $dashRes->assertDontSee('#13221b');
     }
+
+    public function test_google_auth_flow_and_account_chooser(): void
+    {
+        // 1. Direct /auth/google redirects to Google accounts OAuth with select_account prompt
+        $response = $this->get('/auth/google');
+        $this->assertTrue($response->isRedirect());
+        $targetUrl = $response->headers->get('Location');
+        $this->assertStringContainsString('accounts.google.com', $targetUrl);
+        $this->assertStringContainsString('prompt=select_account', $targetUrl);
+
+        // 2. /auth/google?chooser=1 renders the account chooser UI with accounts and direct button
+        $chooserRes = $this->get('/auth/google?chooser=1');
+        $chooserRes->assertStatus(200);
+        $chooserRes->assertSee('CHOOSE AN ACCOUNT');
+        $chooserRes->assertSee('Buka Pilihan Akun Google Resmi');
+        $chooserRes->assertSee('deviceAccountsContainer');
+        $chooserRes->assertSee('Gunakan akun Google lain');
+
+        // 3. User can login with Google account callback
+        $callbackRes = $this->post('/auth/google/callback', [
+            'email' => 'pelanggan.test@gmail.com',
+            'name' => 'Pelanggan Google Test',
+        ]);
+        $callbackRes->assertRedirect(route('home'));
+        $this->assertAuthenticated();
+        $this->assertEquals('pelanggan.test@gmail.com', auth()->user()->email);
+    }
 }

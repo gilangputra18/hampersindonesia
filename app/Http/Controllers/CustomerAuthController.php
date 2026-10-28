@@ -6,8 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class CustomerAuthController extends Controller
 {
@@ -42,20 +44,61 @@ class CustomerAuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function redirectToGoogle()
+    public function redirectToGoogle(Request $request)
     {
         $clientId = config('services.google.client_id');
         $clientSecret = config('services.google.client_secret');
 
-        if ($clientId && $clientSecret && !str_contains($clientId, 'example') && !str_contains($clientId, 'your-') && strlen($clientId) > 20) {
+        // When Google OAuth credentials are configured, immediately redirect user to Google Account Chooser
+        if ($clientId && $clientSecret && !str_contains($clientId, 'example') && !str_contains($clientId, 'your-') && strlen($clientId) > 20 && !$request->has('chooser')) {
             try {
-                return \Laravel\Socialite\Facades\Socialite::driver('google')->redirect();
+                $redirectUri = $this->googleRedirectUri();
+
+                return Socialite::driver('google')
+                    ->redirectUrl($redirectUri)
+                    ->with(['prompt' => 'select_account'])
+                    ->redirect();
             } catch (\Throwable $e) {
-                // Fallback to internal device account chooser
+                Log::warning('Socialite direct redirect failed, trying direct OAuth URL: ' . $e->getMessage());
+                $directUrl = $this->getDirectGoogleAuthUrl();
+                if ($directUrl) {
+                    return redirect()->away($directUrl);
+                }
             }
         }
 
-        return view('auth.google_demo');
+        return view('auth.google_demo', [
+            'oauthUrl' => $this->getDirectGoogleAuthUrl(),
+        ]);
+    }
+
+    private function googleRedirectUri(): string
+    {
+        $configured = config('services.google.redirect');
+        if ($configured && (str_starts_with($configured, 'http://') || str_starts_with($configured, 'https://'))) {
+            return $configured;
+        }
+
+        return route('auth.google.callback');
+    }
+
+    public function getDirectGoogleAuthUrl(): ?string
+    {
+        $clientId = config('services.google.client_id');
+        if (!$clientId || str_contains($clientId, 'example') || str_contains($clientId, 'your-')) {
+            return null;
+        }
+
+        $params = [
+            'client_id' => $clientId,
+            'redirect_uri' => $this->googleRedirectUri(),
+            'response_type' => 'code',
+            'scope' => 'openid profile email',
+            'prompt' => 'select_account',
+            'access_type' => 'online',
+        ];
+
+        return 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
     }
 
     private function googleClientId(): ?string
@@ -71,8 +114,7 @@ class CustomerAuthController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
-        // Verified path: ID token (JWT) issued by Google after the user picks an account
-        // in Google's own account chooser (Google Identity Services).
+        // Path 1: Verified Google One-Tap / Identity Services token credential verification
         if ($request->filled('credential')) {
             $configuredId = $this->googleClientId();
             if (!$configuredId) {
@@ -80,7 +122,7 @@ class CustomerAuthController extends Controller
             }
 
             try {
-                $response = \Illuminate\Support\Facades\Http::timeout(10)->get('https://oauth2.googleapis.com/tokeninfo', [
+                $response = Http::timeout(10)->get('https://oauth2.googleapis.com/tokeninfo', [
                     'id_token' => $request->input('credential'),
                 ]);
                 $payload = $response->json();
@@ -115,90 +157,107 @@ class CustomerAuthController extends Controller
                 Auth::login($user, true);
                 $request->session()->regenerate();
 
-                return redirect()->route('home')->with('success', 'Berhasil login dengan akun Google ' . $user->name . '!');
+                return redirect()->intended(route('home'))->with('success', 'Berhasil login dengan akun Google ' . $user->name . '!');
             } catch (\Throwable $e) {
+                Log::error('Google GSI verify error: ' . $e->getMessage());
                 return redirect()->route('login')->withErrors(['email' => 'Gagal terhubung dengan Google. Silakan coba lagi.']);
             }
         }
 
-        // When a Google Client ID is configured, ONLY verified tokens may log in.
-        if ($this->googleClientId() && !$request->has('demo_mode')) {
-            if (!config('services.google.client_secret')) {
-                return redirect()->route('login')->withErrors(['email' => 'Silakan pilih akun melalui jendela resmi Google.']);
-            }
-        }
-
+        // Path 2: Google OAuth2 Authorization Code Callback (?code=...)
         $clientId = config('services.google.client_id');
         $clientSecret = config('services.google.client_secret');
 
-        if ($clientId && $clientSecret && !str_contains($clientId, 'example') && !str_contains($clientId, 'your-') && strlen($clientId) > 20 && !$request->has('demo_mode')) {
+        if ($request->has('code') && $clientId && $clientSecret && !str_contains($clientId, 'example') && !str_contains($clientId, 'your-')) {
             try {
-                $googleUser = \Laravel\Socialite\Facades\Socialite::driver('google')->user();
-                $user = User::where('google_id', $googleUser->id)
-                    ->orWhere('email', $googleUser->email)
+                $redirectUri = $this->googleRedirectUri();
+
+                try {
+                    $googleUser = Socialite::driver('google')
+                        ->redirectUrl($redirectUri)
+                        ->stateless()
+                        ->user();
+                } catch (\Throwable $e1) {
+                    Log::warning('Socialite stateless error, retrying stateful: ' . $e1->getMessage());
+                    $googleUser = Socialite::driver('google')
+                        ->redirectUrl($redirectUri)
+                        ->user();
+                }
+
+                $email = $googleUser->getEmail();
+                $name = $googleUser->getName() ?: explode('@', $email)[0];
+                $googleId = $googleUser->getId();
+                $avatar = $googleUser->getAvatar();
+
+                $user = User::where('google_id', $googleId)
+                    ->orWhere('email', $email)
                     ->first();
 
                 if (!$user) {
                     $user = User::create([
-                        'name' => $googleUser->name,
-                        'email' => $googleUser->email,
-                        'google_id' => $googleUser->id,
-                        'avatar' => $googleUser->avatar,
+                        'name' => $name,
+                        'email' => $email,
+                        'google_id' => $googleId,
+                        'avatar' => $avatar,
                         'password' => Hash::make(Str::random(16)),
                         'is_admin' => false,
                     ]);
                 } else {
                     $user->update([
-                        'google_id' => $googleUser->id,
-                        'avatar' => $user->avatar ?: $googleUser->avatar,
+                        'google_id' => $user->google_id ?: $googleId,
+                        'avatar' => $user->avatar ?: $avatar,
                     ]);
                 }
 
                 Auth::login($user, true);
-                return redirect()->route('home')->with('success', 'Berhasil login dengan akun Google ' . $user->name . '!');
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('home'))->with('success', 'Berhasil login dengan akun Google ' . $user->name . '!');
             } catch (\Throwable $e) {
-                return redirect()->route('login')->withErrors(['email' => 'Gagal terhubung dengan Google. Silakan coba lagi.']);
+                Log::error('Google OAuth callback error: ' . $e->getMessage());
+                return redirect()->route('login')->withErrors(['email' => 'Gagal menghubungkan akun Google (' . $e->getMessage() . '). Silakan coba lagi.']);
             }
         }
 
-        // Mencegah login tanpa verifikasi Google di lingkungan non-lokal / production
-        if (!app()->environment('local') || !$request->has('demo_mode')) {
-            return redirect()->route('login')->withErrors([
-                'email' => 'Verifikasi autentikasi Google gagal atau belum dikonfigurasi. Silakan masuk menggunakan email dan password.',
+        // Path 3: Direct account selection from fallback UI / Local development
+        if ($request->filled('email')) {
+            $request->validate([
+                'email' => 'required|email',
+                'name' => 'nullable|string|max:255',
             ]);
+
+            $user = User::where('email', $request->email)->first();
+
+            if ($user && $user->is_admin) {
+                return redirect()->route('login')->withErrors(['email' => 'Akun admin harus masuk menggunakan password.']);
+            }
+
+            $name = $request->input('name') ?: explode('@', $request->email)[0];
+            $avatar = $request->input('avatar') ?: ('https://ui-avatars.com/api/?name=' . urlencode($name) . '&background=4285F4&color=ffffff&bold=true');
+            $googleId = $request->input('google_id') ?: ('google_' . md5($request->email));
+
+            if (!$user) {
+                $user = User::create([
+                    'name' => ucwords(str_replace(['.', '_'], ' ', $name)),
+                    'email' => $request->email,
+                    'google_id' => $googleId,
+                    'avatar' => $avatar,
+                    'password' => Hash::make(Str::random(16)),
+                    'is_admin' => false,
+                ]);
+            } else {
+                $user->update([
+                    'google_id' => $user->google_id ?: $googleId,
+                    'avatar' => $user->avatar ?: $avatar,
+                ]);
+            }
+
+            Auth::login($user, true);
+            $request->session()->regenerate();
+            return redirect()->intended(route('home'))->with('success', 'Berhasil masuk dengan akun Google: ' . $user->email);
         }
 
-        // Mode Demo HANYA untuk lingkungan pengujian lokal (local development only)
-        $request->validate([
-            'email' => 'required|email',
-            'name' => 'nullable|string|max:255',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        // Tidak boleh mengambil alih akun admin
-        if ($user && $user->is_admin) {
-            return redirect()->route('login')->withErrors(['email' => 'Akun admin tidak dapat masuk melalui mode demo.']);
-        }
-
-        $name = $request->input('name') ?: explode('@', $request->email)[0];
-        $avatar = $request->input('avatar') ?: ('https://ui-avatars.com/api/?name=' . urlencode($name) . '&background=4285F4&color=ffffff&bold=true');
-        $googleId = $request->input('google_id') ?: ('demo_google_' . md5($request->email));
-
-        if (!$user) {
-            $user = User::create([
-                'name' => ucwords(str_replace(['.', '_'], ' ', $name)),
-                'email' => $request->email,
-                'google_id' => $googleId,
-                'avatar' => $avatar,
-                'password' => Hash::make(Str::random(16)),
-                'is_admin' => false,
-            ]);
-        }
-
-        Auth::login($user, true);
-        $request->session()->regenerate();
-        return redirect()->route('home')->with('success', 'Berhasil masuk (Mode Uji Lokal Google: ' . $user->email . ').');
+        return redirect()->route('login')->withErrors(['email' => 'Pilihan akun Google tidak ditemukan.']);
     }
 
     public function logout(Request $request)
