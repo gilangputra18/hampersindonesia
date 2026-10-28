@@ -1992,6 +1992,11 @@
                   <span id="drawerPrice-{{ $pId }}">{{ $item['quantity'] }} x Rp {{ number_format($item['price'], 0, ',', '.') }}</span>
                 </div>
               </div>
+              <div style="margin-top: 4px;">
+                <button type="button" class="cart-drawer-del-link" onclick="removeDrawerCartItem({{ $pId }})" style="background: none; border: none; padding: 0; color: #dc2626; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: underline; display: inline-flex; align-items: center; gap: 3px;" title="Hapus item ini dari keranjang">
+                  <span>🗑️ Hapus</span>
+                </button>
+              </div>
             </div>
           </div>
         @endforeach
@@ -2734,6 +2739,11 @@ document.addEventListener('DOMContentLoaded', function () {
               <div class="cart-drawer-item-price">
                 <span id="drawerPrice-${pId}">${item.quantity} x ${priceFormatted}</span>
               </div>
+            </div>
+            <div style="margin-top: 4px;">
+              <button type="button" class="cart-drawer-del-link" onclick="removeDrawerCartItem(${pId})" style="background: none; border: none; padding: 0; color: #dc2626; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: underline; display: inline-flex; align-items: center; gap: 3px;" title="Hapus item ini dari keranjang">
+                <span>🗑️ Hapus</span>
+              </button>
             </div>
           </div>
         </div>

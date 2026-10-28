@@ -154,4 +154,21 @@ class CartController extends Controller
 
         return redirect()->route('cart.index');
     }
+
+    public function clear(Request $request)
+    {
+        session()->forget('cart');
+        session()->forget('applied_coupon');
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'cart_count' => 0,
+                'is_empty' => true,
+                'message' => 'Keranjang belanja berhasil dikosongkan.',
+            ]);
+        }
+
+        return redirect()->route('cart.index')->with('success', 'Keranjang belanja berhasil dikosongkan.');
+    }
 }

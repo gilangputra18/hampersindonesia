@@ -539,35 +539,29 @@
           <input type="hidden" name="delivery_date" value="{{ $deliveryDate }}">
           <input type="hidden" name="order_note" value="{{ $orderNote }}">
 
-          {{-- Status Akun --}}
-          @if(auth()->check())
-            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-size: 13px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-              <div>
-                <strong>👤 Akun Terhubung:</strong> {{ auth()->user()->name }} ({{ auth()->user()->email }})
-              </div>
-              <span style="background: #166534; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">VIP MEMBER</span>
+          {{-- Status Akun Pelanggan --}}
+          <div style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-size: 13px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <strong>👤 Akun Terhubung:</strong> {{ auth()->user()->name }} ({{ auth()->user()->email }})
             </div>
-          @else
-            <div style="background: #fffbe6; border: 1px solid #ffe58f; color: #873800; padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-size: 12.5px;">
-              ℹ️ Anda memesan sebagai <strong>Tamu (Pemesanan Tanpa Akun)</strong>. Ingin riwayat pesanan tersimpan rapi? <a href="{{ route('login') }}" style="color: #d97706; font-weight: 700; text-decoration: underline;">Masuk di sini</a> sebelum melanjutkan.
-            </div>
-          @endif
+            <span style="background: #166534; color: #fff; padding: 3px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px;">✓ MEMBER AKTIF</span>
+          </div>
 
           {{-- DATA PEMESAN --}}
           <div class="form-group">
             <label for="customer_name">Nama Lengkap Pemesan <span style="color: #dc2626;">*</span></label>
-            <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ old('customer_name', auth()->check() ? auth()->user()->name : '') }}" placeholder="Contoh: Budi Santoso" required>
+            <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ old('customer_name', auth()->user()->name) }}" placeholder="Contoh: Budi Santoso" required>
           </div>
 
           <div class="checkout-input-grid">
             <div class="form-group">
               <label for="customer_phone">No. WhatsApp / HP Pemesan <span style="color: #dc2626;">*</span></label>
-              <input type="tel" name="customer_phone" id="customer_phone" class="form-control" value="{{ old('customer_phone', auth()->check() ? (auth()->user()->phone ?? '') : '') }}" placeholder="081234567890" required>
+              <input type="tel" name="customer_phone" id="customer_phone" class="form-control" value="{{ old('customer_phone', auth()->user()->phone ?? '') }}" placeholder="081234567890" required>
             </div>
 
             <div class="form-group">
               <label for="customer_email">Alamat Email (Untuk Faktur Resmi)</label>
-              <input type="email" name="customer_email" id="customer_email" class="form-control" value="{{ old('customer_email', auth()->check() ? auth()->user()->email : '') }}" placeholder="email@contoh.com">
+              <input type="email" name="customer_email" id="customer_email" class="form-control" value="{{ old('customer_email', auth()->user()->email) }}" placeholder="email@contoh.com">
             </div>
           </div>
 

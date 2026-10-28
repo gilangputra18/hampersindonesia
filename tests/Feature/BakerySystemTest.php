@@ -111,6 +111,59 @@ class BakerySystemTest extends TestCase
         $this->assertEquals(2, session('cart')[$product->id]['quantity']);
     }
 
+    public function test_cart_can_remove_item_via_remove_action(): void
+    {
+        $product = Product::first();
+
+        $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 2,
+                ]
+            ]
+        ]);
+
+        $response = $this->postJson('/cart/update', [
+            'product_id' => $product->id,
+            'action' => 'remove',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'action' => 'remove',
+            'is_empty' => true,
+        ]);
+        $this->assertArrayNotHasKey($product->id, session('cart', []));
+    }
+
+    public function test_cart_can_clear_entire_cart(): void
+    {
+        $product = Product::first();
+
+        $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 3,
+                ]
+            ]
+        ]);
+
+        $response = $this->postJson('/cart/clear');
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'is_empty' => true,
+        ]);
+        $this->assertEmpty(session('cart', []));
+    }
+
     public function test_coupon_application_validates_server_side(): void
     {
         $product = Product::first();
@@ -357,10 +410,50 @@ class BakerySystemTest extends TestCase
         $response->assertSee('revNextBtn');
     }
 
-    public function test_checkout_page_renders_with_greeting_cards_and_trust_badges(): void
+    public function test_unauthenticated_guest_is_redirected_to_login_when_accessing_checkout(): void
     {
         $product = Product::first();
         $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+
+        $response = $this->get('/checkout');
+        $response->assertRedirect('/login');
+    }
+
+    public function test_cart_page_renders_delete_feature_and_guest_login_prompt(): void
+    {
+        $product = Product::first();
+        $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+
+        $response = $this->get('/cart');
+        $response->assertStatus(200);
+        $response->assertSee('cart-btn-delete');
+        $response->assertSee('Kosongkan Keranjang');
+        $response->assertSee('Wajib Masuk / Memiliki Akun untuk Belanja');
+    }
+
+    public function test_checkout_page_renders_with_greeting_cards_and_trust_badges(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::first();
+        $this->actingAs($user)->withSession([
             'cart' => [
                 $product->id => [
                     'id' => $product->id,
@@ -385,8 +478,9 @@ class BakerySystemTest extends TestCase
 
     public function test_checkout_processing_saves_greeting_card_and_gift_recipient_in_order_note(): void
     {
+        $user = User::factory()->create();
         $product = Product::first();
-        $this->withSession([
+        $this->actingAs($user)->withSession([
             'cart' => [
                 $product->id => [
                     'id' => $product->id,

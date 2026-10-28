@@ -95,14 +95,87 @@
     font-weight: 600;
   }
   .remove-link {
-    display: block;
-    font-size: 11px;
-    color: #7a8b83;
-    text-decoration: underline;
-    margin-top: 6px;
+    display: none;
+  }
+
+  /* Cart Action Toolbar */
+  .cart-table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cart-count-badge {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    background: #e2e8f0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-clear-cart {
+    background: #fff;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+  .btn-clear-cart:hover {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #b91c1c;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+  }
+
+  /* Cart Row Delete Button */
+  .cart-btn-delete {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #be123c;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+  }
+  .cart-btn-delete:hover {
+    background: #be123c;
+    border-color: #9f1239;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(190, 18, 60, 0.3);
+    transform: translateY(-1px);
+  }
+  .cart-btn-delete:active {
+    transform: translateY(0);
+  }
+  .mobile-delete-btn {
+    display: none;
+    font-size: 11.5px;
+    color: #be123c;
     background: none;
     border: none;
+    padding: 0;
+    margin-top: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
   }
 
   /* Delivery Options Card */
@@ -293,6 +366,9 @@
     .cart-item-img { width: 56px; height: 56px; }
     .cart-item-name { font-size: 12.5px; line-height: 1.3; }
     .cart-item-price { font-size: 11.5px; }
+    .mobile-delete-btn { display: inline-flex; align-items: center; gap: 3px; }
+    .cart-delete-col .btn-delete-text { display: none; }
+    .cart-btn-delete { padding: 6px 8px; font-size: 13px; }
     .delivery-card { padding: 16px; margin-bottom: 30px; }
     .delivery-tabs { flex-direction: row; gap: 10px; }
     .delivery-tab-btn { max-width: none; flex: 1; padding: 12px 8px; }
@@ -315,6 +391,15 @@
     @endif
 
     @if (!empty($cart) && count($cart) > 0)
+      <!-- Cart Table Toolbar -->
+      <div class="cart-table-toolbar">
+        <span class="cart-count-badge">🛍️ {{ count($cart) }} Macam Produk</span>
+        <button type="button" class="btn-clear-cart" onclick="clearEntireCart()" title="Hapus semua produk dari keranjang belanja">
+          <span>🗑️</span>
+          <span>Kosongkan Keranjang</span>
+        </button>
+      </div>
+
       <form action="{{ route('checkout.show') }}" method="GET" id="cart-form">
         <table class="cart-table">
           <thead>
@@ -322,6 +407,7 @@
               <th style="text-align: left;">PRODUK</th>
               <th style="text-align: center;">JUMLAH</th>
               <th style="text-align: right;">TOTAL HARGA</th>
+              <th style="text-align: center; width: 100px;">HAPUS</th>
             </tr>
           </thead>
           <tbody>
@@ -329,23 +415,31 @@
               <tr id="cart-row-{{ $id }}">
                 <td>
                   <div class="cart-item-info">
-                    <img src="{{ $item['thumbnail_url'] ?? $item['image_url'] }}" alt="{{ $item['name'] }}" class="cart-item-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ $item['image_url'] }}'">
+                    <img src="{{ $item['thumbnail_url'] ?? ($item['image_url'] ?? asset('images/cat-hampers.jpg')) }}" alt="{{ $item['name'] }}" class="cart-item-img" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}'">
                     <div>
                       <div class="cart-item-name">{{ $item['name'] }}</div>
                       <div class="cart-item-price">Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
+                      <button type="button" class="mobile-delete-btn" onclick="updateCartQty('{{ $id }}', 'remove')" title="Hapus produk">
+                        🗑️ Hapus
+                      </button>
                     </div>
                   </div>
                 </td>
                 <td style="text-align: center;">
                   <div class="qty-box">
-                    <button type="button" class="qty-btn" onclick="updateCartQty('{{ $id }}', 'decrease')">-</button>
+                    <button type="button" class="qty-btn" onclick="updateCartQty('{{ $id }}', 'decrease')" title="Kurangi">-</button>
                     <span class="qty-val" id="qty-val-{{ $id }}">{{ $item['quantity'] }}</span>
-                    <button type="button" class="qty-btn" onclick="updateCartQty('{{ $id }}', 'increase')">+</button>
+                    <button type="button" class="qty-btn" onclick="updateCartQty('{{ $id }}', 'increase')" title="Tambah">+</button>
                   </div>
-                  <button type="button" class="remove-link" onclick="updateCartQty('{{ $id }}', 'remove')">Hapus</button>
                 </td>
                 <td style="text-align: right; font-weight: 500; font-size: 14px;" id="item-price-total-{{ $id }}">
                   Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                </td>
+                <td style="text-align: center;" class="cart-delete-col">
+                  <button type="button" class="cart-btn-delete" onclick="updateCartQty('{{ $id }}', 'remove')" title="Hapus {{ $item['name'] }} dari keranjang">
+                    <span class="btn-delete-icon">🗑️</span>
+                    <span class="btn-delete-text">Hapus</span>
+                  </button>
                 </td>
               </tr>
             @endforeach
@@ -467,7 +561,39 @@
                 <span>Saya telah membaca dan menyetujui <a href="#terms-of-order" style="color: inherit; text-decoration: underline;">Syarat & Ketentuan Pesanan</a></span>
               </label>
 
-              <button type="submit" class="checkout-btn">PROSES PEMBAYARAN</button>
+              @auth
+                <div style="background: #f0fdf4; border: 1.5px solid #86efac; color: #166534; padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 12.5px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; text-align: left;">
+                  <div>
+                    <div style="font-weight: 700; font-size: 13px;">👤 Akun Pelanggan Terverifikasi</div>
+                    <div style="color: #15803d; margin-top: 2px;">{{ auth()->user()->name }} ({{ auth()->user()->email }})</div>
+                  </div>
+                  <span style="background: #166534; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">✓ SIAP BELANJA</span>
+                </div>
+
+                <button type="submit" class="checkout-btn">PROSES PEMBAYARAN ➔</button>
+              @else
+                <div style="background: #fffbeb; border: 1.5px solid #fcd34d; color: #92400e; padding: 16px; border-radius: 10px; margin-bottom: 18px; font-size: 13px; text-align: left; line-height: 1.55; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.08);">
+                  <div style="font-weight: 800; font-size: 14px; color: #780d26; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                    <span style="font-size: 18px;">🔒</span>
+                    <span>Wajib Masuk / Memiliki Akun untuk Belanja</span>
+                  </div>
+                  <p style="margin: 0 0 14px 0; color: #78350f; font-size: 12.5px;">
+                    Sesuai kebijakan toko kami, pelanggan harus masuk ke akun atau mendaftar terlebih dahulu agar riwayat pesanan, faktur resmi, dan status pengiriman tersimpan dengan aman.
+                  </p>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <a href="{{ route('login') }}" style="background: linear-gradient(135deg, #780d26 0%, #9f183c 100%); color: #fff; text-decoration: none; text-align: center; padding: 12px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(120, 13, 38, 0.25);">
+                      👤 Masuk ke Akun
+                    </a>
+                    <a href="{{ route('register') }}" style="background: #ffffff; color: #780d26; border: 1.5px solid #9f183c; text-decoration: none; text-align: center; padding: 11px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">
+                      ✨ Daftar Akun Baru
+                    </a>
+                  </div>
+                </div>
+
+                <button type="submit" class="checkout-btn" style="background: linear-gradient(135deg, #780d26 0%, #9f183c 100%);">
+                  🔒 MASUK &amp; LANJUTKAN PEMBAYARAN ➔
+                </button>
+              @endauth
             </div>
           </div>
         </div>
@@ -582,6 +708,30 @@ function updateCartQty(productId, action) {
   .catch(err => {
     buttons.forEach(b => b.disabled = false);
     console.error('Update cart error:', err);
+  });
+}
+
+function clearEntireCart() {
+  if (!confirm('Apakah Anda yakin ingin mengosongkan seluruh isi keranjang belanja?')) {
+    return;
+  }
+  fetch('{{ route("cart.clear") }}', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}',
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      location.reload();
+    }
+  })
+  .catch(err => {
+    console.error('Clear cart error:', err);
+    location.reload();
   });
 }
 

@@ -209,6 +209,20 @@
       <div style="flex: 1; height: 1px; background: #f2d0d8;"></div>
     </div>
 
+    @if (session('warning'))
+      <div style="background: #fffbeb; border: 1.5px solid #fcd34d; color: #92400e; padding: 12px 14px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; text-align: left; display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 18px;">🔒</span>
+        <span>{{ session('warning') }}</span>
+      </div>
+    @endif
+
+    @if (session('info'))
+      <div style="background: #eff6ff; border: 1.5px solid #93c5fd; color: #1e40af; padding: 12px 14px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; text-align: left; display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 18px;">ℹ️</span>
+        <span>{{ session('info') }}</span>
+      </div>
+    @endif
+
     @if ($errors->any())
       <div class="alert-box alert-err">
         @foreach ($errors->all() as $error)

@@ -12,6 +12,11 @@ class CheckoutController extends Controller
 {
     public function checkout(Request $request)
     {
+        if (!auth()->check()) {
+            session()->put('url.intended', route('checkout.show', $request->query()));
+            return redirect()->route('login')->with('warning', 'Silakan masuk ke akun Anda atau daftar terlebih dahulu untuk melanjutkan belanja.');
+        }
+
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
@@ -79,6 +84,11 @@ class CheckoutController extends Controller
 
     public function process(Request $request)
     {
+        if (!auth()->check()) {
+            session()->put('url.intended', route('checkout.show'));
+            return redirect()->route('login')->with('warning', 'Silakan masuk ke akun Anda atau daftar terlebih dahulu untuk menyelesaikan pesanan.');
+        }
+
         $cart = session()->get('cart', []);
 
         if (empty($cart)) {
@@ -228,7 +238,7 @@ class CheckoutController extends Controller
             $finalOrderNote
         ) {
             $order = Order::create([
-                'user_id' => auth()->check() ? auth()->id() : null,
+                'user_id' => auth()->id(),
                 'invoice_number' => $invoiceNumber,
                 'customer_name' => $validated['customer_name'],
                 'customer_email' => $validated['customer_email'] ?? null,

@@ -14,6 +14,12 @@ $app = Application::configure(basePath: dirname(__DIR__))
         // Vercel terminates TLS at its edge proxy; trust it so asset()/url() generate https:// links.
         $middleware->trustProxies(at: '*');
 
+        // Redirect unauthenticated guests to login with informative flash message
+        $middleware->redirectGuestsTo(function ($request) {
+            session()->flash('warning', 'Silakan masuk ke akun Anda atau daftar akun baru terlebih dahulu untuk melanjutkan belanja.');
+            return route('login');
+        });
+
         // Exclude payment gateway webhook and Google callback from CSRF validation
         $middleware->validateCsrfTokens(except: [
             'api/midtrans/notification',

@@ -55,10 +55,11 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
-// Checkout & Order Routes
-Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.show');
-Route::post('/checkout', [CheckoutController::class, 'process'])->middleware('throttle:10,1')->name('checkout.process');
+// Checkout & Order Routes (Pelanggan Wajib Login/Punya Akun untuk Belanja)
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->middleware('auth')->name('checkout.show');
+Route::post('/checkout', [CheckoutController::class, 'process'])->middleware(['auth', 'throttle:10,1'])->name('checkout.process');
 Route::get('/order/{invoice}', [CheckoutController::class, 'showOrder'])->name('order.show');
 Route::get('/order/{invoice}/invoice-pdf', [CheckoutController::class, 'printInvoice'])->name('order.invoice.pdf');
 Route::get('/order/{invoice}/status', [CheckoutController::class, 'checkStatus'])->name('order.status');
