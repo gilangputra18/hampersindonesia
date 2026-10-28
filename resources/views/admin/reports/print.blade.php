@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      color: #1e293b;
+      color: #1f2937;
       margin: 0;
       padding: 30px;
       background: #fff;
@@ -15,7 +15,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #0f172a;
+      border-bottom: 2px solid #780d26;
       padding-bottom: 20px;
       margin-bottom: 30px;
     }
@@ -23,7 +23,7 @@
       font-size: 24px;
       font-weight: 700;
       letter-spacing: 2px;
-      color: #0f172a;
+      color: #780d26;
     }
     .report-tag {
       font-size: 12px;
@@ -52,7 +52,7 @@
     .metric-val {
       font-size: 22px;
       font-weight: 700;
-      color: #0f172a;
+      color: #780d26;
       margin-top: 4px;
     }
     table {
@@ -67,7 +67,7 @@
       text-align: left;
     }
     th {
-      background: #0f172a;
+      background: #780d26;
       color: #fff;
       text-transform: uppercase;
       font-size: 11px;
@@ -85,7 +85,7 @@
 <body>
 
 <div class="no-print" style="margin-bottom: 20px; text-align: right;">
-  <button onclick="window.print()" style="padding: 10px 24px; background: #0f172a; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+  <button onclick="window.print()" style="padding: 10px 24px; background: linear-gradient(135deg, #9f183c, #780d26); color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
     🖨️ Cetak / Simpan sebagai PDF
   </button>
 </div>

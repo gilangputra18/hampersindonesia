@@ -32,7 +32,7 @@
   }
   .stat-card.active {
     border-color: var(--accent-gold);
-    background: linear-gradient(135deg, #1e293b 0%, rgba(217, 119, 6, 0.15) 100%);
+    background: linear-gradient(135deg, #320712 0%, rgba(159, 24, 60, 0.25) 100%);
   }
   .stat-val {
     font-size: 28px;

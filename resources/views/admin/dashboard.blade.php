@@ -45,10 +45,10 @@
     transition: all 0.2s ease;
   }
   .btn-filter:hover, .btn-filter.active {
-    background: var(--accent-gold);
-    color: #0d1713;
-    border-color: var(--accent-gold);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    background: linear-gradient(135deg, #fef08a 0%, #e6ca65 100%);
+    color: #22040b;
+    border-color: #fef08a;
+    box-shadow: 0 4px 12px rgba(230, 202, 101, 0.3);
   }
   .custom-date-form {
     display: flex;
@@ -57,7 +57,7 @@
     flex-wrap: wrap;
   }
   .date-input {
-    background: rgba(15, 23, 42, 0.8);
+    background: rgba(25, 2, 7, 0.8);
     border: 1px solid var(--panel-border);
     color: #fff;
     padding: 6px 12px;
@@ -80,9 +80,9 @@
     transition: all 0.2s ease;
   }
   .btn-submit-filter:hover {
-    background: var(--accent-gold);
-    color: #0d1713;
-    border-color: var(--accent-gold);
+    background: linear-gradient(135deg, #fef08a 0%, #e6ca65 100%);
+    color: #22040b;
+    border-color: #fef08a;
   }
   .export-group {
     display: flex;

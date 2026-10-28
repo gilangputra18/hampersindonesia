@@ -6,7 +6,7 @@
 @section('content')
 <style>
   :root {
-    --gold-border: rgba(217, 119, 6, 0.25);
+    --gold-border: rgba(230, 202, 101, 0.3);
   }
 
   .metric-grid {
@@ -16,7 +16,7 @@
     margin-bottom: 26px;
   }
   .metric-card {
-    background: linear-gradient(135deg, #13221b 0%, #0d1712 100%);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
     border: 1px solid var(--gold-border);
     border-radius: 14px;
     padding: 20px 22px;
@@ -27,9 +27,9 @@
     transition: all 0.25s ease;
   }
   .metric-card:hover {
-    border-color: #f59e0b;
+    border-color: #fef08a;
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(245, 158, 11, 0.2);
+    box-shadow: 0 12px 28px rgba(159, 24, 60, 0.3);
   }
   .metric-num {
     font-size: 32px;
@@ -39,7 +39,7 @@
   }
   .metric-label {
     font-size: 11.5px;
-    color: #94a3b8;
+    color: #fcd5df;
     text-transform: uppercase;
     letter-spacing: 1.2px;
     margin-top: 5px;
@@ -50,15 +50,15 @@
     height: 64px;
     border-radius: 10px;
     object-fit: cover;
-    border: 2px solid #d97706;
+    border: 2px solid #e6ca65;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    background: #09120e;
+    background: #190207;
     box-shadow: 0 4px 12px rgba(0,0,0,0.4);
   }
   .proof-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+    box-shadow: 0 6px 20px rgba(230, 202, 101, 0.45);
     border-color: #fef08a;
   }
   .status-pill-queue {
@@ -78,7 +78,7 @@
   }
 
   .panel-royal {
-    background: linear-gradient(180deg, #111e18 0%, #0c1611 100%);
+    background: linear-gradient(180deg, #320712 0%, #190207 100%);
     border: 1px solid var(--gold-border);
     border-radius: 16px;
     padding: 24px;
@@ -91,14 +91,14 @@
     font-family: 'Outfit', sans-serif;
   }
   .table-orders-royal thead th {
-    background: #09120e;
+    background: #190207;
     padding: 16px 18px;
     font-size: 11px;
     font-weight: 800;
     color: #e6ca65;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border-bottom: 2px solid rgba(217, 119, 6, 0.35);
+    border-bottom: 2px solid rgba(230, 202, 101, 0.35);
     white-space: nowrap;
   }
   .table-orders-royal tbody tr {
@@ -106,7 +106,7 @@
     transition: all 0.2s ease;
   }
   .table-orders-royal tbody tr:hover {
-    background: rgba(217, 119, 6, 0.04);
+    background: rgba(159, 24, 60, 0.15);
   }
   .table-orders-royal tbody td {
     padding: 18px;
@@ -319,8 +319,8 @@
 
 <!-- Modal Zoom Bukti Pembayaran -->
 <div id="proof-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:20px;">
-  <div style="background:#13221b; border:1px solid #d97706; border-radius:16px; padding:26px; max-width:580px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); text-align:center;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid rgba(217, 119, 6, 0.25); padding-bottom:12px;">
+  <div style="background:#320712; border:1px solid #e6ca65; border-radius:16px; padding:26px; max-width:580px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); text-align:center;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1px solid rgba(230, 202, 101, 0.25); padding-bottom:12px;">
       <div style="text-align:left;">
         <h4 style="font-size:16px; color:#fef08a; margin:0; font-weight:800;" id="modal-invoice-title">Bukti Transfer</h4>
         <div style="font-size:12px; color:#cbd5e1; margin-top:2px;" id="modal-customer-info"></div>
@@ -328,7 +328,7 @@
       <button onclick="closeProofModal()" style="background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">✕</button>
     </div>
 
-    <div style="max-height:65vh; overflow-y:auto; border-radius:10px; background:#09120e; padding:12px; margin-bottom:18px; border: 1px solid rgba(255,255,255,0.06);">
+    <div style="max-height:65vh; overflow-y:auto; border-radius:10px; background:#190207; padding:12px; margin-bottom:18px; border: 1px solid rgba(255,255,255,0.06);">
       <img id="modal-proof-img" src="" alt="Bukti Transfer Full" style="max-width:100%; height:auto; border-radius:8px; display:block; margin:0 auto; box-shadow: 0 4px 16px rgba(0,0,0,0.4);">
     </div>
 
@@ -345,7 +345,7 @@
 
 <!-- Modal Tolak Pembayaran -->
 <div id="reject-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:20px;">
-  <div style="background:#13221b; border:1px solid #ef4444; border-radius:16px; padding:28px; max-width:460px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8);">
+  <div style="background:#320712; border:1px solid #ef4444; border-radius:16px; padding:28px; max-width:460px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8);">
     <h3 style="font-size:18px; color:#fca5a5; margin-bottom:10px; font-weight:800;">❌ Tolak Bukti Pembayaran</h3>
     <p style="font-size:13px; color:#94a3b8; margin-bottom:16px;">
       Tolak bukti pembayaran untuk invoice <strong id="reject-invoice-title" style="color:#fbbf24;"></strong>:

@@ -459,4 +459,25 @@ class BakerySystemTest extends TestCase
         $response->assertDontSee('cat-cookies.jpg');
         $response->assertDontSee('Thumbnail 2');
     }
+
+    public function test_admin_panel_is_styled_in_burgundy_and_gold_theme(): void
+    {
+        // 1. Admin Login page has burgundy palette
+        $loginRes = $this->get('/admin/login');
+        $loginRes->assertStatus(200);
+        $loginRes->assertSee('--bg-dark: #22040b', false);
+        $loginRes->assertSee('--panel-bg: #320712', false);
+        $loginRes->assertDontSee('#0f172a');
+
+        // 2. Authenticated Admin Dashboard has burgundy palette
+        $user = User::factory()->create([
+            'is_admin' => true,
+        ]);
+        $dashRes = $this->actingAs($user)->get('/admin/dashboard');
+        $dashRes->assertStatus(200);
+        $dashRes->assertSee('--bg-dark: #22040b', false);
+        $dashRes->assertSee('--panel-bg: #320712', false);
+        $dashRes->assertDontSee('#0f172a');
+        $dashRes->assertDontSee('#13221b');
+    }
 }

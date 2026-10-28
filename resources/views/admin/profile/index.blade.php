@@ -7,8 +7,8 @@
 <style>
   /* Profile Hero Banner */
   .profile-hero {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
+    border: 1px solid rgba(230, 202, 101, 0.35);
     border-radius: 16px;
     padding: 28px 32px;
     margin-bottom: 32px;

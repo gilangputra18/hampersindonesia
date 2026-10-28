@@ -16,7 +16,7 @@
     left: 0;
     right: 0;
     z-index: 500;
-    background: #1e293b;
+    background: #320712;
     border: 1px solid var(--panel-border);
     border-radius: 10px;
     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
@@ -39,14 +39,14 @@
     border-bottom: none;
   }
   .autocomplete-item:hover, .autocomplete-item.active {
-    background: rgba(217, 119, 6, 0.15);
+    background: rgba(159, 24, 60, 0.2);
   }
   .autocomplete-item img {
     width: 40px;
     height: 40px;
     object-fit: cover;
     border-radius: 6px;
-    background: #334155;
+    background: #520e20;
   }
   .autocomplete-item .info {
     flex: 1;
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <!-- Premium Delete Confirmation Modal -->
 <div id="delete-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px); align-items:center; justify-content:center;">
-  <div style="background:#1e293b; border:1px solid #ef4444; border-radius:14px; padding:36px; max-width:420px; width:90%; text-align:center; box-shadow:0 25px 60px rgba(0,0,0,0.6);">
+  <div style="background:#320712; border:1px solid #ef4444; border-radius:14px; padding:36px; max-width:420px; width:90%; text-align:center; box-shadow:0 25px 60px rgba(0,0,0,0.6);">
     <div style="font-size:52px; margin-bottom:16px;">🗑️</div>
     <h3 style="font-family:'Playfair Display',serif; font-size:20px; color:#fff; margin-bottom:10px;">Hapus Produk?</h3>
     <p style="font-size:13px; color:#94a3b8; margin-bottom:8px;">Anda akan menghapus produk:</p>
@@ -382,7 +382,7 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
 
 <!-- Modal Kelola Kategori (Tambah & Hapus Kategori) -->
 <div id="category-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.8); backdrop-filter:blur(5px); align-items:center; justify-content:center; padding:16px;">
-  <div style="background:#1e293b; border:1px solid var(--accent-gold); border-radius:16px; padding:28px; max-width:620px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
+  <div style="background:#320712; border:1px solid var(--accent-gold); border-radius:16px; padding:28px; max-width:620px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--panel-border); padding-bottom:14px;">
       <div>
         <h3 style="font-size:18px; font-weight:700; color:#fff; margin:0;">🏷️ Kelola Kategori Produk</h3>
@@ -392,7 +392,7 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
     </div>
 
     <!-- Form Tambah Kategori Baru -->
-    <div style="background:rgba(15, 23, 42, 0.7); border:1px solid var(--panel-border); border-radius:10px; padding:18px; margin-bottom:24px;">
+    <div style="background:rgba(25, 2, 7, 0.7); border:1px solid var(--panel-border); border-radius:10px; padding:18px; margin-bottom:24px;">
       <h4 style="font-size:14px; font-weight:700; color:#fef08a; margin-bottom:12px;">➕ Tambah Kategori Baru</h4>
       <form action="{{ route('admin.categories.store') }}" method="POST" style="display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:flex-end;">
         @csrf

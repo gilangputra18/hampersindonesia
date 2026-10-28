@@ -7,8 +7,8 @@
 <style>
   /* Payment Header Banner */
   .payment-header-card {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
+    border: 1px solid rgba(230, 202, 101, 0.35);
     border-radius: 16px;
     padding: 24px 30px;
     margin-bottom: 32px;
@@ -173,7 +173,7 @@
     gap: 8px;
   }
   .mini-invoice-mock {
-    background: #1e293b;
+    background: #190207;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
     padding: 20px;
@@ -368,16 +368,16 @@
     </div>
 
     <!-- Card 5: Midtrans Payment Gateway (Verifikasi Otomatis) -->
-    <div class="payment-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-color: rgba(59, 130, 246, 0.4);">
+    <div class="payment-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #190207 0%, #320712 100%); border-color: rgba(230, 202, 101, 0.4);">
       <div class="payment-card-header">
         <div class="bank-logo-title">
-          <div class="bank-icon-box" style="background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.3);">⚡</div>
+          <div class="bank-icon-box" style="background: rgba(159, 24, 60, 0.25); border-color: rgba(230, 202, 101, 0.3);">⚡</div>
           <div>
-            <div class="bank-title-text" style="color: #60a5fa;">Midtrans Payment Gateway (Verifikasi Otomatis)</div>
+            <div class="bank-title-text" style="color: #fef08a;">Midtrans Payment Gateway (Verifikasi Otomatis)</div>
             <div class="bank-subtext">Automated Payment Verification - Snap Popup & Callback</div>
           </div>
         </div>
-        <span class="badge-status-tag" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.3);">⚡ OTOMATIS</span>
+        <span class="badge-status-tag" style="background: rgba(159, 24, 60, 0.25); color: #fef08a; border-color: rgba(230, 202, 101, 0.4);">⚡ OTOMATIS</span>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
@@ -398,7 +398,7 @@
 
         <div class="form-group">
           <label class="form-label">Mode Gateway</label>
-          <select name="midtrans_mode" class="form-control" style="background: #0f172a;">
+          <select name="midtrans_mode" class="form-control" style="background: #190207;">
             <option value="sandbox" {{ ($settings['midtrans_mode'] ?? 'sandbox') == 'sandbox' ? 'selected' : '' }}>🧪 Sandbox (Uji Coba)</option>
             <option value="production" {{ ($settings['midtrans_mode'] ?? 'sandbox') == 'production' ? 'selected' : '' }}>🚀 Production (Live Real Money)</option>
           </select>

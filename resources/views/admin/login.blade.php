@@ -9,18 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0f172a;
-      --panel-bg: #1e293b;
-      --panel-border: #334155;
-      --accent-gold: #d97706;
-      --accent-gold-hover: #b45309;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg-dark: #22040b;
+      --panel-bg: #320712;
+      --panel-border: #520e20;
+      --accent-gold: #fef08a;
+      --accent-gold-hover: #e6ca65;
+      --burgundy-bright: #9f183c;
+      --text-main: #ffffff;
+      --text-muted: #fcd5df;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Outfit', sans-serif;
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+      background: radial-gradient(circle at center, #320712 0%, #190207 100%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -52,19 +53,19 @@
     }
     .top-back-btn:hover {
       color: #fff;
-      background: rgba(245, 158, 11, 0.15);
+      background: rgba(159, 24, 60, 0.25);
       border-color: var(--accent-gold);
       transform: translateX(-3px);
     }
 
     .login-card {
       width: 100%;
-      background: rgba(30, 41, 59, 0.9);
+      background: rgba(50, 7, 18, 0.95);
       backdrop-filter: blur(12px);
       border: 1px solid var(--panel-border);
       border-radius: 16px;
       padding: 36px 30px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     }
     @media (max-width: 480px) {
       .login-card {
@@ -111,7 +112,7 @@
     .form-control {
       width: 100%;
       padding: 13px 16px;
-      background: #0f172a;
+      background: #190207;
       border: 1px solid var(--panel-border);
       border-radius: 8px;
       color: var(--text-main);
@@ -123,6 +124,7 @@
     .form-control:focus {
       outline: none;
       border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(230, 202, 101, 0.2);
     }
 
     .pwd-wrapper {
@@ -154,21 +156,21 @@
     .btn-login {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, var(--accent-gold) 0%, #b45309 100%);
+      background: linear-gradient(135deg, #9f183c 0%, #780d26 100%);
       color: #fff;
-      border: none;
+      border: 1px solid #c92350;
       border-radius: 8px;
       font-size: 14.5px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 4px 15px rgba(159, 24, 60, 0.4);
       transition: all 0.2s ease;
       margin-top: 10px;
     }
     .btn-login:hover {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      background: linear-gradient(135deg, #b81f47 0%, #901131 100%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 8px 20px rgba(159, 24, 60, 0.5);
     }
     .alert {
       padding: 12px 14px;

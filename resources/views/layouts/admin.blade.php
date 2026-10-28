@@ -9,13 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #0f172a;
-      --panel-bg: #1e293b;
-      --panel-border: #334155;
-      --accent-gold: #d97706;
-      --accent-gold-hover: #b45309;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg-dark: #22040b;
+      --panel-bg: #320712;
+      --panel-border: #520e20;
+      --accent-gold: #fef08a;
+      --accent-gold-hover: #e6ca65;
+      --burgundy-bright: #9f183c;
+      --burgundy-deep: #780d26;
+      --text-main: #ffffff;
+      --text-muted: #fcd5df;
       --danger: #ef4444;
       --success: #10b981;
     }
@@ -34,8 +36,8 @@
     /* Sidebar */
     .sidebar {
       width: 260px;
-      background: #0f172a;
-      border-right: 1px solid var(--panel-border);
+      background: #190207;
+      border-right: 1px solid #3d0a17;
       display: flex;
       flex-direction: column;
       position: fixed;
@@ -45,10 +47,11 @@
     }
     .brand {
       padding: 24px 20px;
-      border-bottom: 1px solid var(--panel-border);
+      border-bottom: 1px solid #3d0a17;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: #130105;
     }
     .brand h2 {
       font-family: 'Playfair Display', serif;
@@ -82,13 +85,21 @@
       color: var(--text-muted);
       transition: all 0.2s;
     }
-    .nav-link:hover, .nav-link.active {
-      background: var(--panel-bg);
+    .nav-link:hover {
+      background: #400715;
       color: var(--accent-gold);
+    }
+    .nav-link.active {
+      background: linear-gradient(135deg, #780d26 0%, #9f183c 100%);
+      color: #ffffff;
+      font-weight: 700;
+      border: 1px solid #e6ca65;
+      box-shadow: 0 4px 14px rgba(159, 24, 60, 0.4);
     }
     .sidebar-footer {
       padding: 16px;
-      border-top: 1px solid var(--panel-border);
+      border-top: 1px solid #3d0a17;
+      background: #130105;
     }
 
     /* Main Container */
@@ -106,8 +117,8 @@
     .topbar {
       min-height: 68px;
       height: auto;
-      background: var(--panel-bg);
-      border-bottom: 1px solid var(--panel-border);
+      background: #25050d;
+      border-bottom: 1px solid #4a0d1c;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -160,17 +171,17 @@
       transition: all 0.2s ease;
     }
     .hamburger-btn:hover {
-      background: rgba(245, 158, 11, 0.15);
+      background: rgba(159, 24, 60, 0.25);
       border-color: var(--accent-gold);
-      color: #fbbf24;
+      color: #fef08a;
     }
     .admin-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(217, 119, 6, 0.15);
-      border: 1px solid var(--accent-gold);
-      color: var(--accent-gold);
+      background: rgba(159, 24, 60, 0.25);
+      border: 1px solid #e6ca65;
+      color: #fef08a;
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 12px;
@@ -181,7 +192,8 @@
       text-decoration: none;
     }
     .admin-badge:hover {
-      background: rgba(217, 119, 6, 0.25);
+      background: rgba(159, 24, 60, 0.45);
+      border-color: #fef08a;
       transform: translateY(-1px);
     }
     .btn-logout-topbar {
@@ -223,11 +235,26 @@
       transition: all 0.2s;
     }
     .btn-gold {
-      background: var(--accent-gold);
-      color: #fff;
+      background: linear-gradient(135deg, #e6ca65 0%, #caa436 100%);
+      color: #22040b;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(230, 202, 101, 0.25);
     }
     .btn-gold:hover {
-      background: var(--accent-gold-hover);
+      background: linear-gradient(135deg, #fef08a 0%, #e6ca65 100%);
+      color: #1a0207;
+      transform: translateY(-1px);
+    }
+    .btn-burgundy {
+      background: linear-gradient(135deg, #9f183c 0%, #780d26 100%);
+      color: #ffffff;
+      border: 1px solid #c92350;
+      box-shadow: 0 4px 14px rgba(159, 24, 60, 0.35);
+    }
+    .btn-burgundy:hover {
+      background: linear-gradient(135deg, #b81f47 0%, #901131 100%);
+      color: #ffffff;
+      transform: translateY(-1px);
     }
     .btn-outline {
       background: transparent;
@@ -236,6 +263,7 @@
     }
     .btn-outline:hover {
       background: var(--panel-bg);
+      border-color: var(--accent-gold);
     }
     .btn-danger {
       background: var(--danger);
@@ -300,7 +328,7 @@
       height: 48px;
       object-fit: cover;
       border-radius: 6px;
-      background: #334155;
+      background: #520e20;
     }
 
     /* Laravel Pagination Styling (Fix Giant SVG Chevrons & Clean Dark Theme) */
@@ -373,22 +401,23 @@
       border-radius: 6px !important;
       font-size: 12px !important;
       font-weight: 600 !important;
-      background: #0f172a !important;
+      background: #190207 !important;
       border: 1px solid var(--panel-border) !important;
-      color: #cbd5e1 !important;
+      color: #fcd5df !important;
       text-decoration: none !important;
       transition: all 0.2s ease !important;
     }
     nav[role="navigation"] a.relative:hover {
-      background: rgba(245, 158, 11, 0.15) !important;
+      background: rgba(159, 24, 60, 0.35) !important;
       border-color: var(--accent-gold) !important;
-      color: #fbbf24 !important;
+      color: #ffffff !important;
     }
     nav[role="navigation"] span[aria-current="page"] > span,
     nav[role="navigation"] span.relative[aria-current="page"] {
-      background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-hover)) !important;
-      border-color: var(--accent-gold) !important;
+      background: linear-gradient(135deg, #9f183c 0%, #780d26 100%) !important;
+      border-color: #e6ca65 !important;
       color: #fff !important;
+      font-weight: 700 !important;
     }
 
     /* Forms */
@@ -405,7 +434,7 @@
     .form-control {
       width: 100%;
       padding: 12px 16px;
-      background: #0f172a;
+      background: #190207;
       border: 1px solid var(--panel-border);
       border-radius: 8px;
       color: var(--text-main);
@@ -414,7 +443,8 @@
     }
     .form-control:focus {
       outline: none;
-      border-color: var(--accent-gold);
+      border-color: #e6ca65;
+      box-shadow: 0 0 0 3px rgba(230, 202, 101, 0.2);
     }
     .form-row {
       display: grid;
@@ -459,7 +489,7 @@
       transition: all 0.2s ease;
     }
     .notif-bell-btn:hover {
-      background: rgba(245, 158, 11, 0.15);
+      background: rgba(159, 24, 60, 0.25);
       border-color: var(--accent-gold);
     }
     .notif-badge {
@@ -532,7 +562,7 @@
       color: inherit;
     }
     .notif-item:hover {
-      background: rgba(245, 158, 11, 0.08);
+      background: rgba(159, 24, 60, 0.2);
     }
     .notif-item .title-row {
       display: flex; justify-content: space-between; align-items: center;
@@ -567,7 +597,7 @@
     }
     .order-toast {
       pointer-events: auto;
-      background: #0f172a;
+      background: #25050d;
       border: 2px solid var(--accent-gold);
       border-radius: 12px;
       padding: 14px 18px;

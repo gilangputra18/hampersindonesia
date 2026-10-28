@@ -6,8 +6,8 @@
 @section('content')
 <style>
   .banner-header-card {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
+    border: 1px solid rgba(230, 202, 101, 0.35);
     border-radius: 16px;
     padding: 24px 30px;
     margin-bottom: 28px;
@@ -123,7 +123,7 @@
   .form-group-custom input, .form-group-custom textarea {
     width: 100%;
     padding: 10px 14px;
-    background: #0f172a;
+    background: #190207;
     border: 1px solid var(--panel-border);
     border-radius: 8px;
     color: #fff;
@@ -149,7 +149,7 @@
     display: flex;
   }
   .modal-content {
-    background: #1e293b;
+    background: #320712;
     border: 1px solid var(--panel-border);
     border-radius: 14px;
     width: 100%;
@@ -215,7 +215,7 @@
       <label style="display: block; font-size: 12.5px; color: #cbd5e1; margin-bottom: 6px;">
         Kecepatan Interval Geser (Milidetik)
       </label>
-      <input type="number" name="interval" value="{{ $settings['interval'] ?? 4000 }}" min="1000" max="20000" step="500" style="width: 100%; padding: 9px 12px; background: #0f172a; border: 1px solid var(--panel-border); border-radius: 8px; color: #fff;">
+      <input type="number" name="interval" value="{{ $settings['interval'] ?? 4000 }}" min="1000" max="20000" step="500" style="width: 100%; padding: 9px 12px; background: #190207; border: 1px solid var(--panel-border); border-radius: 8px; color: #fff;">
       <small style="color: #64748b; font-size: 11px;">Contoh: 4000 = gambar bergeser otomatis setiap 4 detik</small>
     </div>
 

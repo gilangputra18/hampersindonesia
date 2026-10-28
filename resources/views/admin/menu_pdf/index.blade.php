@@ -6,8 +6,8 @@
 @section('content')
 <style>
   .pdf-header-card {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
+    border: 1px solid rgba(230, 202, 101, 0.35);
     border-radius: 16px;
     padding: 26px 28px;
     margin-bottom: 28px;
@@ -168,8 +168,8 @@
     flex: 1;
     min-width: 240px;
     padding: 10px 14px;
-    background: #0f172a;
-    border: 1px dashed rgba(212, 175, 55, 0.4);
+    background: #190207;
+    border: 1px dashed rgba(230, 202, 101, 0.4);
     border-radius: 8px;
     color: #cbd5e1;
     font-size: 13px;

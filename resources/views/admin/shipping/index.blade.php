@@ -7,8 +7,8 @@
 <style>
   /* Header Card */
   .shipping-header-card {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
+    border: 1px solid rgba(230, 202, 101, 0.35);
     border-radius: 16px;
     padding: 24px 30px;
     margin-bottom: 32px;
@@ -227,7 +227,7 @@
     </div>
 
     <!-- Card 3: Integrasi API Aggregator Ekspedisi -->
-    <div class="shipping-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-color: rgba(34, 197, 94, 0.3);">
+    <div class="shipping-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #190207 0%, #320712 100%); border-color: rgba(230, 202, 101, 0.35);">
       <div class="card-head-title" style="color: #4ade80;">
         <span>🔌 Integrasi API Aggregator Ekspedisi (Biteship / Shipper)</span>
       </div>

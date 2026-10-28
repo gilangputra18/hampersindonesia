@@ -7,10 +7,10 @@
 <style>
   /* Royal Luxury Color System */
   :root {
-    --gold-gradient: linear-gradient(135deg, #fef08a 0%, #e6ca65 35%, #d97706 70%, #b45309 100%);
-    --emerald-dark: #0a1410;
-    --emerald-card: #0f1c16;
-    --gold-border: rgba(217, 119, 6, 0.25);
+    --gold-gradient: linear-gradient(135deg, #fef08a 0%, #e6ca65 35%, #caa436 70%, #9f183c 100%);
+    --burgundy-dark: #22040b;
+    --burgundy-card: #320712;
+    --gold-border: rgba(230, 202, 101, 0.3);
   }
 
   /* Metric Header Cards */
@@ -21,7 +21,7 @@
     margin-bottom: 26px;
   }
   .stat-card {
-    background: linear-gradient(135deg, #13221b 0%, #0d1712 100%);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
     border: 1px solid var(--gold-border);
     border-radius: 14px;
     padding: 20px 22px;
@@ -44,17 +44,17 @@
     transition: background 0.25s;
   }
   .stat-card:hover {
-    border-color: #f59e0b;
+    border-color: #fef08a;
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(245, 158, 11, 0.2);
+    box-shadow: 0 12px 30px rgba(159, 24, 60, 0.3);
   }
   .stat-card:hover::before, .stat-card.active::before {
-    background: linear-gradient(90deg, #fef08a, #d97706);
+    background: linear-gradient(90deg, #fef08a, #e6ca65);
   }
   .stat-card.active {
-    border-color: #d97706;
-    background: linear-gradient(135deg, #182c23 0%, #112018 100%);
-    box-shadow: 0 8px 25px rgba(217, 119, 6, 0.25);
+    border-color: #e6ca65;
+    background: linear-gradient(135deg, #520e20 0%, #320712 100%);
+    box-shadow: 0 8px 25px rgba(159, 24, 60, 0.35);
   }
   .stat-val {
     font-size: 28px;
@@ -66,7 +66,7 @@
   }
   .stat-lbl {
     font-size: 11.5px;
-    color: #94a3b8;
+    color: #fcd5df;
     text-transform: uppercase;
     letter-spacing: 1.2px;
     margin-top: 5px;
@@ -80,7 +80,7 @@
 
   /* Action Bar */
   .toolbar-container {
-    background: linear-gradient(135deg, #13221b 0%, #0d1712 100%);
+    background: linear-gradient(135deg, #320712 0%, #190207 100%);
     border: 1px solid var(--gold-border);
     border-radius: 14px;
     padding: 18px 22px;
@@ -115,20 +115,20 @@
   }
   .filter-pill:hover {
     color: #fef08a;
-    border-color: rgba(217, 119, 6, 0.5);
-    background: rgba(217, 119, 6, 0.12);
+    border-color: rgba(230, 202, 101, 0.5);
+    background: rgba(159, 24, 60, 0.2);
   }
   .filter-pill.active {
-    color: #0b1510;
-    background: linear-gradient(135deg, #fef08a 0%, #d97706 100%);
+    color: #22040b;
+    background: linear-gradient(135deg, #fef08a 0%, #e6ca65 100%);
     border-color: #fef08a;
-    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+    box-shadow: 0 4px 14px rgba(230, 202, 101, 0.35);
     font-weight: 800;
   }
 
   /* Royal Table Card */
   .order-table-card {
-    background: linear-gradient(180deg, #111e18 0%, #0c1611 100%);
+    background: linear-gradient(180deg, #320712 0%, #190207 100%);
     border: 1px solid var(--gold-border);
     border-radius: 16px;
     overflow: hidden;
@@ -141,14 +141,14 @@
     font-family: 'Outfit', sans-serif;
   }
   .table-orders-royal thead th {
-    background: #09120e;
+    background: #190207;
     padding: 16px 18px;
     font-size: 11px;
     font-weight: 800;
     color: #e6ca65;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border-bottom: 2px solid rgba(217, 119, 6, 0.35);
+    border-bottom: 2px solid rgba(230, 202, 101, 0.35);
     white-space: nowrap;
   }
   .table-orders-royal tbody tr {
@@ -206,8 +206,8 @@
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: radial-gradient(circle, #253d30 0%, #0d1712 100%);
-    border: 1.5px solid #d97706;
+    background: radial-gradient(circle, #520e20 0%, #190207 100%);
+    border: 1.5px solid #e6ca65;
     color: #fef08a;
     font-weight: 800;
     font-size: 13.5px;
@@ -215,7 +215,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 0 10px rgba(217, 119, 6, 0.25);
+    box-shadow: 0 0 10px rgba(230, 202, 101, 0.25);
     letter-spacing: 0.5px;
   }
   .role-chip-member {
@@ -341,8 +341,8 @@
     min-width: 210px;
   }
   .select-royal {
-    background: #09120e;
-    border: 1px solid rgba(217, 119, 6, 0.3);
+    background: #190207;
+    border: 1px solid rgba(230, 202, 101, 0.3);
     color: #e2e8f0;
     border-radius: 6px;
     padding: 5px 8px;
@@ -353,11 +353,11 @@
     transition: border-color 0.2s;
   }
   .select-royal:focus {
-    border-color: #f59e0b;
+    border-color: #fef08a;
   }
   .input-resi-royal {
-    background: #09120e;
-    border: 1px solid rgba(217, 119, 6, 0.3);
+    background: #190207;
+    border: 1px solid rgba(230, 202, 101, 0.3);
     color: #fff;
     border-radius: 6px;
     padding: 5px 8px;
@@ -367,11 +367,11 @@
     outline: none;
   }
   .input-resi-royal:focus {
-    border-color: #f59e0b;
+    border-color: #fef08a;
   }
   .btn-save-royal {
     padding: 5px 12px;
-    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    background: linear-gradient(135deg, #9f183c 0%, #780d26 100%);
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -379,13 +379,13 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+    box-shadow: 0 2px 8px rgba(159, 24, 60, 0.35);
     white-space: nowrap;
   }
   .btn-save-royal:hover {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    background: linear-gradient(135deg, #b81f47 0%, #901131 100%);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 4px 12px rgba(159, 24, 60, 0.5);
   }
 
   /* Mobile Responsiveness for Admin Orders Overview */
@@ -434,7 +434,7 @@
     <div class="stat-icon">📋</div>
   </a>
 
-  <a href="{{ route('admin.orders.verification') }}" class="stat-card" style="border-color: rgba(245, 158, 11, 0.5); background: linear-gradient(135deg, #231c0e 0%, #151008 100%);">
+  <a href="{{ route('admin.orders.verification') }}" class="stat-card" style="border-color: rgba(230, 202, 101, 0.5); background: linear-gradient(135deg, #420a17 0%, #22040b 100%);">
     <div>
       <div class="stat-val" style="color: #fbbf24;">{{ $counts['verification'] ?? 0 }}</div>
       <div class="stat-lbl">Antrian Verifikasi Bukti</div>
