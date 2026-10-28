@@ -34,6 +34,7 @@ class CheckoutController extends Controller
         $totalAmount = max(0, $subtotal + $deliveryFee - $discountAmount);
 
         $shipSettings = \App\Http\Controllers\Admin\AdminShippingController::getShippingSettings();
+        $greetingTemplates = \App\Http\Controllers\Admin\AdminGreetingCardController::getActiveTemplates();
 
         return view('checkout', compact(
             'cart',
@@ -46,7 +47,8 @@ class CheckoutController extends Controller
             'discountAmount',
             'appliedCoupon',
             'totalAmount',
-            'shipSettings'
+            'shipSettings',
+            'greetingTemplates'
         ));
     }
 

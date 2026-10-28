@@ -57,29 +57,55 @@
     align-items: start;
   }
 
-  @media (max-width: 890px) {
+  .checkout-input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 900px) {
     .checkout-container {
-      grid-template-columns: 1fr;
-      gap: 24px;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 24px !important;
     }
     .checkout-right-col {
-      order: -1; /* Tampilkan ringkasan lebih awal jika diinginkan, atau biarkan di bawah */
+      position: static !important;
+      top: auto !important;
+      order: 2 !important;
+      width: 100% !important;
+      max-width: 100% !important;
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     .checkout-page {
-      padding: 16px 12px 60px 12px;
+      padding: 18px 12px 60px 12px;
     }
     .checkout-box {
       padding: 20px 14px !important;
+      margin-bottom: 20px !important;
     }
     .checkout-input-grid {
-      grid-template-columns: 1fr !important;
-      gap: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 14px !important;
+      margin-bottom: 14px !important;
+      width: 100% !important;
+    }
+    .checkout-input-grid > * {
+      width: 100% !important;
+      box-sizing: border-box !important;
     }
     .payment-grid {
       grid-template-columns: 1fr !important;
+    }
+    .greeting-card-panel {
+      padding: 16px 14px !important;
+      margin-bottom: 20px !important;
     }
   }
 
@@ -115,6 +141,8 @@
 
   .form-group {
     margin-bottom: 18px;
+    clear: both;
+    position: relative;
   }
   .form-group label {
     display: block;
@@ -125,6 +153,7 @@
   }
   .form-control {
     width: 100%;
+    max-width: 100%;
     padding: 11px 14px;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
@@ -133,7 +162,14 @@
     color: #0f172a;
     background: #ffffff;
     box-sizing: border-box;
+    display: block;
+    position: relative;
     transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  textarea.form-control {
+    min-height: 85px;
+    line-height: 1.5;
+    resize: vertical;
   }
   .form-control:focus {
     outline: none;
@@ -150,6 +186,8 @@
     margin-bottom: 24px;
     position: relative;
     box-shadow: 0 2px 10px rgba(217, 119, 6, 0.05);
+    clear: both;
+    overflow: visible;
   }
   .greeting-card-badge {
     display: inline-flex;
@@ -521,7 +559,7 @@
             <input type="text" name="customer_name" id="customer_name" class="form-control" value="{{ old('customer_name', auth()->check() ? auth()->user()->name : '') }}" placeholder="Contoh: Budi Santoso" required>
           </div>
 
-          <div class="checkout-input-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="checkout-input-grid">
             <div class="form-group">
               <label for="customer_phone">No. WhatsApp / HP Pemesan <span style="color: #dc2626;">*</span></label>
               <input type="tel" name="customer_phone" id="customer_phone" class="form-control" value="{{ old('customer_phone', auth()->check() ? (auth()->user()->phone ?? '') : '') }}" placeholder="081234567890" required>
@@ -580,12 +618,12 @@
               </label>
 
               <div id="different_recipient_container" style="display: {{ old('is_gift') ? 'block' : 'none' }}; margin-top: 16px; padding-top: 14px; border-top: 1px dashed #cbd5e1;">
-                <div class="checkout-input-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                  <div class="form-group" style="margin-bottom: 0;">
+                <div class="checkout-input-grid">
+                  <div class="form-group">
                     <label for="recipient_name">Nama Penerima Hadiah <span style="color: #dc2626;">*</span></label>
                     <input type="text" name="recipient_name" id="recipient_name" class="form-control" value="{{ old('recipient_name') }}" placeholder="Contoh: Ibu Rina Suryani">
                   </div>
-                  <div class="form-group" style="margin-bottom: 0;">
+                  <div class="form-group">
                     <label for="recipient_phone">No. WhatsApp / HP Penerima <span style="color: #dc2626;">*</span></label>
                     <input type="tel" name="recipient_phone" id="recipient_phone" class="form-control" value="{{ old('recipient_phone') }}" placeholder="081987654321">
                   </div>
@@ -599,7 +637,7 @@
               <textarea name="address" id="address" class="form-control" rows="3" placeholder="Nama Jalan, Nomor Rumah, RT/RW, Komplek / Gedung, Kelurahan, Kecamatan" required>{{ old('address') }}</textarea>
             </div>
 
-            <div class="checkout-input-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="checkout-input-grid">
               <div class="form-group">
                 <label for="city">Kota / Kabupaten</label>
                 <input type="text" name="city" id="city" class="form-control" value="{{ old('city') }}" placeholder="Contoh: Jakarta Selatan">
@@ -615,6 +653,11 @@
               <label for="address_notes">Patokan Lokasi / Catatan Pengantaran Kurir (Opsional)</label>
               <input type="text" name="address_notes" id="address_notes" class="form-control" value="{{ old('address_notes') }}" placeholder="Contoh: Pagar hitam samping kantor pos, titip di resepsionis lantai 2 jika tidak di tempat">
             </div>
+
+            <div class="form-group">
+              <label for="custom_order_note">Catatan / Keterangan Khusus Pesanan (Opsional)</label>
+              <textarea name="custom_order_note" id="custom_order_note" class="form-control" rows="2" placeholder="Tuliskan catatan khusus untuk pesanan, warna pita, instruksi packaging, atau pesan khusus...">{{ old('custom_order_note', $orderNote) }}</textarea>
+            </div>
           @else
             <input type="hidden" name="courier_name" value="Ambil Sendiri di Boutique Store">
             <div class="form-group">
@@ -626,38 +669,47 @@
               </div>
               <input type="hidden" name="address" value="Store Pick up (Jl. Cikajang V No. 12, Kebayoran Baru, Jakarta Selatan)">
             </div>
+
+            <div class="form-group">
+              <label for="custom_order_note">Catatan / Keterangan Khusus Pesanan (Opsional)</label>
+              <textarea name="custom_order_note" id="custom_order_note" class="form-control" rows="2" placeholder="Tuliskan catatan khusus untuk pesanan atau jam perkiraan pengambilan...">{{ old('custom_order_note', $orderNote) }}</textarea>
+            </div>
           @endif
 
           {{-- KARTU UCAPAN HANTARAN (GRATIS) --}}
+          @php
+            $activeCards = $greetingTemplates ?? \App\Http\Controllers\Admin\AdminGreetingCardController::getActiveTemplates();
+          @endphp
           <div class="greeting-card-panel">
             <div class="greeting-card-badge">✨ GRATIS EXCLUSIVE CARD</div>
             <h3 class="greeting-card-title">🎁 Kartu Ucapan Spesial Hantaran</h3>
             <p class="greeting-card-subtitle">
-              Setiap bingkisan hampers dilengkapi kartu ucapan mewah. Ketik ucapan Anda atau pilih inspirasi tema ucapan siap pakai di bawah ini:
+              Setiap bingkisan hampers dilengkapi kartu ucapan mewah. Klik tema ucapan siap pakai di bawah ini atau tuliskan ucapan personal Anda:
             </p>
 
             <div class="template-chips-wrap">
-              <button type="button" class="template-chip" onclick="applyTemplate('fitri')">🌙 Idul Fitri 1447 H</button>
-              <button type="button" class="template-chip" onclick="applyTemplate('ultah')">🎂 Selamat Ulang Tahun</button>
-              <button type="button" class="template-chip" onclick="applyTemplate('corporate')">💼 Rekan Bisnis / Corporate</button>
-              <button type="button" class="template-chip" onclick="applyTemplate('congrats')">🎉 Congratulations &amp; Sukses</button>
-              <button type="button" class="template-chip" onclick="applyTemplate('gws')">💐 Get Well Soon</button>
-              <button type="button" class="template-chip" onclick="applyTemplate('hantaran')">✨ Hantaran Silaturahmi</button>
-              <button type="button" class="template-chip clear-btn" onclick="applyTemplate('clear')">🗑️ Hapus Teks</button>
+              @foreach($activeCards as $tpl)
+                <button type="button" class="template-chip" onclick="applyTemplate('{{ $tpl['id'] }}')">
+                  {{ $tpl['title'] }}
+                </button>
+              @endforeach
+              <button type="button" class="template-chip clear-btn" onclick="applyTemplate('clear')">
+                🗑️ Hapus Teks
+              </button>
             </div>
 
-            <div class="checkout-input-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px;">
-              <div>
+            <div class="checkout-input-grid" style="margin-bottom: 14px;">
+              <div class="form-group" style="margin-bottom: 0;">
                 <label for="card_to" style="font-size: 12px; font-weight: 600; color: #78350f; display: block; margin-bottom: 4px;">Kepada (To):</label>
                 <input type="text" name="card_to" id="card_to" class="form-control" value="{{ old('card_to') }}" placeholder="Contoh: Keluarga Ibu Maya &amp; Bapak Edwin">
               </div>
-              <div>
+              <div class="form-group" style="margin-bottom: 0;">
                 <label for="card_from" style="font-size: 12px; font-weight: 600; color: #78350f; display: block; margin-bottom: 4px;">Dari (From):</label>
                 <input type="text" name="card_from" id="card_from" class="form-control" value="{{ old('card_from') }}" placeholder="Contoh: Keluarga Besar Budi Santoso">
               </div>
             </div>
 
-            <div>
+            <div class="form-group" style="margin-bottom: 0;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                 <label for="card_message" style="font-size: 12px; font-weight: 600; color: #78350f;">Pesan Ucapan Hantaran:</label>
                 <span style="font-size: 11px; color: #92400e;"><span id="card_char_count">0</span>/300 karakter</span>
@@ -901,15 +953,11 @@
 </div>
 
 <script>
-  // 1. Template Ucapan Siap Pakai
-  const greetingTemplates = {
-    fitri: "Selamat Hari Raya Idul Fitri 1447 H. Minal Aidin Wal Faidzin, mohon maaf lahir dan batin. Semoga berkah, kesehatan, dan kedamaian senantiasa melimpah untuk kita sekeluarga.",
-    ultah: "Happy Birthday! Semoga senantiasa diberikan kesehatan, kebahagiaan berlimpah, rezeki yang lancar, dan terkabul semua doa di usia yang baru ini.",
-    corporate: "Terima kasih yang sebesar-besarnya atas kemitraan dan kerja sama luar biasa yang terjalin selama ini. Semoga kemitraan ini terus berlanjut dan membawa kesuksesan bersama.",
-    congrats: "Selamat dan sukses atas pencapaian luar biasa ini! Sangat bangga atas prestasi dan dedikasi hebat yang telah Anda torehkan.",
-    gws: "Semoga lekas sembuh dan lekas pulih kembali seperti sedia kala. Tetap semangat, doa terbaik kami selalu menyertaimu.",
-    hantaran: "Bingkisan hangat ini kami haturkan dengan tulus sebagai tanda silaturahmi dan rasa hormat yang mendalam. Semoga berkenan bagi sekeluarga."
-  };
+  // 1. Template Ucapan Siap Pakai (Dinamis dari Admin / Default)
+  @php
+    $jsCards = $activeCards ?? ($greetingTemplates ?? \App\Http\Controllers\Admin\AdminGreetingCardController::getActiveTemplates());
+  @endphp
+  const greetingTemplates = @json(collect($jsCards)->pluck('message', 'id'));
 
   function applyTemplate(key) {
     const textarea = document.getElementById('card_message');
@@ -917,7 +965,7 @@
 
     if (key === 'clear') {
       textarea.value = '';
-    } else if (greetingTemplates[key]) {
+    } else if (greetingTemplates && greetingTemplates[key]) {
       textarea.value = greetingTemplates[key];
     }
     updateCharCount();

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminCouponReviewController;
 use App\Http\Controllers\Admin\AdminGalleryController;
+use App\Http\Controllers\Admin\AdminGreetingCardController;
 use App\Http\Controllers\Admin\AdminHeroBannerController;
 use App\Http\Controllers\Admin\AdminMenuPdfController;
 use App\Http\Controllers\Admin\AdminOrderController;
@@ -200,4 +201,12 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
     Route::put('/gallery/{id}', [AdminGalleryController::class, 'update'])->name('gallery.update');
     Route::post('/gallery/{id}/toggle', [AdminGalleryController::class, 'toggleActive'])->name('gallery.toggle');
     Route::delete('/gallery/{id}', [AdminGalleryController::class, 'destroy'])->name('gallery.destroy');
+
+    // Greeting Cards Management (Kelola Template Kartu Ucapan)
+    Route::get('/greeting-cards', [AdminGreetingCardController::class, 'index'])->name('greeting_cards.index');
+    Route::post('/greeting-cards', [AdminGreetingCardController::class, 'store'])->name('greeting_cards.store');
+    Route::put('/greeting-cards/{id}', [AdminGreetingCardController::class, 'update'])->name('greeting_cards.update');
+    Route::post('/greeting-cards/{id}/toggle', [AdminGreetingCardController::class, 'toggle'])->name('greeting_cards.toggle');
+    Route::delete('/greeting-cards/{id}', [AdminGreetingCardController::class, 'destroy'])->name('greeting_cards.destroy');
+    Route::post('/greeting-cards/reset', [AdminGreetingCardController::class, 'resetDefaults'])->name('greeting_cards.reset');
 });

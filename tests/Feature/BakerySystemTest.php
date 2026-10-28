@@ -805,4 +805,73 @@ class BakerySystemTest extends TestCase
         $shopRes->assertSee('Mooncake Royal Imperial');
         $shopRes->assertSee(asset('images/cat-mooncake.jpg'));
     }
+
+    public function test_admin_can_manage_greeting_cards_and_checkout_reflects_changes(): void
+    {
+        $admin = User::factory()->create([
+            'is_admin' => true,
+        ]);
+
+        // 1. Admin views greeting cards index
+        $indexRes = $this->actingAs($admin)->get('/admin/greeting-cards');
+        $indexRes->assertStatus(200);
+        $indexRes->assertSee('Kelola Template Kartu Ucapan');
+        $indexRes->assertSee('Natal &amp; Tahun Baru', false);
+        $indexRes->assertSee('Tahun Baru Imlek');
+
+        // 2. Public checkout shows Natal and Imlek
+        $product = Product::first();
+        $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+        $checkoutRes = $this->get('/checkout');
+        $checkoutRes->assertStatus(200);
+        $checkoutRes->assertSee('Natal &amp; Tahun Baru', false);
+        $checkoutRes->assertSee('Tahun Baru Imlek');
+
+        // 3. Admin creates a new template
+        $storeRes = $this->actingAs($admin)->post('/admin/greeting-cards', [
+            'title' => '🌟 Syukuran Rumah Baru',
+            'message' => 'Selamat menempati rumah baru yang penuh keberkahan dan kebahagiaan!',
+            'display_order' => 1,
+        ]);
+        $storeRes->assertRedirect(route('admin.greeting_cards.index'));
+        $storeRes->assertSessionHas('success');
+
+        // Checkout now reflects new template
+        $checkoutRes2 = $this->get('/checkout');
+        $checkoutRes2->assertSee('Syukuran Rumah Baru');
+
+        // 4. Admin updates the template
+        $updateRes = $this->actingAs($admin)->put('/admin/greeting-cards/syukuran-rumah-baru', [
+            'title' => '🏡 Grand Opening & Syukuran',
+            'message' => 'Sukses selalu untuk babak baru ini!',
+            'display_order' => 1,
+        ]);
+        $updateRes->assertRedirect(route('admin.greeting_cards.index'));
+
+        // 5. Admin toggles active state
+        $toggleRes = $this->actingAs($admin)->post('/admin/greeting-cards/syukuran-rumah-baru/toggle');
+        $toggleRes->assertRedirect(route('admin.greeting_cards.index'));
+
+        // Since it's deactivated, checkout should not show it
+        $checkoutRes3 = $this->get('/checkout');
+        $checkoutRes3->assertDontSee('Grand Opening &amp; Syukuran', false);
+
+        // 6. Admin deletes template
+        $deleteRes = $this->actingAs($admin)->delete('/admin/greeting-cards/syukuran-rumah-baru');
+        $deleteRes->assertRedirect(route('admin.greeting_cards.index'));
+
+        // 7. Admin resets to defaults
+        $resetRes = $this->actingAs($admin)->post('/admin/greeting-cards/reset');
+        $resetRes->assertRedirect(route('admin.greeting_cards.index'));
+        $resetRes->assertSessionHas('success');
+    }
 }
