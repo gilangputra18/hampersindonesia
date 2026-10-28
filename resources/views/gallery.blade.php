@@ -380,9 +380,6 @@
   <!-- Header & Breadcrumb -->
   <div class="gallery-header-section">
     <div class="gallery-breadcrumb">
-      <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
-        <span>❮</span> <span>Kembali</span>
-      </button>
       <a href="{{ route('home') }}">Home</a> &raquo; <span>Gallery</span>
     </div>
     <h1 class="gallery-main-title">Gallery</h1>

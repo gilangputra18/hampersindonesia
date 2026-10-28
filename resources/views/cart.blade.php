@@ -306,11 +306,6 @@
 
 <div class="cart-page-container">
   <div class="cart-wrapper">
-    <div style="margin-bottom: 16px;">
-      <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('shop') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
-        <span>❮</span> <span>Kembali Belanja</span>
-      </button>
-    </div>
     <h1 class="cart-header-title">KERANJANG BELANJA</h1>
 
     @if (session('error'))

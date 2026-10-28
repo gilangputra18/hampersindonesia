@@ -273,9 +273,6 @@
 <div class="shop-container">
   <!-- Breadcrumb -->
   <div class="crumb-shop" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-    <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
-      <span>❮</span> <span>Kembali</span>
-    </button>
     <a href="{{ route('home') }}">HOME</a> »
     <a href="{{ route('shop') }}">PRODUK</a>
     @if ($cat && !$isAllProducts)
@@ -291,11 +288,8 @@
   <!-- Category Showcase Grid (Matching Reference Image 4) -->
   <div class="collection-grid-showcase">
     @foreach ($categories as $c)
-      @php
-        $catImg = asset('images/cat-' . $c->slug . '.jpg');
-      @endphp
       <a href="{{ route('category', $c->slug) }}" class="collection-card">
-        <img src="{{ $catImg }}" alt="{{ $c->title }}" loading="lazy" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
+        <img src="{{ $c->image_url }}" alt="{{ $c->title }}" loading="lazy" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
         <div class="collection-card-badge">
           {{ $c->title }} ({{ $c->products_count }} Produk)
         </div>

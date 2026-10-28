@@ -10,6 +10,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use App\Helpers\ImageOptimizer;
 
@@ -469,6 +470,8 @@ class AdminProductController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:100',
             'slug' => 'nullable|string|max:100',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:8192',
+            'image_url' => 'nullable|string|max:500',
         ]);
 
         $slug = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($validated['title']);
@@ -476,16 +479,80 @@ class AdminProductController extends Controller
             $slug .= '-' . rand(10, 99);
         }
 
+        $imagePath = null;
+        if ($request->hasFile('image_file')) {
+            $destDir = public_path('uploads/categories');
+            if (!File::isDirectory($destDir)) {
+                File::makeDirectory($destDir, 0755, true);
+            }
+            $filename = 'cat_' . time() . '_' . Str::random(6) . '.' . $request->file('image_file')->getClientOriginalExtension();
+            $request->file('image_file')->move($destDir, $filename);
+            $imagePath = '/uploads/categories/' . $filename;
+        } elseif ($request->filled('image_url')) {
+            $imagePath = $request->input('image_url');
+        }
+
         $maxOrder = Category::max('display_order') ?? 0;
 
         Category::create([
             'title' => $validated['title'],
             'slug' => $slug,
+            'image' => $imagePath,
             'display_order' => $maxOrder + 1,
         ]);
 
         return redirect()->route('admin.products.index')
             ->with('success', '✅ Kategori baru "' . $validated['title'] . '" berhasil ditambahkan!');
+    }
+
+    public function categoryUpdate(Request $request, Category $category)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:100',
+            'slug' => 'nullable|string|max:100',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:8192',
+            'image_url' => 'nullable|string|max:500',
+            'display_order' => 'nullable|integer|min:0',
+        ]);
+
+        $category->title = $validated['title'];
+
+        if (!empty($validated['slug'])) {
+            $newSlug = Str::slug($validated['slug']);
+            if ($newSlug !== $category->slug && !Category::where('slug', $newSlug)->where('id', '!=', $category->id)->exists()) {
+                $category->slug = $newSlug;
+            }
+        }
+
+        if ($request->hasFile('image_file')) {
+            $destDir = public_path('uploads/categories');
+            if (!File::isDirectory($destDir)) {
+                File::makeDirectory($destDir, 0755, true);
+            }
+            $filename = 'cat_' . time() . '_' . Str::random(6) . '.' . $request->file('image_file')->getClientOriginalExtension();
+            $request->file('image_file')->move($destDir, $filename);
+
+            // Delete old upload if it exists in uploads/categories
+            if (!empty($category->image) && str_starts_with($category->image, '/uploads/categories/')) {
+                $oldFile = public_path(ltrim($category->image, '/'));
+                if (File::exists($oldFile)) {
+                    File::delete($oldFile);
+                }
+            }
+
+            $category->image = '/uploads/categories/' . $filename;
+        } elseif ($request->filled('image_url')) {
+            $category->image = $request->input('image_url');
+        }
+
+        if ($request->filled('display_order')) {
+            $category->display_order = (int) $request->input('display_order');
+        }
+
+        $category->save();
+
+        return redirect()->route('admin.products.index')
+            ->with('success', '✅ Sampul gambar dan nama kategori "' . $category->title . '" berhasil diperbarui!');
     }
 
     public function categoryDestroy(Category $category)
@@ -494,6 +561,14 @@ class AdminProductController extends Controller
         if ($productCount > 0) {
             return redirect()->route('admin.products.index')
                 ->with('error', '⚠️ Tidak dapat menghapus kategori "' . $category->title . '" karena masih memiliki ' . $productCount . ' produk. Pindahkan produk ke kategori lain terlebih dahulu.');
+        }
+
+        // Delete uploaded file if exists
+        if (!empty($category->image) && str_starts_with($category->image, '/uploads/categories/')) {
+            $oldFile = public_path(ltrim($category->image, '/'));
+            if (File::exists($oldFile)) {
+                File::delete($oldFile);
+            }
         }
 
         $title = $category->title;

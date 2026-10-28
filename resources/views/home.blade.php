@@ -1812,11 +1812,8 @@
       
       <div class="cat-slider-track" id="catSliderTrack">
         @foreach ($categories as $c)
-          @php
-            $catImage = asset('images/cat-' . $c->slug . '.jpg');
-          @endphp
           <a href="{{ route('category', $c->slug) }}" class="ref-cat-card">
-            <img src="{{ $catImage }}" alt="{{ $c->title }}" loading="lazy" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
+            <img src="{{ $c->image_url }}" alt="{{ $c->title }}" loading="lazy" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
             <div class="ref-cat-pill">
               {{ $c->title }}
             </div>

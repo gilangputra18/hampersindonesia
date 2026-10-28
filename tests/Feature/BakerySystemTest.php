@@ -672,13 +672,14 @@ class BakerySystemTest extends TestCase
         $home->assertDontSee('class="global-page-back-bar"', false);
         $home->assertDontSee('class="floating-back-pill"', false);
 
-        // 2. Non-home pages have both sticky back bar and floating back pill
+        // 2. Non-home pages have exactly ONE single back button (global sticky subheader bar, no duplicate floating pill or breadcrumb buttons)
         $pages = ['/shop', '/gallery', '/terms', '/pembayaran-pengiriman', '/pricelist', '/cart', '/track-order'];
         foreach ($pages as $p) {
             $res = $this->get($p);
             $res->assertStatus(200);
             $res->assertSee('class="global-page-back-bar"', false);
-            $res->assertSee('class="floating-back-pill"', false);
+            $res->assertDontSee('class="floating-back-pill"', false);
+            $res->assertDontSee('class="btn-crumb-back"', false);
             $res->assertSee('Kembali');
         }
     }
@@ -773,5 +774,35 @@ class BakerySystemTest extends TestCase
         if (\Illuminate\Support\Facades\File::exists(\App\Http\Controllers\Admin\AdminGalleryController::getGalleryPath())) {
             \Illuminate\Support\Facades\File::delete(\App\Http\Controllers\Admin\AdminGalleryController::getGalleryPath());
         }
+    }
+
+    public function test_admin_can_update_category_cover_image_and_name(): void
+    {
+        $admin = User::factory()->create([
+            'is_admin' => true,
+        ]);
+
+        $category = Category::first();
+        $this->assertNotNull($category);
+
+        $updateRes = $this->actingAs($admin)->put('/admin/categories/' . $category->id, [
+            'title' => 'Mooncake Royal Imperial',
+            'slug' => 'mooncake-royal',
+            'image_url' => '/images/cat-mooncake.jpg',
+        ]);
+
+        $updateRes->assertRedirect(route('admin.products.index'));
+        $updateRes->assertSessionHas('success');
+
+        $category->refresh();
+        $this->assertEquals('Mooncake Royal Imperial', $category->title);
+        $this->assertEquals('/images/cat-mooncake.jpg', $category->image);
+        $this->assertEquals(asset('images/cat-mooncake.jpg'), $category->image_url);
+
+        // Verify public shop page displays the updated category title and image
+        $shopRes = $this->get('/shop');
+        $shopRes->assertStatus(200);
+        $shopRes->assertSee('Mooncake Royal Imperial');
+        $shopRes->assertSee(asset('images/cat-mooncake.jpg'));
     }
 }

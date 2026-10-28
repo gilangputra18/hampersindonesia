@@ -128,7 +128,7 @@
     
     <div style="margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap;">
       <button type="button" class="btn btn-outline" onclick="openCategoryModal()" style="border-color: var(--accent-gold); color: #fef08a;">
-        🏷️ Kelola Kategori (Tambah / Hapus)
+        🏷️ Kelola Kategori (Ubah Sampul &amp; Nama)
       </button>
       <a href="{{ route('admin.products.create') }}" class="btn btn-gold">
         ➕ Tambah Produk Baru
@@ -380,13 +380,13 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
 });
 </script>
 
-<!-- Modal Kelola Kategori (Tambah & Hapus Kategori) -->
-<div id="category-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.8); backdrop-filter:blur(5px); align-items:center; justify-content:center; padding:16px;">
-  <div style="background:#320712; border:1px solid var(--accent-gold); border-radius:16px; padding:28px; max-width:620px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
+<!-- Modal Kelola Kategori (Tambah, Edit Sampul, Nama & Hapus Kategori) -->
+<div id="category-modal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.85); backdrop-filter:blur(5px); align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#25050d; border:1px solid var(--accent-gold); border-radius:16px; padding:28px; max-width:700px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--panel-border); padding-bottom:14px;">
       <div>
-        <h3 style="font-size:18px; font-weight:700; color:#fff; margin:0;">🏷️ Kelola Kategori Produk</h3>
-        <p style="font-size:12px; color:var(--text-muted); margin:4px 0 0;">Tambah kategori baru atau hapus kategori yang sudah tidak digunakan.</p>
+        <h3 style="font-size:18px; font-weight:700; color:var(--accent-gold); margin:0;">🏷️ Kelola Kategori Produk</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin:4px 0 0;">Ubah sampul gambar, ganti nama kategori, tambah kategori baru, atau hapus kategori.</p>
       </div>
       <button onclick="closeCategoryModal()" style="background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">✕</button>
     </div>
@@ -394,18 +394,32 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
     <!-- Form Tambah Kategori Baru -->
     <div style="background:rgba(25, 2, 7, 0.7); border:1px solid var(--panel-border); border-radius:10px; padding:18px; margin-bottom:24px;">
       <h4 style="font-size:14px; font-weight:700; color:#fef08a; margin-bottom:12px;">➕ Tambah Kategori Baru</h4>
-      <form action="{{ route('admin.categories.store') }}" method="POST" style="display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:flex-end;">
+      <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div>
-          <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Nama Kategori</label>
-          <input type="text" name="title" class="form-control" placeholder="Contoh: Hampers Lebaran" required style="padding:9px 12px; font-size:13px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div>
+            <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Nama Kategori *</label>
+            <input type="text" name="title" class="form-control" placeholder="Contoh: Mooncake Festival" required style="padding:9px 12px; font-size:13px;">
+          </div>
+          <div>
+            <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Slug URL (Opsional)</label>
+            <input type="text" name="slug" class="form-control" placeholder="mooncake-festival" style="padding:9px 12px; font-size:13px;">
+          </div>
         </div>
-        <div>
-          <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Slug URL (Opsional)</label>
-          <input type="text" name="slug" class="form-control" placeholder="hampers-lebaran" style="padding:9px 12px; font-size:13px;">
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; align-items:center;">
+          <div>
+            <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Upload Sampul Gambar Kategori</label>
+            <input type="file" name="image_file" class="form-control" accept="image/*" style="padding:7px 10px; font-size:12px;">
+          </div>
+          <div>
+            <label style="display:block; font-size:11.5px; color:var(--text-muted); margin-bottom:4px;">Atau URL Gambar</label>
+            <input type="text" name="image_url" class="form-control" placeholder="/images/... atau https://..." style="padding:9px 12px; font-size:13px;">
+          </div>
         </div>
-        <button type="submit" class="btn btn-gold" style="padding:9px 16px; font-size:13px; font-weight:700; white-space:nowrap;">
-          💾 Simpan
+
+        <button type="submit" class="btn btn-gold" style="padding:9px 18px; font-size:13px; font-weight:700; white-space:nowrap;">
+          💾 Simpan Kategori Baru
         </button>
       </form>
     </div>
@@ -413,24 +427,36 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
     <!-- Daftar Kategori Saat Ini -->
     <div>
       <h4 style="font-size:14px; font-weight:700; color:#fff; margin-bottom:12px;">📋 Daftar Kategori Saat Ini ({{ $categories->count() }})</h4>
-      <div style="display:flex; flex-direction:column; gap:8px;">
+      <div style="display:flex; flex-direction:column; gap:10px;">
         @forelse ($categories as $cat)
-          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); border:1px solid var(--panel-border); border-radius:8px; padding:12px 16px;">
-            <div>
-              <strong style="color:#fff; font-size:14px;">{{ $cat->title }}</strong>
-              <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                Slug: <code>{{ $cat->slug }}</code> • 
-                <span style="color:#38bdf8;">{{ $cat->products()->count() }} produk</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); border:1px solid var(--panel-border); border-radius:10px; padding:12px 16px; gap:14px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <img src="{{ $cat->image_url }}" alt="{{ $cat->title }}" style="width:48px; height:48px; object-fit:cover; border-radius:8px; border:1.5px solid var(--accent-gold); background:#0f0a0d;" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
+              <div>
+                <strong style="color:#fff; font-size:14.5px;">{{ $cat->title }}</strong>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
+                  Slug: <code>{{ $cat->slug }}</code> • 
+                  <span style="color:#fef08a;">{{ $cat->products()->count() }} produk</span>
+                </div>
               </div>
             </div>
 
-            <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori {{ addslashes($cat->title) }}?');" style="margin:0;">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="btn btn-outline" style="padding:6px 12px; font-size:12px; color:#f87171; border-color:rgba(239, 68, 68, 0.4);" title="Hapus Kategori">
-                🗑️ Hapus
+            <div style="display:flex; align-items:center; gap:8px;">
+              <!-- Tombol Edit Sampul & Nama -->
+              <button type="button" class="btn btn-outline" style="padding:6px 12px; font-size:12px; color:#fef08a; border-color:rgba(202, 164, 54, 0.5); background:rgba(202, 164, 54, 0.1);"
+                      onclick='openEditCategoryModal(@json($cat), "{{ $cat->image_url }}")'>
+                ✏️ Edit Sampul &amp; Nama
               </button>
-            </form>
+
+              <!-- Tombol Hapus -->
+              <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori {{ addslashes($cat->title) }}?');" style="margin:0;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline" style="padding:6px 10px; font-size:12px; color:#f87171; border-color:rgba(239, 68, 68, 0.4);" title="Hapus Kategori">
+                  🗑️
+                </button>
+              </form>
+            </div>
           </div>
         @empty
           <div style="text-align:center; padding:20px; color:var(--text-muted); font-size:13px;">
@@ -446,15 +472,97 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
   </div>
 </div>
 
+<!-- Modal Edit Sampul Gambar & Nama Kategori -->
+<div id="edit-category-modal" style="display:none; position:fixed; inset:0; z-index:10000; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#25050d; border:1px solid var(--accent-gold); border-radius:16px; padding:28px; max-width:550px; width:100%; box-shadow:0 25px 60px rgba(0,0,0,0.8); max-height:90vh; overflow-y:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid var(--panel-border); padding-bottom:14px;">
+      <div>
+        <h3 style="font-size:18px; font-weight:700; color:var(--accent-gold); margin:0;">✏️ Edit Sampul &amp; Nama Kategori</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin:4px 0 0;">Ubah gambar sampul dan nama kategori yang tampil di halaman katalog dan beranda.</p>
+      </div>
+      <button onclick="closeEditCategoryModal()" style="background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">✕</button>
+    </div>
+
+    <form id="form-edit-category" action="" method="POST" enctype="multipart/form-data">
+      @csrf
+      @method('PUT')
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label style="display:block; font-size:12.5px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Nama Kategori *</label>
+        <input type="text" id="edit_cat_title" name="title" class="form-control" required style="padding:10px 14px; font-size:13.5px;">
+      </div>
+
+      <div class="form-group" style="margin-bottom:16px;">
+        <label style="display:block; font-size:12.5px; font-weight:600; color:#cbd5e1; margin-bottom:6px;">Slug URL</label>
+        <input type="text" id="edit_cat_slug" name="slug" class="form-control" style="padding:10px 14px; font-size:13.5px;">
+        <small style="color:var(--text-muted); font-size:11px;">Slug digunakan untuk tautan URL, misal /shop/nama-kategori.</small>
+      </div>
+
+      <div style="display:flex; gap:16px; align-items:center; margin-bottom:16px; background:rgba(0,0,0,0.25); padding:12px; border-radius:10px; border:1px solid var(--panel-border);">
+        <div style="text-align:center;">
+          <img id="edit_cat_preview" src="" alt="Preview" style="width:70px; height:70px; object-fit:cover; border-radius:8px; border:1.5px solid var(--accent-gold); background:#0f0a0d;" onerror="this.src='{{ asset('images/cat-hampers.jpg') }}';">
+          <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Sampul Saat Ini</div>
+        </div>
+        <div style="flex:1;">
+          <label style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:4px;">Ganti File Sampul Baru</label>
+          <input type="file" name="image_file" class="form-control" accept="image/*" style="padding:6px 10px; font-size:12px;" onchange="previewCatImage(this, 'edit_cat_preview')">
+          <small style="color:var(--text-muted); font-size:10.5px;">Format JPG, PNG, WEBP (Maks 8MB).</small>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:20px;">
+        <label style="display:block; font-size:12px; font-weight:600; color:#cbd5e1; margin-bottom:4px;">Atau Path / URL Gambar Sampul</label>
+        <input type="text" id="edit_cat_image_url" name="image_url" class="form-control" placeholder="/images/cat-hampers.jpg atau https://..." style="padding:9px 12px; font-size:12.5px;">
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; border-top:1px solid var(--panel-border); padding-top:16px;">
+        <button type="button" onclick="closeEditCategoryModal()" class="btn btn-outline" style="font-size:13px; padding:8px 16px;">Batal</button>
+        <button type="submit" class="btn btn-gold" style="font-size:13px; font-weight:700; padding:8px 20px;">💾 Simpan Perubahan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <script>
 function openCategoryModal() {
   document.getElementById('category-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
 }
 function closeCategoryModal() {
   document.getElementById('category-modal').style.display = 'none';
+  document.body.style.overflow = '';
 }
 document.getElementById('category-modal').addEventListener('click', function(e) {
   if (e.target === this) closeCategoryModal();
 });
+
+function openEditCategoryModal(cat, imageUrl) {
+  const form = document.getElementById('form-edit-category');
+  form.action = "{{ url('admin/categories') }}/" + cat.id;
+
+  document.getElementById('edit_cat_title').value = cat.title || '';
+  document.getElementById('edit_cat_slug').value = cat.slug || '';
+  document.getElementById('edit_cat_image_url').value = cat.image && !cat.image.startsWith('/uploads/') ? cat.image : '';
+  document.getElementById('edit_cat_preview').src = imageUrl || '/images/cat-hampers.jpg';
+
+  document.getElementById('edit-category-modal').style.display = 'flex';
+}
+
+function closeEditCategoryModal() {
+  document.getElementById('edit-category-modal').style.display = 'none';
+}
+document.getElementById('edit-category-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeEditCategoryModal();
+});
+
+function previewCatImage(input, previewId) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById(previewId).src = e.target.result;
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 </script>
 @endsection

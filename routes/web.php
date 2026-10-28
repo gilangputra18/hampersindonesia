@@ -128,6 +128,7 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
     // Product & Category Management
     Route::get('/api/products/autocomplete', [AdminProductController::class, 'autocomplete'])->name('products.autocomplete');
     Route::post('/categories', [AdminProductController::class, 'categoryStore'])->name('categories.store');
+    Route::put('/categories/{category}', [AdminProductController::class, 'categoryUpdate'])->name('categories.update');
     Route::delete('/categories/{category}', [AdminProductController::class, 'categoryDestroy'])->name('categories.destroy');
     Route::resource('products', AdminProductController::class);
 

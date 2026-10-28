@@ -761,7 +761,7 @@
         📊 Dashboard
       </a>
       <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
-        🥐 Kelola Produk
+        🥐 Kelola Produk &amp; Kategori
       </a>
       <a href="{{ route('admin.hero_banner.index') }}" class="nav-link {{ request()->routeIs('admin.hero_banner.*') ? 'active' : '' }}">
         🖼️ Kelola Hero Banner Slider

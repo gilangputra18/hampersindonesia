@@ -568,9 +568,6 @@
   <!-- 0. Header & Breadcrumb -->
   <div class="pricelist-header-section">
     <div class="pricelist-breadcrumb">
-      <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
-        <span>❮</span> <span>Kembali</span>
-      </button>
       <a href="{{ route('home') }}">Home</a> &gt; <span>Pricelist</span>
     </div>
     <h1 class="pricelist-page-title">Pricelist</h1>

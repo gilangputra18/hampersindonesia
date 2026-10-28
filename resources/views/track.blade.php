@@ -319,11 +319,6 @@
 
 <div class="track-page">
   <div class="track-container">
-    <div style="margin-bottom: 20px;">
-      <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
-        <span>❮</span> <span>Kembali</span>
-      </button>
-    </div>
     <div class="track-header">
       <h1 class="track-title">📦 LACAK PESANAN REAL-TIME</h1>
       <p class="track-sub">Lacak Status Real-Time Pesanan Pusat Hampers Indonesia Anda</p>

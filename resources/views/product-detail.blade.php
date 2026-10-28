@@ -501,9 +501,6 @@
     <!-- Breadcrumb & Share Button -->
     <div class="pdetail-breadcrumb-bar">
       <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-        <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('shop') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
-          <span>❮</span> <span>Kembali</span>
-        </button>
         <a href="{{ route('home') }}">Home</a>
         <span style="margin: 0 4px; color: #94a3b8;">&gt;</span>
         <a href="{{ route('category', $product->category->slug ?? 'hampers') }}">
