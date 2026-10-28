@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
@@ -107,6 +109,8 @@ class CheckoutController extends Controller
             'city' => 'nullable|string|max:100',
             'postal_code' => 'nullable|string|max:15',
             'address_notes' => 'nullable|string|max:255',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
             'is_gift' => 'nullable|in:0,1',
             'recipient_name' => 'nullable|string|max:100',
             'recipient_phone' => 'nullable|string|max:30',
@@ -206,10 +210,17 @@ class CheckoutController extends Controller
             }
         }
 
-        // 3. Patokan Alamat Pengiriman
+        // 3. Patokan Alamat Pengiriman & Koordinat GPS
         $addrNotes = trim($request->input('address_notes', ''));
         if ($addrNotes !== '') {
             $noteSections[] = "📍 [PATOKAN ALAMAT]: " . $addrNotes;
+        }
+
+        if (!empty($validated['latitude']) && !empty($validated['longitude'])) {
+            $latVal = round((float)$validated['latitude'], 7);
+            $lonVal = round((float)$validated['longitude'], 7);
+            $mapsUrl = "https://www.google.com/maps?q={$latVal},{$lonVal}";
+            $noteSections[] = "🗺️ [TITIK LOKASI MAPS / GPS]:\nKoordinat: {$latVal}, {$lonVal}\nLink Navigasi Kurir: {$mapsUrl}";
         }
 
         // 4. Catatan Pesanan Tambahan (dari form checkout atau keranjang)
@@ -248,6 +259,8 @@ class CheckoutController extends Controller
                 'delivery_date' => $validated['delivery_date'],
                 'delivery_fee' => $deliveryFee,
                 'address' => $finalAddress,
+                'latitude' => isset($validated['latitude']) && is_numeric($validated['latitude']) ? (float)$validated['latitude'] : null,
+                'longitude' => isset($validated['longitude']) && is_numeric($validated['longitude']) ? (float)$validated['longitude'] : null,
                 'order_note' => $finalOrderNote,
                 'subtotal' => $subtotal,
                 'total_amount' => $totalAmount,
@@ -506,5 +519,198 @@ class CheckoutController extends Controller
             ->paginate(8);
 
         return view('my_orders', compact('orders'));
+    }
+
+    /**
+     * Geocoding Search Proxy (Nominatim OpenStreetMap) dengan Smart Fallback untuk Indonesia
+     */
+    public function geocodeSearch(Request $request)
+    {
+        $query = trim($request->input('q', ''));
+        if (mb_strlen($query) < 2) {
+            return response()->json([
+                'status' => 'empty',
+                'query' => $query,
+                'results' => [],
+            ]);
+        }
+
+        $cacheKey = 'geo_search_' . md5(mb_strtolower($query));
+        $cached = Cache::get($cacheKey);
+        if ($cached) {
+            return response()->json($cached);
+        }
+
+        $fetchOsm = function($q) {
+            try {
+                $resp = Http::withHeaders([
+                    'User-Agent' => 'HampersIndonesiaDelivery/1.0 (cs@hampersindonesia.id)',
+                    'Accept-Language' => 'id,en',
+                ])->timeout(6)->get('https://nominatim.openstreetmap.org/search', [
+                    'format' => 'json',
+                    'q' => $q,
+                    'countrycodes' => 'id',
+                    'limit' => 6,
+                    'addressdetails' => 1,
+                ]);
+
+                if ($resp->successful()) {
+                    return $resp->json();
+                }
+            } catch (\Throwable $e) {
+                // fall through
+            }
+            return [];
+        };
+
+        // 1. Coba pencarian langsung (full query)
+        $rawResults = $fetchOsm($query);
+        $notice = null;
+
+        // 2. Jika tidak ada hasil langsung (misal: 'kota praya kampung pengendong'),
+        // bersihkan kata-kata administratif umum di Indonesia
+        if (empty($rawResults)) {
+            $cleaned = preg_replace('/\b(kota|kabupaten|kab|kampung|kp|desa|ds|kelurahan|kel|kecamatan|kec|jalan|jl|gang|gg|dusun|rt|rw|provinsi|propinsi)\b/iu', ' ', $query);
+            $cleaned = trim(preg_replace('/\s+/', ' ', $cleaned));
+
+            if (!empty($cleaned) && mb_strtolower($cleaned) !== mb_strtolower($query)) {
+                $rawResults = $fetchOsm($cleaned);
+            }
+
+            // 3. Jika masih belum ada, pisahkan kata (misal 'praya', 'pengendong') dan cari kata kunci wilayah utama
+            if (empty($rawResults)) {
+                $words = array_values(array_filter(explode(' ', $cleaned ?: $query), function($w) {
+                    return mb_strlen(trim($w)) >= 3;
+                }));
+
+                foreach ($words as $w) {
+                    $tryResults = $fetchOsm($w);
+                    if (!empty($tryResults)) {
+                        $rawResults = $tryResults;
+                        $matchedName = $rawResults[0]['name'] ?? $w;
+                        $notice = "Titik wilayah terdekat '{$matchedName}' ditemukan. Silakan geser pin merah pada peta tepat ke titik rumah / lokasi tujuan Anda.";
+                        break;
+                    }
+                }
+            }
+        }
+
+        $formatted = [];
+        if (!empty($rawResults) && is_array($rawResults)) {
+            foreach ($rawResults as $item) {
+                $lat = (float)($item['lat'] ?? 0);
+                $lon = (float)($item['lon'] ?? 0);
+                if ($lat == 0.0 && $lon == 0.0) continue;
+
+                $addr = $item['address'] ?? [];
+                $city = $addr['city'] ?? ($addr['town'] ?? ($addr['municipality'] ?? ($addr['county'] ?? '')));
+                $state = $addr['state'] ?? '';
+                $postcode = $addr['postcode'] ?? '';
+                $road = $addr['road'] ?? ($addr['suburb'] ?? ($addr['village'] ?? ''));
+
+                $formatted[] = [
+                    'display_name' => $item['display_name'] ?? '',
+                    'name' => $item['name'] ?? '',
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'city' => $city,
+                    'province' => $state,
+                    'postcode' => $postcode,
+                    'road' => $road,
+                    'type' => $item['type'] ?? '',
+                ];
+            }
+        }
+
+        $payload = [
+            'status' => 'success',
+            'query' => $query,
+            'notice' => $notice,
+            'results' => $formatted,
+        ];
+
+        Cache::put($cacheKey, $payload, now()->addHours(2));
+
+        return response()->json($payload);
+    }
+
+    /**
+     * Reverse Geocoding Proxy (Nominatim OpenStreetMap)
+     */
+    public function geocodeReverse(Request $request)
+    {
+        $lat = $request->input('lat');
+        $lon = $request->input('lon');
+
+        if (!is_numeric($lat) || !is_numeric($lon)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Koordinat latitude dan longitude tidak valid.',
+            ], 422);
+        }
+
+        $lat = round((float)$lat, 7);
+        $lon = round((float)$lon, 7);
+
+        $cacheKey = "geo_rev_{$lat}_{$lon}";
+        $cached = Cache::get($cacheKey);
+        if ($cached) {
+            return response()->json($cached);
+        }
+
+        try {
+            $resp = Http::withHeaders([
+                'User-Agent' => 'HampersIndonesiaDelivery/1.0 (cs@hampersindonesia.id)',
+                'Accept-Language' => 'id,en',
+            ])->timeout(6)->get('https://nominatim.openstreetmap.org/reverse', [
+                'format' => 'json',
+                'lat' => $lat,
+                'lon' => $lon,
+                'addressdetails' => 1,
+            ]);
+
+            if ($resp->successful()) {
+                $data = $resp->json();
+                $addr = $data['address'] ?? [];
+
+                $city = $addr['city'] ?? ($addr['town'] ?? ($addr['municipality'] ?? ($addr['county'] ?? '')));
+                $province = $addr['state'] ?? '';
+                $postcode = $addr['postcode'] ?? '';
+
+                $streetParts = array_filter([
+                    $addr['road'] ?? '',
+                    $addr['neighbourhood'] ?? ($addr['hamlet'] ?? ''),
+                    $addr['suburb'] ?? ($addr['village'] ?? ''),
+                ]);
+                $addressLine = !empty($streetParts) ? implode(', ', $streetParts) : ($data['display_name'] ?? '');
+
+                $payload = [
+                    'status' => 'success',
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'display_name' => $data['display_name'] ?? '',
+                    'address_line' => $addressLine,
+                    'city' => $city,
+                    'province' => $province,
+                    'postal_code' => $postcode,
+                ];
+
+                Cache::put($cacheKey, $payload, now()->addHours(2));
+                return response()->json($payload);
+            }
+        } catch (\Throwable $e) {
+            // fall through
+        }
+
+        return response()->json([
+            'status' => 'partial',
+            'lat' => $lat,
+            'lon' => $lon,
+            'display_name' => "Titik Koordinat: {$lat}, {$lon}",
+            'address_line' => '',
+            'city' => '',
+            'province' => '',
+            'postal_code' => '',
+        ]);
     }
 }

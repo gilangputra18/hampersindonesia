@@ -419,6 +419,17 @@
         <div>Metode Bayar: <strong>{{ $order->payment_method ?: 'Transfer Bank BCA' }}</strong></div>
         <div>Tanggal: {{ date('d M Y', strtotime($order->delivery_date)) }}</div>
         <div style="margin-top: 4px;">Alamat: {{ $order->address }}</div>
+        @if ($order->latitude && $order->longitude)
+          <div style="margin-top: 10px; padding: 10px 14px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; font-size: 12.5px; color: #065f46; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <strong>📍 Koordinat Titik Lokasi (Maps):</strong>
+              <span style="font-family: monospace; font-weight: 700;">{{ $order->latitude }}, {{ $order->longitude }}</span>
+            </div>
+            <a href="https://www.google.com/maps?q={{ $order->latitude }},{{ $order->longitude }}" target="_blank" style="background: #059669; color: #ffffff; text-decoration: none; padding: 5px 12px; border-radius: 4px; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(5,150,105,0.3);">
+              🗺️ Buka di Google Maps / Navigasi Kurir ↗
+            </a>
+          </div>
+        @endif
       </div>
     </div>
 

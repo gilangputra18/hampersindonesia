@@ -49,6 +49,8 @@ Route::post('/auth/google/callback', [CustomerAuthController::class, 'handleGoog
 
 // Public Live Search API
 Route::get('/api/public/search', [AdminProductController::class, 'autocomplete'])->name('public.search');
+Route::get('/api/geocode/search', [CheckoutController::class, 'geocodeSearch'])->name('geocode.search');
+Route::get('/api/geocode/reverse', [CheckoutController::class, 'geocodeReverse'])->name('geocode.reverse');
 
 // Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

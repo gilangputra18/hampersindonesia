@@ -431,6 +431,9 @@
         <p><strong>Telepon / HP:</strong> {{ $order->customer_phone }}</p>
         <p><strong>Email:</strong> {{ $order->customer_email }}</p>
         <p><strong>Alamat:</strong> {{ $order->address ?: ($order->shipping_address ?: '-') }}</p>
+        @if ($order->latitude && $order->longitude)
+          <p><strong>Titik Maps (GPS):</strong> <a href="https://www.google.com/maps?q={{ $order->latitude }},{{ $order->longitude }}" target="_blank" style="color: #059669; font-weight: 700; text-decoration: underline;">{{ $order->latitude }}, {{ $order->longitude }} (Buka Google Maps)</a></p>
+        @endif
       </div>
 
       <div class="inv-info-col">

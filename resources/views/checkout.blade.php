@@ -3,6 +3,8 @@
 @section('title', 'Checkout Pesanan Hampers | ' . config('site.brand'))
 
 @section('content')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <style>
   .checkout-page {
     background-color: #f7f9f8;
@@ -492,6 +494,242 @@
     font-size: 20px;
     flex-shrink: 0;
   }
+
+  /* Luxury Delivery Map & Geolocation Card */
+  .map-picker-card {
+    background: #fdfcf7;
+    border: 1px solid #e7dfc6;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    clear: both;
+    position: relative;
+    box-sizing: border-box;
+  }
+  .map-picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .map-picker-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16.5px;
+    font-weight: 700;
+    color: #1e2d27;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+  .badge-precision {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .map-picker-desc {
+    font-size: 12.5px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .map-toolbar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+  }
+  @media (max-width: 640px) {
+    .map-toolbar-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .btn-gps-locate {
+    width: 100%;
+    background: linear-gradient(135deg, #1e2d27 0%, #2c3e35 100%);
+    color: #fef08a;
+    border: 1px solid #ca8a04;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+  .btn-gps-locate:hover {
+    background: #0f1713;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(202, 138, 4, 0.25);
+  }
+  .select-quick-region {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-family: inherit;
+    color: #1e293b;
+    background: #ffffff;
+    box-sizing: border-box;
+  }
+  .map-search-row {
+    display: flex;
+    gap: 8px;
+    position: relative;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+  }
+  @media (max-width: 480px) {
+    .map-search-row {
+      flex-direction: column;
+    }
+  }
+  .map-search-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #0f172a;
+    box-sizing: border-box;
+  }
+  .map-search-input:focus {
+    outline: none;
+    border-color: #1e2d27;
+    box-shadow: 0 0 0 3px rgba(30, 45, 39, 0.1);
+  }
+  .btn-search-pin {
+    background: #722F37;
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    box-sizing: border-box;
+  }
+  .btn-search-pin:hover {
+    background: #531e24;
+  }
+  .map-dropdown-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    max-height: 250px;
+    overflow-y: auto;
+    margin-top: 4px;
+  }
+  .map-result-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #334155;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    transition: background 0.15s;
+  }
+  .map-result-item:hover {
+    background: #fdfbf7;
+    color: #722F37;
+  }
+  .map-result-item:last-child {
+    border-bottom: none;
+  }
+  .map-smart-notice {
+    background: #fefce8;
+    border: 1px solid #fef08a;
+    color: #854d0e;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.45;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .map-canvas-container {
+    width: 100%;
+    height: 330px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    position: relative;
+    z-index: 5;
+    box-sizing: border-box;
+  }
+  .coords-info-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: #475569;
+  }
+  .btn-gmaps-view {
+    background: #059669;
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.2s;
+  }
+  .btn-gmaps-view:hover {
+    background: #047857;
+  }
+  .detected-addr-box {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #065f46;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 </style>
 
 <div class="checkout-page">
@@ -623,6 +861,137 @@
                   </div>
                 </div>
               </div>
+            </div>
+
+            {{-- PETA LOKASI & KOORDINAT GPS (INDONESIA) --}}
+            <div class="map-picker-card">
+              <div class="map-picker-header">
+                <h3 class="map-picker-title">
+                  <span>📍 Titik Lokasi Peta &amp; Koordinat GPS Presisi</span>
+                </h3>
+                <span class="badge-precision">Super Presisi</span>
+              </div>
+              <p class="map-picker-desc">
+                Gunakan lokasi saat ini (GPS) atau cari nama jalan, kelurahan, kampung, dan kota di seluruh Indonesia. Anda juga dapat menggeser pin merah pada peta agar kurir tiba tepat di depan pintu tujuan.
+              </p>
+
+              {{-- TOOLBAR: GPS & QUICK SELECT WILAYAH/KOTA --}}
+              <div class="map-toolbar-grid">
+                <div>
+                  <button type="button" id="btn_get_current_location" class="btn-gps-locate">
+                    <span id="gps_icon">📍</span> <span id="gps_label">Gunakan Lokasi Saat Ini (GPS)</span>
+                  </button>
+                </div>
+                <div>
+                  <select id="select_province_quick" class="select-quick-region" aria-label="Pilih Kota atau Wilayah Cepat">
+                    <option value="">🏛️ Pilih Kota / Wilayah Cepat (Jelajahi Peta)...</option>
+                    <optgroup label="Nusa Tenggara Barat (NTB)">
+                      <option value="-8.706427,116.269424|Kota Praya / Lombok Tengah">Kota Praya / Lombok Tengah (NTB)</option>
+                      <option value="-8.5833,116.1167|Kota Mataram">Kota Mataram (NTB)</option>
+                      <option value="-8.6500,116.5333|Selong, Lombok Timur">Selong / Lombok Timur (NTB)</option>
+                      <option value="-8.3500,116.1500|Tanjung, Lombok Utara">Tanjung / Lombok Utara (NTB)</option>
+                      <option value="-8.4933,117.4206|Sumbawa Besar">Sumbawa Besar (NTB)</option>
+                      <option value="-8.4608,118.7269|Kota Bima">Kota Bima (NTB)</option>
+                    </optgroup>
+                    <optgroup label="DKI Jakarta &amp; Bodetabek">
+                      <option value="-6.2088,106.8456|Jakarta Pusat">DKI Jakarta (Pusat / Sudirman)</option>
+                      <option value="-6.2615,106.8106|Jakarta Selatan">DKI Jakarta (Selatan / Kebayoran)</option>
+                      <option value="-6.1683,106.7588|Jakarta Barat">DKI Jakarta (Barat)</option>
+                      <option value="-6.2250,106.9004|Jakarta Timur">DKI Jakarta (Timur)</option>
+                      <option value="-6.1384,106.8640|Jakarta Utara">DKI Jakarta (Utara / Kelapa Gading)</option>
+                      <option value="-6.1783,106.6319|Kota Tangerang">Tangerang &amp; BSD City (Banten)</option>
+                      <option value="-6.5971,106.8060|Kota Bogor">Kota &amp; Kab. Bogor (Jawa Barat)</option>
+                      <option value="-6.4025,106.7942|Kota Depok">Kota Depok (Jawa Barat)</option>
+                      <option value="-6.2383,106.9756|Kota Bekasi">Kota &amp; Kab. Bekasi (Jawa Barat)</option>
+                    </optgroup>
+                    <optgroup label="Jawa Barat &amp; Banten">
+                      <option value="-6.9175,107.6191|Kota Bandung">Kota Bandung</option>
+                      <option value="-6.7320,108.5523|Kota Cirebon">Kota Cirebon</option>
+                      <option value="-6.9277,106.9300|Kota Sukabumi">Kota Sukabumi</option>
+                      <option value="-6.1200,106.1503|Kota Serang">Kota Serang &amp; Cilegon</option>
+                    </optgroup>
+                    <optgroup label="Jawa Tengah &amp; DI Yogyakarta">
+                      <option value="-6.9667,110.4167|Kota Semarang">Kota Semarang</option>
+                      <option value="-7.5755,110.8243|Kota Surakarta (Solo)">Kota Surakarta (Solo)</option>
+                      <option value="-7.7956,110.3695|Kota Yogyakarta">Kota Yogyakarta</option>
+                      <option value="-7.7167,110.3556|Sleman">Kab. Sleman (Yogyakarta)</option>
+                      <option value="-7.4706,110.2178|Kota Magelang">Kota Magelang</option>
+                    </optgroup>
+                    <optgroup label="Jawa Timur &amp; Bali">
+                      <option value="-7.2575,112.7521|Kota Surabaya">Kota Surabaya</option>
+                      <option value="-7.9666,112.6326|Kota Malang">Kota Malang</option>
+                      <option value="-7.4478,112.7183|Sidoarjo">Sidoarjo</option>
+                      <option value="-8.6705,115.2126|Kota Denpasar">Kota Denpasar (Bali)</option>
+                      <option value="-8.7185,115.1686|Kuta Badung">Kuta &amp; Seminyak / Badung (Bali)</option>
+                      <option value="-8.5069,115.2625|Ubud Gianyar">Ubud / Gianyar (Bali)</option>
+                    </optgroup>
+                    <optgroup label="Sumatera &amp; Sekitarnya">
+                      <option value="3.5952,98.6722|Kota Medan">Kota Medan (Sumatera Utara)</option>
+                      <option value="-0.9471,100.4172|Kota Padang">Kota Padang (Sumatera Barat)</option>
+                      <option value="0.5071,101.4478|Kota Pekanbaru">Kota Pekanbaru (Riau)</option>
+                      <option value="1.1301,104.0529|Kota Batam">Kota Batam (Kepulauan Riau)</option>
+                      <option value="-2.9761,104.7754|Kota Palembang">Kota Palembang (Sumsel)</option>
+                      <option value="-5.4500,105.2667|Bandar Lampung">Kota Bandar Lampung (Lampung)</option>
+                    </optgroup>
+                    <optgroup label="Kalimantan, Sulawesi, NTT &amp; Papua">
+                      <option value="-1.2379,116.8289|Kota Balikpapan">Kota Balikpapan (Kalimantan Timur)</option>
+                      <option value="-0.5022,117.1537|Kota Samarinda">Kota Samarinda (Kalimantan Timur)</option>
+                      <option value="-0.9700,116.7000|Nusantara IKN">IKN Nusantara / Sepaku (Kaltim)</option>
+                      <option value="-0.0263,109.3425|Kota Pontianak">Kota Pontianak (Kalbar)</option>
+                      <option value="-3.3167,114.5900|Kota Banjarmasin">Kota Banjarmasin (Kalsel)</option>
+                      <option value="-5.1477,119.4327|Kota Makassar">Kota Makassar (Sulawesi Selatan)</option>
+                      <option value="1.4748,124.8421|Kota Manado">Kota Manado (Sulawesi Utara)</option>
+                      <option value="-10.1772,123.6070|Kota Kupang">Kota Kupang (NTT)</option>
+                      <option value="-8.4964,119.8877|Labuan Bajo">Labuan Bajo (NTT)</option>
+                      <option value="-2.5489,140.7181|Kota Jayapura">Kota Jayapura (Papua)</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+
+              {{-- PENCARIAN ALAMAT SE-INDONESIA --}}
+              <div class="map-search-row">
+                <input type="text" id="map_search_input" class="form-control map-search-input" placeholder="🔍 Cari kota, kecamatan, kelurahan, kampung (Contoh: Kota Praya Kampung Pengendong)..." autocomplete="off">
+                <button type="button" id="btn_map_search" class="btn-search-pin">
+                  <span>Cari Titik</span>
+                </button>
+                <div id="map_search_results" class="map-dropdown-results" style="display: none;"></div>
+              </div>
+
+              {{-- NOTIFIKASI PENCARIAN CERDAS (SMART FALLBACK) --}}
+              <div id="map_smart_notice" class="map-smart-notice" style="display: none;">
+                <span>💡</span> <span id="map_smart_notice_text"></span>
+              </div>
+
+              {{-- CANVAS PETA LEAFLET --}}
+              <div id="checkout_leaflet_map" class="map-canvas-container"></div>
+
+              {{-- STATUS KOORDINAT & LINK GOOGLE MAPS --}}
+              <div class="coords-info-bar">
+                <div>
+                  <strong>📍 Titik Koordinat:</strong>
+                  <span id="display_coords_val" style="font-family: monospace; font-weight: 700; color: #1e2d27;">{{ old('latitude', '-6.2087634') }}, {{ old('longitude', '106.8455990') }}</span>
+                </div>
+                <div>
+                  <a id="btn_open_gmaps" href="https://www.google.com/maps?q={{ old('latitude', '-6.2087634') }},{{ old('longitude', '106.8455990') }}" target="_blank" class="btn-gmaps-view">
+                    <span>🗺️ Buka di Google Maps ↗</span>
+                  </a>
+                </div>
+              </div>
+
+              {{-- REKOMENDASI ALAMAT TERDETEKSI --}}
+              <div id="box_detected_address" class="detected-addr-box">
+                <div style="flex: 1; min-width: 200px;">
+                  <strong>✨ Titik Alamat Peta:</strong> <span id="detected_address_text">Pusat Kota Jakarta</span>
+                </div>
+                <button type="button" id="btn_sync_address" style="background: #059669; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; font-size: 11.5px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                  📋 Salin ke Formulir Alamat
+                </button>
+              </div>
+
+              {{-- INPUT HIDDEN UNTUK FORM DATABASE --}}
+              <input type="hidden" name="latitude" id="input_latitude" value="{{ old('latitude', '-6.2087634') }}">
+              <input type="hidden" name="longitude" id="input_longitude" value="{{ old('longitude', '106.8455990') }}">
             </div>
 
             {{-- ALAMAT PENGIRIMAN LENGKAP --}}
@@ -1092,9 +1461,329 @@
     });
   }
 
+  // 7. Interactive Delivery Map & Geolocation System
+  let checkoutMap = null;
+  let checkoutMarker = null;
+  let mapSearchDebounce = null;
+
+  function initCheckoutMap() {
+    const mapElement = document.getElementById('checkout_leaflet_map');
+    if (!mapElement || typeof L === 'undefined') return;
+
+    let initLat = parseFloat(document.getElementById('input_latitude').value) || -6.2087634;
+    let initLon = parseFloat(document.getElementById('input_longitude').value) || 106.8455990;
+
+    try {
+      checkoutMap = L.map('checkout_leaflet_map', {
+        scrollWheelZoom: false,
+      }).setView([initLat, initLon], 14);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(checkoutMap);
+
+      checkoutMarker = L.marker([initLat, initLon], {
+        draggable: true
+      }).addTo(checkoutMap);
+
+      checkoutMarker.bindPopup('<b>📍 Titik Pengiriman</b><br><small style="color: #64748b;">Geser pin ini tepat ke depan rumah atau kantor Anda</small>');
+
+      checkoutMarker.on('dragend', function() {
+        const pos = checkoutMarker.getLatLng();
+        setPinCoordinates(pos.lat, pos.lng, true);
+      });
+
+      checkoutMap.on('click', function(e) {
+        checkoutMarker.setLatLng(e.latlng);
+        setPinCoordinates(e.latlng.lat, e.latlng.lng, true);
+      });
+
+      // Update UI coords
+      setPinCoordinates(initLat, initLon, false);
+
+      setTimeout(function() {
+        checkoutMap.invalidateSize();
+      }, 500);
+    } catch (e) {
+      console.warn('Leaflet map init notice:', e);
+    }
+  }
+
+  function setPinCoordinates(lat, lon, fetchAddress = true) {
+    lat = parseFloat(lat);
+    lon = parseFloat(lon);
+
+    const inLat = document.getElementById('input_latitude');
+    const inLon = document.getElementById('input_longitude');
+    if (inLat) inLat.value = lat.toFixed(7);
+    if (inLon) inLon.value = lon.toFixed(7);
+
+    const coordsDisplay = document.getElementById('display_coords_val');
+    if (coordsDisplay) {
+      coordsDisplay.textContent = lat.toFixed(6) + ', ' + lon.toFixed(6);
+    }
+
+    const gmapsBtn = document.getElementById('btn_open_gmaps');
+    if (gmapsBtn) {
+      gmapsBtn.href = 'https://www.google.com/maps?q=' + lat + ',' + lon;
+    }
+
+    if (fetchAddress) {
+      fetchReverseGeocode(lat, lon);
+    }
+  }
+
+  function fetchReverseGeocode(lat, lon) {
+    const addrText = document.getElementById('detected_address_text');
+    if (addrText) addrText.textContent = 'Mendeteksi alamat dari titik peta...';
+
+    fetch('{{ route("geocode.reverse") }}?lat=' + lat + '&lon=' + lon)
+      .then(res => res.json())
+      .then(data => {
+        if (data && (data.status === 'success' || data.status === 'partial')) {
+          const display = data.display_name || data.address_line || (lat.toFixed(6) + ', ' + lon.toFixed(6));
+          if (addrText) addrText.textContent = display;
+
+          const cityInput = document.getElementById('city');
+          if (cityInput && (!cityInput.value.trim() || cityInput.dataset.autoFilled === '1')) {
+            if (data.city) {
+              cityInput.value = data.city;
+              cityInput.dataset.autoFilled = '1';
+            }
+          }
+
+          const postalInput = document.getElementById('postal_code');
+          if (postalInput && (!postalInput.value.trim() || postalInput.dataset.autoFilled === '1')) {
+            if (data.postal_code) {
+              postalInput.value = data.postal_code;
+              postalInput.dataset.autoFilled = '1';
+            }
+          }
+
+          const syncBtn = document.getElementById('btn_sync_address');
+          if (syncBtn) {
+            syncBtn.onclick = function() {
+              const addressTextarea = document.getElementById('address');
+              if (addressTextarea) {
+                const parts = [];
+                if (data.address_line) parts.push(data.address_line);
+                if (data.city && !data.address_line.includes(data.city)) parts.push(data.city);
+                if (data.province && !data.address_line.includes(data.province)) parts.push(data.province);
+                addressTextarea.value = parts.length > 0 ? parts.join(', ') : display;
+                addressTextarea.focus();
+              }
+            };
+          }
+
+          // Auto-fill address if textarea is currently empty
+          const addressArea = document.getElementById('address');
+          if (addressArea && !addressArea.value.trim()) {
+            const parts = [];
+            if (data.address_line) parts.push(data.address_line);
+            if (data.city && !data.address_line.includes(data.city)) parts.push(data.city);
+            if (data.province && !data.address_line.includes(data.province)) parts.push(data.province);
+            addressArea.value = parts.length > 0 ? parts.join(', ') : display;
+          }
+        }
+      })
+      .catch(() => {
+        if (addrText) addrText.textContent = 'Titik Koordinat: ' + lat.toFixed(6) + ', ' + lon.toFixed(6);
+      });
+  }
+
+  // Setup Map Event Listeners
+  function setupMapControls() {
+    // 1. Tombol GPS Lokasi Saat Ini
+    const gpsBtn = document.getElementById('btn_get_current_location');
+    if (gpsBtn) {
+      gpsBtn.addEventListener('click', function() {
+        if (!navigator.geolocation) {
+          alert('Perangkat atau browser Anda tidak mendukung fitur Geolocation GPS.');
+          return;
+        }
+
+        const gpsLabel = document.getElementById('gps_label');
+        const originalText = gpsLabel ? gpsLabel.textContent : 'Gunakan Lokasi Saat Ini (GPS)';
+        if (gpsLabel) gpsLabel.textContent = 'Mencari Koordinat GPS...';
+        gpsBtn.disabled = true;
+
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            const uLat = pos.coords.latitude;
+            const uLon = pos.coords.longitude;
+            if (gpsLabel) gpsLabel.textContent = '✅ Lokasi Anda Ditemukan!';
+
+            if (checkoutMap && checkoutMarker) {
+              checkoutMap.flyTo([uLat, uLon], 17);
+              checkoutMarker.setLatLng([uLat, uLon]);
+              checkoutMarker.openPopup();
+            }
+            setPinCoordinates(uLat, uLon, true);
+
+            setTimeout(function() {
+              if (gpsLabel) gpsLabel.textContent = originalText;
+              gpsBtn.disabled = false;
+            }, 2500);
+          },
+          function(err) {
+            if (gpsLabel) gpsLabel.textContent = originalText;
+            gpsBtn.disabled = false;
+            let errMsg = 'Gagal mendeteksi lokasi GPS.';
+            if (err.code === 1) {
+              errMsg = 'Izin lokasi belum diberikan di browser Anda. Silakan izinkan akses lokasi atau gunakan kotak pencarian alamat/pilihan kota.';
+            } else if (err.code === 2) {
+              errMsg = 'Posisi GPS tidak dapat diperoleh saat ini. Silakan cari nama alamat atau pilih kota pada dropdown.';
+            } else if (err.code === 3) {
+              errMsg = 'Waktu permintaan lokasi GPS habis. Silakan coba kembali.';
+            }
+            alert(errMsg);
+          },
+          { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+        );
+      });
+    }
+
+    // 2. Pemilih Cepat Provinsi & Kota Utama
+    const quickSelect = document.getElementById('select_province_quick');
+    if (quickSelect) {
+      quickSelect.addEventListener('change', function() {
+        const val = this.value;
+        if (!val) return;
+        const parts = val.split('|');
+        const coords = parts[0].split(',');
+        const lat = parseFloat(coords[0]);
+        const lon = parseFloat(coords[1]);
+        const cityName = parts[1] || '';
+
+        if (checkoutMap && checkoutMarker) {
+          checkoutMap.flyTo([lat, lon], 14);
+          checkoutMarker.setLatLng([lat, lon]);
+          checkoutMarker.openPopup();
+        }
+        setPinCoordinates(lat, lon, true);
+
+        const cityInput = document.getElementById('city');
+        if (cityInput && cityName) {
+          cityInput.value = cityName.split('/')[0].trim();
+        }
+      });
+    }
+
+    // 3. Pencarian Alamat Se-Indonesia
+    const searchInput = document.getElementById('map_search_input');
+    const searchBtn = document.getElementById('btn_map_search');
+    const resultsDiv = document.getElementById('map_search_results');
+    const noticeDiv = document.getElementById('map_smart_notice');
+    const noticeText = document.getElementById('map_smart_notice_text');
+
+    function performGeocodeSearch() {
+      const q = searchInput ? searchInput.value.trim() : '';
+      if (!q || q.length < 2) {
+        if (resultsDiv) resultsDiv.style.display = 'none';
+        if (noticeDiv) noticeDiv.style.display = 'none';
+        return;
+      }
+
+      if (searchBtn) searchBtn.textContent = 'Mencari...';
+
+      fetch('{{ route("geocode.search") }}?q=' + encodeURIComponent(q))
+        .then(res => res.json())
+        .then(data => {
+          if (searchBtn) searchBtn.textContent = 'Cari Titik';
+          if (!resultsDiv) return;
+
+          resultsDiv.innerHTML = '';
+
+          // Tampilkan notifikasi jika menggunakan fallback terdekat (misal: mencari 'kota praya kampung pengendong')
+          if (data && data.notice && noticeDiv && noticeText) {
+            noticeText.textContent = data.notice;
+            noticeDiv.style.display = 'flex';
+          } else if (noticeDiv) {
+            noticeDiv.style.display = 'none';
+          }
+
+          if (data && data.results && data.results.length > 0) {
+            resultsDiv.style.display = 'block';
+
+            data.results.forEach(function(item) {
+              const itemDiv = document.createElement('div');
+              itemDiv.className = 'map-result-item';
+              itemDiv.innerHTML = `
+                <span style="font-size: 16px;">📍</span>
+                <div style="flex: 1;">
+                  <strong style="color: #1e2d27; display: block;">${item.name || item.display_name.split(',')[0]}</strong>
+                  <span style="font-size: 11.5px; color: #64748b;">${item.display_name}</span>
+                </div>
+              `;
+
+              itemDiv.addEventListener('click', function() {
+                if (checkoutMap && checkoutMarker) {
+                  checkoutMap.flyTo([item.lat, item.lon], 16);
+                  checkoutMarker.setLatLng([item.lat, item.lon]);
+                  checkoutMarker.openPopup();
+                }
+                setPinCoordinates(item.lat, item.lon, true);
+                resultsDiv.style.display = 'none';
+                if (searchInput) searchInput.value = item.name || item.display_name.split(',')[0];
+              });
+
+              resultsDiv.appendChild(itemDiv);
+            });
+
+            // Langsung arahkan peta ke hasil pencarian teratas
+            const topMatch = data.results[0];
+            if (checkoutMap && checkoutMarker) {
+              checkoutMap.flyTo([topMatch.lat, topMatch.lon], 15);
+              checkoutMarker.setLatLng([topMatch.lat, topMatch.lon]);
+            }
+            setPinCoordinates(topMatch.lat, topMatch.lon, false);
+          } else {
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = '<div style="padding: 12px; font-size: 12.5px; color: #64748b; text-align: center;">Tidak ditemukan titik spesifik untuk pencarian ini. Silakan cari nama kota/kecamatan terdekat lalu geser pin merah pada peta.</div>';
+          }
+        })
+        .catch(() => {
+          if (searchBtn) searchBtn.textContent = 'Cari Titik';
+          if (resultsDiv) resultsDiv.style.display = 'none';
+        });
+    }
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        performGeocodeSearch();
+      });
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        clearTimeout(mapSearchDebounce);
+        mapSearchDebounce = setTimeout(performGeocodeSearch, 500);
+      });
+
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          clearTimeout(mapSearchDebounce);
+          performGeocodeSearch();
+        }
+      });
+    }
+
+    // Klik di luar dropdown untuk menutup daftar hasil
+    document.addEventListener('click', function(e) {
+      if (resultsDiv && !resultsDiv.contains(e.target) && e.target !== searchInput && e.target !== searchBtn) {
+        resultsDiv.style.display = 'none';
+      }
+    });
+  }
+
   // Initial call on page load
   document.addEventListener('DOMContentLoaded', function() {
     updateCharCount();
+    initCheckoutMap();
+    setupMapControls();
   });
 </script>
 @endsection

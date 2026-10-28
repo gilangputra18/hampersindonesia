@@ -473,6 +473,11 @@ class BakerySystemTest extends TestCase
         $response->assertSee('QRIS Instant Payment');
         $response->assertSee('Enkripsi SSL 256-Bit');
         $response->assertSee('Garansi Kemasan Aman');
+        $response->assertSee('Titik Lokasi Peta &amp; Koordinat GPS Presisi', false);
+        $response->assertSee('Gunakan Lokasi Saat Ini (GPS)');
+        $response->assertSee('Kota Praya / Lombok Tengah (NTB)');
+        $response->assertSee('checkout_leaflet_map');
+        $response->assertSee('leaflet.js');
         $response->assertDontSee('wa.me');
     }
 
@@ -1000,5 +1005,122 @@ class BakerySystemTest extends TestCase
         $response->assertSee('MENU UTAMA & LAYANAN', false);
         $response->assertDontSee('HUBUNGI KAMI');
         $response->assertDontSee('social-icons-row');
+    }
+
+    public function test_checkout_processing_saves_coordinates_and_renders_on_order_and_admin(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::first();
+        $this->actingAs($user)->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+
+        $postData = [
+            'customer_name' => 'Ahmad Praya Customer',
+            'customer_phone' => '087812345678',
+            'customer_email' => 'ahmad@praya.test',
+            'delivery_option' => 'delivery',
+            'courier_name' => 'Kurir Toko (Dedicated Bakery Delivery)',
+            'delivery_date' => now()->addDays(2)->format('Y-m-d'),
+            'address' => 'Kampung Pengendong, Kelurahan Praya',
+            'city' => 'Kota Praya / Lombok Tengah',
+            'postal_code' => '83511',
+            'latitude' => -8.7064272,
+            'longitude' => 116.2694240,
+            'payment_method' => 'Transfer Bank BCA',
+            'terms' => '1',
+        ];
+
+        $response = $this->post(route('checkout.process'), $postData);
+        $response->assertRedirect();
+
+        $order = Order::where('customer_name', 'Ahmad Praya Customer')->latest()->first();
+        $this->assertNotNull($order);
+        $this->assertEquals(-8.7064272, (float)$order->latitude);
+        $this->assertEquals(116.2694240, (float)$order->longitude);
+        $this->assertStringContainsString('https://www.google.com/maps?q=-8.7064272,116.269424', $order->google_maps_url);
+        $this->assertStringContainsString('[TITIK LOKASI MAPS / GPS]', $order->order_note);
+
+        // Check customer order detail view
+        $orderRes = $this->get('/order/' . $order->invoice_number);
+        $orderRes->assertStatus(200);
+        $orderRes->assertSee('Koordinat Titik Lokasi (Maps)');
+        $orderRes->assertSee('-8.7064272');
+        $orderRes->assertSee('116.269424');
+        $orderRes->assertSee('Buka di Google Maps / Navigasi Kurir');
+
+        // Check invoice PDF
+        $pdfRes = $this->get('/order/' . $order->invoice_number . '/invoice-pdf');
+        $pdfRes->assertStatus(200);
+        $pdfRes->assertSee('Titik Maps (GPS)');
+        $pdfRes->assertSee('-8.7064272');
+
+        // Check admin orders list
+        $admin = User::factory()->create([
+            'is_admin' => 1,
+            'email' => 'admin_maps@test.com',
+            'password' => bcrypt('password123'),
+        ]);
+        $adminRes = $this->actingAs($admin)->get(route('admin.orders.index'));
+        $adminRes->assertStatus(200);
+        $adminRes->assertSee('Maps (-8.7064, 116.2694)');
+    }
+
+    public function test_geocode_api_search_and_reverse_endpoints(): void
+    {
+        // 1. Search with short/empty query
+        $resEmpty = $this->getJson(route('geocode.search', ['q' => 'a']));
+        $resEmpty->assertStatus(200);
+        $resEmpty->assertJson(['status' => 'empty', 'results' => []]);
+
+        // 2. Search with Http fake for predictable testing
+        \Illuminate\Support\Facades\Http::fake([
+            'https://nominatim.openstreetmap.org/search*' => \Illuminate\Support\Facades\Http::response([
+                [
+                    'place_id' => 12345,
+                    'lat' => '-8.7064272',
+                    'lon' => '116.2694240',
+                    'name' => 'Praya',
+                    'display_name' => 'Praya, Lombok Tengah, Nusa Tenggara Barat, 83511, Indonesia',
+                    'address' => [
+                        'city' => 'Praya',
+                        'county' => 'Lombok Tengah',
+                        'state' => 'Nusa Tenggara Barat',
+                        'postcode' => '83511'
+                    ]
+                ]
+            ], 200),
+            'https://nominatim.openstreetmap.org/reverse*' => \Illuminate\Support\Facades\Http::response([
+                'place_id' => 67890,
+                'lat' => '-8.7064272',
+                'lon' => '116.2694240',
+                'display_name' => 'Kampung Pengendong, Praya, Lombok Tengah, Nusa Tenggara Barat, Indonesia',
+                'address' => [
+                    'road' => 'Kampung Pengendong',
+                    'city' => 'Praya',
+                    'county' => 'Lombok Tengah',
+                    'state' => 'Nusa Tenggara Barat',
+                    'postcode' => '83511'
+                ]
+            ], 200),
+        ]);
+
+        $searchRes = $this->getJson(route('geocode.search', ['q' => 'kota praya kampung pengendong']));
+        $searchRes->assertStatus(200);
+        $searchRes->assertJsonFragment(['name' => 'Praya']);
+        $searchRes->assertJsonFragment(['lat' => -8.7064272]);
+
+        $revRes = $this->getJson(route('geocode.reverse', ['lat' => -8.7064272, 'lon' => 116.2694240]));
+        $revRes->assertStatus(200);
+        $revRes->assertJsonFragment(['status' => 'success']);
+        $revRes->assertJsonFragment(['city' => 'Praya']);
+        $revRes->assertJsonFragment(['postal_code' => '83511']);
     }
 }

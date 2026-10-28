@@ -644,6 +644,13 @@
               <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
                 📅 {{ date('d M Y', strtotime($ord->delivery_date)) }}
               </div>
+              @if($ord->latitude && $ord->longitude)
+                <div style="margin-top: 5px;">
+                  <a href="https://www.google.com/maps?q={{ $ord->latitude }},{{ $ord->longitude }}" target="_blank" style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #86efac; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; font-weight: 700;" title="Buka Koordinat Maps untuk Kurir: {{ $ord->latitude }}, {{ $ord->longitude }}">
+                    <span>📍</span> <span>Maps ({{ round($ord->latitude, 4) }}, {{ round($ord->longitude, 4) }})</span>
+                  </a>
+                </div>
+              @endif
               @if($ord->order_note)
                 <div style="margin-top: 6px;">
                   <button type="button" onclick="alert('DETAIL KARTU UCAPAN / CATATAN PESANAN:\n\n' + {{ json_encode($ord->order_note) }})" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; font-size: 10.5px; padding: 2px 7px; border-radius: 4px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">

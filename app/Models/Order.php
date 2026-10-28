@@ -20,6 +20,8 @@ class Order extends Model
         'delivery_date',
         'delivery_fee',
         'address',
+        'latitude',
+        'longitude',
         'order_note',
         'subtotal',
         'total_amount',
@@ -48,6 +50,14 @@ class Order extends Model
             return $this->payment_proof;
         }
         return asset('uploads/payment_proofs/' . $this->payment_proof);
+    }
+
+    public function getGoogleMapsUrlAttribute()
+    {
+        if ($this->latitude && $this->longitude) {
+            return "https://www.google.com/maps?q={$this->latitude},{$this->longitude}";
+        }
+        return null;
     }
 
     public function user()
