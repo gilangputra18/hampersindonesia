@@ -273,6 +273,9 @@
   <!-- Header & Breadcrumb -->
   <div class="terms-header-box">
     <div class="terms-breadcrumb">
+      <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
+        <span>❮</span> <span>Kembali</span>
+      </button>
       <a href="{{ route('home') }}">Home</a> &gt; <span>Syarat &amp; Ketentuan</span>
     </div>
     <h1 class="terms-page-title">Syarat &amp; Ketentuan</h1>

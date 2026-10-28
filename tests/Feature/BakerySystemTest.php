@@ -663,4 +663,23 @@ class BakerySystemTest extends TestCase
         $homeRes->assertStatus(200);
         $homeRes->assertSee(route('gallery'));
     }
+
+    public function test_back_navigation_feature_renders_across_pages(): void
+    {
+        // 1. Homepage does not render the back button
+        $home = $this->get('/');
+        $home->assertStatus(200);
+        $home->assertDontSee('class="global-page-back-bar"', false);
+        $home->assertDontSee('class="floating-back-pill"', false);
+
+        // 2. Non-home pages have both sticky back bar and floating back pill
+        $pages = ['/shop', '/gallery', '/terms', '/pembayaran-pengiriman', '/pricelist', '/cart', '/track-order'];
+        foreach ($pages as $p) {
+            $res = $this->get($p);
+            $res->assertStatus(200);
+            $res->assertSee('class="global-page-back-bar"', false);
+            $res->assertSee('class="floating-back-pill"', false);
+            $res->assertSee('Kembali');
+        }
+    }
 }

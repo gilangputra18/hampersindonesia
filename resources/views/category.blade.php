@@ -272,7 +272,10 @@
 
 <div class="shop-container">
   <!-- Breadcrumb -->
-  <div class="crumb-shop">
+  <div class="crumb-shop" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+    <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
+      <span>❮</span> <span>Kembali</span>
+    </button>
     <a href="{{ route('home') }}">HOME</a> »
     <a href="{{ route('shop') }}">PRODUK</a>
     @if ($cat && !$isAllProducts)

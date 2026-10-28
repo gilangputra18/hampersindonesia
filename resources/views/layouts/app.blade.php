@@ -1782,6 +1782,135 @@
     padding: 60px 20px;
     color: #64748b;
   }
+
+  /* Global Page Back Bar (Sticky Subheader for non-home pages) */
+  .global-page-back-bar {
+    background: #ffffff;
+    border-bottom: 1px solid #ebd9b8;
+    padding: 8px 16px;
+    position: sticky;
+    top: 56px;
+    z-index: 850;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .global-page-back-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn-global-nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fdf6ea;
+    border: 1px solid #ebd9b8;
+    color: #9f183c;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+  .btn-global-nav-back:hover {
+    background: #9f183c;
+    border-color: #9f183c;
+    color: #ffffff;
+    transform: translateX(-2px);
+    box-shadow: 0 3px 10px rgba(159, 24, 60, 0.25);
+  }
+  .global-back-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-global-home-link, .btn-global-shop-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: #614a30;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+  }
+  .btn-global-home-link:hover, .btn-global-shop-link:hover {
+    color: #9f183c;
+    text-decoration: underline;
+  }
+
+  /* In-Breadcrumb Back Button Helper */
+  .btn-crumb-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #ffffff;
+    border: 1px solid #dfcfb2;
+    color: #9f183c;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 11px;
+    border-radius: 16px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+  }
+  .btn-crumb-back:hover {
+    background: #9f183c;
+    color: #ffffff;
+    border-color: #9f183c;
+  }
+
+  /* Floating Bottom-Left Back Button */
+  .floating-back-pill {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 800;
+    background: #320712;
+    background: linear-gradient(135deg, #3b0816 0%, #1e0208 100%);
+    border: 1.5px solid #d4af37;
+    color: #fef08a;
+    padding: 9px 18px;
+    border-radius: 30px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    transition: all 0.25s ease;
+    user-select: none;
+  }
+  .floating-back-pill:hover {
+    background: linear-gradient(135deg, #780d26 0%, #9f183c 100%);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(159, 24, 60, 0.45);
+  }
+  @media (max-width: 768px) {
+    .floating-back-pill {
+      bottom: 74px;
+      left: 14px;
+      padding: 7px 13px;
+      font-size: 12px;
+    }
+    .global-page-back-bar {
+      top: 50px;
+      padding: 6px 12px;
+    }
+  }
+  @media print {
+    .global-page-back-bar, .floating-back-pill, .btn-crumb-back {
+      display: none !important;
+    }
+  }
 </style>
 </head>
 <body class="theme-burgundy-white">
@@ -1814,6 +1943,33 @@
     </div>
   </div>
 </header>
+
+@if (!request()->is('/') && !request()->routeIs('home'))
+  <!-- Global Sub-Header Back Navigation Bar -->
+  <div class="global-page-back-bar">
+    <div class="global-page-back-inner">
+      <button type="button" class="btn-global-nav-back" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" title="Kembali ke halaman sebelumnya">
+        <span class="back-icon-chevron">❮</span>
+        <span class="back-label-text">Kembali</span>
+      </button>
+
+      <div class="global-back-nav-links">
+        <a href="{{ route('home') }}" class="btn-global-home-link" title="Kembali ke Beranda Utama">
+          <span>🏠</span> <span>Beranda</span>
+        </a>
+        <a href="{{ route('shop') }}" class="btn-global-shop-link" title="Buka Katalog Produk">
+          <span>🛍️</span> <span>Katalog</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Bottom-Left Back Button for Instant 1-Tap Access -->
+  <button type="button" class="floating-back-pill" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" title="Kembali ke halaman sebelumnya">
+    <span class="fback-arrow">❮</span>
+    <span class="fback-text">Kembali</span>
+  </button>
+@endif
 
 <main>@yield('content')</main>
 

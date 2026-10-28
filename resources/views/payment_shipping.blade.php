@@ -295,6 +295,9 @@
   <!-- Header & Breadcrumb -->
   <div class="ps-header-box">
     <div class="ps-breadcrumb">
+      <button type="button" onclick="window.history.length > 1 ? window.history.back() : window.location.href='{{ route('home') }}'" class="btn-crumb-back" title="Kembali ke halaman sebelumnya">
+        <span>❮</span> <span>Kembali</span>
+      </button>
       <a href="{{ route('home') }}">Home</a> &gt; <span>Pembayaran &amp; Pengiriman</span>
     </div>
     <h1 class="ps-page-title">Pembayaran &amp; Pengiriman</h1>
