@@ -644,4 +644,23 @@ class BakerySystemTest extends TestCase
         $response->assertSee('slideNextCat');
         $response->assertSee('startCatAutoplay');
     }
+
+    public function test_gallery_page_renders_matching_reference_grid_and_drawer_link(): void
+    {
+        // 1. Gallery page loads with 3-column photo grid & lightbox
+        $res = $this->get('/gallery');
+        $res->assertStatus(200);
+        $res->assertSee('Gallery');
+        $res->assertSee('gallery-cards-grid');
+        $res->assertSee('gallery-card-item');
+        $res->assertSee('Lapis Legit Original');
+        $res->assertSee('Once You Bite, You Can\'t Stop!', false);
+        $res->assertSee('HALAL INDONESIA');
+        $res->assertSee('lightboxModal');
+
+        // 2. Navigation drawer links to /gallery
+        $homeRes = $this->get('/');
+        $homeRes->assertStatus(200);
+        $homeRes->assertSee(route('gallery'));
+    }
 }

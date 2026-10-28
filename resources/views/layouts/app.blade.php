@@ -1856,7 +1856,7 @@
         <span>PRICELIST</span>
         <span class="drawer-arrow">›</span>
       </a>
-      <a href="{{ route('home') }}#gallery" class="drawer-menu-link">
+      <a href="{{ route('gallery') }}" class="drawer-menu-link">
         <span>GALLERY</span>
         <span class="drawer-arrow">›</span>
       </a>
@@ -2132,7 +2132,7 @@
       <h4>MENU UTAMA & LAYANAN</h4>
       <a href="{{ route('shop') }}">🛍️ Produk & Koleksi Lengkap</a>
       <a href="{{ route('pricelist') }}">📄 Pricelist & Katalog Menu</a>
-      <a href="{{ route('home') }}#gallery">📸 Galeri Hampers & Karya</a>
+      <a href="{{ route('gallery') }}">📸 Galeri Hampers & Karya</a>
       <a href="{{ route('payment.shipping') }}">💳 Pembayaran & Pengiriman</a>
       <a href="{{ route('terms') }}">📜 Syarat & Ketentuan</a>
       <a href="{{ route('track') }}">📦 Lacak Pesanan Real-Time</a>

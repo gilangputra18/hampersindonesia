@@ -26,6 +26,7 @@ Route::get('/product/{slug}', [SiteController::class, 'product'])->name('product
 Route::redirect('/reservations', '/shop')->name('reservations');
 Route::get('/pricelist', [SiteController::class, 'menuPdf'])->name('pricelist');
 Route::get('/menu-pdf/{slug?}', [SiteController::class, 'menuPdf'])->name('menu.pdf');
+Route::get('/gallery', [SiteController::class, 'gallery'])->name('gallery');
 Route::get('/terms', [SiteController::class, 'terms'])->name('terms');
 Route::get('/syarat-ketentuan', [SiteController::class, 'terms'])->name('syarat.ketentuan');
 Route::get('/pembayaran-pengiriman', [SiteController::class, 'paymentShipping'])->name('payment.shipping');
