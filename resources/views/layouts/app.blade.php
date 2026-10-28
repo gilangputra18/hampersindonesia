@@ -1860,10 +1860,10 @@
         <span>GALLERY</span>
         <span class="drawer-arrow">›</span>
       </a>
-      <button type="button" class="drawer-menu-link open-payment-modal-btn">
+      <a href="{{ route('payment.shipping') }}" class="drawer-menu-link">
         <span>PEMBAYARAN & PENGIRIMAN</span>
         <span class="drawer-arrow">›</span>
-      </button>
+      </a>
       <a href="{{ route('terms') }}" class="drawer-menu-link">
         <span>SYARAT & KETENTUAN</span>
         <span class="drawer-arrow">›</span>
@@ -2133,7 +2133,7 @@
       <a href="{{ route('shop') }}">🛍️ Produk & Koleksi Lengkap</a>
       <a href="{{ route('pricelist') }}">📄 Pricelist & Katalog Menu</a>
       <a href="{{ route('home') }}#gallery">📸 Galeri Hampers & Karya</a>
-      <a href="javascript:void(0)" class="open-payment-modal-btn">💳 Pembayaran & Pengiriman</a>
+      <a href="{{ route('payment.shipping') }}">💳 Pembayaran & Pengiriman</a>
       <a href="{{ route('terms') }}">📜 Syarat & Ketentuan</a>
       <a href="{{ route('track') }}">📦 Lacak Pesanan Real-Time</a>
     </div>

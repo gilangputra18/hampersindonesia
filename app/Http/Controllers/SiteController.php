@@ -404,6 +404,11 @@ class SiteController extends Controller
         return view('terms');
     }
 
+    public function paymentShipping()
+    {
+        return view('payment_shipping');
+    }
+
     protected function ensureCategoryHasProducts(Category $cat): void
     {
         $catalog = [

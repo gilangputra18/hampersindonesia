@@ -28,6 +28,8 @@ Route::get('/pricelist', [SiteController::class, 'menuPdf'])->name('pricelist');
 Route::get('/menu-pdf/{slug?}', [SiteController::class, 'menuPdf'])->name('menu.pdf');
 Route::get('/terms', [SiteController::class, 'terms'])->name('terms');
 Route::get('/syarat-ketentuan', [SiteController::class, 'terms'])->name('syarat.ketentuan');
+Route::get('/pembayaran-pengiriman', [SiteController::class, 'paymentShipping'])->name('payment.shipping');
+Route::get('/payment-shipping', [SiteController::class, 'paymentShipping'])->name('payment.shipping.alias');
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::post('/contact', [SiteController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');
 Route::get('/track-order', [SiteController::class, 'track'])->name('track');

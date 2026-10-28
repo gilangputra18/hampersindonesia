@@ -605,4 +605,24 @@ class BakerySystemTest extends TestCase
         $res2->assertStatus(200);
         $res2->assertSee('Syarat &amp; Ketentuan', false);
     }
+
+    public function test_payment_and_shipping_page_renders_matching_reference_concept(): void
+    {
+        $res1 = $this->get('/pembayaran-pengiriman');
+        $res1->assertStatus(200);
+        $res1->assertSee('Pembayaran &amp; Pengiriman', false);
+        $res1->assertSee('Metode Pembayaran (Melalui Xendit)');
+        $res1->assertSee('Virtual Account (Bank Transfer)');
+        $res1->assertSee('E-Wallet');
+        $res1->assertSee('QRIS');
+        $res1->assertSee('Pengiriman Domestik &amp; Internasional', false);
+        $res1->assertSee('Pengiriman Internasional (Pale Baithip)');
+        $res1->assertSee('Singapura, Malaysia, Brunei');
+        $res1->assertSee('Note:');
+        $res1->assertSee('Pajak impor dan bea cukai ditanggung oleh pembeli');
+
+        $res2 = $this->get('/payment-shipping');
+        $res2->assertStatus(200);
+        $res2->assertSee('Pembayaran &amp; Pengiriman', false);
+    }
 }
