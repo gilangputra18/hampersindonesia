@@ -1945,7 +1945,7 @@
           <button type="submit" class="drawer-logout-btn">KELUAR (LOGOUT)</button>
         </form>
       @else
-        <a href="{{ route('login') }}" class="drawer-sub-link" style="color: #2563eb; font-weight: 700;">
+        <a href="{{ route('login') }}" class="drawer-sub-link" style="color: #9f183c; font-weight: 700;">
           <span>👤 Masuk / Daftar Akun</span>
         </a>
       @endauth
@@ -2255,7 +2255,7 @@
     <span class="mobile-bnav-icon">🏪</span>
     <span class="mobile-bnav-text">Shop</span>
   </a>
-  <a href="@auth {{ route('my.orders') }} @else {{ route('login') }} @endauth" class="mobile-bnav-item {{ request()->routeIs('login') || request()->routeIs('my.orders') ? 'active' : '' }}">
+  <a href="@auth {{ route('my.orders') }} @else {{ route('login') }} @endauth" class="mobile-bnav-item {{ request()->routeIs('login') || request()->routeIs('register') || request()->routeIs('my.orders') ? 'active' : '' }}">
     <span class="mobile-bnav-icon">👤</span>
     <span class="mobile-bnav-text">Account</span>
   </a>

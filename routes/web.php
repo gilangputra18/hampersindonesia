@@ -32,6 +32,8 @@ Route::get('/track-order', [SiteController::class, 'track'])->name('track');
 // Customer Auth Routes
 Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [CustomerAuthController::class, 'login'])->middleware('throttle:5,1');
+Route::get('/register', [CustomerAuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [CustomerAuthController::class, 'register'])->middleware('throttle:5,1')->name('register.submit');
 Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('logout');
 Route::get('/auth/google', [CustomerAuthController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [CustomerAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');

@@ -378,6 +378,10 @@
         <button type="submit" class="g-btn-submit">Lanjutkan Masuk</button>
       </form>
 
+      <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #f1f3f4; font-size: 13px; color: #5f6368;">
+        Ingin mendaftar tanpa akun Google? <a href="{{ route('register') }}" style="color: #9f183c; font-weight: 700; text-decoration: underline;">Daftar Akun Baru Manual</a>
+      </div>
+
       <div class="g-footer-disclaimer">
         To continue, Google will share your name, email address, language preference, and profile picture with Pusat Hampers Indonesia. Before using this app, you can review Pusat Hampers Indonesia's <a href="{{ route('home') }}">privacy policy</a> and <a href="{{ route('home') }}">terms of service</a>.
       </div>

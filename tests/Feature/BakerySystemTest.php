@@ -507,4 +507,48 @@ class BakerySystemTest extends TestCase
         $this->assertAuthenticated();
         $this->assertEquals('pelanggan.test@gmail.com', auth()->user()->email);
     }
+
+    public function test_customer_registration_page_and_processing(): void
+    {
+        // 1. Register page loads properly with tabs and form
+        $res = $this->get('/register');
+        $res->assertStatus(200);
+        $res->assertSee('DAFTAR AKUN BARU');
+        $res->assertSee('Masuk Akun');
+        $res->assertSee('Daftar Akun Baru');
+        $res->assertSee('Daftar Cepat dengan Akun Google');
+        $res->assertSee('DAFTAR SEKARANG');
+
+        // 2. Validation fails on missing or mismatched password
+        $failRes = $this->post('/register', [
+            'name' => 'Budi Santoso',
+            'email' => 'budi@example.com',
+            'password' => '123456',
+            'password_confirmation' => 'mismatch',
+        ]);
+        $failRes->assertSessionHasErrors('password');
+
+        // 3. Successful registration creates user, logs them in, and redirects to home
+        $successRes = $this->post('/register', [
+            'name' => 'Siti Nurhaliza',
+            'email' => 'siti.nurhaliza@example.com',
+            'phone' => '081298765432',
+            'password' => 'rahasia123',
+            'password_confirmation' => 'rahasia123',
+        ]);
+        $successRes->assertRedirect(route('home'));
+        $this->assertAuthenticated();
+        $this->assertEquals('siti.nurhaliza@example.com', auth()->user()->email);
+        $this->assertEquals('081298765432', auth()->user()->phone);
+
+        // 4. Duplicate email registration is prevented
+        auth()->logout();
+        $dupRes = $this->post('/register', [
+            'name' => 'Siti Kloning',
+            'email' => 'siti.nurhaliza@example.com',
+            'password' => 'rahasia123',
+            'password_confirmation' => 'rahasia123',
+        ]);
+        $dupRes->assertSessionHasErrors('email');
+    }
 }

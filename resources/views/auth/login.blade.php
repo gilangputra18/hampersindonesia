@@ -5,7 +5,7 @@
 @section('content')
 <style>
   .login-page-wrapper {
-    background-color: #f8faf9;
+    background-color: #fdf8f9;
     min-height: calc(100vh - 180px);
     display: flex;
     align-items: center;
@@ -15,12 +15,12 @@
   }
   .login-form-box {
     width: 100%;
-    max-width: 420px;
+    max-width: 440px;
     background: #ffffff;
-    border: 1px solid #d2dcd7;
-    border-radius: 14px;
-    padding: 32px 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f2d0d8;
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 10px 35px rgba(120, 13, 38, 0.08);
     text-align: center;
   }
   @media (max-width: 480px) {
@@ -28,33 +28,64 @@
       padding: 18px 10px;
     }
     .login-form-box {
-      padding: 24px 16px;
+      padding: 24px 18px;
       border-radius: 12px;
     }
     .login-title {
-      font-size: 22px !important;
-      letter-spacing: 1.5px !important;
+      font-size: 21px !important;
+      letter-spacing: 1.2px !important;
     }
     .input-custom {
       font-size: 16px !important; /* Prevents auto-zoom jitter on Android & iOS */
       padding: 12px 14px !important;
     }
   }
+
+  /* Navigation Tabs */
+  .auth-tabs {
+    display: flex;
+    background: #fdf2f4;
+    border: 1px solid #fcd5df;
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 24px;
+    gap: 4px;
+  }
+  .auth-tab {
+    flex: 1;
+    padding: 9px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #780d26;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .auth-tab.active {
+    background: #780d26;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(120, 13, 38, 0.3);
+  }
+  .auth-tab:hover:not(.active) {
+    background: rgba(159, 24, 60, 0.1);
+  }
+
   .login-title {
     font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    letter-spacing: 2px;
+    font-size: 24px;
+    letter-spacing: 1.5px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #1e2d27;
+    color: #22040b;
     margin-bottom: 6px;
     word-break: normal;
   }
   .login-subtitle {
     font-size: 13px;
-    color: #64756d;
-    margin-bottom: 24px;
-    line-height: 1.4;
+    color: #64748b;
+    margin-bottom: 22px;
+    line-height: 1.45;
   }
   .alert-box {
     padding: 12px 14px;
@@ -88,15 +119,16 @@
     border-radius: 8px;
     font-family: inherit;
     font-size: 14px;
-    color: #1e2d27;
+    color: #1e293b;
     background: #fafafa;
     box-sizing: border-box;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   }
   .input-custom:focus {
     outline: none;
-    border-color: #d97706;
+    border-color: #9f183c;
     background: #fff;
+    box-shadow: 0 0 0 3px rgba(159, 24, 60, 0.15);
   }
   .password-label-row {
     display: flex;
@@ -106,19 +138,19 @@
   }
   .forgot-link {
     font-size: 11px;
-    color: #7a8b83;
+    color: #9f183c;
     text-decoration: none;
+    font-weight: 600;
   }
   .forgot-link:hover {
     text-decoration: underline;
-    color: #b45309;
   }
   .btn-submit-login {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #111f18 0%, #1e3529 100%);
-    border: 1px solid rgba(217, 119, 6, 0.4);
-    color: #fef08a;
+    background: linear-gradient(135deg, #780d26 0%, #9f183c 100%);
+    border: 1px solid #c92350;
+    color: #ffffff;
     font-size: 13px;
     letter-spacing: 1.5px;
     font-weight: 700;
@@ -127,11 +159,12 @@
     border-radius: 8px;
     margin-top: 6px;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(17, 31, 24, 0.2);
+    box-shadow: 0 4px 14px rgba(120, 13, 38, 0.3);
   }
   .btn-submit-login:hover {
-    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-    color: #fff;
+    background: linear-gradient(135deg, #9f183c 0%, #b81f47 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(159, 24, 60, 0.45);
   }
   .btn-google-login {
     display: inline-flex;
@@ -141,66 +174,39 @@
     width: 100%;
     padding: 13px 16px;
     background: #ffffff;
-    border: 1px solid #cbd5e1;
+    border: 1.5px solid #dadce0;
     border-radius: 8px;
-    color: #1e293b;
-    font-size: 13px;
+    color: #3c4043;
+    font-size: 13.5px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(60,64,67,0.08);
     box-sizing: border-box;
   }
   .btn-google-login:hover {
-    background: #f8fafc;
-    border-color: #94a3b8;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    background: #f8fafd;
+    border-color: #4285f4;
+    color: #1a73e8;
+    box-shadow: 0 3px 8px rgba(66,133,244,0.2);
+    transform: translateY(-1px);
   }
 </style>
 
 <div class="login-page-wrapper">
   <div class="login-form-box">
-    <div style="font-size: 28px; margin-bottom: 4px;">⚜️</div>
-    <h1 class="login-title">LOGIN TAMU & PELANGGAN</h1>
-    <p class="login-subtitle">Masuk dengan email Anda untuk mengecek riwayat pesanan & status pembayaran hampers</p>
-
-    @if ($errors->any())
-      <div class="alert-box alert-err">
-        @foreach ($errors->all() as $error)
-          <div>• {{ $error }}</div>
-        @endforeach
-      </div>
-    @endif
-
-    <form action="{{ route('login') }}" method="POST">
-      @csrf
-
-      <div class="form-group-custom">
-        <label for="customer_email">Alamat Email</label>
-        <input type="email" name="email" id="customer_email" class="input-custom" placeholder="contoh@gmail.com" value="{{ old('email') }}" required autofocus>
-      </div>
-
-      <div class="form-group-custom">
-        <div class="password-label-row">
-          <label for="customer_pwd" style="margin-bottom: 0;">Kata Sandi</label>
-          <a href="#" onclick="alert('Silakan hubungi Concierge Layanan kami via email ({{ config('site.email') }}) atau telepon ({{ config('site.phone') }}) untuk mereset kata sandi Anda.'); return false;" class="forgot-link">Lupa sandi?</a>
-        </div>
-        <div style="position: relative; display: flex; align-items: center;">
-          <input type="password" name="password" id="customer_pwd" class="input-custom" placeholder="Masukkan kata sandi" required style="padding-right: 46px;">
-          <button type="button" onclick="const p=document.getElementById('customer_pwd'); p.type=p.type==='password'?'text':'password'; this.textContent=p.type==='password'?'👁️':'🙈';" style="position: absolute; right: 8px; background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 6px;" title="Tampilkan/Sembunyikan Sandi">👁️</button>
-        </div>
-      </div>
-
-      <button type="submit" class="btn-submit-login">MASUK KE AKUN</button>
-    </form>
-
-    <!-- Google Sign In Button -->
-    <div style="margin: 20px 0 16px; display: flex; align-items: center; justify-content: center; gap: 12px;">
-      <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
-      <span style="font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">atau</span>
-      <div style="flex: 1; height: 1px; background: #e2e8f0;"></div>
+    
+    <!-- Tab Pilihan: Masuk atau Daftar -->
+    <div class="auth-tabs">
+      <a href="{{ route('login') }}" class="auth-tab active">Masuk Akun</a>
+      <a href="{{ route('register') }}" class="auth-tab">Daftar Akun Baru</a>
     </div>
 
+    <div style="font-size: 28px; margin-bottom: 4px;">⚜️</div>
+    <h1 class="login-title">LOGIN PELANGGAN</h1>
+    <p class="login-subtitle">Masuk untuk melihat pesanan, invoice resmi, dan promo eksklusif hampers</p>
+
+    <!-- Opsi 1: Google Fast Login -->
     <a href="{{ route('auth.google') }}" class="btn-google-login">
       <svg width="18" height="18" viewBox="0 0 24 24">
         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -211,12 +217,50 @@
       <span>Masuk Cepat dengan Akun Google</span>
     </a>
 
-    <div style="margin-top: 22px; font-size: 13px; color: #64756d;">
-      <a href="{{ route('home') }}" style="color: #64756d; text-decoration: none;">← Kembali ke Beranda Toko</a>
+    <!-- Divider Antara Pilihan Google dan Login Manual -->
+    <div style="margin: 22px 0 18px; display: flex; align-items: center; justify-content: center; gap: 12px;">
+      <div style="flex: 1; height: 1px; background: #f2d0d8;"></div>
+      <span style="font-size: 11px; color: #9f183c; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">atau opsi email & sandi</span>
+      <div style="flex: 1; height: 1px; background: #f2d0d8;"></div>
     </div>
 
-    <div style="margin-top: 12px; font-size: 12.5px; color: #64756d;">
-      Belum memiliki akun? <a href="{{ route('shop') }}" style="color: #1e2d27; font-weight: 700; text-decoration: underline;">Belanja langsung sebagai Tamu</a>, akun otomatis terdaftar saat checkout.
+    @if ($errors->any())
+      <div class="alert-box alert-err">
+        @foreach ($errors->all() as $error)
+          <div>• {{ $error }}</div>
+        @endforeach
+      </div>
+    @endif
+
+    <!-- Form Login Email & Password -->
+    <form action="{{ route('login') }}" method="POST">
+      @csrf
+
+      <div class="form-group-custom">
+        <label for="customer_email">Alamat Email</label>
+        <input type="email" name="email" id="customer_email" class="input-custom" placeholder="nama@gmail.com" value="{{ old('email') }}" required autofocus>
+      </div>
+
+      <div class="form-group-custom">
+        <div class="password-label-row">
+          <label for="customer_pwd" style="margin-bottom: 0;">Kata Sandi</label>
+          <a href="#" onclick="alert('Silakan hubungi Concierge Layanan kami via email ({{ config('site.email') }}) atau nomor telepon resmi toko untuk bantuan reset kata sandi.'); return false;" class="forgot-link">Lupa sandi?</a>
+        </div>
+        <div style="position: relative; display: flex; align-items: center;">
+          <input type="password" name="password" id="customer_pwd" class="input-custom" placeholder="Masukkan kata sandi" required style="padding-right: 46px;">
+          <button type="button" onclick="const p=document.getElementById('customer_pwd'); p.type=p.type==='password'?'text':'password'; this.textContent=p.type==='password'?'👁️':'🙈';" style="position: absolute; right: 8px; background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 6px;" title="Tampilkan/Sembunyikan Sandi">👁️</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit-login">MASUK KE AKUN</button>
+    </form>
+
+    <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid #f2d0d8; font-size: 13px; color: #520e20;">
+      Belum memiliki akun? <a href="{{ route('register') }}" style="color: #9f183c; font-weight: 700; text-decoration: underline;">Daftar Akun Baru di Sini</a>
+    </div>
+
+    <div style="margin-top: 14px; font-size: 12.5px; color: #64748b;">
+      <a href="{{ route('home') }}" style="color: #64748b; text-decoration: none;">← Kembali ke Beranda Toko</a>
     </div>
   </div>
 </div>

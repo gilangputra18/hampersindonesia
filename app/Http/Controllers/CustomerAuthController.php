@@ -44,6 +44,46 @@ class CustomerAuthController extends Controller
         ])->onlyInput('email');
     }
 
+    public function showRegisterForm()
+    {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'phone' => ['nullable', 'string', 'max:25'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Alamat e-mail wajib diisi.',
+            'email.email' => 'Format e-mail tidak valid.',
+            'email.unique' => 'Alamat e-mail ini sudah terdaftar. Silakan masuk atau gunakan email lain.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.min' => 'Kata sandi minimal 6 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+        ]);
+
+        $user = User::create([
+            'name' => ucwords(trim($validated['name'])),
+            'email' => strtolower(trim($validated['email'])),
+            'phone' => $validated['phone'] ?? null,
+            'password' => Hash::make($validated['password']),
+            'is_admin' => false,
+        ]);
+
+        Auth::login($user, true);
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('home'))->with('success', 'Selamat bergabung di Pusat Hampers Indonesia, ' . $user->name . '! Akun Anda berhasil dibuat.');
+    }
+
     public function redirectToGoogle(Request $request)
     {
         $clientId = config('services.google.client_id');
