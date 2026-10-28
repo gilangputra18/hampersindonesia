@@ -482,6 +482,9 @@ class BakerySystemTest extends TestCase
         $response->assertSee('map_search_results');
         $response->assertSee('INDONESIA_RECOMMENDATIONS');
         $response->assertSee('Kampung Pengendong');
+        $response->assertSee('HUB 1: KOTA SURABAYA');
+        $response->assertSee('HUB 2: KOTA BANDUNG');
+        $response->assertSee('jumpToHub');
         $response->assertDontSee('wa.me');
     }
 
@@ -1152,5 +1155,65 @@ class BakerySystemTest extends TestCase
         $revRes->assertJsonFragment(['status' => 'success']);
         $revRes->assertJsonFragment(['city' => 'Praya']);
         $revRes->assertJsonFragment(['postal_code' => '83511']);
+    }
+
+    public function test_focus_two_locations_surabaya_and_bandung(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::first();
+        $this->actingAs($user)->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+
+        // 1. Check checkout page dual hub navigation & pick up options
+        $response = $this->get('/checkout');
+        $response->assertStatus(200);
+        $response->assertSee('2 LOKASI BUTIK &amp; HUB PENGIRIMAN UTAMA', false);
+        $response->assertSee('HUB 1: KOTA SURABAYA');
+        $response->assertSee('HUB 2: KOTA BANDUNG');
+        $response->assertSee("jumpToHub('surabaya')", false);
+        $response->assertSee("jumpToHub('bandung')", false);
+        $response->assertSee('Surabaya (Hub Darmo)');
+        $response->assertSee('Bandung (Hub Riau)');
+
+        // 2. Footer displays both boutique hubs
+        $response->assertSee('Hub Surabaya:');
+        $response->assertSee('Hub Bandung:');
+        $response->assertSee('Jl. Raya Darmo No. 45');
+        $response->assertSee('Jl. LLRE Martadinata (Riau) No. 68');
+
+        // 3. Process checkout with Surabaya coordinates
+        $postData = [
+            'customer_name' => 'Surabaya Hampers Customer',
+            'customer_phone' => '081234567890',
+            'customer_email' => 'surabaya@customer.test',
+            'delivery_option' => 'delivery',
+            'courier_name' => 'Kurir Toko (Dedicated Bakery Delivery)',
+            'delivery_date' => now()->addDays(2)->format('Y-m-d'),
+            'address' => 'Jl. Raya Darmo No. 45, Wonokromo',
+            'city' => 'Kota Surabaya',
+            'postal_code' => '60241',
+            'latitude' => -7.2574719,
+            'longitude' => 112.7520883,
+            'payment_method' => 'Transfer Bank BCA',
+            'terms' => '1',
+        ];
+
+        $postRes = $this->post(route('checkout.process'), $postData);
+        $postRes->assertRedirect();
+
+        $order = Order::where('customer_name', 'Surabaya Hampers Customer')->latest()->first();
+        $this->assertNotNull($order);
+        $this->assertEquals(-7.2574719, (float)$order->latitude);
+        $this->assertEquals(112.7520883, (float)$order->longitude);
+        $this->assertStringContainsString('Kota Surabaya', $order->address);
+        $this->assertStringContainsString('Jl. Raya Darmo No. 45', $order->address);
     }
 }

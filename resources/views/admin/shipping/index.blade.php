@@ -193,7 +193,7 @@
 
       <div class="form-group" style="margin-top: 16px;">
         <label class="form-label">Alamat Toko / Titik Penjemputan Kurir</label>
-        <textarea name="pickup_address" class="form-control" rows="2">{{ old('pickup_address', $settings['pickup_address'] ?? 'Jl. Cikajang V No. 12, Jakarta Selatan') }}</textarea>
+        <textarea name="pickup_address" class="form-control" rows="2">{{ old('pickup_address', $settings['pickup_address'] ?? 'Boutique Surabaya: Jl. Raya Darmo No. 45 | Boutique Bandung: Jl. LLRE Martadinata (Riau) No. 68') }}</textarea>
       </div>
     </div>
 

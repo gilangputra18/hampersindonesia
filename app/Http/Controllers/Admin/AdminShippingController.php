@@ -31,7 +31,7 @@ class AdminShippingController extends Controller
             'aggregator_partner' => 'Biteship API (Aggregator JNE, J&T, Grab, GoSend)',
             'api_key' => 'biteship_live_sec_XXXXXXXXXXXXXX',
             'corporate_discount_percent' => 25,
-            'pickup_address' => 'Jl. Cikajang V No. 12, Kebayoran Baru, Jakarta Selatan',
+            'pickup_address' => 'Boutique Surabaya: Jl. Raya Darmo No. 45 | Boutique Bandung: Jl. LLRE Martadinata (Riau) No. 68',
             'shipping_instructions' => 'Pengiriman menggunakan box khusus pengjaga suhu artisan bakery. Gratis ongkir otomatis berlaku untuk pembelanjaan di atas Rp 500.000.'
         ];
     }

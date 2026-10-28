@@ -2046,12 +2046,12 @@
 
       <div class="info-modal-section">
         <div class="info-section-title">🚚 2. METODE & JANGKAUAN PENGIRIMAN</div>
-        <p>Setiap produk dipacking secara eksklusif dengan perlindungan optimal agar tiba dalam kondisi sempurna:</p>
+        <p>Setiap pesanan dipacking secara eksklusif dan dikirim langsung dari 2 Hub Butik Utama kami di <strong>Kota Surabaya</strong> dan <strong>Kota Bandung</strong>, serta melayani pengiriman ke seluruh Indonesia:</p>
         <ul class="info-check-list">
-          <li><strong>Instant Courier (1-3 Jam):</strong> Khusus produk kue basah, tart, dan hidangan segar area Jabodetabek.</li>
+          <li><strong>Instant Courier (1-3 Jam):</strong> Khusus produk kue basah, tart, dan hantaran segar area Surabaya Raya & Bandung Raya.</li>
           <li><strong>Same Day Courier:</strong> Pengiriman di hari yang sama dengan kurir khusus handling makanan dan hampers.</li>
-          <li><strong>Dedicated Hampers Courier:</strong> Pengiriman kurir butik ber-AC khusus pesanan parcel & hampers VIP.</li>
-          <li><strong>Ekspedisi 1-2 Hari (Nasional):</strong> Pengiriman luar kota dengan box kayu, bubble wrap tebal, dan asuransi.</li>
+          <li><strong>Dedicated Hampers Courier:</strong> Pengiriman armada butik ber-AC khusus pesanan parcel & hampers VIP.</li>
+          <li><strong>Ekspedisi 1-2 Hari (Nasional):</strong> Pengiriman ke seluruh kota di Indonesia dengan box kayu, bubble wrap tebal, dan asuransi.</li>
         </ul>
       </div>
 
@@ -2179,7 +2179,8 @@
     <!-- Col 1: Butik & Jam Operasional -->
     <div class="footer-col">
       <h4>BUTIK & LOKASI</h4>
-      <p>📍 {{ config('site.address') }}</p>
+      <p style="margin-bottom: 6px;">🏬 <strong>Hub Surabaya:</strong> Jl. Raya Darmo No. 45, Wonokromo, Kota Surabaya</p>
+      <p style="margin-bottom: 6px;">🏬 <strong>Hub Bandung:</strong> Jl. LLRE Martadinata (Riau) No. 68, Kota Bandung</p>
       <p>⏰ {{ config('site.hours') }}</p>
     </div>
 
