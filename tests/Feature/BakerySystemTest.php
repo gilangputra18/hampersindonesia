@@ -478,6 +478,10 @@ class BakerySystemTest extends TestCase
         $response->assertSee('Kota Praya / Lombok Tengah (NTB)');
         $response->assertSee('checkout_leaflet_map');
         $response->assertSee('leaflet.js');
+        $response->assertSee('map-search-input-wrap');
+        $response->assertSee('map_search_results');
+        $response->assertSee('INDONESIA_RECOMMENDATIONS');
+        $response->assertSee('Kampung Pengendong');
         $response->assertDontSee('wa.me');
     }
 

@@ -593,25 +593,33 @@
     position: relative;
     margin-bottom: 12px;
     box-sizing: border-box;
+    z-index: 99999;
   }
   @media (max-width: 480px) {
     .map-search-row {
       flex-direction: column;
     }
   }
-  .map-search-input {
+  .map-search-input-wrap {
     flex: 1;
-    padding: 10px 14px;
+    position: relative;
+    min-width: 0;
+  }
+  .map-search-input {
+    width: 100%;
+    padding: 11px 14px;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     font-size: 13px;
     color: #0f172a;
     box-sizing: border-box;
+    background: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
   .map-search-input:focus {
     outline: none;
-    border-color: #1e2d27;
-    box-shadow: 0 0 0 3px rgba(30, 45, 39, 0.1);
+    border-color: #722F37;
+    box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.12);
   }
   .btn-search-pin {
     background: #722F37;
@@ -625,23 +633,64 @@
     white-space: nowrap;
     transition: background 0.2s;
     box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .btn-search-pin:hover {
     background: #531e24;
   }
   .map-dropdown-results {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 4px);
     left: 0;
     right: 0;
     background: #ffffff;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    z-index: 9999;
-    max-height: 250px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+    z-index: 999999 !important;
+    max-height: 290px;
     overflow-y: auto;
-    margin-top: 4px;
+  }
+  .map-dropdown-header {
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .map-quick-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 12px;
+    background: #fdfcf7;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .map-quick-pill {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #1e2d27;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .map-quick-pill:hover {
+    background: #722F37;
+    color: #ffffff;
+    border-color: #722F37;
   }
   .map-result-item {
     padding: 10px 14px;
@@ -651,16 +700,60 @@
     line-height: 1.4;
     color: #334155;
     display: flex;
-    align-items: flex-start;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
     transition: background 0.15s;
   }
-  .map-result-item:hover {
-    background: #fdfbf7;
+  .map-result-item:hover, .map-result-item.keyboard-active {
+    background: #fefce8;
     color: #722F37;
   }
   .map-result-item:last-child {
     border-bottom: none;
+  }
+  .map-result-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .map-result-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .map-result-name {
+    font-weight: 700;
+    color: #1e2d27;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .map-result-detail {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .map-match-highlight {
+    background: #fef08a;
+    color: #854d0e;
+    font-weight: 800;
+    padding: 0 1px;
+    border-radius: 2px;
+  }
+  .map-result-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: #f1f5f9;
+    color: #475569;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
   .map-smart-notice {
     background: #fefce8;
@@ -949,13 +1042,15 @@
                 </div>
               </div>
 
-              {{-- PENCARIAN ALAMAT SE-INDONESIA --}}
+              {{-- PENCARIAN ALAMAT SE-INDONESIA DENGAN REKOMENDASI LIVE --}}
               <div class="map-search-row">
-                <input type="text" id="map_search_input" class="form-control map-search-input" placeholder="🔍 Cari kota, kecamatan, kelurahan, kampung (Contoh: Kota Praya Kampung Pengendong)..." autocomplete="off">
+                <div class="map-search-input-wrap">
+                  <input type="text" id="map_search_input" class="form-control map-search-input" placeholder="🔍 Cari kota, kecamatan, kelurahan, kampung (Contoh: Kota Praya Kampung Pengendong)..." autocomplete="off">
+                  <div id="map_search_results" class="map-dropdown-results" style="display: none;"></div>
+                </div>
                 <button type="button" id="btn_map_search" class="btn-search-pin">
                   <span>Cari Titik</span>
                 </button>
-                <div id="map_search_results" class="map-dropdown-results" style="display: none;"></div>
               </div>
 
               {{-- NOTIFIKASI PENCARIAN CERDAS (SMART FALLBACK) --}}
@@ -1670,108 +1765,305 @@
       });
     }
 
-    // 3. Pencarian Alamat Se-Indonesia
+    // 3. Pencarian Alamat Se-Indonesia dengan Rekomendasi Live Sesuai Kata yang Diketik
     const searchInput = document.getElementById('map_search_input');
     const searchBtn = document.getElementById('btn_map_search');
     const resultsDiv = document.getElementById('map_search_results');
     const noticeDiv = document.getElementById('map_smart_notice');
     const noticeText = document.getElementById('map_smart_notice_text');
 
-    function performGeocodeSearch() {
-      const q = searchInput ? searchInput.value.trim() : '';
-      if (!q || q.length < 2) {
-        if (resultsDiv) resultsDiv.style.display = 'none';
-        if (noticeDiv) noticeDiv.style.display = 'none';
+    const INDONESIA_RECOMMENDATIONS = [
+      { name: "Kota Praya", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.7064272, lon: 116.2694240, type: "Kota", keywords: ["praya", "kota praya", "lombok tengah", "ntb"] },
+      { name: "Kampung Pengendong", sub: "Praya, Lombok Tengah, Nusa Tenggara Barat", lat: -8.7064272, lon: 116.2694240, type: "Kampung / Dusun", keywords: ["pengendong", "kampung pengendong", "praya pengendong"] },
+      { name: "Praya Tengah", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.6982128, lon: 116.3136853, type: "Kecamatan", keywords: ["praya tengah", "tengah"] },
+      { name: "Praya Barat", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.7380757, lon: 116.2438237, type: "Kecamatan", keywords: ["praya barat", "barat"] },
+      { name: "Praya Timur", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.7500000, lon: 116.3500000, type: "Kecamatan", keywords: ["praya timur", "timur"] },
+      { name: "Praya Barat Daya", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.8000000, lon: 116.1800000, type: "Kecamatan", keywords: ["praya barat daya"] },
+      { name: "Kuta Mandalika / Pujut", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.8916670, lon: 116.2833330, type: "Kawasan Wisata", keywords: ["kuta", "mandalika", "pujut"] },
+      { name: "Kota Mataram", sub: "Nusa Tenggara Barat", lat: -8.5833, lon: 116.1167, type: "Kota", keywords: ["mataram", "ampenan", "cakranegara"] },
+      { name: "Selong", sub: "Lombok Timur, Nusa Tenggara Barat", lat: -8.6500, lon: 116.5333, type: "Kota", keywords: ["selong", "lombok timur"] },
+      { name: "Tanjung", sub: "Lombok Utara, Nusa Tenggara Barat", lat: -8.3500, lon: 116.1500, type: "Kota", keywords: ["tanjung", "lombok utara"] },
+      { name: "Sumbawa Besar", sub: "Nusa Tenggara Barat", lat: -8.4933, lon: 117.4206, type: "Kota", keywords: ["sumbawa", "sumbawa besar"] },
+      { name: "Kota Bima", sub: "Nusa Tenggara Barat", lat: -8.4608, lon: 118.7269, type: "Kota", keywords: ["bima", "kota bima"] },
+      { name: "Jakarta Pusat", sub: "DKI Jakarta (Sudirman / Thamrin)", lat: -6.2088, lon: 106.8456, type: "Kota", keywords: ["jakarta", "jakarta pusat", "sudirman", "menteng"] },
+      { name: "Jakarta Selatan", sub: "DKI Jakarta (Kebayoran / Kemang)", lat: -6.2615, lon: 106.8106, type: "Kota", keywords: ["jakarta selatan", "kemang", "kebayoran", "senayan"] },
+      { name: "Jakarta Barat", sub: "DKI Jakarta", lat: -6.1683, lon: 106.7588, type: "Kota", keywords: ["jakarta barat", "puri", "kebon jeruk"] },
+      { name: "Jakarta Timur", sub: "DKI Jakarta", lat: -6.2250, lon: 106.9004, type: "Kota", keywords: ["jakarta timur", "rawamangun", "cakung"] },
+      { name: "Jakarta Utara", sub: "DKI Jakarta (Kelapa Gading / PIK)", lat: -6.1384, lon: 106.8640, type: "Kota", keywords: ["jakarta utara", "kelapa gading", "pik", "pluit"] },
+      { name: "Kota Tangerang & BSD", sub: "Banten", lat: -6.1783, lon: 106.6319, type: "Kota", keywords: ["tangerang", "bsd", "serpong", "alamsutera"] },
+      { name: "Kota Bandung", sub: "Jawa Barat", lat: -6.9175, lon: 107.6191, type: "Kota", keywords: ["bandung", "dago", "riau", "lembang"] },
+      { name: "Kota Surabaya", sub: "Jawa Timur", lat: -7.2575, lon: 112.7521, type: "Kota", keywords: ["surabaya", "gubeng", "darmo", "rungkut"] },
+      { name: "Kota Malang", sub: "Jawa Timur", lat: -7.9666, lon: 112.6326, type: "Kota", keywords: ["malang", "batu"] },
+      { name: "Kota Semarang", sub: "Jawa Tengah", lat: -6.9667, lon: 110.4167, type: "Kota", keywords: ["semarang", "simpang lima"] },
+      { name: "Kota Yogyakarta", sub: "DI Yogyakarta (Malioboro)", lat: -7.7956, lon: 110.3695, type: "Kota", keywords: ["jogja", "yogyakarta", "malioboro", "sleman"] },
+      { name: "Kota Surakarta (Solo)", sub: "Jawa Tengah", lat: -7.5755, lon: 110.8243, type: "Kota", keywords: ["solo", "surakarta"] },
+      { name: "Denpasar", sub: "Bali", lat: -8.6705, lon: 115.2126, type: "Kota", keywords: ["denpasar", "bali", "sanur"] },
+      { name: "Kuta & Seminyak", sub: "Badung, Bali", lat: -8.7185, lon: 115.1686, type: "Kawasan", keywords: ["kuta", "seminyak", "canggu", "badung"] },
+      { name: "Ubud", sub: "Gianyar, Bali", lat: -8.5069, lon: 115.2625, type: "Kawasan", keywords: ["ubud", "gianyar"] },
+      { name: "Kota Medan", sub: "Sumatera Utara", lat: 3.5952, lon: 98.6722, type: "Kota", keywords: ["medan"] },
+      { name: "Kota Makassar", sub: "Sulawesi Selatan", lat: -5.1477, lon: 119.4327, type: "Kota", keywords: ["makassar"] },
+    ];
+
+    function highlightMatch(text, query) {
+      if (!query || !text) return text || '';
+      const cleanQ = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const words = cleanQ.split(/\s+/).filter(w => w.length > 0);
+      if (words.length === 0) return text;
+      const regex = new RegExp('(' + words.join('|') + ')', 'gi');
+      return text.replace(regex, '<span class="map-match-highlight">$1</span>');
+    }
+
+    function selectLocationItem(item) {
+      if (!item) return;
+
+      if (checkoutMap && checkoutMarker) {
+        checkoutMap.flyTo([item.lat, item.lon], 16);
+        checkoutMarker.setLatLng([item.lat, item.lon]);
+        checkoutMarker.openPopup();
+      }
+
+      setPinCoordinates(item.lat, item.lon, true);
+
+      if (searchInput) {
+        searchInput.value = item.name || (item.display_name ? item.display_name.split(',')[0] : '');
+      }
+
+      if (resultsDiv) {
+        resultsDiv.style.display = 'none';
+      }
+
+      const cityInput = document.getElementById('city');
+      if (cityInput && item.name) {
+        cityInput.value = item.name.split('/')[0].trim();
+      }
+    }
+
+    function renderDefaultPopularPills() {
+      if (!resultsDiv) return;
+
+      resultsDiv.innerHTML = '';
+      resultsDiv.style.display = 'block';
+
+      const header = document.createElement('div');
+      header.className = 'map-dropdown-header';
+      header.innerHTML = '<span>✨ REKOMENDASI POPULER (KLIK LANGSUNG):</span>';
+      resultsDiv.appendChild(header);
+
+      const pillsRow = document.createElement('div');
+      pillsRow.className = 'map-quick-pills-row';
+
+      const popularItems = [
+        { name: "Kota Praya (NTB)", lat: -8.7064272, lon: 116.2694240 },
+        { name: "Kampung Pengendong", lat: -8.7064272, lon: 116.2694240 },
+        { name: "Mataram", lat: -8.5833, lon: 116.1167 },
+        { name: "Jakarta", lat: -6.2088, lon: 106.8456 },
+        { name: "Bandung", lat: -6.9175, lon: 107.6191 },
+        { name: "Surabaya", lat: -7.2575, lon: 112.7521 },
+        { name: "Bali (Denpasar)", lat: -8.6705, lon: 115.2126 },
+        { name: "Medan", lat: 3.5952, lon: 98.6722 },
+        { name: "Makassar", lat: -5.1477, lon: 119.4327 },
+      ];
+
+      popularItems.forEach(function(pop) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'map-quick-pill';
+        btn.innerHTML = '<span>📍</span> <span>' + pop.name + '</span>';
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          selectLocationItem({ name: pop.name, lat: pop.lat, lon: pop.lon });
+        });
+        pillsRow.appendChild(btn);
+      });
+
+      resultsDiv.appendChild(pillsRow);
+    }
+
+    function showRecommendationsForQuery(q) {
+      if (!resultsDiv) return;
+
+      const cleanQ = (q || '').trim().toLowerCase();
+      if (!cleanQ) {
+        renderDefaultPopularPills();
         return;
       }
 
-      if (searchBtn) searchBtn.textContent = 'Mencari...';
+      resultsDiv.innerHTML = '';
+      resultsDiv.style.display = 'block';
 
+      // 1. Filter rekomendasi lokal instan (0ms latency)
+      const qTokens = cleanQ.split(/\s+/).filter(t => t.length > 0);
+      const matchedLocal = INDONESIA_RECOMMENDATIONS.filter(function(place) {
+        const fullString = (place.name + ' ' + place.sub + ' ' + (place.keywords || []).join(' ')).toLowerCase();
+        return qTokens.every(token => fullString.includes(token)) ||
+               place.name.toLowerCase().includes(cleanQ) ||
+               (cleanQ.includes('praya') && place.name.toLowerCase().includes('praya')) ||
+               (cleanQ.includes('pengendong') && place.name.toLowerCase().includes('pengendong'));
+      });
+
+      const header = document.createElement('div');
+      header.className = 'map-dropdown-header';
+      header.innerHTML = `<span>📍 REKOMENDASI LOKASI ("${q}"):</span><span id="recom_status_text">${matchedLocal.length} Ditemukan</span>`;
+      resultsDiv.appendChild(header);
+
+      const itemsContainer = document.createElement('div');
+      itemsContainer.id = 'recom_items_list';
+
+      matchedLocal.slice(0, 8).forEach(function(item) {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'map-result-item';
+        itemDiv.innerHTML = `
+          <div class="map-result-icon">📍</div>
+          <div class="map-result-content">
+            <div class="map-result-name">${highlightMatch(item.name, q)}</div>
+            <div class="map-result-detail">${highlightMatch(item.sub, q)}</div>
+          </div>
+          <div class="map-result-badge">${item.type || 'Wilayah'}</div>
+        `;
+
+        itemDiv.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          selectLocationItem(item);
+        });
+
+        itemsContainer.appendChild(itemDiv);
+      });
+
+      resultsDiv.appendChild(itemsContainer);
+
+      // Loading indicator for background geocode API
+      const loadingFooter = document.createElement('div');
+      loadingFooter.id = 'recom_loading_footer';
+      loadingFooter.style.padding = '8px 14px';
+      loadingFooter.style.fontSize = '11px';
+      loadingFooter.style.color = '#64748b';
+      loadingFooter.style.background = '#f8fafc';
+      loadingFooter.style.borderTop = '1px solid #f1f5f9';
+      loadingFooter.style.display = 'flex';
+      loadingFooter.style.alignItems = 'center';
+      loadingFooter.style.gap = '6px';
+      loadingFooter.innerHTML = '<span>⏳</span> <span>Mencari titik spesifik se-Indonesia...</span>';
+      resultsDiv.appendChild(loadingFooter);
+
+      // 2. Fetch live data from OpenStreetMap Nominatim proxy API
       fetch('{{ route("geocode.search") }}?q=' + encodeURIComponent(q))
         .then(res => res.json())
         .then(data => {
-          if (searchBtn) searchBtn.textContent = 'Cari Titik';
-          if (!resultsDiv) return;
+          if (loadingFooter) loadingFooter.remove();
 
-          resultsDiv.innerHTML = '';
-
-          // Tampilkan notifikasi jika menggunakan fallback terdekat (misal: mencari 'kota praya kampung pengendong')
           if (data && data.notice && noticeDiv && noticeText) {
             noticeText.textContent = data.notice;
             noticeDiv.style.display = 'flex';
-          } else if (noticeDiv) {
-            noticeDiv.style.display = 'none';
           }
 
           if (data && data.results && data.results.length > 0) {
-            resultsDiv.style.display = 'block';
+            data.results.forEach(function(apiItem) {
+              // Avoid duplicate if coordinates already in local
+              const isDupe = matchedLocal.some(loc => Math.abs(loc.lat - apiItem.lat) < 0.001 && Math.abs(loc.lon - apiItem.lon) < 0.001);
+              if (!isDupe) {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'map-result-item';
+                const mainName = apiItem.name || apiItem.display_name.split(',')[0];
+                itemDiv.innerHTML = `
+                  <div class="map-result-icon">🗺️</div>
+                  <div class="map-result-content">
+                    <div class="map-result-name">${highlightMatch(mainName, q)}</div>
+                    <div class="map-result-detail">${highlightMatch(apiItem.display_name, q)}</div>
+                  </div>
+                  <div class="map-result-badge">${apiItem.type || 'Peta'}</div>
+                `;
 
-            data.results.forEach(function(item) {
-              const itemDiv = document.createElement('div');
-              itemDiv.className = 'map-result-item';
-              itemDiv.innerHTML = `
-                <span style="font-size: 16px;">📍</span>
-                <div style="flex: 1;">
-                  <strong style="color: #1e2d27; display: block;">${item.name || item.display_name.split(',')[0]}</strong>
-                  <span style="font-size: 11.5px; color: #64748b;">${item.display_name}</span>
-                </div>
-              `;
+                itemDiv.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  selectLocationItem({
+                    name: mainName,
+                    lat: apiItem.lat,
+                    lon: apiItem.lon,
+                    display_name: apiItem.display_name
+                  });
+                });
 
-              itemDiv.addEventListener('click', function() {
-                if (checkoutMap && checkoutMarker) {
-                  checkoutMap.flyTo([item.lat, item.lon], 16);
-                  checkoutMarker.setLatLng([item.lat, item.lon]);
-                  checkoutMarker.openPopup();
-                }
-                setPinCoordinates(item.lat, item.lon, true);
-                resultsDiv.style.display = 'none';
-                if (searchInput) searchInput.value = item.name || item.display_name.split(',')[0];
-              });
-
-              resultsDiv.appendChild(itemDiv);
+                itemsContainer.appendChild(itemDiv);
+              }
             });
-
-            // Langsung arahkan peta ke hasil pencarian teratas
-            const topMatch = data.results[0];
-            if (checkoutMap && checkoutMarker) {
-              checkoutMap.flyTo([topMatch.lat, topMatch.lon], 15);
-              checkoutMarker.setLatLng([topMatch.lat, topMatch.lon]);
-            }
-            setPinCoordinates(topMatch.lat, topMatch.lon, false);
-          } else {
-            resultsDiv.style.display = 'block';
-            resultsDiv.innerHTML = '<div style="padding: 12px; font-size: 12.5px; color: #64748b; text-align: center;">Tidak ditemukan titik spesifik untuk pencarian ini. Silakan cari nama kota/kecamatan terdekat lalu geser pin merah pada peta.</div>';
           }
         })
         .catch(() => {
-          if (searchBtn) searchBtn.textContent = 'Cari Titik';
-          if (resultsDiv) resultsDiv.style.display = 'none';
+          if (loadingFooter) loadingFooter.remove();
         });
     }
 
     if (searchBtn) {
       searchBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        performGeocodeSearch();
-      });
-    }
-
-    if (searchInput) {
-      searchInput.addEventListener('input', function() {
-        clearTimeout(mapSearchDebounce);
-        mapSearchDebounce = setTimeout(performGeocodeSearch, 500);
-      });
-
-      searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          clearTimeout(mapSearchDebounce);
-          performGeocodeSearch();
+        const q = searchInput ? searchInput.value.trim() : '';
+        if (q) {
+          showRecommendationsForQuery(q);
         }
       });
     }
 
-    // Klik di luar dropdown untuk menutup daftar hasil
+    if (searchInput) {
+      // Focus: Tampilkan rekomendasi populer jika kosong atau rekomendasi sesuai kata
+      searchInput.addEventListener('focus', function() {
+        const q = this.value.trim();
+        showRecommendationsForQuery(q);
+      });
+
+      // Input: Tampilkan rekomendasi langsung sesuai kata yang diketik (responsif instan)
+      searchInput.addEventListener('input', function() {
+        clearTimeout(mapSearchDebounce);
+        const q = this.value;
+        mapSearchDebounce = setTimeout(function() {
+          showRecommendationsForQuery(q);
+        }, 180);
+      });
+
+      // Keydown: Navigasi keyboard & Enter
+      searchInput.addEventListener('keydown', function(e) {
+        if (!resultsDiv || resultsDiv.style.display === 'none') return;
+
+        const items = resultsDiv.querySelectorAll('.map-result-item');
+        let activeIndex = -1;
+        items.forEach((it, idx) => {
+          if (it.classList.contains('keyboard-active')) activeIndex = idx;
+        });
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (items.length > 0) {
+            if (activeIndex >= 0) items[activeIndex].classList.remove('keyboard-active');
+            activeIndex = (activeIndex + 1) % items.length;
+            items[activeIndex].classList.add('keyboard-active');
+            items[activeIndex].scrollIntoView({ block: 'nearest' });
+          }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (items.length > 0) {
+            if (activeIndex >= 0) items[activeIndex].classList.remove('keyboard-active');
+            activeIndex = (activeIndex - 1 + items.length) % items.length;
+            items[activeIndex].classList.add('keyboard-active');
+            items[activeIndex].scrollIntoView({ block: 'nearest' });
+          }
+        } else if (e.key === 'Enter') {
+          if (activeIndex >= 0 && items[activeIndex]) {
+            e.preventDefault();
+            items[activeIndex].click();
+          } else {
+            e.preventDefault();
+            const firstItem = items[0];
+            if (firstItem) firstItem.click();
+          }
+        } else if (e.key === 'Escape') {
+          resultsDiv.style.display = 'none';
+        }
+      });
+    }
+
+    // Klik di luar dropdown untuk menutup daftar rekomendasi
     document.addEventListener('click', function(e) {
       if (resultsDiv && !resultsDiv.contains(e.target) && e.target !== searchInput && e.target !== searchBtn) {
         resultsDiv.style.display = 'none';
