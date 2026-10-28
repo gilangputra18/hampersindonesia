@@ -475,16 +475,18 @@ class BakerySystemTest extends TestCase
         $response->assertSee('Garansi Kemasan Aman');
         $response->assertSee('Titik Lokasi Peta &amp; Koordinat GPS Presisi', false);
         $response->assertSee('Gunakan Lokasi Saat Ini (GPS)');
-        $response->assertSee('Kota Praya / Lombok Tengah (NTB)');
         $response->assertSee('checkout_leaflet_map');
         $response->assertSee('leaflet.js');
         $response->assertSee('map-search-input-wrap');
         $response->assertSee('map_search_results');
         $response->assertSee('INDONESIA_RECOMMENDATIONS');
-        $response->assertSee('Kampung Pengendong');
-        $response->assertSee('HUB 1: KOTA SURABAYA');
-        $response->assertSee('HUB 2: KOTA BANDUNG');
+        $response->assertSee('KOTA SURABAYA');
+        $response->assertSee('KOTA BANDUNG');
         $response->assertSee('jumpToHub');
+        $response->assertDontSee('Fokus 1');
+        $response->assertDontSee('Fokus 2');
+        $response->assertDontSee('HUB 1:');
+        $response->assertDontSee('HUB 2:');
         $response->assertDontSee('wa.me');
     }
 
@@ -1172,20 +1174,27 @@ class BakerySystemTest extends TestCase
             ]
         ]);
 
-        // 1. Check checkout page dual hub navigation & pick up options
+        // 1. Check checkout page only contains Surabaya and Bandung (no other cities, no Fokus 1/2)
         $response = $this->get('/checkout');
         $response->assertStatus(200);
-        $response->assertSee('2 LOKASI BUTIK &amp; HUB PENGIRIMAN UTAMA', false);
-        $response->assertSee('HUB 1: KOTA SURABAYA');
-        $response->assertSee('HUB 2: KOTA BANDUNG');
+        $response->assertSee('PILIH KOTA PENGIRIMAN / BUTIK');
+        $response->assertSee('KOTA SURABAYA');
+        $response->assertSee('KOTA BANDUNG');
+        $response->assertDontSee('FOKUS UTAMA 1');
+        $response->assertDontSee('FOKUS UTAMA 2');
+        $response->assertDontSee('HUB 1:');
+        $response->assertDontSee('HUB 2:');
+        $response->assertDontSee('Kota Praya / Lombok Tengah');
+        $response->assertDontSee('DKI Jakarta (Pusat');
+        $response->assertDontSee('Kota Denpasar');
         $response->assertSee("jumpToHub('surabaya')", false);
         $response->assertSee("jumpToHub('bandung')", false);
-        $response->assertSee('Surabaya (Hub Darmo)');
-        $response->assertSee('Bandung (Hub Riau)');
+        $response->assertSee('Surabaya (Darmo)');
+        $response->assertSee('Bandung (Riau)');
 
-        // 2. Footer displays both boutique hubs
-        $response->assertSee('Hub Surabaya:');
-        $response->assertSee('Hub Bandung:');
+        // 2. Footer displays both boutique locations cleanly
+        $response->assertSee('Butik Surabaya:');
+        $response->assertSee('Butik Bandung:');
         $response->assertSee('Jl. Raya Darmo No. 45');
         $response->assertSee('Jl. LLRE Martadinata (Riau) No. 68');
 

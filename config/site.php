@@ -6,7 +6,7 @@ return [
     'since'      => '2026',
     'hero_video' => env('HERO_VIDEO_URL', '/videos/hero.mp4'),
     'tagline'    => 'Buat perayaan Anda tak terlupakan bersama kami.',
-    'address'    => env('STORE_ADDRESS', 'Hub Surabaya: Jl. Raya Darmo No. 45 | Hub Bandung: Jl. LLRE Martadinata (Riau) No. 68'),
+    'address'    => env('STORE_ADDRESS', 'Butik Surabaya: Jl. Raya Darmo No. 45 | Butik Bandung: Jl. LLRE Martadinata (Riau) No. 68'),
     'phone'      => env('STORE_PHONE', '+62 811-1522-82'),
     'wa'         => env('STORE_WA', '+62 811-1522-82'),
     'email'      => env('STORE_EMAIL', 'concierge@hampersindonesia.com'),

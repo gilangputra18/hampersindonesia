@@ -1076,24 +1076,24 @@
                 <span class="badge-precision">Super Presisi</span>
               </div>
               <p class="map-picker-desc">
-                Gunakan lokasi saat ini (GPS) atau cari nama jalan, kelurahan, kampung, dan kota di seluruh Indonesia. Anda juga dapat menggeser pin merah pada peta agar kurir tiba tepat di depan pintu tujuan.
+                Gunakan lokasi saat ini (GPS) atau cari nama jalan, kelurahan, dan kecamatan di area Kota Surabaya dan Kota Bandung. Anda juga dapat menggeser pin merah pada peta agar kurir tiba tepat di depan pintu tujuan.
               </p>
 
-              {{-- 2 LOKASI BUTIK & HUB PENGIRIMAN UTAMA (SURABAYA & BANDUNG) --}}
+              {{-- PILIHAN KOTA PENGIRIMAN: SURABAYA & BANDUNG --}}
               <div class="focus-hubs-bar">
-                <span class="focus-hubs-label">⭐ 2 LOKASI BUTIK &amp; HUB PENGIRIMAN UTAMA:</span>
+                <span class="focus-hubs-label">⭐ PILIH KOTA PENGIRIMAN / BUTIK:</span>
                 <div class="focus-hubs-buttons">
                   <button type="button" id="btn_hub_surabaya" class="btn-hub-pill active" onclick="jumpToHub('surabaya')">
                     <div>
-                      <span class="hub-title">🏬 HUB 1: KOTA SURABAYA</span>
-                      <span class="hub-sub">Pusat Hub Darmo, Gubeng, Sidoarjo &amp; Gresik</span>
+                      <span class="hub-title">🏬 KOTA SURABAYA</span>
+                      <span class="hub-sub">Darmo, Gubeng, Pakuwon, Rungkut, Sidoarjo &amp; Gresik</span>
                     </div>
                     <span class="hub-tag">Jawa Timur</span>
                   </button>
                   <button type="button" id="btn_hub_bandung" class="btn-hub-pill" onclick="jumpToHub('bandung')">
                     <div>
-                      <span class="hub-title">🏬 HUB 2: KOTA BANDUNG</span>
-                      <span class="hub-sub">Pusat Hub Riau, Dago, Sukajadi &amp; Cimahi</span>
+                      <span class="hub-title">🏬 KOTA BANDUNG</span>
+                      <span class="hub-sub">Jl. Riau, Dago, Sukajadi, Buahbatu, Cimahi &amp; Lembang</span>
                     </div>
                     <span class="hub-tag">Jawa Barat</span>
                   </button>
@@ -1108,9 +1108,9 @@
                   </button>
                 </div>
                 <div>
-                  <select id="select_province_quick" class="select-quick-region" aria-label="Pilih Kota atau Wilayah Cepat">
-                    <option value="">🏛️ Pilih Kota / Wilayah Cepat (Jelajahi Peta)...</option>
-                    <optgroup label="⭐ FOKUS UTAMA 1: KOTA SURABAYA &amp; SEKITARNYA (JAWA TIMUR)">
+                  <select id="select_province_quick" class="select-quick-region" aria-label="Pilih Wilayah Surabaya atau Bandung">
+                    <option value="">🏛️ Pilih Wilayah Cepat di Surabaya atau Bandung...</option>
+                    <optgroup label="📍 KOTA SURABAYA &amp; SEKITARNYA (JAWA TIMUR)">
                       <option value="-7.2575,112.7521|Kota Surabaya" selected>Kota Surabaya (Pusat / Darmo / Gubeng / Basuki Rahmat)</option>
                       <option value="-7.2886,112.6756|Surabaya Barat (Pakuwon / Citraland)">Surabaya Barat (Pakuwon Mall / Citraland / HR Muhammad)</option>
                       <option value="-7.3185,112.7758|Surabaya Timur (Rungkut / Sukolilo)">Surabaya Timur (Rungkut / Mulyorejo / Sukolilo)</option>
@@ -1119,7 +1119,7 @@
                       <option value="-7.4478,112.7183|Kabupaten Sidoarjo">Kab. Sidoarjo (Waru / Gedangan / Kota)</option>
                       <option value="-7.1566,112.6555|Kabupaten Gresik">Kab. Gresik (Kebomas / Manyar / Kota)</option>
                     </optgroup>
-                    <optgroup label="⭐ FOKUS UTAMA 2: KOTA BANDUNG &amp; SEKITARNYA (JAWA BARAT)">
+                    <optgroup label="📍 KOTA BANDUNG &amp; SEKITARNYA (JAWA BARAT)">
                       <option value="-6.9175,107.6191|Kota Bandung">Kota Bandung (Pusat / Jl. Riau / Asia Afrika)</option>
                       <option value="-6.8833,107.6167|Bandung Dago (Coblong)">Bandung Utara (Dago / Dipatiukur / ITB)</option>
                       <option value="-6.8924,107.5982|Bandung Sukajadi (Pasteur)">Bandung Sukajadi (Pasteur / PVJ / Setiabudi)</option>
@@ -1128,43 +1128,14 @@
                       <option value="-6.8167,107.6167|Lembang Bandung Barat">Lembang &amp; Bandung Barat</option>
                       <option value="-6.8722,107.5422|Kota Cimahi">Kota Cimahi</option>
                     </optgroup>
-                    <optgroup label="Nusa Tenggara Barat (NTB)">
-                      <option value="-8.706427,116.269424|Kota Praya / Lombok Tengah">Kota Praya / Lombok Tengah (NTB)</option>
-                      <option value="-8.5833,116.1167|Kota Mataram">Kota Mataram (NTB)</option>
-                      <option value="-8.6500,116.5333|Selong, Lombok Timur">Selong / Lombok Timur (NTB)</option>
-                      <option value="-8.3500,116.1500|Tanjung, Lombok Utara">Tanjung / Lombok Utara (NTB)</option>
-                      <option value="-8.4933,117.4206|Sumbawa Besar">Sumbawa Besar (NTB)</option>
-                      <option value="-8.4608,118.7269|Kota Bima">Kota Bima (NTB)</option>
-                    </optgroup>
-                    <optgroup label="DKI Jakarta &amp; Bodetabek">
-                      <option value="-6.2088,106.8456|Jakarta Pusat">DKI Jakarta (Pusat / Sudirman)</option>
-                      <option value="-6.2615,106.8106|Jakarta Selatan">DKI Jakarta (Selatan / Kebayoran)</option>
-                      <option value="-6.1683,106.7588|Jakarta Barat">DKI Jakarta (Barat)</option>
-                      <option value="-6.2250,106.9004|Jakarta Timur">DKI Jakarta (Timur)</option>
-                      <option value="-6.1384,106.8640|Jakarta Utara">DKI Jakarta (Utara / Kelapa Gading)</option>
-                      <option value="-6.1783,106.6319|Kota Tangerang">Tangerang &amp; BSD City (Banten)</option>
-                      <option value="-6.5971,106.8060|Kota Bogor">Kota &amp; Kab. Bogor (Jawa Barat)</option>
-                      <option value="-6.4025,106.7942|Kota Depok">Kota Depok (Jawa Barat)</option>
-                      <option value="-6.2383,106.9756|Kota Bekasi">Kota &amp; Kab. Bekasi (Jawa Barat)</option>
-                    </optgroup>
-                    <optgroup label="Wilayah Lainnya di Seluruh Indonesia">
-                      <option value="-7.9666,112.6326|Kota Malang">Kota Malang (Jawa Timur)</option>
-                      <option value="-6.9667,110.4167|Kota Semarang">Kota Semarang (Jawa Tengah)</option>
-                      <option value="-7.7956,110.3695|Kota Yogyakarta">Kota Yogyakarta (DI Yogyakarta)</option>
-                      <option value="-7.5755,110.8243|Kota Surakarta (Solo)">Kota Surakarta (Solo)</option>
-                      <option value="-8.6705,115.2126|Kota Denpasar">Kota Denpasar (Bali)</option>
-                      <option value="-8.7185,115.1686|Kuta Badung">Kuta &amp; Seminyak (Bali)</option>
-                      <option value="3.5952,98.6722|Kota Medan">Kota Medan (Sumatera Utara)</option>
-                      <option value="-5.1477,119.4327|Kota Makassar">Kota Makassar (Sulawesi Selatan)</option>
-                    </optgroup>
                   </select>
                 </div>
               </div>
 
-              {{-- PENCARIAN ALAMAT SE-INDONESIA DENGAN REKOMENDASI LIVE --}}
+              {{-- PENCARIAN ALAMAT SE-SURABAYA & BANDUNG DENGAN REKOMENDASI LIVE --}}
               <div class="map-search-row">
                 <div class="map-search-input-wrap">
-                  <input type="text" id="map_search_input" class="form-control map-search-input" placeholder="🔍 Cari kota, kecamatan, kelurahan, kampung (Contoh: Kota Praya Kampung Pengendong)..." autocomplete="off">
+                  <input type="text" id="map_search_input" class="form-control map-search-input" placeholder="🔍 Cari jalan, kelurahan, atau kecamatan (Contoh: Darmo, Dago, Rungkut, Sukajadi)..." autocomplete="off">
                   <div id="map_search_results" class="map-dropdown-results" style="display: none;"></div>
                 </div>
                 <button type="button" id="btn_map_search" class="btn-search-pin">
@@ -1196,7 +1167,7 @@
               {{-- REKOMENDASI ALAMAT TERDETEKSI --}}
               <div id="box_detected_address" class="detected-addr-box">
                 <div style="flex: 1; min-width: 200px;">
-                  <strong>✨ Titik Alamat Peta:</strong> <span id="detected_address_text">Pusat Hub Kota Surabaya (Darmo)</span>
+                  <strong>✨ Titik Alamat Peta:</strong> <span id="detected_address_text">Kota Surabaya (Darmo)</span>
                 </div>
                 <button type="button" id="btn_sync_address" style="background: #059669; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; font-size: 11.5px; font-weight: 700; cursor: pointer; white-space: nowrap;">
                   📋 Salin ke Formulir Alamat
@@ -1217,12 +1188,12 @@
             <div class="checkout-input-grid">
               <div class="form-group">
                 <label for="city">Kota / Kabupaten</label>
-                <input type="text" name="city" id="city" class="form-control" value="{{ old('city') }}" placeholder="Contoh: Jakarta Selatan">
+                <input type="text" name="city" id="city" class="form-control" value="{{ old('city') }}" placeholder="Contoh: Kota Surabaya atau Kota Bandung">
               </div>
 
               <div class="form-group">
                 <label for="postal_code">Kode Pos</label>
-                <input type="text" name="postal_code" id="postal_code" class="form-control" value="{{ old('postal_code') }}" placeholder="Contoh: 12180">
+                <input type="text" name="postal_code" id="postal_code" class="form-control" value="{{ old('postal_code') }}" placeholder="Contoh: 60241 atau 40115">
               </div>
             </div>
 
@@ -1242,7 +1213,7 @@
               <div class="pickup-store-grid">
                 <label id="pickup_card_surabaya" class="pickup-store-option active">
                   <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-                    <div style="font-weight: 800; font-size: 13px; color: #722F37;">🏬 BUTIK HUB SURABAYA</div>
+                    <div style="font-weight: 800; font-size: 13px; color: #722F37;">🏬 BUTIK SURABAYA</div>
                     <input type="radio" name="pickup_branch" value="surabaya" checked onchange="selectPickupBranch('surabaya')">
                   </div>
                   <div style="font-size: 12px; color: #334155; line-height: 1.4;">Jl. Raya Darmo No. 45, Wonokromo, Kota Surabaya, Jawa Timur</div>
@@ -1251,14 +1222,14 @@
 
                 <label id="pickup_card_bandung" class="pickup-store-option">
                   <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
-                    <div style="font-weight: 800; font-size: 13px; color: #722F37;">🏬 BUTIK HUB BANDUNG</div>
+                    <div style="font-weight: 800; font-size: 13px; color: #722F37;">🏬 BUTIK BANDUNG</div>
                     <input type="radio" name="pickup_branch" value="bandung" onchange="selectPickupBranch('bandung')">
                   </div>
                   <div style="font-size: 12px; color: #334155; line-height: 1.4;">Jl. LLRE Martadinata (Riau) No. 68, Citarum, Kota Bandung, Jawa Barat</div>
                   <div style="font-size: 11px; color: #64748b; margin-top: 6px;">⏰ Buka: 08:00 - 20:00 WIB • Ready Stock &amp; Custom Hampers</div>
                 </label>
               </div>
-              <input type="hidden" name="address" id="pickup_store_address" value="Store Pick Up: Butik Hub Surabaya (Jl. Raya Darmo No. 45, Wonokromo, Kota Surabaya)">
+              <input type="hidden" name="address" id="pickup_store_address" value="Store Pick Up: Butik Surabaya (Jl. Raya Darmo No. 45, Wonokromo, Kota Surabaya)">
             </div>
 
             <div class="form-group">
@@ -1703,7 +1674,7 @@
     if (hubKey === 'bandung') {
       lat = -6.9174639;
       lon = 107.6191228;
-      title = '🏬 HUB 2: KOTA BANDUNG';
+      title = '🏬 KOTA BANDUNG';
       sub = 'Jl. LLRE Martadinata (Riau) No. 68, Citarum, Kota Bandung';
       cityName = 'Kota Bandung';
       if (btnBdg) btnBdg.classList.add('active');
@@ -1712,7 +1683,7 @@
       // Default Surabaya
       lat = -7.2574719;
       lon = 112.7520883;
-      title = '🏬 HUB 1: KOTA SURABAYA';
+      title = '🏬 KOTA SURABAYA';
       sub = 'Jl. Raya Darmo No. 45, Wonokromo, Kota Surabaya';
       cityName = 'Kota Surabaya';
       if (btnSby) btnSby.classList.add('active');
@@ -1743,11 +1714,11 @@
     if (branch === 'bandung') {
       if (cardBdg) cardBdg.classList.add('active');
       if (cardSby) cardSby.classList.remove('active');
-      if (hiddenAddr) hiddenAddr.value = 'Store Pick Up: Butik Hub Bandung (Jl. LLRE Martadinata No. 68, Citarum, Kota Bandung)';
+      if (hiddenAddr) hiddenAddr.value = 'Store Pick Up: Butik Bandung (Jl. LLRE Martadinata No. 68, Citarum, Kota Bandung)';
     } else {
       if (cardSby) cardSby.classList.add('active');
       if (cardBdg) cardBdg.classList.remove('active');
-      if (hiddenAddr) hiddenAddr.value = 'Store Pick Up: Butik Hub Surabaya (Jl. Raya Darmo No. 45, Wonokromo, Kota Surabaya)';
+      if (hiddenAddr) hiddenAddr.value = 'Store Pick Up: Butik Surabaya (Jl. Raya Darmo No. 45, Wonokromo, Kota Surabaya)';
     }
   }
 
@@ -1963,52 +1934,23 @@
     const noticeText = document.getElementById('map_smart_notice_text');
 
     const INDONESIA_RECOMMENDATIONS = [
-      // ⭐ FOKUS UTAMA 1: KOTA SURABAYA & SEKITARNYA (JAWA TIMUR)
-      { name: "Kota Surabaya", sub: "Jawa Timur (Pusat Hub Darmo / Gubeng)", lat: -7.2575, lon: 112.7521, type: "Hub 1 Utama", keywords: ["surabaya", "kota surabaya", "darmo", "gubeng", "basuki rahmat", "jatim"] },
+      // KOTA SURABAYA & SEKITARNYA (JAWA TIMUR)
+      { name: "Kota Surabaya", sub: "Pusat Kota (Darmo / Gubeng / Basuki Rahmat), Jawa Timur", lat: -7.2575, lon: 112.7521, type: "Surabaya Pusat", keywords: ["surabaya", "kota surabaya", "darmo", "gubeng", "basuki rahmat", "jatim"] },
       { name: "Surabaya Barat", sub: "Pakuwon Mall / Citraland / HR Muhammad, Surabaya", lat: -7.2886, lon: 112.6756, type: "Surabaya Barat", keywords: ["pakuwon", "citraland", "hr muhammad", "mayjend sungkono", "surabaya barat"] },
       { name: "Surabaya Timur", sub: "Rungkut / Mulyorejo / Sukolilo / Merr, Surabaya", lat: -7.3185, lon: 112.7758, type: "Surabaya Timur", keywords: ["rungkut", "mulyorejo", "sukolilo", "merr", "surabaya timur", "galaxy mall"] },
       { name: "Surabaya Selatan", sub: "Wonokromo / Gayungan / A. Yani, Surabaya", lat: -7.2892, lon: 112.7342, type: "Surabaya Selatan", keywords: ["wonokromo", "gayungan", "a yani", "jambangan", "surabaya selatan"] },
       { name: "Surabaya Utara", sub: "Perak / Kenjeran / Ampel, Surabaya", lat: -7.2285, lon: 112.7512, type: "Surabaya Utara", keywords: ["kenjeran", "perak", "ampel", "surabaya utara"] },
-      { name: "Kabupaten Sidoarjo", sub: "Waru / Gedangan / Alun-alun Kota Sidoarjo", lat: -7.4478, lon: 112.7183, type: "Area Sekitar Sby", keywords: ["sidoarjo", "waru", "gedangan"] },
-      { name: "Kabupaten Gresik", sub: "Kebomas / Manyar / Kota Gresik", lat: -7.1566, lon: 112.6555, type: "Area Sekitar Sby", keywords: ["gresik", "kebomas", "manyar"] },
+      { name: "Kabupaten Sidoarjo", sub: "Waru / Gedangan / Alun-alun Kota Sidoarjo", lat: -7.4478, lon: 112.7183, type: "Sidoarjo", keywords: ["sidoarjo", "waru", "gedangan"] },
+      { name: "Kabupaten Gresik", sub: "Kebomas / Manyar / Kota Gresik", lat: -7.1566, lon: 112.6555, type: "Gresik", keywords: ["gresik", "kebomas", "manyar"] },
 
-      // ⭐ FOKUS UTAMA 2: KOTA BANDUNG & SEKITARNYA (JAWA BARAT)
-      { name: "Kota Bandung", sub: "Jawa Barat (Pusat Hub Jl. Riau / Asia Afrika)", lat: -6.9175, lon: 107.6191, type: "Hub 2 Utama", keywords: ["bandung", "kota bandung", "riau", "martadinata", "asia afrika", "braga", "jabar"] },
+      // KOTA BANDUNG & SEKITARNYA (JAWA BARAT)
+      { name: "Kota Bandung", sub: "Pusat Kota (Jl. Riau / Asia Afrika / Braga), Jawa Barat", lat: -6.9175, lon: 107.6191, type: "Bandung Pusat", keywords: ["bandung", "kota bandung", "riau", "martadinata", "asia afrika", "braga", "jabar"] },
       { name: "Bandung Dago", sub: "Coblong / Dipatiukur / ITB, Kota Bandung", lat: -6.8833, lon: 107.6167, type: "Bandung Utara", keywords: ["dago", "coblong", "dipatiukur", "itb", "bandung utara"] },
       { name: "Bandung Sukajadi", sub: "Pasteur / PVJ / Setiabudi, Kota Bandung", lat: -6.8924, lon: 107.5982, type: "Bandung Barat", keywords: ["sukajadi", "pasteur", "pvj", "setiabudi", "paris van java"] },
       { name: "Bandung Buahbatu", sub: "Batununggal / Lengkong, Kota Bandung", lat: -6.9532, lon: 107.6358, type: "Bandung Selatan", keywords: ["buahbatu", "buah batu", "batununggal", "lengkong", "bandung selatan"] },
       { name: "Bandung Antapani", sub: "Arcamanik / Cisaranten, Kota Bandung", lat: -6.9167, lon: 107.6667, type: "Bandung Timur", keywords: ["antapani", "arcamanik", "cisaranten", "bandung timur"] },
-      { name: "Lembang", sub: "Bandung Barat, Jawa Barat", lat: -6.8167, lon: 107.6167, type: "Area Sekitar Bdg", keywords: ["lembang", "bandung barat"] },
-      { name: "Kota Cimahi", sub: "Jawa Barat", lat: -6.8722, lon: 107.5422, type: "Area Sekitar Bdg", keywords: ["cimahi", "kota cimahi"] },
-
-      // WILAYAH POPULER & KOTA LAINNYA DI SELURUH INDONESIA
-      { name: "Kota Praya", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.7064272, lon: 116.2694240, type: "Kota", keywords: ["praya", "kota praya", "lombok tengah", "ntb"] },
-      { name: "Kampung Pengendong", sub: "Praya, Lombok Tengah, Nusa Tenggara Barat", lat: -8.7064272, lon: 116.2694240, type: "Kampung / Dusun", keywords: ["pengendong", "kampung pengendong", "praya pengendong"] },
-      { name: "Praya Tengah", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.6982128, lon: 116.3136853, type: "Kecamatan", keywords: ["praya tengah", "tengah"] },
-      { name: "Praya Barat", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.7380757, lon: 116.2438237, type: "Kecamatan", keywords: ["praya barat", "barat"] },
-      { name: "Praya Timur", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.7500000, lon: 116.3500000, type: "Kecamatan", keywords: ["praya timur", "timur"] },
-      { name: "Praya Barat Daya", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.8000000, lon: 116.1800000, type: "Kecamatan", keywords: ["praya barat daya"] },
-      { name: "Kuta Mandalika / Pujut", sub: "Lombok Tengah, Nusa Tenggara Barat", lat: -8.8916670, lon: 116.2833330, type: "Kawasan Wisata", keywords: ["kuta", "mandalika", "pujut"] },
-      { name: "Kota Mataram", sub: "Nusa Tenggara Barat", lat: -8.5833, lon: 116.1167, type: "Kota", keywords: ["mataram", "ampenan", "cakranegara"] },
-      { name: "Selong", sub: "Lombok Timur, Nusa Tenggara Barat", lat: -8.6500, lon: 116.5333, type: "Kota", keywords: ["selong", "lombok timur"] },
-      { name: "Tanjung", sub: "Lombok Utara, Nusa Tenggara Barat", lat: -8.3500, lon: 116.1500, type: "Kota", keywords: ["tanjung", "lombok utara"] },
-      { name: "Sumbawa Besar", sub: "Nusa Tenggara Barat", lat: -8.4933, lon: 117.4206, type: "Kota", keywords: ["sumbawa", "sumbawa besar"] },
-      { name: "Kota Bima", sub: "Nusa Tenggara Barat", lat: -8.4608, lon: 118.7269, type: "Kota", keywords: ["bima", "kota bima"] },
-      { name: "Jakarta Pusat", sub: "DKI Jakarta (Sudirman / Thamrin)", lat: -6.2088, lon: 106.8456, type: "Kota", keywords: ["jakarta", "jakarta pusat", "sudirman", "menteng"] },
-      { name: "Jakarta Selatan", sub: "DKI Jakarta (Kebayoran / Kemang)", lat: -6.2615, lon: 106.8106, type: "Kota", keywords: ["jakarta selatan", "kemang", "kebayoran", "senayan"] },
-      { name: "Jakarta Barat", sub: "DKI Jakarta", lat: -6.1683, lon: 106.7588, type: "Kota", keywords: ["jakarta barat", "puri", "kebon jeruk"] },
-      { name: "Jakarta Timur", sub: "DKI Jakarta", lat: -6.2250, lon: 106.9004, type: "Kota", keywords: ["jakarta timur", "rawamangun", "cakung"] },
-      { name: "Jakarta Utara", sub: "DKI Jakarta (Kelapa Gading / PIK)", lat: -6.1384, lon: 106.8640, type: "Kota", keywords: ["jakarta utara", "kelapa gading", "pik", "pluit"] },
-      { name: "Kota Tangerang & BSD", sub: "Banten", lat: -6.1783, lon: 106.6319, type: "Kota", keywords: ["tangerang", "bsd", "serpong", "alamsutera"] },
-      { name: "Kota Malang", sub: "Jawa Timur", lat: -7.9666, lon: 112.6326, type: "Kota", keywords: ["malang", "batu"] },
-      { name: "Kota Semarang", sub: "Jawa Tengah", lat: -6.9667, lon: 110.4167, type: "Kota", keywords: ["semarang", "simpang lima"] },
-      { name: "Kota Yogyakarta", sub: "DI Yogyakarta (Malioboro)", lat: -7.7956, lon: 110.3695, type: "Kota", keywords: ["jogja", "yogyakarta", "malioboro", "sleman"] },
-      { name: "Kota Surakarta (Solo)", sub: "Jawa Tengah", lat: -7.5755, lon: 110.8243, type: "Kota", keywords: ["solo", "surakarta"] },
-      { name: "Denpasar", sub: "Bali", lat: -8.6705, lon: 115.2126, type: "Kota", keywords: ["denpasar", "bali", "sanur"] },
-      { name: "Kuta & Seminyak", sub: "Badung, Bali", lat: -8.7185, lon: 115.1686, type: "Kawasan", keywords: ["kuta", "seminyak", "canggu", "badung"] },
-      { name: "Ubud", sub: "Gianyar, Bali", lat: -8.5069, lon: 115.2625, type: "Kawasan", keywords: ["ubud", "gianyar"] },
-      { name: "Kota Medan", sub: "Sumatera Utara", lat: 3.5952, lon: 98.6722, type: "Kota", keywords: ["medan"] },
-      { name: "Kota Makassar", sub: "Sulawesi Selatan", lat: -5.1477, lon: 119.4327, type: "Kota", keywords: ["makassar"] },
+      { name: "Lembang", sub: "Bandung Barat, Jawa Barat", lat: -6.8167, lon: 107.6167, type: "Lembang", keywords: ["lembang", "bandung barat"] },
+      { name: "Kota Cimahi", sub: "Jawa Barat", lat: -6.8722, lon: 107.5422, type: "Cimahi", keywords: ["cimahi", "kota cimahi"] },
     ];
 
     function highlightMatch(text, query) {
@@ -2060,17 +2002,16 @@
       pillsRow.className = 'map-quick-pills-row';
 
       const popularItems = [
-        { name: "🏬 Surabaya (Hub Darmo)", lat: -7.2575, lon: 112.7521 },
-        { name: "🏬 Bandung (Hub Riau)", lat: -6.9175, lon: 107.6191 },
+        { name: "🏬 Surabaya (Darmo)", lat: -7.2575, lon: 112.7521 },
+        { name: "🏬 Bandung (Riau)", lat: -6.9175, lon: 107.6191 },
         { name: "📍 Pakuwon Sby", lat: -7.2886, lon: 112.6756 },
         { name: "📍 Dago Bandung", lat: -6.8833, lon: 107.6167 },
         { name: "📍 Rungkut Sby", lat: -7.3185, lon: 112.7758 },
         { name: "📍 Sukajadi Bdg", lat: -6.8924, lon: 107.5982 },
         { name: "📍 Sidoarjo", lat: -7.4478, lon: 112.7183 },
         { name: "📍 Lembang", lat: -6.8167, lon: 107.6167 },
-        { name: "📍 Kota Praya (NTB)", lat: -8.7064272, lon: 116.2694240 },
-        { name: "📍 Jakarta Pusat", lat: -6.2088, lon: 106.8456 },
-        { name: "📍 Bali (Denpasar)", lat: -8.6705, lon: 115.2126 },
+        { name: "📍 Buahbatu Bdg", lat: -6.9532, lon: 107.6358 },
+        { name: "📍 Kota Cimahi", lat: -6.8722, lon: 107.5422 },
       ];
 
       popularItems.forEach(function(pop) {
@@ -2106,9 +2047,7 @@
       const matchedLocal = INDONESIA_RECOMMENDATIONS.filter(function(place) {
         const fullString = (place.name + ' ' + place.sub + ' ' + (place.keywords || []).join(' ')).toLowerCase();
         return qTokens.every(token => fullString.includes(token)) ||
-               place.name.toLowerCase().includes(cleanQ) ||
-               (cleanQ.includes('praya') && place.name.toLowerCase().includes('praya')) ||
-               (cleanQ.includes('pengendong') && place.name.toLowerCase().includes('pengendong'));
+               place.name.toLowerCase().includes(cleanQ);
       });
 
       const header = document.createElement('div');
@@ -2153,7 +2092,7 @@
       loadingFooter.style.display = 'flex';
       loadingFooter.style.alignItems = 'center';
       loadingFooter.style.gap = '6px';
-      loadingFooter.innerHTML = '<span>⏳</span> <span>Mencari titik spesifik se-Indonesia...</span>';
+      loadingFooter.innerHTML = '<span>⏳</span> <span>Mencari titik alamat di Surabaya &amp; Bandung...</span>';
       resultsDiv.appendChild(loadingFooter);
 
       // 2. Fetch live data from OpenStreetMap Nominatim proxy API
