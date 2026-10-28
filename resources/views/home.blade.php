@@ -1391,6 +1391,544 @@
     color: #3e5a4d;
     line-height: 1.4;
   }
+
+  /* ===================== MULTI-THEME SYSTEM (BURGUNDY TERANG & PUTIH, WINE DARK, EMERALD) ===================== */
+  
+  /* THEME SWITCHER BAR & FLOATING WIDGET */
+  .site-theme-bar {
+    background: #ffffff;
+    border-top: 1px solid #f0d5dd;
+    border-bottom: 2px solid #ecd5dc;
+    padding: 12px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    position: relative;
+    z-index: 20;
+    transition: all 0.3s ease;
+  }
+  body.theme-wine-dark .site-theme-bar {
+    background: #1f0714 !important;
+    border-top-color: rgba(212, 175, 55, 0.2) !important;
+    border-bottom-color: rgba(212, 175, 55, 0.3) !important;
+  }
+  body.theme-emerald .site-theme-bar {
+    background: #082116 !important;
+    border-top-color: rgba(212, 175, 55, 0.2) !important;
+    border-bottom-color: rgba(212, 175, 55, 0.3) !important;
+  }
+  .site-theme-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .theme-bar-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #780d26;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  body.theme-wine-dark .theme-bar-label,
+  body.theme-emerald .theme-bar-label {
+    color: #fef08a !important;
+  }
+  .theme-pills-list {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .theme-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 15px;
+    border-radius: 50px;
+    border: 1.5px solid #e5c3cc;
+    background: #ffffff;
+    color: #5c0b1f;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    user-select: none;
+  }
+  body.theme-wine-dark .theme-pill-btn {
+    background: #2a0c1c;
+    border-color: rgba(212, 175, 55, 0.3);
+    color: #cbd5e1;
+  }
+  body.theme-emerald .theme-pill-btn {
+    background: #0d2c1f;
+    border-color: rgba(212, 175, 55, 0.3);
+    color: #cbd5e1;
+  }
+  .theme-pill-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(159, 24, 60, 0.15);
+    border-color: #9f183c;
+  }
+  body.theme-wine-dark .theme-pill-btn:hover,
+  body.theme-emerald .theme-pill-btn:hover {
+    border-color: #fef08a;
+    color: #fef08a;
+  }
+  .theme-pill-btn.active {
+    background: linear-gradient(135deg, #9f183c 0%, #780d26 100%) !important;
+    color: #ffffff !important;
+    border-color: #780d26 !important;
+    box-shadow: 0 4px 14px rgba(159, 24, 60, 0.3) !important;
+  }
+  .theme-pill-btn[data-theme="wine-dark"].active {
+    background: linear-gradient(135deg, #380e25 0%, #16050e 100%) !important;
+    color: #fef08a !important;
+    border-color: #e6ca65 !important;
+    box-shadow: 0 4px 14px rgba(230, 202, 101, 0.25) !important;
+  }
+  .theme-pill-btn[data-theme="emerald"].active {
+    background: linear-gradient(135deg, #0e3d29 0%, #061a12 100%) !important;
+    color: #fef08a !important;
+    border-color: #e6ca65 !important;
+    box-shadow: 0 4px 14px rgba(230, 202, 101, 0.25) !important;
+  }
+  .swatch-circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1.5px solid rgba(0,0,0,0.15);
+    flex-shrink: 0;
+  }
+  .swatch-burgundy-white {
+    background: linear-gradient(135deg, #9f183c 50%, #ffffff 50%);
+    border-color: #780d26;
+  }
+  .swatch-wine-dark {
+    background: linear-gradient(135deg, #16050e 50%, #d4af37 50%);
+    border-color: #d4af37;
+  }
+  .swatch-emerald {
+    background: linear-gradient(135deg, #061a12 50%, #d4af37 50%);
+    border-color: #d4af37;
+  }
+  .theme-check-mark {
+    font-size: 11px;
+    font-weight: 800;
+    display: none;
+  }
+  .theme-pill-btn.active .theme-check-mark {
+    display: inline;
+  }
+
+  /* Floating Theme Toggle Widget */
+  .floating-theme-toggle {
+    position: fixed;
+    bottom: 84px;
+    left: 20px;
+    z-index: 999;
+  }
+  .floating-theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #780d26;
+    border: 2px solid #9f183c;
+    padding: 9px 15px;
+    border-radius: 50px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    transition: all 0.25s ease;
+  }
+  body.theme-wine-dark .floating-theme-btn {
+    background: #1f0714;
+    color: #fef08a;
+    border-color: #e6ca65;
+  }
+  body.theme-emerald .floating-theme-btn {
+    background: #082116;
+    color: #fef08a;
+    border-color: #e6ca65;
+  }
+  .floating-theme-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+  .floating-theme-menu {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 0;
+    background: #ffffff;
+    border: 1px solid #ecd5dc;
+    border-radius: 12px;
+    padding: 10px;
+    width: 250px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+  }
+  body.theme-wine-dark .floating-theme-menu {
+    background: #200814;
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+  body.theme-emerald .floating-theme-menu {
+    background: #0a261b;
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+  .floating-theme-menu.show {
+    display: flex;
+    animation: floatFadeIn 0.2s ease-out;
+  }
+  .floating-theme-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #9f183c;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #f0d5dd;
+    margin-bottom: 4px;
+  }
+  body.theme-wine-dark .floating-theme-title,
+  body.theme-emerald .floating-theme-title {
+    color: #fef08a;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+  .floating-theme-opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: #2b0c16;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition: all 0.2s;
+  }
+  body.theme-wine-dark .floating-theme-opt,
+  body.theme-emerald .floating-theme-opt {
+    color: #f1f5f9;
+  }
+  .floating-theme-opt:hover {
+    background: #fdf2f4;
+    border-color: #ecd5dc;
+  }
+  body.theme-wine-dark .floating-theme-opt:hover {
+    background: rgba(230, 202, 101, 0.1);
+    border-color: rgba(230, 202, 101, 0.3);
+  }
+  body.theme-emerald .floating-theme-opt:hover {
+    background: rgba(230, 202, 101, 0.1);
+    border-color: rgba(230, 202, 101, 0.3);
+  }
+  .floating-theme-opt.active {
+    background: #fef2f4;
+    color: #9f183c;
+    font-weight: 700;
+    border-color: #9f183c;
+  }
+  body.theme-wine-dark .floating-theme-opt.active {
+    background: rgba(230, 202, 101, 0.15);
+    color: #fef08a;
+    border-color: #e6ca65;
+  }
+  body.theme-emerald .floating-theme-opt.active {
+    background: rgba(230, 202, 101, 0.15);
+    color: #fef08a;
+    border-color: #e6ca65;
+  }
+
+  /* ===================== THEME 1: BURGUNDY TERANG & PUTIH ===================== */
+  body.theme-burgundy-white {
+    background-color: #ffffff !important;
+    color: #2c0a15 !important;
+  }
+  body.theme-burgundy-white .top {
+    background: #6a0d24 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+  body.theme-burgundy-white .top nav a {
+    color: #ffd1dc !important;
+  }
+  body.theme-burgundy-white .top nav a:hover {
+    color: #ffffff !important;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6) !important;
+  }
+  body.theme-burgundy-white .luxury-header-bar {
+    background: #87102e !important;
+    border-bottom: 2px solid #e6ca65 !important;
+  }
+  body.theme-burgundy-white .logo-title-majestic {
+    background: linear-gradient(135deg, #ffffff 0%, #fef08a 50%, #e6ca65 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  body.theme-burgundy-white .logo-subtext-clean {
+    color: #ffd1dc !important;
+  }
+  body.theme-burgundy-white .header-menu-wrap-btn .menu-btn-text {
+    color: #ffffff !important;
+  }
+  body.theme-burgundy-white .hamburger-icon-bars span {
+    background: #ffffff !important;
+  }
+
+  /* Hero Section in Burgundy Terang */
+  body.theme-burgundy-white .hero-wine {
+    background: linear-gradient(135deg, #780d26 0%, #9f183c 50%, #850f2c 100%) !important;
+  }
+  body.theme-burgundy-white .hero-slide-overlay {
+    background: radial-gradient(circle at center, rgba(159, 24, 60, 0.35) 0%, rgba(90, 8, 28, 0.85) 100%) !important;
+  }
+  body.theme-burgundy-white .hero-brand-badge {
+    border-color: rgba(254, 240, 138, 0.6) !important;
+    color: #fef08a !important;
+  }
+  body.theme-burgundy-white .hero-wine-title {
+    background: linear-gradient(135deg, #ffffff 0%, #fef08a 45%, #e6ca65 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+  body.theme-burgundy-white .hero-signature-quote {
+    color: #fef08a !important;
+  }
+  body.theme-burgundy-white .hero-wine-desc {
+    color: #fdf2f4 !important;
+  }
+  body.theme-burgundy-white .btn-gold-luxury {
+    background: linear-gradient(135deg, #ffffff 0%, #fef08a 40%, #e6ca65 100%) !important;
+    color: #6a0d24 !important;
+    font-weight: 800 !important;
+    border: 1px solid #ffffff !important;
+  }
+
+  /* Story & Quality Cert Section */
+  body.theme-burgundy-white .story-cert-section {
+    background: #ffffff !important;
+    border-bottom: 1px solid #f0d5dd !important;
+  }
+  body.theme-burgundy-white .story-tag-pill {
+    background: #fdf2f4 !important;
+    color: #9f183c !important;
+    border: 1px solid #f1c2cd !important;
+  }
+  body.theme-burgundy-white .story-title {
+    color: #780d26 !important;
+  }
+  body.theme-burgundy-white .story-desc {
+    color: #3b1420 !important;
+  }
+  body.theme-burgundy-white .story-divider-gold {
+    background: linear-gradient(90deg, #9f183c, #e6ca65, transparent) !important;
+  }
+  body.theme-burgundy-white .btn-story-luxury {
+    background: linear-gradient(135deg, #9f183c 0%, #780d26 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(159, 24, 60, 0.25) !important;
+  }
+  body.theme-burgundy-white .cert-card-luxury {
+    background: #ffffff !important;
+    border: 1px solid #ecd5dc !important;
+    box-shadow: 0 4px 16px rgba(159, 24, 60, 0.06) !important;
+  }
+  body.theme-burgundy-white .cert-luxury-label {
+    color: #780d26 !important;
+  }
+  body.theme-burgundy-white .cert-luxury-sub {
+    color: #5c2030 !important;
+  }
+  body.theme-burgundy-white .cert-mini-badge {
+    background: #fdf2f4 !important;
+    color: #9f183c !important;
+    border-color: #f1c2cd !important;
+  }
+  body.theme-burgundy-white .trust-badge-item {
+    background: #fdf5f7 !important;
+    border: 1px solid #f1d5dc !important;
+  }
+  body.theme-burgundy-white .trust-badge-item strong {
+    color: #780d26 !important;
+  }
+  body.theme-burgundy-white .trust-badge-item small {
+    color: #6d2c3e !important;
+  }
+
+  /* Category Slider */
+  body.theme-burgundy-white .category-slider-section {
+    background: #fdf8f9 !important;
+    border-bottom: 1px solid #f1dbe1 !important;
+  }
+  body.theme-burgundy-white .cat-eyebrow-ref {
+    color: #9f183c !important;
+  }
+  body.theme-burgundy-white .cat-title-ref {
+    color: #4f0818 !important;
+  }
+  body.theme-burgundy-white .ref-cat-card {
+    background: #ffffff !important;
+    border: 1px solid #ecd5dc !important;
+    box-shadow: 0 6px 20px rgba(159, 24, 60, 0.07) !important;
+  }
+  body.theme-burgundy-white .ref-cat-pill {
+    background: #ffffff !important;
+    color: #780d26 !important;
+    border: 1px solid #f1c2cd !important;
+  }
+
+  /* Product Showcase Rows */
+  body.theme-burgundy-white .showcase-row-section {
+    background: #ffffff !important;
+    border-bottom: 1px solid #f3e2e6 !important;
+  }
+  body.theme-burgundy-white .showcase-row-section:nth-of-type(even) {
+    background: #fdf8f9 !important;
+  }
+  body.theme-burgundy-white .showcase-title-ref {
+    color: #630a1e !important;
+  }
+  body.theme-burgundy-white .showcase-center-pill {
+    border-color: #9f183c !important;
+    color: #9f183c !important;
+    background: #ffffff !important;
+  }
+  body.theme-burgundy-white .showcase-center-pill:hover {
+    background: #9f183c !important;
+    color: #ffffff !important;
+  }
+  body.theme-burgundy-white .ref-white-card {
+    background: #ffffff !important;
+    border: 1px solid #ecd5dc !important;
+    box-shadow: 0 4px 16px rgba(159, 24, 60, 0.06) !important;
+  }
+  body.theme-burgundy-white .ref-white-card:hover {
+    border-color: #9f183c !important;
+    box-shadow: 0 8px 24px rgba(159, 24, 60, 0.12) !important;
+  }
+  body.theme-burgundy-white .ref-white-title {
+    color: #2b0c16 !important;
+  }
+  body.theme-burgundy-white .ref-white-price {
+    color: #9f183c !important;
+  }
+  body.theme-burgundy-white .ref-white-cart-btn {
+    background: linear-gradient(135deg, #9f183c 0%, #780d26 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid #f1c2cd !important;
+  }
+  body.theme-burgundy-white .ref-white-cart-btn:hover {
+    background: #54081c !important;
+    color: #ffffff !important;
+  }
+
+  /* Split Reviews & Gallery */
+  body.theme-burgundy-white .split-reviews-gallery {
+    background: #ffffff !important;
+    border-bottom: 1px solid #f0d5dd !important;
+  }
+  body.theme-burgundy-white .split-reviews-gallery h2 {
+    color: #5c0b1f !important;
+  }
+  body.theme-burgundy-white .review-box-card {
+    background: #ffffff !important;
+    border: 1px solid #eed9df !important;
+    box-shadow: 0 6px 20px rgba(159, 24, 60, 0.06) !important;
+  }
+  body.theme-burgundy-white .review-quote {
+    color: #2e0e18 !important;
+  }
+  body.theme-burgundy-white .review-author-name {
+    color: #780d26 !important;
+  }
+  body.theme-burgundy-white .gallery-tab-btn {
+    background: #ffffff !important;
+    border: 1.5px solid #e5c3cc !important;
+    color: #780d26 !important;
+  }
+  body.theme-burgundy-white .gallery-tab-btn.active {
+    background: #9f183c !important;
+    border-color: #9f183c !important;
+    color: #ffffff !important;
+  }
+  body.theme-burgundy-white .gallery-item {
+    border-color: #ecd5dc !important;
+  }
+
+  /* Value Pillars Bar */
+  body.theme-burgundy-white .value-pillars-bar {
+    background: linear-gradient(135deg, #780d26 0%, #9f183c 100%) !important;
+  }
+  body.theme-burgundy-white .pillar-item .pillar-icon {
+    color: #fef08a !important;
+  }
+  body.theme-burgundy-white .pillar-text h4 {
+    color: #ffffff !important;
+  }
+  body.theme-burgundy-white .pillar-text p {
+    color: #fed7e2 !important;
+  }
+
+  /* Footer in Burgundy */
+  body.theme-burgundy-white .luxury-royal-footer {
+    background: #54081c !important;
+    border-top: 2px solid #e6ca65 !important;
+  }
+  body.theme-burgundy-white .footer-bottom-bar {
+    background: #3e0514 !important;
+  }
+
+  /* ===================== THEME 3: ROYAL EMERALD & GOLD ===================== */
+  body.theme-emerald {
+    background-color: #061a12 !important;
+    color: #f1f5f9 !important;
+  }
+  body.theme-emerald .top {
+    background: #04100b !important;
+  }
+  body.theme-emerald .luxury-header-bar {
+    background: #092419 !important;
+    border-bottom: 2px solid #b89243 !important;
+  }
+  body.theme-emerald .hero-wine {
+    background: #061a12 !important;
+  }
+  body.theme-emerald .hero-slide-overlay {
+    background: radial-gradient(circle at center, rgba(10, 38, 27, 0.45) 0%, rgba(4, 16, 11, 0.88) 100%) !important;
+  }
+  body.theme-emerald .story-cert-section {
+    background: #082116 !important;
+  }
+  body.theme-emerald .category-slider-section {
+    background: #061a12 !important;
+  }
+  body.theme-emerald .showcase-row-section {
+    background: #061a12 !important;
+  }
+  body.theme-emerald .showcase-row-section:nth-of-type(even) {
+    background: #082116 !important;
+  }
+  body.theme-emerald .split-reviews-gallery {
+    background: #061a12 !important;
+  }
+  body.theme-emerald .value-pillars-bar {
+    background: #082116 !important;
+  }
+  body.theme-emerald .luxury-royal-footer {
+    background: #04100b !important;
+  }
 </style>
 
 <!-- Hero Slider Section (Gambar Bergeser ke Kanan - Custom Admin Enabled) -->
@@ -1424,6 +1962,33 @@
     </div>
   @endif
 </section>
+
+<!-- Pilihan Warna Tema Halaman Utama (Theme Selector Bar) -->
+<div class="site-theme-bar" id="siteThemeBar">
+  <div class="site-theme-container">
+    <div class="theme-bar-label">
+      <span style="font-size: 16px;">🎨</span>
+      <span>PILIHAN WARNA TEMA:</span>
+    </div>
+    <div class="theme-pills-list">
+      <button type="button" class="theme-pill-btn active" data-theme="burgundy-white" onclick="changeSiteTheme('burgundy-white')">
+        <span class="swatch-circle swatch-burgundy-white"></span>
+        <span class="theme-btn-title">🍷 Burgundy Terang &amp; Putih</span>
+        <span class="theme-check-mark">✓</span>
+      </button>
+      <button type="button" class="theme-pill-btn" data-theme="wine-dark" onclick="changeSiteTheme('wine-dark')">
+        <span class="swatch-circle swatch-wine-dark"></span>
+        <span class="theme-btn-title">🌙 Burgundy Dark &amp; Emas</span>
+        <span class="theme-check-mark">✓</span>
+      </button>
+      <button type="button" class="theme-pill-btn" data-theme="emerald" onclick="changeSiteTheme('emerald')">
+        <span class="swatch-circle swatch-emerald"></span>
+        <span class="theme-btn-title">🌲 Royal Emerald &amp; Gold</span>
+        <span class="theme-check-mark">✓</span>
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- Brand Story & Quality Certification Section (Royal Luxury Redesign) -->
 <section class="story-cert-section">
@@ -2285,5 +2850,95 @@
       startRevAutoplay();
     }
   });
+
+  // Theme Color Switcher Logic
+  function changeSiteTheme(theme) {
+    if (!['burgundy-white', 'wine-dark', 'emerald'].includes(theme)) {
+      theme = 'burgundy-white';
+    }
+
+    document.body.classList.remove('theme-burgundy-white', 'theme-wine-dark', 'theme-emerald');
+    document.body.classList.add('theme-' + theme);
+
+    try {
+      localStorage.setItem('phi_site_theme', theme);
+    } catch(e) {}
+
+    document.querySelectorAll('[data-theme]').forEach(function(el) {
+      if (el.getAttribute('data-theme') === theme) {
+        el.classList.add('active');
+      } else {
+        el.classList.remove('active');
+      }
+    });
+
+    var menu = document.getElementById('floatingThemeMenu');
+    if (menu) menu.classList.remove('show');
+
+    // Sync theme to server
+    fetch('{{ route("site.theme") }}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({ theme: theme })
+    }).catch(function() {});
+  }
+
+  function toggleFloatingThemeMenu() {
+    var menu = document.getElementById('floatingThemeMenu');
+    if (menu) {
+      menu.classList.toggle('show');
+    }
+  }
+
+  document.addEventListener('click', function(e) {
+    var toggle = document.getElementById('floatingThemeToggle');
+    var menu = document.getElementById('floatingThemeMenu');
+    if (toggle && menu && !toggle.contains(e.target)) {
+      menu.classList.remove('show');
+    }
+  });
+
+  // Apply chosen theme on load
+  document.addEventListener('DOMContentLoaded', function() {
+    var activeTheme = 'burgundy-white';
+    try {
+      var saved = localStorage.getItem('phi_site_theme');
+      if (saved && ['burgundy-white', 'wine-dark', 'emerald'].includes(saved)) {
+        activeTheme = saved;
+      } else if (document.body.classList.contains('theme-wine-dark')) {
+        activeTheme = 'wine-dark';
+      } else if (document.body.classList.contains('theme-emerald')) {
+        activeTheme = 'emerald';
+      }
+    } catch(e) {}
+
+    changeSiteTheme(activeTheme);
+  });
 </script>
+
+<!-- Floating Theme Toggle Widget -->
+<div class="floating-theme-toggle" id="floatingThemeToggle">
+  <button type="button" class="floating-theme-btn" onclick="toggleFloatingThemeMenu()" title="Pilihan Tema Warna">
+    <span>🎨</span>
+    <span class="floating-label">Pilihan Warna</span>
+  </button>
+  <div class="floating-theme-menu" id="floatingThemeMenu">
+    <div class="floating-theme-title">PILIHAN TEMA WARNA:</div>
+    <button type="button" class="floating-theme-opt" data-theme="burgundy-white" onclick="changeSiteTheme('burgundy-white')">
+      <span class="swatch-circle swatch-burgundy-white"></span>
+      <span>🍷 Burgundy Terang &amp; Putih</span>
+    </button>
+    <button type="button" class="floating-theme-opt" data-theme="wine-dark" onclick="changeSiteTheme('wine-dark')">
+      <span class="swatch-circle swatch-wine-dark"></span>
+      <span>🌙 Burgundy Dark &amp; Emas</span>
+    </button>
+    <button type="button" class="floating-theme-opt" data-theme="emerald" onclick="changeSiteTheme('emerald')">
+      <span class="swatch-circle swatch-emerald"></span>
+      <span>🌲 Royal Emerald &amp; Gold</span>
+    </button>
+  </div>
+</div>
 @endsection

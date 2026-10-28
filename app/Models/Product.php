@@ -200,12 +200,6 @@ class Product extends Model
             }
         }
 
-        $catSlug = $this->category->slug ?? 'cakes';
-        $catThumb = 'images/thumbs/cat-' . $catSlug . '.jpg';
-        if (file_exists(public_path($catThumb))) {
-            return asset($catThumb);
-        }
-
         return $this->image_url;
     }
 
@@ -216,12 +210,7 @@ class Product extends Model
             return $this->resolveSafeImageUrl($second, false);
         }
 
-        $catSlug = $this->category->slug ?? 'hampers';
-        $catPath = 'images/cat-' . $catSlug . '.jpg';
-        if (file_exists(public_path($catPath))) {
-            return asset($catPath);
-        }
-        return asset('images/cat-hampers.jpg');
+        return $this->image_url;
     }
 
     public function getGalleryUrlsAttribute()
@@ -233,12 +222,6 @@ class Product extends Model
                 if ($resolved && !in_array($resolved, $urls)) {
                     $urls[] = $resolved;
                 }
-            }
-        }
-        if (count($urls) === 1) {
-            $second = $this->secondary_image_url;
-            if ($second && !in_array($second, $urls)) {
-                $urls[] = $second;
             }
         }
         return array_values(array_unique($urls));

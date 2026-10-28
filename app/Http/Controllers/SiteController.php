@@ -212,22 +212,8 @@ class SiteController extends Controller
             $related = $related->concat($more);
         }
 
-        // Build 4 gallery images for the thumbnail strip
+        // Only use the product's actual uploaded images (do not inject extra fake stock photos)
         $gallery = $product->gallery_urls;
-        if (count($gallery) < 4) {
-            $defaults = [
-                asset('images/cat-cookies.jpg'),
-                asset('images/cat-hampers.jpg'),
-                asset('images/feature.jpg'),
-                asset('images/events.jpg'),
-            ];
-            foreach ($defaults as $d) {
-                if (count($gallery) >= 4) break;
-                if (!in_array($d, $gallery)) {
-                    $gallery[] = $d;
-                }
-            }
-        }
 
         return view('product-detail', compact('product', 'related', 'gallery'));
     }
@@ -490,5 +476,48 @@ class SiteController extends Controller
                 );
             }
         }
+    }
+
+    public static function getActiveTheme(): string
+    {
+        if (session()->has('site_theme')) {
+            return session('site_theme');
+        }
+
+        $path = storage_path('app/theme.json');
+        if (file_exists($path)) {
+            $data = json_decode(file_get_contents($path), true);
+            if (!empty($data['theme'])) {
+                return $data['theme'];
+            }
+        }
+
+        return 'burgundy-white'; // Default tema: burgundy terang kombinasi putih
+    }
+
+    public function setSiteTheme(Request $request)
+    {
+        $theme = $request->input('theme', 'burgundy-white');
+        if (!in_array($theme, ['burgundy-white', 'wine-dark', 'emerald'])) {
+            $theme = 'burgundy-white';
+        }
+
+        session(['site_theme' => $theme]);
+
+        try {
+            $dir = storage_path('app');
+            if (!file_exists($dir)) {
+                mkdir($dir, 0755, true);
+            }
+            file_put_contents(storage_path('app/theme.json'), json_encode(['theme' => $theme]));
+        } catch (\Throwable $e) {
+            // Ignore file write error, session already set
+        }
+
+        return response()->json([
+            'success' => true,
+            'theme' => $theme,
+            'label' => $theme === 'burgundy-white' ? 'Burgundy Terang & Putih' : ($theme === 'emerald' ? 'Royal Emerald & Gold' : 'Burgundy Dark & Emas')
+        ]);
     }
 }

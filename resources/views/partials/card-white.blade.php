@@ -14,7 +14,7 @@
   $size = is_array($item) ? 'Standard' : ($item->size ?? 'Standard');
   $type = is_array($item) ? 'Gift Set' : ($item->type ?? 'Gift Set');
   $availability = is_array($item) ? 'in_stock' : ($item->availability ?? 'in_stock');
-  $gallery = is_array($item) ? [$imageUrl, $secondaryUrl] : ($item->gallery_urls ?? [$imageUrl]);
+  $gallery = is_array($item) ? [$imageUrl] : ($item->gallery_urls ?? [$imageUrl]);
   
   $productReviews = [];
   if (!is_array($item) && $item->relationLoaded('reviews') && $item->reviews->isNotEmpty()) {

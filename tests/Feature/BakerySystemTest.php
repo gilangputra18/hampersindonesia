@@ -426,4 +426,46 @@ class BakerySystemTest extends TestCase
         $this->assertStringContainsString('[KIRIM SEBAGAI HADIAH', $order->order_note);
         $this->assertStringContainsString('Ibu Rina Suryani', $order->order_note);
     }
+
+    public function test_homepage_has_color_theme_switcher_and_burgundy_white_option(): void
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertSee('siteThemeBar');
+        $response->assertSee('Burgundy Terang &amp; Putih', false);
+        $response->assertSee('swatch-burgundy-white');
+        $response->assertSee('floatingThemeToggle');
+
+        // Test theme switcher AJAX endpoint
+        $postTheme = $this->postJson(route('site.theme'), ['theme' => 'burgundy-white']);
+        $postTheme->assertStatus(200);
+        $postTheme->assertJson([
+            'success' => true,
+            'theme' => 'burgundy-white'
+        ]);
+    }
+
+    public function test_product_without_gallery_strictly_displays_only_uploaded_image(): void
+    {
+        $category = Category::first();
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Custom Hamper Single Photo',
+            'slug' => 'custom-hamper-single-photo',
+            'price' => 500000,
+            'image' => 'custom-hamper-single.jpg',
+            'gallery' => [],
+            'availability' => 'in_stock',
+        ]);
+
+        // 1. Gallery URLs must contain ONLY 1 image (no extra stock photos)
+        $this->assertCount(1, $product->gallery_urls);
+        $this->assertEquals($product->image_url, $product->secondary_image_url);
+
+        // 2. Product detail page must NOT inject extra gallery images
+        $response = $this->get('/product/' . $product->slug);
+        $response->assertStatus(200);
+        $response->assertDontSee('cat-cookies.jpg');
+        $response->assertDontSee('Thumbnail 2');
+    }
 }

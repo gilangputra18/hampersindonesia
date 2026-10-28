@@ -523,13 +523,15 @@
           <img src="{{ $gallery[0] ?? $product->image_url }}" alt="{{ $product->name }}" id="pdetailMainImg">
         </div>
 
-        <div class="pdetail-thumbs-strip">
-          @foreach ($gallery as $gIdx => $gUrl)
-            <button type="button" class="pdetail-thumb-item {{ $gIdx === 0 ? 'active' : '' }}" onclick="switchPdetailImage('{{ $gUrl }}', this)">
-              <img src="{{ $gUrl }}" alt="{{ $product->name }} Thumbnail {{ $gIdx + 1 }}">
-            </button>
-          @endforeach
-        </div>
+        @if (count($gallery) > 1)
+          <div class="pdetail-thumbs-strip">
+            @foreach ($gallery as $gIdx => $gUrl)
+              <button type="button" class="pdetail-thumb-item {{ $gIdx === 0 ? 'active' : '' }}" onclick="switchPdetailImage('{{ $gUrl }}', this)">
+                <img src="{{ $gUrl }}" alt="{{ $product->name }} Thumbnail {{ $gIdx + 1 }}">
+              </button>
+            @endforeach
+          </div>
+        @endif
       </div>
 
       <!-- Right Column: Product Title, Price, Summary & Add to Cart -->

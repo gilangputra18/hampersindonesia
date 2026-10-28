@@ -1833,7 +1833,17 @@
   }
 </style>
 </head>
-<body>
+<body class="theme-{{ session('site_theme', \App\Http\Controllers\SiteController::getActiveTheme()) }}">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('phi_site_theme');
+      if (saved && (saved === 'burgundy-white' || saved === 'wine-dark' || saved === 'emerald')) {
+        document.body.className = document.body.className.replace(/\btheme-[^\s]+\b/g, '').trim() + ' theme-' + saved;
+      }
+    } catch(e) {}
+  })();
+</script>
 @php
   $cartQty = array_sum(array_column(session('cart', []), 'quantity'));
 @endphp

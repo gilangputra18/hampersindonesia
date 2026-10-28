@@ -60,6 +60,7 @@ Route::post('/api/midtrans/notification', [CheckoutController::class, 'midtransN
 Route::post('/products/{product}/review', [ReviewCouponController::class, 'submitReview'])->middleware('throttle:5,1')->name('review.submit');
 Route::post('/coupon/apply', [ReviewCouponController::class, 'applyCoupon'])->middleware('throttle:15,1')->name('coupon.apply');
 Route::post('/coupon/remove', [ReviewCouponController::class, 'removeCoupon'])->name('coupon.remove');
+Route::post('/site-theme', [SiteController::class, 'setSiteTheme'])->name('site.theme');
 
 // Customer Account (Auth Required)
 Route::middleware('auth')->group(function () {
