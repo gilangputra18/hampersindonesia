@@ -1874,16 +1874,16 @@
   </div>
 </section>
 
-<!-- Split Section: What Our Customers Say & Our Gallery (Matching Reference Image 5) -->
+<!-- Split Section: Apa Kata Pelanggan Kami & Our Gallery (Matching Reference Image 5) -->
 <section class="split-reviews-gallery" id="gallery">
   <div class="split-container">
-    <!-- Left Column: What Our Customers Say -->
+    <!-- Left Column: Apa Kata Pelanggan Kami -->
     <div>
       <div style="color: #fbbf24; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">
         ⭐ TESTIMONI PELANGGAN VIP ⭐
       </div>
       <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 32px); color: #fff; margin: 0 0 20px 0;">
-        What Our Customers Say
+        Apa Kata Pelanggan Kami
       </h2>
 
       <!-- Reviews Auto-Slider Container ("Bergeser ke Kanan Otomatis") -->

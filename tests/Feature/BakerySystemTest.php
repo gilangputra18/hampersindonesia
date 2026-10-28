@@ -346,6 +346,8 @@ class BakerySystemTest extends TestCase
     {
         $response = $this->get('/');
         $response->assertStatus(200);
+        $response->assertSee('Apa Kata Pelanggan Kami');
+        $response->assertDontSee('What Our Customers Say');
         $response->assertSee('reviewsSliderContainer');
         $response->assertSee('reviewsSliderTrack');
         $response->assertSee('Sefsaya');
