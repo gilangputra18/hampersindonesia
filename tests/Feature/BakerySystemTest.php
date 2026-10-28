@@ -682,4 +682,96 @@ class BakerySystemTest extends TestCase
             $res->assertSee('Kembali');
         }
     }
+
+    public function test_admin_can_manage_gallery_photos(): void
+    {
+        // 1. Guest is redirected
+        $guestRes = $this->get('/admin/gallery');
+        $this->assertTrue($guestRes->isRedirect());
+
+        $admin = User::factory()->create([
+            'is_admin' => true,
+        ]);
+
+        // 2. Admin can access gallery management index
+        $indexRes = $this->actingAs($admin)->get('/admin/gallery');
+        $indexRes->assertStatus(200);
+        $indexRes->assertSee('Kelola Galeri Foto');
+        $indexRes->assertSee('Lapis Legit Original');
+        $indexRes->assertSee('addGalleryModal');
+        $indexRes->assertSee('editGalleryModal');
+
+        // 3. Admin sidebar contains the link
+        $dashRes = $this->actingAs($admin)->get('/admin/dashboard');
+        $dashRes->assertStatus(200);
+        $dashRes->assertSee(route('admin.gallery.index'));
+        $dashRes->assertSee('Kelola Galeri Foto');
+
+        // 4. Admin can store a new gallery photo
+        $storeRes = $this->actingAs($admin)->post('/admin/gallery', [
+            'title' => 'Lapis Legit Prunes Exclusive Golden Box',
+            'card_name' => 'Lapis Prunes VIP',
+            'tagline' => 'Special Golden Edition',
+            'category' => 'lapis',
+            'desc' => 'Dibuat dengan butter premium dan buah prunes segar import.',
+            'display_order' => 1,
+            'image_url' => '/images/cat-cakes.jpg',
+        ]);
+        $storeRes->assertRedirect(route('admin.gallery.index'));
+        $storeRes->assertSessionHas('success');
+
+        // 5. Newly added photo appears on public gallery
+        $publicRes = $this->get('/gallery');
+        $publicRes->assertStatus(200);
+        $publicRes->assertSee('Lapis Prunes VIP');
+        $publicRes->assertSee('Special Golden Edition');
+
+        // Retrieve items to find the newly created item's ID
+        $items = \App\Http\Controllers\Admin\AdminGalleryController::getItems();
+        $createdItem = null;
+        foreach ($items as $it) {
+            if ($it['title'] === 'Lapis Legit Prunes Exclusive Golden Box') {
+                $createdItem = $it;
+                break;
+            }
+        }
+        $this->assertNotNull($createdItem);
+        $newId = $createdItem['id'];
+
+        // 6. Admin can update the photo
+        $updateRes = $this->actingAs($admin)->put('/admin/gallery/' . $newId, [
+            'title' => 'Lapis Legit Prunes Ultra Luxury',
+            'card_name' => 'Lapis Prunes Royal',
+            'tagline' => 'Royal Heritage Edition',
+            'category' => 'lapis',
+            'desc' => 'Deskripsi diperbarui.',
+            'display_order' => 1,
+            'image_url' => '/images/cat-cakes.jpg',
+        ]);
+        $updateRes->assertRedirect(route('admin.gallery.index'));
+        $updateRes->assertSessionHas('success');
+
+        // Verify update in public gallery
+        $publicRes2 = $this->get('/gallery');
+        $publicRes2->assertSee('Lapis Prunes Royal');
+        $publicRes2->assertSee('Royal Heritage Edition');
+
+        // 7. Admin can toggle active status
+        $toggleRes = $this->actingAs($admin)->post('/admin/gallery/' . $newId . '/toggle');
+        $toggleRes->assertRedirect(route('admin.gallery.index'));
+
+        // Once hidden, public gallery should not display it
+        $publicRes3 = $this->get('/gallery');
+        $publicRes3->assertDontSee('Lapis Prunes Royal');
+
+        // 8. Admin can delete the photo
+        $deleteRes = $this->actingAs($admin)->delete('/admin/gallery/' . $newId);
+        $deleteRes->assertRedirect(route('admin.gallery.index'));
+        $deleteRes->assertSessionHas('success');
+
+        // Clean up test file if created in test
+        if (\Illuminate\Support\Facades\File::exists(\App\Http\Controllers\Admin\AdminGalleryController::getGalleryPath())) {
+            \Illuminate\Support\Facades\File::delete(\App\Http\Controllers\Admin\AdminGalleryController::getGalleryPath());
+        }
+    }
 }

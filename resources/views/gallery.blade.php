@@ -394,291 +394,49 @@
   <!-- Filter Tabs -->
   <div class="gallery-tabs-wrap">
     <button type="button" class="gallery-filter-btn active" data-filter="all">✨ Semua Karya</button>
-    <button type="button" class="gallery-filter-btn" data-filter="lapis">🥮 Lapis &amp; Cakes</button>
-    <button type="button" class="gallery-filter-btn" data-filter="bites">🍫 Choco &amp; Bites</button>
-    <button type="button" class="gallery-filter-btn" data-filter="hampers">🎁 Luxury Hampers</button>
-    <button type="button" class="gallery-filter-btn" data-filter="cookies">🍪 Artisan Cookies</button>
+    @php
+      $catList = $categories ?? \App\Http\Controllers\Admin\AdminGalleryController::getCategories();
+    @endphp
+    @foreach($catList as $catKey => $catLabel)
+      <button type="button" class="gallery-filter-btn" data-filter="{{ $catKey }}">{{ $catLabel }}</button>
+    @endforeach
   </div>
 
   <!-- 3-Column Gallery Grid (Matching Reference Image) -->
   <div class="gallery-cards-grid" id="galleryGrid">
+    @php
+      $renderItems = $activeItems ?? array_filter(\App\Http\Controllers\Admin\AdminGalleryController::getItems(), function($i) {
+          return ($i['is_active'] ?? true);
+      });
+    @endphp
 
-    <!-- Item 1: Lapis Legit Original Slices -->
-    <div class="gallery-card-item" data-category="lapis"
-         data-img="{{ asset('images/cat-cakes.jpg') }}"
-         data-title="Lapis Legit Original Slices"
-         data-desc="Lapisan butter Wijsman otentik dipanggang perlapis dengan kelembutan sempurna.">
-      <img src="{{ asset('images/cat-cakes.jpg') }}" alt="Lapis Legit Original Slices" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
+    @forelse($renderItems as $item)
+      <div class="gallery-card-item" data-category="{{ $item['category'] ?? 'lapis' }}"
+           data-img="{{ asset(ltrim($item['image'], '/')) }}"
+           data-title="{{ $item['title'] ?? '' }}"
+           data-desc="{{ $item['desc'] ?? '' }}">
+        <img src="{{ asset(ltrim($item['image'], '/')) }}" alt="{{ $item['title'] ?? '' }}" loading="lazy">
+        <div class="gallery-card-top-logo">
+          <span class="gallery-top-crest">⚜️</span>
+          <span class="gallery-top-name">{{ config('site.brand') }}</span>
+        </div>
+        <div class="gallery-card-halal">
+          <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span class="gallery-halal-text">HALAL INDONESIA</span>
+        </div>
+        <div class="gallery-card-bottom-tag">
+          <span class="gallery-item-name">{{ $item['card_name'] ?? $item['title'] }}</span>
+          <span class="gallery-item-tagline">{!! $item['tagline'] ?? "Once You Bite, You Can't Stop!" !!}</span>
+        </div>
+        <div class="gallery-hover-overlay">
+          <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
+        </div>
       </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
+    @empty
+      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #8c7355;">
+        <p style="font-size: 16px;">Belum ada foto galeri yang dipublikasikan.</p>
       </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Lapis Legit Original</span>
-        <span class="gallery-item-tagline">Once You Bite, You Can't Stop!</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 2: Lapis Legit Mini Bites Platter -->
-    <div class="gallery-card-item" data-category="lapis"
-         data-img="{{ asset('images/black-forest.jpg') }}"
-         data-title="Lapis Legit Mini Bites"
-         data-desc="Potongan gigitan lapis legit mewah yang disajikan di atas piring saji eksklusif.">
-      <img src="{{ asset('images/black-forest.jpg') }}" alt="Lapis Legit Mini Bites" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Mini Bites Platter</span>
-        <span class="gallery-item-tagline">Premium Quality Cakes</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 3: Mix Small 4 Rasa (12 Bites Box) -->
-    <div class="gallery-card-item" data-category="bites"
-         data-img="{{ asset('images/box-of-4.jpg') }}"
-         data-title="Mix Small 4 Rasa (12 Bites)"
-         data-desc="Kombinasi 4 varian rasa lapis legit pilihan dalam kemasan gift box elegan.">
-      <img src="{{ asset('images/box-of-4.jpg') }}" alt="Mix Small 4 Rasa (12 Bites)" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Mix Small 4 Rasa</span>
-        <span class="gallery-item-tagline">12 Bites Gift Box</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 4: Lapis Loyang Mini Cempedak / Plum -->
-    <div class="gallery-card-item" data-category="lapis"
-         data-img="{{ asset('images/tiramisu.jpg') }}"
-         data-title="Lapis Loyang Mini Plum &amp; Cempedak"
-         data-desc="Sentuhan buah plum &amp; cempedak manis alami pada adonan lapis legit butter.">
-      <img src="{{ asset('images/tiramisu.jpg') }}" alt="Lapis Loyang Mini Plum &amp; Cempedak" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Lapis Plum Square</span>
-        <span class="gallery-item-tagline">Once You Bite, You Can't Stop!</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 5: Marble Cake Small (12 pcs) -->
-    <div class="gallery-card-item" data-category="lapis"
-         data-img="{{ asset('images/butter-cookies-jar.jpg') }}"
-         data-title="Marble Cake Small (12 pcs)"
-         data-desc="Bolu marmer klasik dengan tekstur lembut wangi butter dan swirl cokelat premium.">
-      <img src="{{ asset('images/butter-cookies-jar.jpg') }}" alt="Marble Cake Small (12 pcs)" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Marble Cake Small</span>
-        <span class="gallery-item-tagline">12 Pcs Slide Box</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 6: Lapis Pattern Harum / Spekkoek -->
-    <div class="gallery-card-item" data-category="lapis"
-         data-img="{{ asset('images/basque-burnt-cheesecake.jpg') }}"
-         data-title="Lapis Legit Pattern Harum"
-         data-desc="Corak pattern atas elegan dengan lapisan bumbu rempah spekkoek wangi semerbak.">
-      <img src="{{ asset('images/basque-burnt-cheesecake.jpg') }}" alt="Lapis Legit Pattern Harum" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Lapis Pattern Harum</span>
-        <span class="gallery-item-tagline">Once You Bite, You Can't Stop!</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 7: Tropical Layer Set Exclusive -->
-    <div class="gallery-card-item" data-category="lapis"
-         data-img="{{ asset('images/berry-tart.jpg') }}"
-         data-title="Tropical Layer Set"
-         data-desc="Edisi koleksi lapis legit tropikal dengan packaging box botanikal mewah.">
-      <img src="{{ asset('images/berry-tart.jpg') }}" alt="Tropical Layer Set" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Tropical Layer Set</span>
-        <span class="gallery-item-tagline">Premium Quality Cakes</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 8: Mix Big 4 Rasa (36 Bites Tray) -->
-    <div class="gallery-card-item" data-category="bites"
-         data-img="{{ asset('images/box-of-6.jpg') }}"
-         data-title="Mix Big 4 Rasa (36 Bites)"
-         data-desc="Nampan perjamuan eksklusif berisi 36 potong gigitan lapis legit dari 4 varian unggulan.">
-      <img src="{{ asset('images/box-of-6.jpg') }}" alt="Mix Big 4 Rasa (36 Bites)" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Mix Big 4 Rasa</span>
-        <span class="gallery-item-tagline">36 Bites Party Tray</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 9: Choco Bites Gourmet -->
-    <div class="gallery-card-item" data-category="bites"
-         data-img="{{ asset('images/chocolate-hazelnut.jpg') }}"
-         data-title="Choco Bites Gourmet"
-         data-desc="Truffle cokelat hitam lumer bertabur gold dust mewah, perpaduan manis gurih tak terlupakan.">
-      <img src="{{ asset('images/chocolate-hazelnut.jpg') }}" alt="Choco Bites Gourmet" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Choco Bites</span>
-        <span class="gallery-item-tagline">Once You Bite, You Can't Stop!</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 10: Exclusive Hampers Gift Box -->
-    <div class="gallery-card-item" data-category="hampers"
-         data-img="{{ asset('images/rose.jpg') }}"
-         data-title="Rose Velvet Hampers Gift Box"
-         data-desc="Hampers elegan balutan beludru merah maroon berisikan aneka cookies butter Wijsman &amp; lapis legit.">
-      <img src="{{ asset('images/rose.jpg') }}" alt="Rose Velvet Hampers Gift Box" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Rose Velvet Box</span>
-        <span class="gallery-item-tagline">Exclusive Gift Hampers</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 11: Nastar Pineapple Butter Wijsman -->
-    <div class="gallery-card-item" data-category="cookies"
-         data-img="{{ asset('images/nastar-pineapple.jpg') }}"
-         data-title="Nastar Pineapple Wijsman"
-         data-desc="Kue kering nastar nanas lumer di mulut dengan selai nanas segar resep tradisional turun-temurun.">
-      <img src="{{ asset('images/nastar-pineapple.jpg') }}" alt="Nastar Pineapple Wijsman" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Nastar Wijsman</span>
-        <span class="gallery-item-tagline">Artisan Recipe Cookies</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
-    <!-- Item 12: Kaastengels Edam Cheese Toples -->
-    <div class="gallery-card-item" data-category="cookies"
-         data-img="{{ asset('images/kaastengel.jpg') }}"
-         data-title="Edam Cheese Kaastengels"
-         data-desc="Keju tua Edam Belanda melimpah dengan kerenyahan gurih otentik kualitas premium.">
-      <img src="{{ asset('images/kaastengel.jpg') }}" alt="Edam Cheese Kaastengels" loading="lazy">
-      <div class="gallery-card-top-logo">
-        <span class="gallery-top-crest">⚜️</span>
-        <span class="gallery-top-name">{{ config('site.brand') }}</span>
-      </div>
-      <div class="gallery-card-halal">
-        <svg class="gallery-halal-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span class="gallery-halal-text">HALAL INDONESIA</span>
-      </div>
-      <div class="gallery-card-bottom-tag">
-        <span class="gallery-item-name">Edam Kaastengels</span>
-        <span class="gallery-item-tagline">Pure Dutch Cheese</span>
-      </div>
-      <div class="gallery-hover-overlay">
-        <span class="gallery-zoom-pill">🔍 Perbesar Foto</span>
-      </div>
-    </div>
-
+    @endforelse
   </div>
 
   <!-- Bottom CTA Section -->

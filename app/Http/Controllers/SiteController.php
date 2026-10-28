@@ -411,7 +411,13 @@ class SiteController extends Controller
 
     public function gallery()
     {
-        return view('gallery');
+        $galleryItems = \App\Http\Controllers\Admin\AdminGalleryController::getItems();
+        $categories = \App\Http\Controllers\Admin\AdminGalleryController::getCategories();
+        $activeItems = array_values(array_filter($galleryItems, function($item) {
+            return ($item['is_active'] ?? true);
+        }));
+
+        return view('gallery', compact('activeItems', 'categories'));
     }
 
     protected function ensureCategoryHasProducts(Category $cat): void

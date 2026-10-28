@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminContactController;
 use App\Http\Controllers\Admin\AdminCouponReviewController;
+use App\Http\Controllers\Admin\AdminGalleryController;
 use App\Http\Controllers\Admin\AdminHeroBannerController;
 use App\Http\Controllers\Admin\AdminMenuPdfController;
 use App\Http\Controllers\Admin\AdminOrderController;
@@ -101,6 +102,11 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
             $output = [];
             $code = 0;
             exec('git pull origin main 2>&1', $output, $code);
+            try {
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            } catch (\Throwable $mE) {
+                // Ignore if migration fails or not needed
+            }
             \Illuminate\Support\Facades\Artisan::call('view:clear');
             \Illuminate\Support\Facades\Artisan::call('cache:clear');
             \Illuminate\Support\Facades\Artisan::call('config:clear');
@@ -186,4 +192,11 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
     Route::post('/hero-banner/slide/{id}/toggle', [AdminHeroBannerController::class, 'toggleSlide'])->name('hero_banner.toggle');
     Route::delete('/hero-banner/slide/{id}', [AdminHeroBannerController::class, 'destroySlide'])->name('hero_banner.destroy');
     Route::post('/hero-banner/settings', [AdminHeroBannerController::class, 'updateSettings'])->name('hero_banner.settings');
+
+    // Gallery Photo Management (Kelola Galeri Foto)
+    Route::get('/gallery', [AdminGalleryController::class, 'index'])->name('gallery.index');
+    Route::post('/gallery', [AdminGalleryController::class, 'store'])->name('gallery.store');
+    Route::put('/gallery/{id}', [AdminGalleryController::class, 'update'])->name('gallery.update');
+    Route::post('/gallery/{id}/toggle', [AdminGalleryController::class, 'toggleActive'])->name('gallery.toggle');
+    Route::delete('/gallery/{id}', [AdminGalleryController::class, 'destroy'])->name('gallery.destroy');
 });
