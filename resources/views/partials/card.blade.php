@@ -51,29 +51,34 @@
   $prodSlug = is_array($item) ? \Illuminate\Support\Str::slug($name) : ($item->slug ?: \Illuminate\Support\Str::slug($name));
   $detailUrl = route('product.detail', $prodSlug);
 @endphp
-<div class="card card-hover-flip"
-     style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; background: #0c2217; border: 1px solid rgba(212, 175, 55, 0.35); padding: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.35);">
-  <div>
-    <a href="{{ $detailUrl }}" class="card-clickable-area" style="text-decoration: none; color: inherit; display: block;">
-      <span class="ph" style="border-radius: 8px; overflow: hidden; display: block; position: relative; aspect-ratio: 1/1; border: 1px solid rgba(212, 175, 55, 0.2); background: radial-gradient(circle at center, #1b382b 0%, #0a1811 100%);">
-        <img src="{{ $imageUrl }}" alt="{{ $name }}" class="card-img-primary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';" style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.4s ease, transform 0.4s ease;">
+<div class="card card-hover-flip shop-card-luxury" data-product-id="{{ $id }}">
+  <div class="shop-card-top">
+    <a href="{{ $detailUrl }}" class="card-clickable-area" title="{{ $name }}">
+      <span class="ph card-ph">
+        <img src="{{ $imageUrl }}" alt="{{ $name }}" class="card-img-primary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';">
         @if ($secondaryUrl && $secondaryUrl !== $imageUrl)
-          <img src="{{ $secondaryUrl }}" alt="{{ $name }} Alternative" class="card-img-secondary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-mooncake.jpg') }}';" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;">
+          <img src="{{ $secondaryUrl }}" alt="{{ $name }} Alternative" class="card-img-secondary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-mooncake.jpg') }}';">
         @endif
       </span>
-      <span class="n" style="font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: #fef08a; margin-top: 12px; letter-spacing: 0.5px; display: block;">{{ $name }}</span>
-      <span class="p" style="color: #e6ca65; font-size: 15px; font-weight: 700; margin-top: 4px; display: block;">{{ !empty($from) ? 'Mulai dari ' : '' }}Rp {{ number_format($price, 0, ',', '.') }}</span>
-      <span style="display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 11px; color: #fbbf24; font-weight: 600;">🎁 Lihat Detail Produk →</span>
+      <span class="n card-title-text">{{ $name }}</span>
+      <span class="p card-price-text">{{ !empty($from) ? 'Mulai dari ' : '' }}Rp {{ number_format($price, 0, ',', '.') }}</span>
+      <span class="card-detail-hint">🎁 Detail Produk →</span>
     </a>
   </div>
   @if ($id > 0)
-    <form action="{{ route('cart.add') }}" method="POST" class="ajax-add-cart-form" style="margin-top: 14px;" onclick="event.stopPropagation();">
+    <form action="{{ route('cart.add') }}" method="POST" class="ajax-add-cart-form card-cart-form" onclick="event.stopPropagation();">
       @csrf
       <input type="hidden" name="product_id" value="{{ $id }}">
       <input type="hidden" name="quantity" value="1">
-      <button type="submit" style="width: 100%; padding: 11px 14px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; background: linear-gradient(135deg, #c5a059 0%, #e6ca65 40%, #c59b27 75%, #a37c1e 100%); color: #07150e; border: 1px solid #fff3bd; border-radius: 6px; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.3);" onmouseover="this.style.background='linear-gradient(135deg, #ffffff, #fef08a)'; this.style.color='#0d2116';" onmouseout="this.style.background='linear-gradient(135deg, #c5a059 0%, #e6ca65 40%, #c59b27 75%, #a37c1e 100%)'; this.style.color='#07150e';">
-        🛒 + TAMBAH KE KERANJANG
+      <button type="submit" class="card-btn-cart" title="Tambah ke keranjang belanja">
+        <span class="btn-desktop-text">🛒 + TAMBAH KE KERANJANG</span>
+        <span class="btn-mobile-text">🛒 + Keranjang</span>
       </button>
     </form>
+  @else
+    <a href="{{ $detailUrl }}" class="card-btn-cart" style="text-decoration: none; margin-top: 10px;">
+      <span class="btn-desktop-text">Lihat Detail</span>
+      <span class="btn-mobile-text">Detail</span>
+    </a>
   @endif
 </div>

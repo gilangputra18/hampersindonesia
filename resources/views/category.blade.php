@@ -268,6 +268,195 @@
       gap: 10px;
     }
   }
+
+  /* ================= LUXURY SHOP PRODUCT CARD (UNIFIED BURGUNDY & WHITE) ================= */
+  .shop-card-luxury {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: 100% !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+    background: #ffffff !important;
+    border: 1px solid #ecd5dc !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 16px rgba(114, 47, 55, 0.05) !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+  }
+  .shop-card-luxury:hover {
+    transform: translateY(-4px) !important;
+    border-color: #722F37 !important;
+    box-shadow: 0 10px 26px rgba(114, 47, 55, 0.12) !important;
+  }
+  .shop-card-luxury .card-clickable-area {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: block !important;
+  }
+  .shop-card-luxury .card-ph {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    display: block !important;
+    position: relative !important;
+    aspect-ratio: 1/1 !important;
+    border: 1px solid #f1f5f9 !important;
+    background: #f8fafc !important;
+    margin-bottom: 0 !important;
+  }
+  .shop-card-luxury .card-img-primary,
+  .shop-card-luxury .card-img-secondary {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+    transition: opacity 0.4s ease, transform 0.4s ease !important;
+  }
+  .shop-card-luxury:hover .card-img-primary {
+    transform: scale(1.04) !important;
+  }
+  .shop-card-luxury .card-title-text {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #2b0c16 !important;
+    margin-top: 10px !important;
+    margin-bottom: 0 !important;
+    letter-spacing: 0.3px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.35 !important;
+    min-height: 40px !important;
+    transition: color 0.2s ease !important;
+  }
+  .shop-card-luxury:hover .card-title-text {
+    color: #722F37 !important;
+  }
+  .shop-card-luxury .card-price-text {
+    font-family: 'Outfit', sans-serif !important;
+    color: #722F37 !important;
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    margin-top: 4px !important;
+    margin-bottom: 0 !important;
+    display: block !important;
+    letter-spacing: 0.2px !important;
+  }
+  .shop-card-luxury .card-detail-hint {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    margin-top: 5px !important;
+    font-size: 11px !important;
+    color: #b45309 !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+  }
+  .shop-card-luxury:hover .card-detail-hint {
+    transform: translateX(3px) !important;
+    color: #722F37 !important;
+  }
+  .shop-card-luxury .card-cart-form {
+    margin-top: 10px !important;
+    width: 100% !important;
+  }
+  .shop-card-luxury .card-btn-cart {
+    width: 100% !important;
+    padding: 10px 12px !important;
+    font-size: 11px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #722F37 0%, #4a151b 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(254, 240, 138, 0.4) !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    box-shadow: 0 4px 12px rgba(114, 47, 55, 0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+  }
+  .shop-card-luxury .card-btn-cart:hover {
+    background: linear-gradient(135deg, #8b2331 0%, #5e1620 100%) !important;
+    box-shadow: 0 6px 16px rgba(114, 47, 55, 0.3) !important;
+    color: #fef08a !important;
+    border-color: #fef08a !important;
+    transform: translateY(-1px) !important;
+  }
+  .shop-card-luxury .btn-desktop-text {
+    display: inline !important;
+  }
+  .shop-card-luxury .btn-mobile-text {
+    display: none !important;
+  }
+
+  /* ================= MOBILE OPTIMIZATION (COMPACT & PROPORTIONAL) ================= */
+  @media (max-width: 640px) {
+    .shop-container {
+      padding: 16px 10px 80px 10px !important;
+    }
+    .crumb-shop {
+      font-size: 10px !important;
+      letter-spacing: 1.5px !important;
+      margin-bottom: 12px !important;
+    }
+    .shop-title-header {
+      margin-bottom: 24px !important;
+    }
+    .shop-title-header h1 {
+      font-size: 28px !important;
+      letter-spacing: 2px !important;
+    }
+    .shop-card-luxury {
+      padding: 8px 8px 10px 8px !important;
+      border-radius: 10px !important;
+      box-shadow: 0 2px 8px rgba(114, 47, 55, 0.05) !important;
+    }
+    .shop-card-luxury .card-ph {
+      border-radius: 6px !important;
+      margin-bottom: 0 !important;
+    }
+    .shop-card-luxury .card-title-text {
+      font-size: 12.5px !important;
+      min-height: 30px !important;
+      margin-top: 6px !important;
+      line-height: 1.25 !important;
+    }
+    .shop-card-luxury .card-price-text {
+      font-size: 12px !important;
+      margin-top: 2px !important;
+      line-height: 1.2 !important;
+    }
+    .shop-card-luxury .card-detail-hint {
+      display: none !important; /* Disembunyikan pada mobile agar card proporsional dan tidak memanjang */
+    }
+    .shop-card-luxury .card-cart-form {
+      margin-top: 6px !important;
+    }
+    .shop-card-luxury .card-btn-cart {
+      padding: 6px 4px !important;
+      font-size: 10.5px !important;
+      letter-spacing: 0.3px !important;
+      border-radius: 6px !important;
+      height: 30px !important;
+      line-height: 1 !important;
+    }
+    .shop-card-luxury .btn-desktop-text {
+      display: none !important;
+    }
+    .shop-card-luxury .btn-mobile-text {
+      display: inline !important;
+    }
+  }
 </style>
 
 <div class="shop-container">

@@ -71,6 +71,10 @@ class BakerySystemTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Royal Emerald Hamper');
         $response->assertSee('PRODUK');
+        $response->assertSee('shop-card-luxury');
+        $response->assertSee('card-btn-cart');
+        $response->assertSee('btn-mobile-text');
+        $response->assertDontSee('#0c2217'); // Confirms old dark green card background removed
         $response->assertDontSee('shop-acc-item'); // Confirms old sidebar filters removed
         $response->assertDontSee('wa.me');
     }
@@ -80,6 +84,8 @@ class BakerySystemTest extends TestCase
         $response = $this->get('/shop/hampers');
         $response->assertStatus(200);
         $response->assertSee('Royal Emerald Hamper');
+        $response->assertSee('shop-card-luxury');
+        $response->assertDontSee('#0c2217');
         $response->assertDontSee('shop-acc-item');
     }
 
