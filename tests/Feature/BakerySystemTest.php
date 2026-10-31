@@ -766,6 +766,8 @@ class BakerySystemTest extends TestCase
         $res1->assertDontSee('Pale Baithip');
         $res1->assertDontSee('Pengiriman Internasional');
         $res1->assertDontSee('Pajak impor dan bea cukai');
+        $res1->assertDontSee('Butuh bantuan pemesanan?');
+        $res1->assertDontSee('Hubungi Tim Concierge');
 
         $res2 = $this->get('/payment-shipping');
         $res2->assertStatus(200);

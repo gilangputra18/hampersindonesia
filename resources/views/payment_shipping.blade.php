@@ -226,54 +226,6 @@
     font-style: normal;
   }
 
-  /* Action Buttons Box */
-  .ps-cta-box {
-    display: flex;
-    gap: 12px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-  .btn-ps-contact {
-    background: #320712;
-    background: linear-gradient(135deg, #3b0816 0%, #1e0208 100%);
-    border: 1px solid #d4af37;
-    color: #fef08a;
-    font-size: 13.5px;
-    font-weight: 700;
-    padding: 10px 22px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-  }
-  .btn-ps-contact:hover {
-    background: #540b1e;
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(84, 11, 30, 0.4);
-  }
-  .btn-ps-shop {
-    background: #ffffff;
-    border: 1.5px solid #d4c5a3;
-    color: #4a3419;
-    font-size: 13.5px;
-    font-weight: 600;
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-  }
-  .btn-ps-shop:hover {
-    background: #fbf5e7;
-    border-color: #caa436;
-    color: #caa436;
-  }
-
   /* Responsive Adjustments */
   @media (max-width: 640px) {
     .payment-shipping-wrapper {
@@ -307,7 +259,6 @@
     <div class="ps-dots-nav">
       <a href="#sec-pembayaran" class="ps-dot active" title="Metode Pembayaran (Xendit)" onclick="setPsDot(this)"></a>
       <a href="#sec-pengiriman-domestik" class="ps-dot" title="Pengiriman Domestik (Indonesia)" onclick="setPsDot(this)"></a>
-      <a href="#sec-bantuan" class="ps-dot" title="Butuh Bantuan Pemesanan?" onclick="setPsDot(this)"></a>
     </div>
 
     <!-- ==========================================
@@ -410,30 +361,6 @@
       </ul>
     </div>
 
-    <!-- ==========================================
-         CARD 3: BUTUH BANTUAN PEMESANAN?
-         ========================================== -->
-    <div class="ps-card" id="sec-bantuan">
-      <h2 class="ps-main-section-title">
-        <span>👥</span>
-        <span>Butuh bantuan pemesanan?</span>
-      </h2>
-      <p class="ps-card-text">
-        Hubungi layanan concierge kami untuk panduan dan konsultasi pemesanan produk maupun hampers:
-      </p>
-
-      <div class="ps-cta-box">
-        <a href="{{ route('contact') }}" class="btn-ps-contact" title="Hubungi Tim Concierge Kami">
-          <span>✉️</span>
-          <span>Hubungi Tim Concierge</span>
-        </a>
-        <a href="{{ route('shop') }}" class="btn-ps-shop" title="Jelajahi Produk & Hampers">
-          <span>🛍️</span>
-          <span>Lihat Katalog Produk</span>
-        </a>
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -447,8 +374,7 @@
   document.addEventListener('scroll', function() {
     const cards = [
       document.getElementById('sec-pembayaran'),
-      document.getElementById('sec-pengiriman-domestik'),
-      document.getElementById('sec-bantuan')
+      document.getElementById('sec-pengiriman-domestik')
     ];
     const dots = document.querySelectorAll('.ps-dot');
     if (!cards[0] || dots.length !== cards.length) return;
