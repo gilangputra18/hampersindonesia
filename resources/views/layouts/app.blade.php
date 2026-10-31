@@ -1210,7 +1210,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: #0f1c16;
+    background: linear-gradient(180deg, #2b0811 0%, #1a0207 100%);
     border-bottom: 3px solid #d97706;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
     opacity: 0;
@@ -1349,42 +1349,6 @@
     font-size: 24px;
     color: #64748b;
     cursor: pointer;
-  }
-
-  /* Ultra-Luxurious Royal Emerald & Gold Footer Styling */
-  .luxury-footer {
-    background: linear-gradient(180deg, #0e1a15 0%, #15241e 40%, #0b1410 100%);
-    color: #cad8d1;
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    line-height: 1.85;
-    position: relative;
-    border-top: 3px solid transparent;
-    border-image: linear-gradient(90deg, #854d0e, #d97706, #fbbf24, #d97706, #854d0e) 1;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Royal Crest Header Bar */
-  .footer-royal-crest {
-    text-align: center;
-    padding: 30px 20px 10px;
-    border-bottom: 1px solid rgba(217, 119, 6, 0.15);
-    background: rgba(0, 0, 0, 0.15);
-  }
-  .royal-crest-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
-    letter-spacing: 5px;
-    color: #f59e0b;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .royal-crest-tag {
-    font-size: 11px;
-    color: #8fa59b;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 2px;
   }
 
   /* Ultra-Luxurious Minimalist Royal Footer */
@@ -1553,10 +1517,10 @@
     position: absolute;
     top: 14px;
     right: 16px;
-    background: rgba(13, 23, 19, 0.1);
+    background: rgba(114, 47, 55, 0.1);
     border: none;
     font-size: 20px;
-    color: #122019;
+    color: #722F37;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -1610,7 +1574,7 @@
     font-family: 'Cormorant Garamond', serif;
     font-size: 26px;
     letter-spacing: 1px;
-    color: #122019;
+    color: #722F37;
     font-weight: 700;
     margin: 0 0 8px 0;
     line-height: 1.25;
@@ -1634,10 +1598,10 @@
     margin-bottom: 16px;
   }
   .product-modal-items-section {
-    background: #f8faf9;
+    background: #fdfafb;
     padding: 14px 16px;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #ecd5dc;
     margin-bottom: 16px;
   }
   .product-modal-items-header {
@@ -1645,7 +1609,7 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     font-weight: 700;
-    color: #122019;
+    color: #722F37;
     margin-bottom: 8px;
     border-bottom: 1px solid rgba(217, 119, 6, 0.2);
     padding-bottom: 6px;
@@ -1657,7 +1621,7 @@
   }
   .product-modal-items-list li {
     font-size: 12.5px;
-    color: #2c3e35;
+    color: #334155;
     padding: 4px 0;
     display: flex;
     align-items: center;
@@ -1672,11 +1636,11 @@
     margin-bottom: 20px;
   }
   .pm-meta-label {
-    color: #64756d;
+    color: #64748b;
     font-weight: 600;
   }
   .pm-meta-val {
-    color: #122019;
+    color: #1e293b;
     font-weight: 700;
   }
   .product-modal-actions {
@@ -1912,7 +1876,7 @@
     gap: 8px;
     width: 100%;
     padding: 14px 20px;
-    background: #9b3820;
+    background: linear-gradient(135deg, #722F37 0%, #4a151b 100%);
     color: #ffffff;
     font-family: 'Outfit', sans-serif;
     font-size: 14px;
@@ -1921,16 +1885,18 @@
     text-transform: uppercase;
     text-decoration: none;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(155, 56, 32, 0.4);
+    border: 1px solid rgba(254, 240, 138, 0.4);
+    box-shadow: 0 4px 15px rgba(114, 47, 55, 0.4);
     transition: all 0.25s ease;
-    border: none;
     cursor: pointer;
     box-sizing: border-box;
   }
   .cart-drawer-checkout-btn:hover {
-    background: #b94427;
+    background: linear-gradient(135deg, #8b2331 0%, #5e1620 100%);
+    color: #fef08a;
+    border-color: #fef08a;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(155, 56, 32, 0.5);
+    box-shadow: 0 6px 20px rgba(114, 47, 55, 0.5);
   }
   .cart-drawer-view-cart {
     display: block;
@@ -2078,7 +2044,7 @@
   <div class="search-modal-box">
     <button type="button" class="search-modal-close" id="close-search-btn">✕</button>
     
-    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #1e2d27;">CARI PRODUK HAMPERS &amp; KUE</h3>
+    <h3 style="font-family: 'Playfair Display', 'Cormorant Garamond', serif; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #722F37; font-weight: 700;">CARI PRODUK HAMPERS &amp; KUE</h3>
     
     <input type="text" id="public-search-input" placeholder="Ketik nama produk hampers / kue (contoh: Nastar, Kastengel, Lapis Legit)..." style="width: 100%; padding: 14px 18px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; font-family: inherit; color: #0f172a;" autocomplete="off" autofocus>
 
@@ -2588,10 +2554,10 @@ document.addEventListener('DOMContentLoaded', function () {
               <a href="${p.edit_url ? '{{ url('/shop') }}/' + p.category_title.toLowerCase() : '#'}" style="display: flex; align-items: center; gap: 14px; padding: 12px; border-bottom: 1px solid #f1f5f9; text-decoration: none; color: inherit; transition: background 0.15s;" onmouseover="this.style.background='#f8faf9'" onmouseout="this.style.background='transparent'">
                 <img src="${p.thumbnail_url || p.image_url}" alt="${p.name}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: #e2e8f0;">
                 <div style="flex: 1;">
-                  <div style="font-weight: 600; font-size: 14px; color: #1e2d27;">${p.name}</div>
-                  <div style="font-size: 12px; color: #64756d;">Kategori: ${p.category_title}</div>
+                  <div style="font-weight: 700; font-size: 14px; color: #1e293b;">${p.name}</div>
+                  <div style="font-size: 12px; color: #64748b;">Kategori: ${p.category_title}</div>
                 </div>
-                <div style="font-weight: 700; color: #b45309; font-size: 13px;">${p.price_formatted}</div>
+                <div style="font-weight: 700; color: #722F37; font-size: 13.5px;">${p.price_formatted}</div>
               </a>`;
           });
 

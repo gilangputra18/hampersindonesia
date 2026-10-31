@@ -5,11 +5,11 @@
 @section('content')
 <style>
   .my-orders-page {
-    background: #f7f9f8;
+    background: #faf7f4;
     min-height: 100vh;
     padding: 48px 20px 100px;
     font-family: 'Outfit', sans-serif;
-    color: #1e2d27;
+    color: #1e293b;
   }
   .my-orders-container {
     max-width: 900px;
@@ -17,15 +17,16 @@
   }
   .page-header {
     margin-bottom: 32px;
-    border-bottom: 1px solid #d2dcd7;
+    border-bottom: 1.5px solid #ecd5dc;
     padding-bottom: 20px;
   }
   .page-header h1 {
     font-family: 'Playfair Display', serif;
     font-size: 28px;
-    color: #111f18;
+    color: #722F37;
     letter-spacing: 1px;
     margin: 0 0 6px;
+    font-weight: 700;
   }
   .page-header p {
     font-size: 13px;
@@ -34,17 +35,20 @@
   }
   .order-card {
     background: #fff;
-    border: 1px solid #d2dcd7;
-    border-radius: 10px;
+    border: 1.5px solid #ecd5dc;
+    border-radius: 14px;
     margin-bottom: 20px;
     overflow: hidden;
-    transition: box-shadow 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 20px rgba(114, 47, 55, 0.05);
   }
   .order-card:hover {
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-color: #722F37;
+    box-shadow: 0 8px 30px rgba(114, 47, 55, 0.1);
   }
   .order-card-header {
-    background: linear-gradient(90deg, #0e1a15, #15241e);
+    background: linear-gradient(90deg, #380a17 0%, #1a0207 100%);
+    border-bottom: 1px solid rgba(230, 202, 101, 0.35);
     padding: 14px 20px;
     display: flex;
     justify-content: space-between;
@@ -54,14 +58,14 @@
   }
   .order-invoice {
     font-family: 'Outfit', monospace;
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 700;
-    color: #f59e0b;
-    letter-spacing: 1px;
+    color: #fef08a;
+    letter-spacing: 0.5px;
   }
   .order-date {
     font-size: 12px;
-    color: #94a3b8;
+    color: #cbd5e1;
   }
   .order-card-body {
     padding: 18px 20px;
@@ -82,30 +86,30 @@
   .order-items-list li:last-child {
     border-bottom: none;
   }
-  .item-name { color: #334155; }
+  .item-name { color: #334155; font-weight: 600; }
   .item-qty { color: #64748b; font-size: 12px; }
-  .item-price { font-weight: 600; color: #1e2d27; }
+  .item-price { font-weight: 700; color: #722F37; }
   .order-meta {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 12px;
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid #f1f5f9;
   }
   .meta-item label {
     display: block;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #94a3b8;
+    letter-spacing: 0.5px;
+    color: #722F37;
     margin-bottom: 3px;
   }
   .meta-item span {
     font-size: 13px;
-    font-weight: 500;
-    color: #1e2d27;
+    font-weight: 600;
+    color: #1e293b;
   }
   .badge-status {
     display: inline-block;
@@ -131,25 +135,25 @@
     align-items: center;
     margin-top: 14px;
     padding-top: 14px;
-    border-top: 2px solid #111f18;
+    border-top: 1.5px solid #ecd5dc;
   }
   .total-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
     text-transform: uppercase;
     letter-spacing: 0.8px;
   }
   .total-amount {
-    font-size: 18px;
-    font-weight: 700;
-    color: #111f18;
+    font-size: 19px;
+    font-weight: 800;
+    color: #722F37;
   }
   .btn-view-order {
     display: inline-block;
     padding: 9px 20px;
-    background: linear-gradient(135deg, #111f18, #1a3326);
-    color: #f59e0b;
+    background: linear-gradient(135deg, #722F37 0%, #4a0d1f 100%);
+    color: #ffffff !important;
     border-radius: 6px;
     font-size: 12.5px;
     font-weight: 700;
@@ -157,12 +161,13 @@
     letter-spacing: 0.8px;
     text-transform: uppercase;
     transition: all 0.2s ease;
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    border: 1px solid rgba(230, 202, 101, 0.4);
+    box-shadow: 0 3px 12px rgba(114, 47, 55, 0.2);
   }
   .btn-view-order:hover {
-    background: linear-gradient(135deg, #1a3326, #243d2e);
-    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
-    color: #fef08a;
+    background: linear-gradient(135deg, #873843 0%, #591226 100%);
+    box-shadow: 0 6px 18px rgba(114, 47, 55, 0.3);
+    transform: translateY(-1px);
   }
   .empty-state {
     text-align: center;
@@ -170,19 +175,27 @@
     color: #64748b;
   }
   .empty-state .icon { font-size: 64px; margin-bottom: 16px; }
-  .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: #334155; margin-bottom: 8px; }
+  .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: #722F37; margin-bottom: 8px; font-weight: 700; }
   .empty-state p { font-size: 14px; margin-bottom: 24px; }
   .btn-shop {
     display: inline-block;
     padding: 12px 28px;
-    background: linear-gradient(135deg, #d97706, #f59e0b);
-    color: #0d1713;
+    background: linear-gradient(135deg, #722F37 0%, #4a0d1f 100%);
+    color: #ffffff !important;
     border-radius: 6px;
     font-weight: 700;
     text-decoration: none;
     font-size: 13px;
     letter-spacing: 0.8px;
     text-transform: uppercase;
+    border: 1px solid rgba(230, 202, 101, 0.4);
+    box-shadow: 0 4px 15px rgba(114, 47, 55, 0.25);
+    transition: all 0.2s ease;
+  }
+  .btn-shop:hover {
+    background: linear-gradient(135deg, #873843 0%, #591226 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(114, 47, 55, 0.35);
   }
   @media (max-width: 600px) {
     .order-card-header { flex-direction: column; align-items: flex-start; gap: 6px; }

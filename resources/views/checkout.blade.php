@@ -7,10 +7,10 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <style>
   .checkout-page {
-    background-color: #f7f9f8;
+    background-color: #faf7f4;
     min-height: 100vh;
     padding: 36px 20px 90px 20px;
-    color: #2c3e35;
+    color: #1e293b;
     font-family: 'Outfit', sans-serif;
   }
   .checkout-top-bar {
@@ -23,17 +23,17 @@
     gap: 12px;
   }
   .back-to-cart-link {
-    color: #4b6357;
+    color: #64748b;
     text-decoration: none;
     font-size: 13.5px;
-    font-weight: 500;
+    font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     transition: color 0.2s;
   }
   .back-to-cart-link:hover {
-    color: #1e2d27;
+    color: #722F37;
   }
   .checkout-steps-badge {
     display: inline-flex;
@@ -44,8 +44,9 @@
     font-weight: 600;
   }
   .checkout-steps-badge span.active {
-    color: #1e2d27;
-    background: #e2e8f0;
+    color: #722F37;
+    background: #fdf2f4;
+    border: 1px solid #f8d7da;
     padding: 3px 10px;
     border-radius: 12px;
   }
@@ -113,10 +114,10 @@
 
   .checkout-box {
     background: #fff;
-    border: 1px solid #d2dcd7;
+    border: 1px solid #ecd5dc;
     border-radius: 10px;
     padding: 30px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 16px rgba(114, 47, 55, 0.04);
     margin-bottom: 24px;
   }
 
@@ -124,9 +125,9 @@
     font-family: 'Playfair Display', serif;
     font-size: 20px;
     letter-spacing: 1.5px;
-    color: #1e2d27;
+    color: #722F37;
     margin-bottom: 20px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #f1f5f9;
     padding-bottom: 12px;
     display: flex;
     align-items: center;
@@ -175,8 +176,8 @@
   }
   .form-control:focus {
     outline: none;
-    border-color: #1e2d27;
-    box-shadow: 0 0 0 3px rgba(30, 45, 39, 0.1);
+    border-color: #722F37;
+    box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.12);
   }
 
   /* Luxury Special Gift & Greeting Box */
@@ -257,8 +258,8 @@
 
   /* Different Recipient Box */
   .gift-toggle-card {
-    background: #f8faf9;
-    border: 1px solid #cbd5e1;
+    background: #fdfafb;
+    border: 1px solid #ecd5dc;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 20px;
@@ -270,13 +271,13 @@
     cursor: pointer;
     font-size: 13.5px;
     font-weight: 600;
-    color: #1e2d27;
+    color: #722F37;
   }
   .gift-toggle-label input[type="checkbox"] {
     margin-top: 3px;
     width: 17px;
     height: 17px;
-    accent-color: #1e2d27;
+    accent-color: #722F37;
     cursor: pointer;
   }
 
@@ -300,17 +301,17 @@
     gap: 12px;
   }
   .payment-card-option:hover {
-    border-color: #94a3b8;
-    background: #fafafa;
+    border-color: #722F37;
+    background: #fffcfc;
   }
   .payment-card-option.active {
-    border-color: #1e2d27;
-    background: #f0fdf4;
-    box-shadow: 0 2px 8px rgba(30, 45, 39, 0.08);
+    border-color: #722F37;
+    background: #fdf2f4;
+    box-shadow: 0 2px 8px rgba(114, 47, 55, 0.12);
   }
   .payment-card-option input[type="radio"] {
     margin-top: 3px;
-    accent-color: #1e2d27;
+    accent-color: #722F37;
     cursor: pointer;
   }
   .payment-card-info {
@@ -319,7 +320,7 @@
   .payment-card-title {
     font-size: 13.5px;
     font-weight: 700;
-    color: #1e2d27;
+    color: #722F37;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -403,7 +404,7 @@
   .courier-card-title {
     font-size: 13px;
     font-weight: 700;
-    color: #1e2d27;
+    color: #1e293b;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -446,8 +447,8 @@
   .summary-item.total {
     font-size: 17px;
     font-weight: 700;
-    color: #1e2d27;
-    border-top: 2px solid #e2e8f0;
+    color: #722F37;
+    border-top: 2px solid #ecd5dc;
     border-bottom: none;
     margin-top: 14px;
     padding-top: 16px;
@@ -477,11 +478,11 @@
   }
   .coupon-input-group input:focus {
     outline: none;
-    border-color: #1e2d27;
+    border-color: #722F37;
   }
   .coupon-btn {
     padding: 9px 16px;
-    background: #1e2d27;
+    background: #722F37;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -492,7 +493,7 @@
     white-space: nowrap;
   }
   .coupon-btn:hover {
-    background: #334e43;
+    background: #8b2331;
   }
   .coupon-feedback {
     font-size: 11.5px;
@@ -514,27 +515,29 @@
   .btn-submit-order {
     width: 100%;
     padding: 16px 20px;
-    background: #1e2d27;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
+    background: linear-gradient(135deg, #722F37 0%, #4a151b 100%);
+    color: #ffffff;
+    border: 1px solid rgba(254, 240, 138, 0.4);
+    border-radius: 8px;
     font-size: 13.5px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-weight: 700;
     cursor: pointer;
     margin-top: 24px;
-    transition: all 0.2s;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 14px rgba(30, 45, 39, 0.2);
+    box-shadow: 0 6px 20px rgba(114, 47, 55, 0.35);
   }
   .btn-submit-order:hover {
-    background: #2d453b;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(30, 45, 39, 0.25);
+    background: linear-gradient(135deg, #8b2331 0%, #5e1620 100%);
+    color: #fef08a;
+    border-color: #fef08a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(114, 47, 55, 0.45);
   }
   .checkout-spinner {
     display: inline-block;
@@ -599,7 +602,7 @@
     font-family: 'Playfair Display', serif;
     font-size: 16.5px;
     font-weight: 700;
-    color: #1e2d27;
+    color: #722F37;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -747,9 +750,9 @@
   }
   .btn-gps-locate {
     width: 100%;
-    background: linear-gradient(135deg, #1e2d27 0%, #2c3e35 100%);
+    background: linear-gradient(135deg, #722F37 0%, #4a151b 100%);
     color: #fef08a;
-    border: 1px solid #ca8a04;
+    border: 1px solid rgba(254, 240, 138, 0.5);
     padding: 10px 14px;
     border-radius: 6px;
     font-size: 12.5px;
@@ -761,11 +764,13 @@
     gap: 7px;
     transition: all 0.2s ease;
     box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(114, 47, 55, 0.2);
   }
   .btn-gps-locate:hover {
-    background: #0f1713;
+    background: linear-gradient(135deg, #8b2331 0%, #5e1620 100%);
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(202, 138, 4, 0.25);
+    border-color: #fef08a;
+    box-shadow: 0 4px 14px rgba(114, 47, 55, 0.35);
   }
   .select-quick-region {
     width: 100%;
@@ -867,7 +872,7 @@
   .map-quick-pill {
     background: #ffffff;
     border: 1px solid #cbd5e1;
-    color: #1e2d27;
+    color: #1e293b;
     font-size: 11.5px;
     font-weight: 600;
     padding: 4px 10px;
@@ -912,7 +917,7 @@
   }
   .map-result-name {
     font-weight: 700;
-    color: #1e2d27;
+    color: #1e293b;
     font-size: 13px;
     display: flex;
     align-items: center;
@@ -1103,7 +1108,7 @@
 
           @if ($deliveryOption === 'delivery')
             <div class="form-group" style="margin-top: 18px;">
-              <label style="font-size: 14px; font-weight: 700; color: #1e2d27; margin-bottom: 4px;">Pilih Ekspedisi / Kurir Pengantar <span style="color: #dc2626;">*</span></label>
+              <label style="font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Pilih Ekspedisi / Kurir Pengantar <span style="color: #dc2626;">*</span></label>
               <div class="section-subtitle" style="margin-top: 0; margin-bottom: 12px;">Pilih layanan pengantaran sesuai preferensi kecepatan dan kenyamanan Anda.</div>
 
               <div class="courier-grid">
@@ -1194,7 +1199,7 @@
               <label class="gift-toggle-label">
                 <input type="checkbox" name="is_gift" id="is_gift_checkbox" value="1" {{ old('is_gift') ? 'checked' : '' }} onchange="toggleRecipientFields()">
                 <div>
-                  <span style="display: block; font-size: 13.5px; color: #1e2d27; font-weight: 700;">🎁 Kirim sebagai Hadiah / Kado (Penerima Berbeda)</span>
+                  <span style="display: block; font-size: 13.5px; color: #722F37; font-weight: 700;">🎁 Kirim sebagai Hadiah / Kado (Penerima Berbeda)</span>
                   <span style="display: block; font-size: 12px; color: #64748b; font-weight: 400; margin-top: 2px;">
                     Aktifkan jika pesanan dikirim langsung ke kerabat atau mitra Anda. Nota harga fisik <strong>tidak akan</strong> disertakan di dalam paket.
                   </span>
@@ -1303,7 +1308,7 @@
               <div class="coords-info-bar">
                 <div>
                   <strong>📍 Titik Koordinat:</strong>
-                  <span id="display_coords_val" style="font-family: monospace; font-weight: 700; color: #1e2d27;">{{ old('latitude', '-7.2574719') }}, {{ old('longitude', '112.7520883') }}</span>
+                  <span id="display_coords_val" style="font-family: monospace; font-weight: 700; color: #722F37;">{{ old('latitude', '-7.2574719') }}, {{ old('longitude', '112.7520883') }}</span>
                 </div>
                 <div>
                   <a id="btn_open_gmaps" href="https://www.google.com/maps?q={{ old('latitude', '-7.2574719') }},{{ old('longitude', '112.7520883') }}" target="_blank" class="btn-gmaps-view">
@@ -1357,7 +1362,7 @@
           @else
             <input type="hidden" name="courier_name" value="Ambil Sendiri di Boutique Store">
             <div class="form-group">
-              <label style="font-weight: 700; font-size: 13.5px; color: #1e2d27; margin-bottom: 8px;">Pilih Lokasi Butik Pengambilan (Pick Up) <span style="color: #dc2626;">*</span></label>
+              <label style="font-weight: 700; font-size: 13.5px; color: #1e293b; margin-bottom: 8px;">Pilih Lokasi Butik Pengambilan (Pick Up) <span style="color: #dc2626;">*</span></label>
               <div class="pickup-store-grid">
                 <label id="pickup_card_surabaya" class="pickup-store-option active">
                   <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
@@ -1430,7 +1435,7 @@
 
           {{-- METODE PEMBAYARAN INTERAKTIF --}}
           <div class="form-group" style="margin-top: 24px;">
-            <label style="font-size: 14px; font-weight: 700; color: #1e2d27; margin-bottom: 8px;">Pilih Metode Pembayaran <span style="color: #dc2626;">*</span></label>
+            <label style="font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 8px;">Pilih Metode Pembayaran <span style="color: #dc2626;">*</span></label>
             <div class="section-subtitle" style="margin-top: 0; margin-bottom: 14px;">Semua transaksi terenkripsi dengan aman melalui verifikasi otomatis dan manual resmi perbankan.</div>
 
             <div class="payment-grid">
@@ -1518,7 +1523,7 @@
           {{-- TERMS & SUBMIT --}}
           <div style="margin-top: 24px;">
             <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; cursor: pointer; color: #475569; line-height: 1.5;">
-              <input type="checkbox" name="terms" value="1" checked required style="margin-top: 3px; accent-color: #1e2d27;">
+              <input type="checkbox" name="terms" value="1" checked required style="margin-top: 3px; accent-color: #722F37;">
               <span>Saya menyetujui <a href="{{ route('terms') }}" target="_blank" style="color: inherit; text-decoration: underline;"><strong>Syarat &amp; Ketentuan Pemesanan</strong></a> serta menjamin data penerima hantaran sudah diisi dengan benar.</span>
             </label>
           </div>
@@ -1533,28 +1538,28 @@
           <div class="trust-item">
             <div class="trust-icon">🔒</div>
             <div>
-              <strong style="color: #1e2d27; display: block;">Enkripsi SSL 256-Bit</strong>
+              <strong style="color: #722F37; display: block;">Enkripsi SSL 256-Bit</strong>
               <span>Transaksi &amp; data Anda dijamin 100% aman terlindungi.</span>
             </div>
           </div>
           <div class="trust-item">
             <div class="trust-icon">🛡️</div>
             <div>
-              <strong style="color: #1e2d27; display: block;">Garansi Kemasan Aman</strong>
+              <strong style="color: #722F37; display: block;">Garansi Kemasan Aman</strong>
               <span>Dilindungi double bubble wrap dan hardbox tebal elegan.</span>
             </div>
           </div>
           <div class="trust-item">
             <div class="trust-icon">🚚</div>
             <div>
-              <strong style="color: #1e2d27; display: block;">Kurir Terjadwal Rapi</strong>
+              <strong style="color: #722F37; display: block;">Kurir Terjadwal Rapi</strong>
               <span>Tiba tepat waktu sesuai tanggal reservasi pilihan Anda.</span>
             </div>
           </div>
           <div class="trust-item">
             <div class="trust-icon">✨</div>
             <div>
-              <strong style="color: #1e2d27; display: block;">Kualitas Pastry Premium</strong>
+              <strong style="color: #722F37; display: block;">Kualitas Pastry Premium</strong>
               <span>Diproduksi segar (freshly baked) dari bahan bersertifikasi halal.</span>
             </div>
           </div>
@@ -1573,11 +1578,11 @@
               <div style="display: flex; gap: 12px; align-items: center;">
                 <img src="{{ $item['thumbnail_url'] ?? ($item['image_url'] ?? asset('images/logo.png')) }}" alt="{{ $item['name'] }}" loading="lazy" decoding="async" style="width: 46px; height: 46px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
                 <div>
-                  <div style="font-weight: 600; font-size: 13.5px; color: #1e2d27;">{{ $item['name'] }}</div>
-                  <div style="font-size: 11.5px; color: #64756d;">Qty: {{ $item['quantity'] }} × Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
+                  <div style="font-weight: 600; font-size: 13.5px; color: #1e293b;">{{ $item['name'] }}</div>
+                  <div style="font-size: 11.5px; color: #64748b;">Qty: {{ $item['quantity'] }} × Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
                 </div>
               </div>
-              <div style="font-weight: 700; color: #1e2d27; font-size: 13.5px;">
+              <div style="font-weight: 700; color: #722F37; font-size: 13.5px;">
                 Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
               </div>
             </div>
@@ -1586,7 +1591,7 @@
 
         {{-- PROMO KUPON LANGSUNG DI CHECKOUT --}}
         <div class="checkout-coupon-box">
-          <div style="font-size: 12px; font-weight: 700; color: #1e2d27; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+          <div style="font-size: 12px; font-weight: 700; color: #722F37; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
             <span>🎟️ Punya Kode Kupon Promo?</span>
             @if(!empty($appliedCoupon['code']))
               <span style="color: #15803d; font-weight: 700; font-size: 11px;">Kupon Aktif</span>

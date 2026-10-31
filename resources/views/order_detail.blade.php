@@ -5,20 +5,20 @@
 @section('content')
 <style>
   .invoice-page {
-    background-color: #f7f9f8;
+    background-color: #faf7f4;
     min-height: 100vh;
     padding: 40px 20px 100px 20px;
-    color: #2c3e35;
+    color: #1e293b;
     font-family: 'Outfit', sans-serif;
   }
   .invoice-card {
     max-width: 800px;
     margin: 0 auto;
     background: #fff;
-    border: 1px solid #d2dcd7;
-    border-radius: 12px;
+    border: 1.5px solid #ecd5dc;
+    border-radius: 14px;
     padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 35px rgba(114, 47, 55, 0.06);
   }
   .customer-delivery-grid {
     display: grid;
@@ -44,10 +44,11 @@
   .invoice-header h1 {
     font-family: 'Playfair Display', serif;
     font-size: 26px;
-    color: #1e2d27;
+    color: #722F37;
     letter-spacing: 1.5px;
     margin-bottom: 8px;
     word-break: break-word;
+    font-weight: 700;
   }
   .invoice-badge {
     display: inline-block;
@@ -146,7 +147,7 @@
           🖨️ Cetak / Unduh Faktur PDF (Print)
         </a>
       </div>
-      <p style="font-size: 13px; color: #64756d; margin-top: 4px;">Dibuat pada {{ $order->created_at->format('d M Y, H:i') }} WIB</p>
+      <p style="font-size: 13px; color: #64748b; margin-top: 4px;">Dibuat pada {{ $order->created_at->format('d M Y, H:i') }} WIB</p>
     </div>
 
     @if (session('success'))
@@ -336,7 +337,7 @@
 
       @elseif ($isCod)
         <div class="payment-instructions-box" style="background: #f8faf9; border-color: #cbd5e1;">
-          <h3 style="color: #1e2d27;">💵 PEMBAYARAN CASH ON DELIVERY (COD)</h3>
+          <h3 style="color: #722F37;">💵 PEMBAYARAN CASH ON DELIVERY (COD)</h3>
           <p style="font-size: 13px; color: #475569; margin-bottom: 12px;">
             Pesanan Anda dengan nomor invoice <strong>{{ $order->invoice_number }}</strong> sedang disiapkan. Mohon siapkan uang tunai pas sejumlah <strong>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</strong> saat kurir dedicated toko kami tiba di alamat pengiriman Anda.
           </p>
@@ -464,8 +465,8 @@
 
     <!-- Customer & Delivery Details -->
     <div class="customer-delivery-grid">
-      <div style="background: #f8faf9; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <strong style="color: #1e2d27; display: block; margin-bottom: 6px;">👤 Akun & Detail Pemesan:</strong>
+      <div style="background: #faf7f8; padding: 16px; border-radius: 8px; border: 1px solid #ebdbe0;">
+        <strong style="color: #722F37; display: block; margin-bottom: 6px;">👤 Akun &amp; Detail Pemesan:</strong>
         <div>Nama: <strong>{{ $order->customer_name }}</strong></div>
         <div>No. WA: {{ $order->customer_phone }}</div>
         <div>Email: {{ $order->customer_email ?: '-' }}</div>
@@ -477,8 +478,8 @@
           @endif
         </div>
       </div>
-      <div style="background: #f8faf9; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <strong style="color: #1e2d27; display: block; margin-bottom: 6px;">🚚 Pengiriman & Ekspedisi:</strong>
+      <div style="background: #faf7f8; padding: 16px; border-radius: 8px; border: 1px solid #ebdbe0;">
+        <strong style="color: #722F37; display: block; margin-bottom: 6px;">🚚 Pengiriman &amp; Ekspedisi:</strong>
         <div>Opsi: <strong>{{ strtoupper($order->delivery_option) }}</strong></div>
         <div>Ekspedisi: <strong>{{ $order->courier_name ?: 'Kurir Toko' }}</strong></div>
         <div>Resi Pengiriman: <strong style="color: #d97706; font-family: monospace;">{{ $order->tracking_number ?: 'Menunggu Verifikasi & Kirim' }}</strong></div>
@@ -501,7 +502,7 @@
 
     @if ($order->order_note)
       <div style="background: #fdfcf7; border: 1px solid #e7dfc6; padding: 18px 22px; border-radius: 8px; margin-top: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);">
-        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #1e2d27; font-size: 14px; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; color: #722F37; font-size: 14px; margin-bottom: 10px;">
           <span style="font-size: 18px;">🎁</span> <span>Kartu Ucapan Hantaran &amp; Catatan Pesanan:</span>
         </div>
         <div style="font-size: 13.5px; color: #2d3748; line-height: 1.7; white-space: pre-line; background: #ffffff; padding: 14px 18px; border-radius: 6px; border: 1px dashed #d1c7a7;">
@@ -543,9 +544,9 @@
         <span>Biaya Pengiriman ({{ strtoupper($order->delivery_option) }})</span>
         <span>Rp {{ number_format($order->delivery_fee, 0, ',', '.') }}</span>
       </div>
-      <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; color: #1e2d27; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0;">
+      <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; color: #722F37; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0;">
         <span>TOTAL PEMBAYARAN</span>
-        <span style="color: #d97706;">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+        <span style="color: #722F37;">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
       </div>
     </div>
 
@@ -553,7 +554,7 @@
       <a href="{{ route('order.invoice.pdf', $order->invoice_number) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: #0284c7; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 13.5px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);">
         🖨️ Cetak / Unduh Faktur PDF (Print)
       </a>
-      <a href="{{ route('home') }}" style="color: #64756d; text-decoration: none; font-size: 13.5px; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff;">
+      <a href="{{ route('home') }}" style="color: #64748b; text-decoration: none; font-size: 13.5px; padding: 10px 16px; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff;">
         ← Kembali ke Toko
       </a>
     </div>

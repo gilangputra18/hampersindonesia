@@ -6,10 +6,10 @@
 <style>
   /* Luxury Shop Container Layout (Full Width, No Sidebar Clutter) */
   .shop-container {
-    background-color: #f8faf9;
+    background-color: #faf7f4;
     min-height: 100vh;
     padding: 36px 5% 90px 5%;
-    color: #122019;
+    color: #1e293b;
     font-family: 'Outfit', sans-serif;
   }
   .crumb-shop {
@@ -38,7 +38,7 @@
     letter-spacing: 4px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #122019;
+    color: #722F37;
     margin: 0;
   }
   .shop-title-header h1::after {
@@ -80,7 +80,7 @@
     text-decoration: none;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(0, 0, 0, 0.06);
-    background: #0f1c16;
+    background: #2d0a14;
     transition: transform 0.35s ease, box-shadow 0.35s ease;
   }
   .collection-card:hover {

@@ -198,9 +198,9 @@
     margin: 0;
   }
   .pdetail-add-cart-btn {
-    background: #9b3820;
+    background: linear-gradient(135deg, #722F37 0%, #4a151b 100%);
     color: #ffffff;
-    border: none;
+    border: 1px solid rgba(254, 240, 138, 0.4);
     border-radius: 6px;
     font-family: 'Outfit', sans-serif;
     font-size: 13.5px;
@@ -210,12 +210,14 @@
     padding: 13px 36px;
     cursor: pointer;
     transition: all 0.25s ease;
-    box-shadow: 0 4px 14px rgba(155, 56, 32, 0.35);
+    box-shadow: 0 4px 14px rgba(114, 47, 55, 0.35);
   }
   .pdetail-add-cart-btn:hover {
-    background: #b94427;
+    background: linear-gradient(135deg, #8b2331 0%, #5e1620 100%);
+    color: #fef08a;
+    border-color: #fef08a;
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(155, 56, 32, 0.5);
+    box-shadow: 0 6px 18px rgba(114, 47, 55, 0.5);
   }
 
   /* Tabs Bar */
@@ -295,7 +297,7 @@
     font-family: 'Playfair Display', serif;
     font-size: clamp(22px, 3.5vw, 30px);
     font-weight: 800;
-    color: #9b3820;
+    color: #722F37;
     line-height: 1.35;
     margin: 0 0 16px 0;
   }

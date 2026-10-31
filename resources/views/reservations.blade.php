@@ -5,9 +5,9 @@
 @section('content')
 <style>
   .reservations-page {
-    background-color: #f8faf9;
+    background-color: #faf7f4;
     padding: 60px 20px 100px 20px;
-    color: #122019;
+    color: #1e293b;
     font-family: 'Outfit', sans-serif;
   }
   .reservations-container {
@@ -24,7 +24,7 @@
     letter-spacing: 5px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #122019;
+    color: #722F37;
     margin-bottom: 8px;
   }
   .res-header-title h1::after {
@@ -77,7 +77,7 @@
     letter-spacing: 2.5px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #122019;
+    color: #722F37;
     margin-bottom: 6px;
   }
   .res-topic-title {
@@ -91,7 +91,7 @@
   .res-description {
     font-size: 14px;
     line-height: 1.85;
-    color: #4a5c53;
+    color: #475569;
     margin-bottom: 28px;
   }
   .res-description ul {
@@ -116,12 +116,12 @@
   }
   .res-btn-outline {
     background: transparent;
-    border: 1px solid #122019;
-    color: #122019;
+    border: 1px solid #722F37;
+    color: #722F37;
   }
   .res-btn-outline:hover {
-    border-color: #d97706;
-    background: #122019;
+    border-color: #722F37;
+    background: #722F37;
     color: #fef08a;
   }
   .res-btn-sand {
@@ -132,7 +132,7 @@
   }
   .res-btn-sand:hover {
     background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-    color: #0d1713;
+    color: #1e0b12;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(245,158,11,0.45);
   }

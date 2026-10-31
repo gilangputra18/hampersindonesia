@@ -5,10 +5,10 @@
 @section('content')
 <style>
   .cart-page-container {
-    background-color: #f7f9f8;
+    background-color: #faf7f4;
     min-height: 100vh;
     padding: 40px 20px 100px 20px;
-    color: #2c3e35;
+    color: #1e293b;
     font-family: 'Outfit', sans-serif;
   }
   .cart-wrapper {
@@ -20,10 +20,10 @@
     font-family: 'Playfair Display', serif;
     font-size: 32px;
     letter-spacing: 4px;
-    font-weight: 400;
+    font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 50px;
-    color: #1e2d27;
+    color: #722F37;
   }
 
   /* Cart Table */
@@ -36,14 +36,14 @@
     font-size: 11px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    font-weight: 600;
-    color: #64756d;
+    font-weight: 700;
+    color: #722F37;
     padding-bottom: 16px;
-    border-bottom: 1px solid #d2dcd7;
+    border-bottom: 1.5px solid #ecd5dc;
   }
   .cart-table td {
     padding: 24px 0;
-    border-bottom: 1px solid #d2dcd7;
+    border-bottom: 1px solid #ecd5dc;
     vertical-align: middle;
   }
   .cart-item-info {
@@ -55,26 +55,28 @@
     width: 90px;
     height: 90px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 8px;
+    border: 1px solid #ecd5dc;
     background: #e2e8f0;
   }
   .cart-item-name {
     font-size: 14px;
-    font-weight: 500;
-    color: #1e2d27;
+    font-weight: 700;
+    color: #1e293b;
     margin-bottom: 4px;
   }
   .cart-item-price {
     font-size: 13px;
-    color: #55675f;
+    color: #722F37;
+    font-weight: 600;
   }
 
   /* Quantity Control */
   .qty-box {
     display: inline-flex;
     align-items: center;
-    border: 1px solid #b5c7c0;
-    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
     background: #fff;
     overflow: hidden;
   }
@@ -84,10 +86,11 @@
     padding: 6px 12px;
     font-size: 14px;
     cursor: pointer;
-    color: #2c3e35;
+    color: #1e293b;
   }
   .qty-btn:hover {
-    background: #f0f4f2;
+    background: #fdf2f4;
+    color: #722F37;
   }
   .qty-val {
     padding: 0 12px;
@@ -180,19 +183,20 @@
 
   /* Delivery Options Card */
   .delivery-card {
-    border: 1px solid #d2dcd7;
-    border-radius: 6px;
+    border: 1.5px solid #ecd5dc;
+    border-radius: 14px;
     background: #fff;
     padding: 30px;
     margin-bottom: 60px;
+    box-shadow: 0 4px 20px rgba(114, 47, 55, 0.05);
   }
   .delivery-card-title {
     text-align: center;
     font-size: 12px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    font-weight: 600;
-    color: #64756d;
+    font-weight: 700;
+    color: #722F37;
     margin-bottom: 24px;
   }
   .delivery-tabs {
@@ -205,17 +209,18 @@
     flex: 1;
     max-width: 180px;
     padding: 16px 20px;
-    border: 1px solid #d2dcd7;
-    border-radius: 8px;
-    background: #f8faf9;
+    border: 1.5px solid #ecd5dc;
+    border-radius: 10px;
+    background: #faf7f8;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
   }
   .delivery-tab-btn.active {
-    background: #dcd6cd;
-    border-color: #8c8275;
-    font-weight: 600;
+    background: #fdf2f4;
+    border-color: #722F37;
+    box-shadow: 0 0 0 1px #722F37;
+    font-weight: 700;
   }
   .delivery-tab-btn .icon {
     font-size: 22px;
@@ -224,8 +229,11 @@
   }
   .delivery-tab-btn .label {
     font-size: 12px;
-    font-weight: 600;
-    color: #1e2d27;
+    font-weight: 700;
+    color: #334155;
+  }
+  .delivery-tab-btn.active .label {
+    color: #722F37;
   }
 
   .date-picker-row {
@@ -234,17 +242,22 @@
     justify-content: center;
     gap: 12px;
     font-size: 13px;
-    color: #4a5c53;
+    color: #475569;
     margin-bottom: 30px;
   }
   .date-picker-input {
-    padding: 8px 14px;
-    border: 1px solid #b5c7c0;
-    border-radius: 4px;
+    padding: 9px 14px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
     background: #fff;
     font-family: inherit;
     font-size: 13px;
-    color: #1e2d27;
+    color: #1e293b;
+    font-weight: 600;
+  }
+  .date-picker-input:focus {
+    outline: none;
+    border-color: #722F37;
   }
 
   .note-and-total-row {
@@ -262,37 +275,45 @@
   .order-note-box label {
     display: block;
     font-size: 12px;
-    color: #64756d;
+    color: #722F37;
+    font-weight: 700;
     margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   .order-note-box textarea {
     width: 100%;
     height: 100px;
     padding: 12px;
-    border: 1px solid #d2dcd7;
-    border-radius: 4px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
     font-family: inherit;
     font-size: 13px;
     resize: none;
+    box-sizing: border-box;
+  }
+  .order-note-box textarea:focus {
+    outline: none;
+    border-color: #722F37;
   }
 
   .cart-summary-box {
     text-align: right;
   }
   .summary-total {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1e2d27;
+    font-size: 20px;
+    font-weight: 800;
+    color: #722F37;
     margin-bottom: 4px;
   }
   .summary-subtext {
-    font-size: 11px;
-    color: #7a8b83;
+    font-size: 11.5px;
+    color: #64748b;
     margin-bottom: 16px;
   }
   .terms-check-label {
     font-size: 12px;
-    color: #4a5c53;
+    color: #475569;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -301,30 +322,34 @@
     cursor: pointer;
   }
   .terms-check-label input {
-    accent-color: #1e2d27;
+    accent-color: #722F37;
   }
   .checkout-btn {
     width: 100%;
-    padding: 14px;
-    background: #dcd6cd;
-    border: 1px solid #8c8275;
-    color: #1e2d27;
-    font-size: 12px;
-    letter-spacing: 3px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #722F37 0%, #4a0d1f 100%);
+    border: 1px solid rgba(230, 202, 101, 0.4);
+    color: #ffffff;
+    font-size: 13px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 800;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.2s;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(114, 47, 55, 0.25);
+    transition: all 0.25s ease;
   }
   .checkout-btn:hover {
-    background: #cbbfb0;
+    background: linear-gradient(135deg, #873843 0%, #591226 100%);
+    box-shadow: 0 8px 24px rgba(114, 47, 55, 0.35);
+    transform: translateY(-2px);
   }
 
   /* Terms & Conditions Accordion Section */
   .terms-section {
-    background: #e5ece9;
-    border-radius: 8px;
+    background: #faf7f8;
+    border: 1.5px solid #ecd5dc;
+    border-radius: 14px;
     padding: 50px 40px;
     margin-top: 80px;
   }
@@ -333,10 +358,10 @@
     font-size: 12px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    font-weight: 600;
-    color: #4a5c53;
+    font-weight: 700;
+    color: #722F37;
     margin-bottom: 30px;
-    border-bottom: 1px solid #c8d5d0;
+    border-bottom: 1px solid #ecd5dc;
     padding-bottom: 12px;
   }
   .terms-content {
@@ -344,17 +369,18 @@
     margin: 0 auto;
     font-size: 12px;
     line-height: 1.8;
-    color: #3b4e45;
+    color: #475569;
   }
   .terms-content h4 {
     text-align: center;
     font-size: 13px;
     text-decoration: underline;
     margin: 24px 0 12px 0;
-    color: #1e2d27;
+    color: #722F37;
+    font-weight: 700;
   }
   .terms-content strong {
-    color: #1e2d27;
+    color: #1e293b;
   }
 
   /* Mobile Responsiveness for Cart Page */
@@ -471,8 +497,8 @@
           </div>
 
           <!-- Direct Courier Expedition Selector -->
-          <div id="courier-selector-wrapper" style="margin-bottom: 30px; background: #f8faf9; padding: 20px; border-radius: 8px; border: 1px solid #d2dcd7;">
-            <label style="display: block; font-size: 11px; font-weight: 700; color: #64756d; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; text-align: center;">
+          <div id="courier-selector-wrapper" style="margin-bottom: 30px; background: #faf7f8; padding: 20px; border-radius: 12px; border: 1.5px solid #ecd5dc;">
+            <label style="display: block; font-size: 11.5px; font-weight: 700; color: #722F37; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; text-align: center;">
               PILIH JASA EKSPEDISI / KURIR PENGIRIMAN:
             </label>
 
@@ -483,30 +509,30 @@
             @endif
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
-              <label class="courier-option-card active" id="courier-card-store" onclick="selectCourier('Kurir Toko (Dedicated Bakery Delivery)', {{ $shipSettings['store_courier_rate'] ?? 20000 }})" style="border: 2px solid #1e2d27; background: #fff; padding: 12px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s;">
-                <div style="font-weight: 600; font-size: 13px; color: #1e2d27;">🥖 Kurir Toko Dedicated</div>
-                <div style="font-size: 11px; color: #55675f; margin-top: 2px;">
+              <label class="courier-option-card active" id="courier-card-store" onclick="selectCourier('Kurir Toko (Dedicated Bakery Delivery)', {{ $shipSettings['store_courier_rate'] ?? 20000 }})" style="border: 2px solid #722F37; background: #fdf2f4; padding: 12px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                <div style="font-weight: 700; font-size: 13px; color: #722F37;">🥖 Kurir Toko Dedicated</div>
+                <div style="font-size: 11.5px; color: #64748b; margin-top: 2px;">
                   {{ $isFreeShippingSubtotal ? 'GRATIS (Rp 0)' : 'Rp ' . number_format($shipSettings['store_courier_rate'] ?? 20000, 0, ',', '.') }}
                 </div>
               </label>
 
-              <label class="courier-option-card" id="courier-card-jne" onclick="selectCourier('JNE Express (Reguler/YES)', {{ $shipSettings['jne_rate'] ?? 15000 }})" style="border: 1px solid #d2dcd7; background: #fff; padding: 12px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s;">
-                <div style="font-weight: 600; font-size: 13px; color: #1e2d27;">📦 JNE Express</div>
-                <div style="font-size: 11px; color: #55675f; margin-top: 2px;">
+              <label class="courier-option-card" id="courier-card-jne" onclick="selectCourier('JNE Express (Reguler/YES)', {{ $shipSettings['jne_rate'] ?? 15000 }})" style="border: 1.5px solid #ecd5dc; background: #fff; padding: 12px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                <div style="font-weight: 700; font-size: 13px; color: #1e293b;">📦 JNE Express</div>
+                <div style="font-size: 11.5px; color: #64748b; margin-top: 2px;">
                   {{ $isFreeShippingSubtotal ? 'GRATIS (Rp 0)' : 'Rp ' . number_format($shipSettings['jne_rate'] ?? 15000, 0, ',', '.') }}
                 </div>
               </label>
 
-              <label class="courier-option-card" id="courier-card-jnt" onclick="selectCourier('J&T Express', {{ $shipSettings['jnt_rate'] ?? 16000 }})" style="border: 1px solid #d2dcd7; background: #fff; padding: 12px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s;">
-                <div style="font-weight: 600; font-size: 13px; color: #1e2d27;">🚚 J&T Express</div>
-                <div style="font-size: 11px; color: #55675f; margin-top: 2px;">
+              <label class="courier-option-card" id="courier-card-jnt" onclick="selectCourier('J&T Express', {{ $shipSettings['jnt_rate'] ?? 16000 }})" style="border: 1.5px solid #ecd5dc; background: #fff; padding: 12px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                <div style="font-weight: 700; font-size: 13px; color: #1e293b;">🚚 J&T Express</div>
+                <div style="font-size: 11.5px; color: #64748b; margin-top: 2px;">
                   {{ $isFreeShippingSubtotal ? 'GRATIS (Rp 0)' : 'Rp ' . number_format($shipSettings['jnt_rate'] ?? 16000, 0, ',', '.') }}
                 </div>
               </label>
 
-              <label class="courier-option-card" id="courier-card-gosend" onclick="selectCourier('GoSend / GrabExpress (Instant)', {{ $shipSettings['gosend_rate'] ?? 25000 }})" style="border: 1px solid #d2dcd7; background: #fff; padding: 12px; border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s;">
-                <div style="font-weight: 600; font-size: 13px; color: #1e2d27;">⚡ GoSend / Grab</div>
-                <div style="font-size: 11px; color: #55675f; margin-top: 2px;">
+              <label class="courier-option-card" id="courier-card-gosend" onclick="selectCourier('GoSend / GrabExpress (Instant)', {{ $shipSettings['gosend_rate'] ?? 25000 }})" style="border: 1.5px solid #ecd5dc; background: #fff; padding: 12px; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.2s;">
+                <div style="font-weight: 700; font-size: 13px; color: #1e293b;">⚡ GoSend / Grab</div>
+                <div style="font-size: 11.5px; color: #64748b; margin-top: 2px;">
                   {{ $isFreeShippingSubtotal ? 'GRATIS (Rp 0)' : 'Rp ' . number_format($shipSettings['gosend_rate'] ?? 25000, 0, ',', '.') }}
                 </div>
               </label>
@@ -532,13 +558,13 @@
               @endphp
 
               <!-- Coupon Code Card -->
-              <div style="background: #f8faf9; border: 1px solid #d2dcd7; border-radius: 8px; padding: 14px; margin-bottom: 20px; text-align: left;">
-                <label style="display: block; font-size: 11px; font-weight: 700; color: #64756d; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">
+              <div style="background: #faf7f8; border: 1.5px solid #ecd5dc; border-radius: 10px; padding: 14px; margin-bottom: 20px; text-align: left;">
+                <label style="display: block; font-size: 11px; font-weight: 700; color: #722F37; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px;">
                   🎟️ KODE KUPON DISKON
                 </label>
                 <div style="display: flex; gap: 8px;">
-                  <input type="text" id="coupon_code_input" placeholder="Contoh: DISKON10" value="{{ $appliedCoupon['code'] ?? '' }}" style="flex: 1; padding: 8px 12px; border: 1px solid #b5c7c0; border-radius: 4px; font-size: 13px; text-transform: uppercase;" {{ $appliedCoupon ? 'readonly' : '' }}>
-                  <button type="button" id="coupon_btn" onclick="{{ $appliedCoupon ? 'removeCouponAjax()' : 'applyCouponAjax()' }}" style="background: {{ $appliedCoupon ? '#ef4444' : '#1e2d27' }}; color: #fff; border: none; padding: 8px 14px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                  <input type="text" id="coupon_code_input" placeholder="Contoh: DISKON10" value="{{ $appliedCoupon['code'] ?? '' }}" style="flex: 1; padding: 8px 12px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 13px; text-transform: uppercase;" {{ $appliedCoupon ? 'readonly' : '' }}>
+                  <button type="button" id="coupon_btn" onclick="{{ $appliedCoupon ? 'removeCouponAjax()' : 'applyCouponAjax()' }}" style="background: {{ $appliedCoupon ? '#ef4444' : '#722F37' }}; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer;">
                     {{ $appliedCoupon ? 'Hapus' : 'Gunakan' }}
                   </button>
                 </div>
@@ -550,7 +576,7 @@
               <div class="summary-total">Total: Rp <span id="cart-total-display">{{ number_format(max(0, $subtotal + $initialCourierRate - $discountAmount), 0, ',', '.') }}</span></div>
               <div class="summary-subtext" id="shipping-fee-subtitle">
                 Ongkir <span id="courier-name-label">Kurir Toko Dedicated</span>: 
-                <strong style="color: #1e2d27;" id="courier-fee-label">{{ $isFreeShippingSubtotal ? 'GRATIS (Rp 0)' : 'Rp ' . number_format($initialCourierRate, 0, ',', '.') }}</strong>
+                <strong style="color: #722F37;" id="courier-fee-label">{{ $isFreeShippingSubtotal ? 'GRATIS (Rp 0)' : 'Rp ' . number_format($initialCourierRate, 0, ',', '.') }}</strong>
                 @if($discountAmount > 0)
                   <br><span style="color: #15803d; font-weight: 600;" id="discount-label-row">Diskon Kupon: -Rp {{ number_format($discountAmount, 0, ',', '.') }}</span>
                 @endif
@@ -558,7 +584,7 @@
 
               <label class="terms-check-label">
                 <input type="checkbox" name="terms_agree" id="terms_agree" required>
-                <span>Saya telah membaca dan menyetujui <a href="#terms-of-order" style="color: inherit; text-decoration: underline;">Syarat & Ketentuan Pesanan</a></span>
+                <span>Saya telah membaca dan menyetujui <a href="#terms-of-order" style="color: inherit; text-decoration: underline;">Syarat &amp; Ketentuan Pesanan</a></span>
               </label>
 
               @auth
@@ -573,7 +599,7 @@
                 <button type="submit" class="checkout-btn">PROSES PEMBAYARAN ➔</button>
               @else
                 <div style="background: #fffbeb; border: 1.5px solid #fcd34d; color: #92400e; padding: 16px; border-radius: 10px; margin-bottom: 18px; font-size: 13px; text-align: left; line-height: 1.55; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.08);">
-                  <div style="font-weight: 800; font-size: 14px; color: #780d26; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                  <div style="font-weight: 800; font-size: 14px; color: #722F37; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                     <span style="font-size: 18px;">🔒</span>
                     <span>Wajib Masuk / Memiliki Akun untuk Belanja</span>
                   </div>
@@ -581,16 +607,16 @@
                     Sesuai kebijakan toko kami, pelanggan harus masuk ke akun atau mendaftar terlebih dahulu agar riwayat pesanan, faktur resmi, dan status pengiriman tersimpan dengan aman.
                   </p>
                   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <a href="{{ route('login') }}" style="background: linear-gradient(135deg, #780d26 0%, #9f183c 100%); color: #fff; text-decoration: none; text-align: center; padding: 12px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(120, 13, 38, 0.25);">
+                    <a href="{{ route('login') }}" style="background: linear-gradient(135deg, #722F37 0%, #4a0d1f 100%); color: #fff; text-decoration: none; text-align: center; padding: 12px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(114, 47, 55, 0.25);">
                       👤 Masuk ke Akun
                     </a>
-                    <a href="{{ route('register') }}" style="background: #ffffff; color: #780d26; border: 1.5px solid #9f183c; text-decoration: none; text-align: center; padding: 11px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">
+                    <a href="{{ route('register') }}" style="background: #ffffff; color: #722F37; border: 1.5px solid #722F37; text-decoration: none; text-align: center; padding: 11px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; letter-spacing: 0.5px;">
                       ✨ Daftar Akun Baru
                     </a>
                   </div>
                 </div>
 
-                <button type="submit" class="checkout-btn" style="background: linear-gradient(135deg, #780d26 0%, #9f183c 100%);">
+                <button type="submit" class="checkout-btn" style="background: linear-gradient(135deg, #722F37 0%, #4a0d1f 100%);">
                   🔒 MASUK &amp; LANJUTKAN PEMBAYARAN ➔
                 </button>
               @endauth
@@ -599,10 +625,10 @@
         </div>
       </form>
     @else
-      <div style="text-align: center; padding: 60px 20px; background: #fff; border-radius: 8px; border: 1px solid #d2dcd7;">
+      <div style="text-align: center; padding: 60px 20px; background: #fff; border-radius: 14px; border: 1.5px solid #ecd5dc;">
         <div style="font-size: 40px; margin-bottom: 12px;">🥐</div>
-        <h3 style="font-size: 18px; font-weight: 500; color: #1e2d27; margin-bottom: 10px;">Keranjang belanja Anda masih kosong</h3>
-        <p style="font-size: 13px; color: #64756d; margin-bottom: 24px;">Jelajahi koleksi produk toko roti kami dan tambahkan item favorit Anda.</p>
+        <h3 style="font-size: 18px; font-weight: 700; color: #722F37; margin-bottom: 10px;">Keranjang belanja Anda masih kosong</h3>
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 24px;">Jelajahi koleksi produk toko roti kami dan tambahkan item favorit Anda.</p>
         <a href="{{ route('home') }}" class="checkout-btn" style="display: inline-block; width: auto; padding: 12px 30px; text-decoration: none;">BELANJA SEKARANG</a>
       </div>
     @endif
@@ -765,17 +791,22 @@ function selectCourier(name, rate) {
   currentCourierRate = isFreeShippingSubtotal ? 0 : rate;
 
   document.querySelectorAll('.courier-option-card').forEach(card => {
-    card.style.border = '1px solid #d2dcd7';
+    card.style.border = '1.5px solid #ecd5dc';
+    card.style.background = '#ffffff';
   });
 
   if (name.includes('Kurir Toko')) {
-    document.getElementById('courier-card-store').style.border = '2px solid #1e2d27';
+    const el = document.getElementById('courier-card-store');
+    if (el) { el.style.border = '2px solid #722F37'; el.style.background = '#fdf2f4'; }
   } else if (name.includes('JNE')) {
-    document.getElementById('courier-card-jne').style.border = '2px solid #1e2d27';
+    const el = document.getElementById('courier-card-jne');
+    if (el) { el.style.border = '2px solid #722F37'; el.style.background = '#fdf2f4'; }
   } else if (name.includes('J&T')) {
-    document.getElementById('courier-card-jnt').style.border = '2px solid #1e2d27';
+    const el = document.getElementById('courier-card-jnt');
+    if (el) { el.style.border = '2px solid #722F37'; el.style.background = '#fdf2f4'; }
   } else if (name.includes('GoSend') || name.includes('Grab')) {
-    document.getElementById('courier-card-gosend').style.border = '2px solid #1e2d27';
+    const el = document.getElementById('courier-card-gosend');
+    if (el) { el.style.border = '2px solid #722F37'; el.style.background = '#fdf2f4'; }
   }
 
   if (currentDeliveryOption === 'delivery') {
