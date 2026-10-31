@@ -151,6 +151,7 @@
   }
   .status-completed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
   .status-processing { background: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
+  .status-shipping { background: rgba(14, 165, 233, 0.2); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.4); }
   .status-pending { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
   .status-cancelled { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 
@@ -351,7 +352,7 @@
     <!-- Order Tracking Result -->
     @if($order)
       @php
-        // Calculate Progress Step (1: Pending, 2: Processing, 3: Out for Delivery/Ready, 4: Completed)
+        // Calculate Progress Step (1: Pending, 2: Processing, 3: Shipping, 4: Completed)
         $step = 1;
         $progressWidth = '0%';
         if ($order->order_status == 'pending') {
@@ -359,7 +360,10 @@
             $progressWidth = '15%';
         } elseif ($order->order_status == 'processing') {
             $step = 2;
-            $progressWidth = '50%';
+            $progressWidth = '45%';
+        } elseif ($order->order_status == 'shipping') {
+            $step = 3;
+            $progressWidth = '75%';
         } elseif ($order->order_status == 'completed') {
             $step = 4;
             $progressWidth = '100%';
@@ -382,7 +386,7 @@
 
           <div class="status-badge-group">
             <span class="badge-status status-{{ $order->order_status }}">
-              📌 Status: {{ strtoupper($order->order_status) }}
+              📌 Status: {{ $order->order_status === 'shipping' ? 'DIKIRIM KURIR' : strtoupper($order->order_status) }}
             </span>
             <span class="badge-status {{ $order->payment_status == 'paid' ? 'status-completed' : 'status-processing' }}">
               💳 Pembayaran: {{ strtoupper($order->payment_status) }}
@@ -419,6 +423,65 @@
               <div class="step-label">Selesai Diterima<br><small style="font-size: 10px; opacity: 0.8;">Pesanan Tiba</small></div>
             </div>
           </div>
+
+          @if($order->order_status == 'shipping')
+            <div style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(14, 165, 233, 0.1) 100%); border: 2px solid #0284c7; border-radius: 12px; padding: 22px; margin-bottom: 30px; box-shadow: 0 8px 25px rgba(2, 132, 199, 0.25);">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 32px;">🚚</span>
+                  <div>
+                    <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: #38bdf8; letter-spacing: 0.5px;">Paket Sedang Dibawa Kurir Ekspedisi</h3>
+                    <span style="font-size: 12.5px; color: #cbd5e1;">Paket hampers Anda dalam perjalanan menuju alamat tujuan</span>
+                  </div>
+                </div>
+                <span style="background: #0284c7; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px;">ON DELIVERY / IN TRANSIT</span>
+              </div>
+
+              <div style="background: rgba(13, 23, 19, 0.7); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 14px 18px; margin-bottom: 16px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 13px;">
+                  <div>
+                    <span style="color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block;">Ekspedisi Pengantar:</span>
+                    <strong style="color: #fff; font-size: 14px;">{{ $order->courier_name ?: 'Kurir Toko Dedicated' }}</strong>
+                  </div>
+                  <div>
+                    <span style="color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block;">Nomor Resi / AWB:</span>
+                    <strong style="color: #f59e0b; font-family: monospace; font-size: 15px; letter-spacing: 1px;">{{ $order->tracking_number }}</strong>
+                  </div>
+                  <div>
+                    <span style="color: #94a3b8; font-size: 11px; text-transform: uppercase; display: block;">Jadwal Pengantaran:</span>
+                    <strong style="color: #fff;">📅 {{ date('d F Y', strtotime($order->delivery_date)) }}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                @if($order->courier_tracking_url)
+                  <a href="{{ $order->courier_tracking_url }}" target="_blank" style="padding: 10px 18px; background: #0284c7; color: #fff; text-decoration: none; border-radius: 6px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);">
+                    🔍 Cek Resi Resmi di {{ str_contains(strtolower($order->courier_name ?? ''), 'jne') ? 'JNE Express' : ($order->courier_name ?: 'Ekspedisi') }} ↗
+                  </a>
+                @endif
+
+                <form action="{{ route('order.confirm_received', $order->invoice_number) }}" method="POST" style="margin: 0; display: inline;" onsubmit="return confirm('Konfirmasi bahwa paket hampers telah Anda terima dengan baik?');">
+                  @csrf
+                  <button type="submit" style="padding: 10px 18px; background: #15803d; color: #fff; border: 1px solid #22c55e; border-radius: 6px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(22, 128, 61, 0.35);">
+                    ✅ Konfirmasi Paket Sudah Diterima
+                  </button>
+                </form>
+
+                @if($order->google_maps_url)
+                  <a href="{{ $order->google_maps_url }}" target="_blank" style="padding: 10px 14px; background: rgba(255,255,255,0.08); color: #86efac; text-decoration: none; border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                    📍 Rute Google Maps Kurir ↗
+                  </a>
+                @endif
+              </div>
+            </div>
+          @elseif($order->order_status == 'completed')
+            <div style="background: rgba(34, 197, 94, 0.12); border: 1px solid #22c55e; border-radius: 10px; padding: 18px 22px; margin-bottom: 28px; text-align: center;">
+              <div style="font-size: 32px; margin-bottom: 4px;">🎉</div>
+              <h3 style="color: #4ade80; margin: 0 0 4px 0; font-size: 17px; font-weight: 800;">PESANAN TELAH SELESAI &amp; DITERIMA</h3>
+              <p style="font-size: 13px; color: #cbd5e1; margin: 0;">Terima kasih atas kepercayaan Anda memesan di Pusat Hampers Indonesia. Selamat menikmati sajian kami!</p>
+            </div>
+          @endif
         @else
           <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #f87171; padding: 16px 20px; border-radius: 12px; margin-bottom: 30px;">
             ⚠️ Pesanan ini telah <strong>DIBATALKAN</strong>. Jika Anda memerlukan bantuan lebih lanjut, silakan hubungi layanan Concierge kami.

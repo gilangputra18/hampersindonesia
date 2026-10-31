@@ -458,6 +458,14 @@
     <div class="stat-icon">🥖</div>
   </a>
 
+  <a href="{{ route('admin.orders.index', ['status' => 'shipping']) }}" class="stat-card {{ request('status') === 'shipping' ? 'active' : '' }}" style="border-color: rgba(56, 189, 248, 0.4);">
+    <div>
+      <div class="stat-val" style="color: #38bdf8;">{{ $counts['shipping'] ?? 0 }}</div>
+      <div class="stat-lbl">Dibawa Kurir (Shipping)</div>
+    </div>
+    <div class="stat-icon">🚚</div>
+  </a>
+
   <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="stat-card {{ request('status') === 'completed' ? 'active' : '' }}">
     <div>
       <div class="stat-val" style="color: #34d399;">{{ $counts['completed'] }}</div>
@@ -495,6 +503,9 @@
     </a>
     <a href="{{ route('admin.orders.index', ['status' => 'processing']) }}" class="filter-pill {{ request('status') === 'processing' ? 'active' : '' }}">
       🥖 Diproses ({{ $counts['processing'] }})
+    </a>
+    <a href="{{ route('admin.orders.index', ['status' => 'shipping']) }}" class="filter-pill {{ request('status') === 'shipping' ? 'active' : '' }}" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);">
+      🚚 Dikirim Kurir ({{ $counts['shipping'] ?? 0 }})
     </a>
     <a href="{{ route('admin.orders.index', ['status' => 'completed']) }}" class="filter-pill {{ request('status') === 'completed' ? 'active' : '' }}">
       ✨ Selesai ({{ $counts['completed'] }})
@@ -695,6 +706,8 @@
                 <span class="badge-royal badge-pending">🔔 PENDING</span>
               @elseif ($ord->order_status === 'processing')
                 <span class="badge-royal badge-processing">🥖 DIPROSES</span>
+              @elseif ($ord->order_status === 'shipping')
+                <span class="badge-royal" style="background: rgba(14, 165, 233, 0.2); border: 1px solid #38bdf8; color: #38bdf8; font-weight: 800;">🚚 DIKIRIM KURIR</span>
               @elseif ($ord->order_status === 'completed')
                 <span class="badge-royal badge-completed">✨ SELESAI</span>
               @else
@@ -717,6 +730,7 @@
                   <select name="order_status" class="select-royal" style="flex: 1;" title="Ubah Status Pesanan">
                     <option value="pending" {{ $ord->order_status == 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="processing" {{ $ord->order_status == 'processing' ? 'selected' : '' }}>Diproses</option>
+                    <option value="shipping" {{ $ord->order_status == 'shipping' ? 'selected' : '' }}>🚚 Dikirim Kurir</option>
                     <option value="completed" {{ $ord->order_status == 'completed' ? 'selected' : '' }}>Selesai</option>
                     <option value="cancelled" {{ $ord->order_status == 'cancelled' ? 'selected' : '' }}>Batal</option>
                   </select>
@@ -728,17 +742,39 @@
                 </div>
               </form>
 
-              <!-- Aksi Tambahan: Cetak Faktur PDF & Hapus Pesanan (Sesuai Permintaan User Image 2) -->
-              <div style="display: flex; gap: 6px; margin-top: 6px; justify-content: flex-end; align-items: center;">
-                <a href="{{ route('order.invoice.pdf', $ord->invoice_number) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; font-size: 11px; font-weight: 700; background: #0284c7; color: #fff; text-decoration: none; border-radius: 6px; border: 1px solid #38bdf8; transition: all 0.2s;" title="Cetak Faktur / Surat Jalan PDF">
-                  🖨️ Faktur PDF
+              <!-- Aksi Pengiriman & Dokumen Ekspedisi -->
+              <div style="display: flex; gap: 4px; margin-top: 6px; justify-content: flex-end; align-items: center; flex-wrap: wrap;">
+                @if($ord->order_status !== 'shipping' && $ord->order_status !== 'completed' && $ord->order_status !== 'cancelled')
+                  <form action="{{ route('admin.orders.markShipped', $ord->id) }}" method="POST" style="margin: 0; display: inline;">
+                    @csrf
+                    <button type="submit" style="display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; font-size: 10.5px; font-weight: 700; background: #0284c7; color: #fff; border: 1px solid #38bdf8; border-radius: 5px; cursor: pointer;" title="Ubah status menjadi Sedang Dibawa Kurir Ekspedisi">
+                      🚚 Kirim Kurir
+                    </button>
+                  </form>
+                @endif
+
+                <a href="{{ route('admin.orders.shippingLabel', $ord->id) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; font-size: 10.5px; font-weight: 700; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid #d97706; text-decoration: none; border-radius: 5px;" title="Cetak Label Pengiriman Ekspedisi">
+                  🏷️ Label
                 </a>
+
+                <a href="{{ route('order.invoice.pdf', $ord->invoice_number) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; font-size: 10.5px; font-weight: 700; background: rgba(255, 255, 255, 0.08); color: #cbd5e1; text-decoration: none; border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.15);" title="Cetak Faktur PDF">
+                  🖨️ Faktur
+                </a>
+
+                @if($ord->tracking_number)
+                  @php
+                    $shipMsg = "Halo Kak {$ord->customer_name}, pesanan hampers #{$ord->invoice_number} via {$ord->courier_name} telah diserahkan ke kurir dengan no resi {$ord->tracking_number}. Lacak di: " . route('track', ['invoice' => $ord->invoice_number]);
+                  @endphp
+                  <a href="https://wa.me/{{ $cleanPhone }}?text={{ urlencode($shipMsg) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; font-size: 10.5px; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid #22c55e; border-radius: 5px; text-decoration: none;" title="Kirim info resi ke WhatsApp Pelanggan">
+                    💬 WA Resi
+                  </a>
+                @endif
 
                 <form action="{{ route('admin.orders.destroy', $ord->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesanan #{{ $ord->invoice_number }} dari database?');" style="margin: 0; display: inline;">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; font-size: 11px; font-weight: 700; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; border-radius: 6px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#ef4444'; this.style.color='#fff';" onmouseout="this.style.background='rgba(239, 68, 68, 0.15)'; this.style.color='#f87171';" title="Hapus pesanan ini">
-                    🗑️ Hapus
+                  <button type="submit" style="display: inline-flex; align-items: center; gap: 3px; padding: 4px 7px; font-size: 10.5px; font-weight: 700; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid #ef4444; border-radius: 5px; cursor: pointer;" title="Hapus pesanan ini">
+                    🗑️
                   </button>
                 </form>
               </div>

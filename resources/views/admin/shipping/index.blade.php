@@ -215,6 +215,11 @@
         </div>
 
         <div class="form-group">
+          <label class="form-label">SiCepat Express</label>
+          <input type="number" name="sicepat_rate" class="form-control" value="{{ old('sicepat_rate', $settings['sicepat_rate'] ?? 15000) }}">
+        </div>
+
+        <div class="form-group">
           <label class="form-label">Kurir Dedicated Toko</label>
           <input type="number" name="store_courier_rate" class="form-control" value="{{ old('store_courier_rate', $settings['store_courier_rate'] ?? 20000) }}">
         </div>

@@ -118,6 +118,15 @@
       <h1>PUSAT HAMPERS INDONESIA</h1>
       <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px;">
         <div class="invoice-badge">FAKTUR PESANAN: {{ $order->invoice_number }}</div>
+        @if ($order->order_status === 'shipping')
+          <div class="invoice-badge" style="background: rgba(14, 165, 233, 0.15); border-color: #0284c7; color: #0369a1; font-weight: 800;">
+            🚚 SEDANG DIBAWA KURIR EKSPEDISI
+          </div>
+        @elseif ($order->order_status === 'completed')
+          <div class="invoice-badge" style="background: rgba(22, 163, 74, 0.15); border-color: #16a34a; color: #15803d; font-weight: 800;">
+            ✨ PESANAN SELESAI
+          </div>
+        @endif
         @if ($order->payment_status === 'paid' || $order->payment_status === 'verified')
           <div class="invoice-badge" style="background: rgba(22, 163, 74, 0.12); border-color: #16a34a; color: #15803d;">
             ✅ LUNAS / TERVERIFIKASI
@@ -167,6 +176,63 @@
       $isMidtrans = str_contains($method, 'midtrans') || str_contains($method, 'otomatis');
       $isCod = str_contains($method, 'cod');
     @endphp
+
+    @if ($order->order_status === 'shipping')
+      <div style="background: linear-gradient(135deg, #eff6ff 0%, #e0f2fe 100%); border: 2px solid #0284c7; border-radius: 12px; padding: 22px; margin-bottom: 28px; box-shadow: 0 4px 18px rgba(2, 132, 199, 0.15);">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 32px;">🚚</span>
+            <div>
+              <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: #0369a1; letter-spacing: 0.5px;">PESANAN SEDANG DIBAWA KURIR EKSPEDISI</h3>
+              <span style="font-size: 12.5px; color: #475569;">Paket hampers Anda telah diberangkatkan dan dalam perjalanan menuju alamat Anda</span>
+            </div>
+          </div>
+          <span style="background: #0284c7; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; letter-spacing: 1px;">ON DELIVERY</span>
+        </div>
+
+        <div style="background: #fff; border: 1px solid #bae6fd; border-radius: 8px; padding: 14px; margin-bottom: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; font-size: 13px;">
+          <div>
+            <span style="color: #64748b; font-size: 11px; text-transform: uppercase; display: block;">Ekspedisi:</span>
+            <strong style="color: #0f172a; font-size: 14px;">{{ $order->courier_name ?: 'Kurir Toko Dedicated' }}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 11px; text-transform: uppercase; display: block;">Nomor Resi / AWB:</span>
+            <strong style="color: #d97706; font-family: monospace; font-size: 15px;">{{ $order->tracking_number }}</strong>
+          </div>
+          <div>
+            <span style="color: #64748b; font-size: 11px; text-transform: uppercase; display: block;">Estimasi Sampai:</span>
+            <strong style="color: #0f172a;">📅 {{ date('d F Y', strtotime($order->delivery_date)) }}</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+          <a href="{{ route('track', ['invoice' => $order->invoice_number]) }}" style="padding: 9px 16px; background: #0284c7; color: #fff; text-decoration: none; border-radius: 6px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);">
+            🚀 Lacak Posisi Paket Real-Time ↗
+          </a>
+
+          @if($order->courier_tracking_url)
+            <a href="{{ $order->courier_tracking_url }}" target="_blank" style="padding: 9px 16px; background: #fff; color: #0369a1; text-decoration: none; border: 1px solid #0284c7; border-radius: 6px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+              🔍 Cek Resi di Web Resmi Ekspedisi ↗
+            </a>
+          @endif
+
+          <form action="{{ route('order.confirm_received', $order->invoice_number) }}" method="POST" style="margin: 0; display: inline;" onsubmit="return confirm('Konfirmasi bahwa pesanan hampers telah sampai dan Anda terima dengan baik?');">
+            @csrf
+            <button type="submit" style="padding: 9px 16px; background: #15803d; color: #fff; border: 1px solid #16a34a; border-radius: 6px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+              ✅ Konfirmasi Sudah Diterima
+            </button>
+          </form>
+        </div>
+      </div>
+    @elseif ($order->order_status === 'completed')
+      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 18px 22px; border-radius: 10px; margin-bottom: 28px; text-align: center;">
+        <div style="font-size: 32px; margin-bottom: 4px;">🎉</div>
+        <h3 style="font-size: 17px; font-weight: 700; color: #15803d; margin: 0 0 4px 0;">PESANAN TELAH SELESAI &amp; DITERIMA</h3>
+        <p style="font-size: 13px; color: #166534; margin: 0;">
+          Paket hampers telah berhasil sampai di tujuan. Terima kasih telah memesan di Pusat Hampers Indonesia!
+        </p>
+      </div>
+    @endif
 
     @if ($order->payment_status === 'paid' || $order->payment_status === 'verified')
       <div style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 22px; border-radius: 10px; margin-bottom: 30px; text-align: center;">

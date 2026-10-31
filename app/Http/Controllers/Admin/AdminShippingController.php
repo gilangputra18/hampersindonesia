@@ -26,6 +26,7 @@ class AdminShippingController extends Controller
             'free_shipping_min' => 500000, // Rp 500.000
             'jne_rate' => 15000,
             'jnt_rate' => 16000,
+            'sicepat_rate' => 15000,
             'store_courier_rate' => 20000,
             'gosend_rate' => 25000,
             'aggregator_partner' => 'Biteship API (Aggregator JNE, J&T, Grab, GoSend)',
@@ -48,6 +49,7 @@ class AdminShippingController extends Controller
             'free_shipping_min' => 'required|numeric|min:0',
             'jne_rate' => 'required|numeric|min:0',
             'jnt_rate' => 'required|numeric|min:0',
+            'sicepat_rate' => 'required|numeric|min:0',
             'store_courier_rate' => 'required|numeric|min:0',
             'gosend_rate' => 'required|numeric|min:0',
             'aggregator_partner' => 'nullable|string|max:100',

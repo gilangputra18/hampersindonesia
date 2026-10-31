@@ -1263,4 +1263,106 @@ class BakerySystemTest extends TestCase
         $res->assertSee('width="320"', false);
         $res->assertSee('height="320"', false);
     }
+
+    public function test_expedition_shipping_end_to_end_lifecycle(): void
+    {
+        // 1. Test Shipping calculation for all couriers
+        $this->assertEquals(15000, \App\Http\Controllers\CheckoutController::calculateDeliveryFee('delivery', 'JNE Express (Reguler/YES)', 100000));
+        $this->assertEquals(16000, \App\Http\Controllers\CheckoutController::calculateDeliveryFee('delivery', 'J&T Express', 100000));
+        $this->assertEquals(15000, \App\Http\Controllers\CheckoutController::calculateDeliveryFee('delivery', 'SiCepat Express', 100000));
+        $this->assertEquals(25000, \App\Http\Controllers\CheckoutController::calculateDeliveryFee('delivery', 'GoSend / GrabExpress (Instant)', 100000));
+        $this->assertEquals(20000, \App\Http\Controllers\CheckoutController::calculateDeliveryFee('delivery', 'Kurir Toko (Dedicated Bakery Delivery)', 100000));
+        $this->assertEquals(0, \App\Http\Controllers\CheckoutController::calculateDeliveryFee('pickup', 'Ambil Sendiri', 100000));
+        $this->assertEquals(0, \App\Http\Controllers\CheckoutController::calculateDeliveryFee('delivery', 'JNE Express (Reguler/YES)', 600000)); // Free shipping rule
+
+        // 2. Customer creates order with JNE Express
+        $user = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
+        $product = Product::first();
+
+        $this->actingAs($user)->withSession([
+            'cart' => [
+                $product->id => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ]
+            ]
+        ]);
+
+        $postData = [
+            'customer_name' => 'Budi Ekspedisi Test',
+            'customer_email' => 'budi@example.com',
+            'customer_phone' => '081234567890',
+            'delivery_option' => 'delivery',
+            'courier_name' => 'JNE Express (Reguler/YES)',
+            'delivery_date' => now()->addDays(2)->format('Y-m-d'),
+            'address' => 'Jl. Raya Darmo No. 45, Wonokromo',
+            'city' => 'Kota Surabaya',
+            'postal_code' => '60241',
+            'latitude' => -7.2905,
+            'longitude' => 112.7380,
+            'payment_method' => 'Transfer Bank BCA',
+            'terms' => '1',
+        ];
+
+        $postRes = $this->post(route('checkout.process'), $postData);
+        $postRes->assertRedirect();
+
+        $order = Order::where('customer_name', 'Budi Ekspedisi Test')->latest()->first();
+        $this->assertNotNull($order);
+        $this->assertEquals('JNE Express (Reguler/YES)', $order->courier_name);
+        $this->assertNotNull($order->tracking_number);
+        $this->assertStringStartsWith('JNE-', $order->tracking_number);
+        $this->assertStringContainsString('jne.co.id', $order->courier_tracking_url);
+        $this->assertEquals('📦', $order->courier_icon);
+
+        // 3. Admin updates status to 'shipping' & marks shipped
+        $this->actingAs($admin);
+        $statusRes = $this->post(route('admin.orders.updateStatus', $order->id), [
+            'order_status' => 'shipping',
+        ]);
+        $statusRes->assertRedirect();
+        $order->refresh();
+        $this->assertEquals('shipping', $order->order_status);
+        $this->assertEquals('Sedang Dibawa Kurir Ekspedisi', $order->order_status_label);
+
+        // Test Mark Shipped endpoint
+        $shippedRes = $this->post(route('admin.orders.markShipped', $order->id));
+        $shippedRes->assertRedirect();
+        $order->refresh();
+        $this->assertEquals('shipping', $order->order_status);
+
+        // Test Printable Shipping Label (Thermal A6 Airwaybill)
+        $labelRes = $this->get(route('admin.orders.shippingLabel', $order->id));
+        $labelRes->assertStatus(200);
+        $labelRes->assertSee('NOMOR RESI PENGIRIMAN (AWB)');
+        $labelRes->assertSee($order->tracking_number);
+        $labelRes->assertSee('JNE Express (Reguler/YES)');
+        $labelRes->assertSee('Budi Ekspedisi Test');
+        $labelRes->assertSee('JANGAN DIBANTING');
+
+        // 4. Customer tracks order
+        $this->actingAs($user);
+        $trackRes = $this->get(route('order.track', ['invoice' => $order->invoice_number]));
+        $trackRes->assertStatus(200);
+        $trackRes->assertSee('DIKIRIM KURIR');
+        $trackRes->assertSee('Sedang Dibawa Kurir Ekspedisi');
+        $trackRes->assertSee($order->tracking_number);
+        $trackRes->assertSee('Cek Resi Resmi di JNE Express');
+        $trackRes->assertSee('Konfirmasi Paket Sudah Diterima');
+
+        // Customer views /my-orders
+        $myOrdersRes = $this->get(route('my.orders'));
+        $myOrdersRes->assertStatus(200);
+        $myOrdersRes->assertSee('🚚 Dikirim Kurir');
+        $myOrdersRes->assertSee('🚚 Lacak Kurir');
+
+        // 5. Customer confirms received -> order completed
+        $confirmRes = $this->post(route('order.confirm_received', $order->invoice_number));
+        $confirmRes->assertRedirect();
+        $order->refresh();
+        $this->assertEquals('completed', $order->order_status);
+    }
 }

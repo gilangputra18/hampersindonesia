@@ -77,6 +77,8 @@ class CheckoutController extends Controller
             return $shipSettings['jne_rate'] ?? 15000;
         } elseif (str_contains($courier, 'j&t') || str_contains($courier, 'jnt')) {
             return $shipSettings['jnt_rate'] ?? 16000;
+        } elseif (str_contains($courier, 'sicepat') || str_contains($courier, 'cepat')) {
+            return $shipSettings['sicepat_rate'] ?? 15000;
         } elseif (str_contains($courier, 'gosend') || str_contains($courier, 'grab')) {
             return $shipSettings['gosend_rate'] ?? 25000;
         }
@@ -327,6 +329,22 @@ class CheckoutController extends Controller
     {
         $order = Order::with(['items', 'items.product'])->where('invoice_number', $invoice)->firstOrFail();
         return view('order-invoice-pdf', compact('order'));
+    }
+
+    public function confirmReceived(Request $request, string $invoice)
+    {
+        $order = Order::where('invoice_number', $invoice)->firstOrFail();
+
+        if (auth()->check() && $order->user_id && $order->user_id !== auth()->id() && !auth()->user()->is_admin) {
+            abort(403, 'Akses tidak sah.');
+        }
+
+        $order->update([
+            'order_status' => 'completed',
+        ]);
+
+        return redirect()->route('order.show', $order->invoice_number)
+            ->with('success', '🎉 Terima kasih! Pesanan Anda telah dikonfirmasi selesai diterima. Selamat menikmati sajian istimewa Pusat Hampers Indonesia.');
     }
 
     public function payMidtrans(Request $request, $invoice)

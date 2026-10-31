@@ -350,6 +350,86 @@
     color: #1e40af;
   }
 
+  /* Interactive Courier Selection Cards */
+  .courier-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 640px) {
+    .courier-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .courier-card-option {
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .courier-card-option:hover {
+    border-color: #722F37;
+    background: #fffcfc;
+  }
+  .courier-card-option.active {
+    border-color: #722F37;
+    background: #fdf2f4;
+    box-shadow: 0 2px 10px rgba(114, 47, 55, 0.12);
+  }
+  .courier-card-option input[type="radio"] {
+    margin-top: 3px;
+    accent-color: #722F37;
+    cursor: pointer;
+  }
+  .courier-card-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .courier-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .courier-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e2d27;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .courier-card-rate {
+    font-size: 13px;
+    font-weight: 700;
+    color: #722F37;
+    white-space: nowrap;
+  }
+  .courier-card-rate.rate-free {
+    color: #15803d;
+  }
+  .courier-card-desc {
+    font-size: 11.5px;
+    color: #64748b;
+    line-height: 1.35;
+  }
+  .courier-card-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
   /* Summary Styling */
   .checkout-right-col {
     position: sticky;
@@ -1022,22 +1102,90 @@
           </div>
 
           @if ($deliveryOption === 'delivery')
-            <div class="form-group">
-              <label>Ekspedisi / Kurir Pengantar</label>
-              <input type="hidden" name="courier_name" value="{{ old('courier_name', $courierName) }}">
-              <div style="padding: 12px 16px; background: #f8faf9; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13.5px; color: #1e2d27; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            <div class="form-group" style="margin-top: 18px;">
+              <label style="font-size: 14px; font-weight: 700; color: #1e2d27; margin-bottom: 4px;">Pilih Ekspedisi / Kurir Pengantar <span style="color: #dc2626;">*</span></label>
+              <div class="section-subtitle" style="margin-top: 0; margin-bottom: 12px;">Pilih layanan pengantaran sesuai preferensi kecepatan dan kenyamanan Anda.</div>
+
+              <div class="courier-grid">
                 @php
-                  $courierIcons = [
-                    'Kurir Toko (Dedicated Bakery Delivery)' => '🥖',
-                    'JNE Express (Reguler/YES)' => '📦',
-                    'J&T Express' => '🚚',
-                    'GoSend / GrabExpress (Instant)' => '⚡',
-                    'Ambil Langsung di Butik Toko' => '🏪',
+                  $selectedCourier = old('courier_name', $courierName);
+                  $freeMin = $shipSettings['free_shipping_min'] ?? 500000;
+                  $isFree = ($subtotal >= $freeMin);
+
+                  $courierOptions = [
+                    [
+                      'name' => 'Kurir Toko (Dedicated Bakery Delivery)',
+                      'icon' => '🥖',
+                      'title' => 'Kurir Toko Dedicated',
+                      'badge' => 'Armada Khusus',
+                      'badge_cls' => 'badge-pop',
+                      'rate' => $shipSettings['store_courier_rate'] ?? 20000,
+                      'desc' => 'Armada berpendingin khusus cake &amp; hampers, aman tanpa risiko guncangan.',
+                    ],
+                    [
+                      'name' => 'JNE Express (Reguler/YES)',
+                      'icon' => '📦',
+                      'title' => 'JNE Express',
+                      'badge' => 'Ekspedisi Nasional',
+                      'badge_cls' => 'badge-auto',
+                      'rate' => $shipSettings['jne_rate'] ?? 15000,
+                      'desc' => 'Layanan ekspedisi terpercaya se-Surabaya &amp; Bandung dengan resi otomatis.',
+                    ],
+                    [
+                      'name' => 'J&T Express',
+                      'icon' => '🚚',
+                      'title' => 'J&T Express',
+                      'badge' => 'Cepat Harian',
+                      'badge_cls' => 'badge-instant',
+                      'rate' => $shipSettings['jnt_rate'] ?? 16000,
+                      'desc' => 'Pengantaran kilat 365 hari tanpa libur dengan nomor resi terintegrasi live.',
+                    ],
+                    [
+                      'name' => 'SiCepat Express',
+                      'icon' => '⚡',
+                      'title' => 'SiCepat Express',
+                      'badge' => 'Kilat Aman',
+                      'badge_cls' => 'badge-instant',
+                      'rate' => $shipSettings['sicepat_rate'] ?? 15000,
+                      'desc' => 'Layanan ekspedisi cepat &amp; amanah khusus paket bingkisan hampers butik.',
+                    ],
+                    [
+                      'name' => 'GoSend / GrabExpress (Instant)',
+                      'icon' => '🛵',
+                      'title' => 'GoSend / GrabExpress',
+                      'badge' => 'Instan 2-3 Jam',
+                      'badge_cls' => 'badge-pop',
+                      'rate' => $shipSettings['gosend_rate'] ?? 25000,
+                      'desc' => 'Driver motor point-to-point langsung antar ke alamat pada tanggal terpilih.',
+                    ],
                   ];
-                  $icon = $courierIcons[$courierName] ?? '🚚';
                 @endphp
-                <span>{{ $icon }}</span>
-                <span>{{ old('courier_name', $courierName) }}</span>
+
+                @foreach ($courierOptions as $opt)
+                  @php
+                    $optRate = $isFree ? 0 : $opt['rate'];
+                    $isActive = ($selectedCourier === $opt['name'] || (empty($selectedCourier) && $loop->first));
+                  @endphp
+                  <label class="courier-card-option {{ $isActive ? 'active' : '' }}" onclick="selectCourierOption(this, '{{ $opt['name'] }}', {{ $optRate }})">
+                    <input type="radio" name="courier_name" value="{{ $opt['name'] }}" {{ $isActive ? 'checked' : '' }} required>
+                    <div class="courier-card-info">
+                      <div class="courier-card-header">
+                        <div class="courier-card-title">
+                          <span>{{ $opt['icon'] }}</span>
+                          <span>{{ $opt['title'] }}</span>
+                        </div>
+                        <span class="courier-card-badge {{ $opt['badge_cls'] }}">{{ $opt['badge'] }}</span>
+                      </div>
+                      <div class="courier-card-desc">{{ $opt['desc'] }}</div>
+                      <div style="margin-top: 6px; display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 11px; color: #64748b;">Tarif Pengiriman:</span>
+                        <span class="courier-card-rate {{ $optRate == 0 ? 'rate-free' : '' }}">
+                          {{ $optRate == 0 ? 'GRATIS (Rp 0)' : 'Rp ' . number_format($optRate, 0, ',', '.') }}
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                @endforeach
               </div>
             </div>
 
@@ -1495,15 +1643,15 @@
         <div class="summary-item">
           <span style="color: #64748b;">Ongkos Kirim ({{ strtoupper($deliveryOption) }})</span>
           @if($deliveryFee == 0)
-            <span style="color: #166534; font-weight: 700;">GRATIS (Rp 0)</span>
+            <span style="color: #166534; font-weight: 700;" id="summary_delivery_fee">GRATIS (Rp 0)</span>
           @else
-            <span style="font-weight: 600;">Rp {{ number_format($deliveryFee, 0, ',', '.') }}</span>
+            <span style="font-weight: 600;" id="summary_delivery_fee">Rp {{ number_format($deliveryFee, 0, ',', '.') }}</span>
           @endif
         </div>
 
         <div class="summary-item total">
           <span>TOTAL PEMBAYARAN</span>
-          <span style="color: #d97706; font-size: 19px;">Rp {{ number_format($totalAmount, 0, ',', '.') }}</span>
+          <span style="color: #d97706; font-size: 19px;" id="summary_total_amount">Rp {{ number_format($totalAmount, 0, ',', '.') }}</span>
         </div>
 
         <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #f1f5f9; font-size: 11.5px; color: #64748b; line-height: 1.5; text-align: center;">
@@ -1564,6 +1712,35 @@
     const radio = labelElement.querySelector('input[type="radio"]');
     if (radio) {
       radio.checked = true;
+    }
+  }
+
+  // 3b. Interactive Courier Selection & Live Fee Calculation
+  const checkoutSubtotal = {{ $subtotal }};
+  const checkoutDiscount = {{ $discountAmount ?? 0 }};
+  const isFreeShippingSubtotal = {{ ($subtotal >= ($shipSettings['free_shipping_min'] ?? 500000)) ? 'true' : 'false' }};
+
+  function selectCourierOption(element, courierName, courierRate) {
+    document.querySelectorAll('.courier-card-option').forEach(card => card.classList.remove('active'));
+    element.classList.add('active');
+
+    const radio = element.querySelector('input[type="radio"]');
+    if (radio) radio.checked = true;
+
+    const actualRate = isFreeShippingSubtotal ? 0 : courierRate;
+    const feeElem = document.getElementById('summary_delivery_fee');
+    if (feeElem) {
+      if (actualRate === 0) {
+        feeElem.innerHTML = '<span style="color: #166534; font-weight: 700;">GRATIS (Rp 0)</span>';
+      } else {
+        feeElem.innerHTML = 'Rp ' + actualRate.toLocaleString('id-ID');
+      }
+    }
+
+    const totalElem = document.getElementById('summary_total_amount');
+    if (totalElem) {
+      const grandTotal = Math.max(0, checkoutSubtotal + actualRate - checkoutDiscount);
+      totalElem.innerHTML = 'Rp ' + grandTotal.toLocaleString('id-ID');
     }
   }
 

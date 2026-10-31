@@ -36,6 +36,7 @@ Route::get('/payment-shipping', [SiteController::class, 'paymentShipping'])->nam
 Route::get('/contact', [SiteController::class, 'contact'])->name('contact');
 Route::post('/contact', [SiteController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');
 Route::get('/track-order', [SiteController::class, 'track'])->name('track');
+Route::get('/track', [SiteController::class, 'track'])->name('order.track');
 
 // Customer Auth Routes
 Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('login');
@@ -65,6 +66,7 @@ Route::post('/checkout', [CheckoutController::class, 'process'])->middleware(['a
 Route::get('/order/{invoice}', [CheckoutController::class, 'showOrder'])->name('order.show');
 Route::get('/order/{invoice}/invoice-pdf', [CheckoutController::class, 'printInvoice'])->name('order.invoice.pdf');
 Route::get('/order/{invoice}/status', [CheckoutController::class, 'checkStatus'])->name('order.status');
+Route::post('/order/{invoice}/confirm-received', [CheckoutController::class, 'confirmReceived'])->name('order.confirm_received');
 Route::post('/order/{invoice}/pay-midtrans', [CheckoutController::class, 'payMidtrans'])->name('order.pay_midtrans');
 Route::post('/order/{invoice}/upload-payment-proof', [CheckoutController::class, 'uploadPaymentProof'])->name('order.upload_payment_proof');
 Route::post('/api/midtrans/notification', [CheckoutController::class, 'midtransNotification'])->name('midtrans.notification');
@@ -78,6 +80,7 @@ Route::post('/site-theme', [SiteController::class, 'setSiteTheme'])->name('site.
 // Customer Account (Auth Required)
 Route::middleware('auth')->group(function () {
     Route::get('/my-orders', [CheckoutController::class, 'myOrders'])->name('my.orders');
+    Route::get('/pesanan-saya', [CheckoutController::class, 'myOrders'])->name('my-orders');
 });
 
 // Admin Authentication Routes (Dedicated URL)
@@ -142,6 +145,8 @@ Route::middleware([AdminMiddleware::class])->prefix('admin')->name('admin.')->gr
     Route::post('/orders/{order}/reject-payment', [AdminOrderController::class, 'rejectPayment'])->name('orders.rejectPayment');
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::post('/orders/{order}/mark-shipped', [AdminOrderController::class, 'markShipped'])->name('orders.markShipped');
+    Route::get('/orders/{order}/shipping-label', [AdminOrderController::class, 'shippingLabel'])->name('orders.shippingLabel');
     Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
     Route::get('/api/orders/notifications', [AdminOrderController::class, 'getNotifications'])->name('orders.notifications');
 

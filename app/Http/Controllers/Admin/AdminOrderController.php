@@ -35,6 +35,7 @@ class AdminOrderController extends Controller
             'all' => Order::count(),
             'pending' => Order::where('order_status', 'pending')->count(),
             'processing' => Order::where('order_status', 'processing')->count(),
+            'shipping' => Order::where('order_status', 'shipping')->count(),
             'completed' => Order::where('order_status', 'completed')->count(),
             'cancelled' => Order::where('order_status', 'cancelled')->count(),
             'verification' => Order::where('payment_status', 'waiting_verification')
@@ -112,8 +113,8 @@ class AdminOrderController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
-            'order_status' => 'required|in:pending,processing,completed,cancelled',
-            'payment_status' => 'required|in:unpaid,paid,verified,waiting_verification',
+            'order_status' => 'required|in:pending,processing,shipping,completed,cancelled',
+            'payment_status' => 'nullable|in:unpaid,paid,verified,waiting_verification',
             'courier_name' => 'nullable|string|max:100',
             'payment_method' => 'nullable|string|max:100',
             'tracking_number' => 'nullable|string|max:100',
@@ -121,8 +122,11 @@ class AdminOrderController extends Controller
 
         $updateData = [
             'order_status' => $request->order_status,
-            'payment_status' => $request->payment_status,
         ];
+
+        if ($request->filled('payment_status')) {
+            $updateData['payment_status'] = $request->payment_status;
+        }
 
         if ($request->filled('courier_name')) {
             $updateData['courier_name'] = $request->courier_name;
@@ -134,11 +138,64 @@ class AdminOrderController extends Controller
 
         if ($request->filled('tracking_number')) {
             $updateData['tracking_number'] = $request->tracking_number;
+        } elseif ($request->order_status === 'shipping' && empty($order->tracking_number)) {
+            $courier = $request->input('courier_name', $order->courier_name) ?: 'Kurir Toko';
+            $prefix = \Illuminate\Support\Str::upper(substr(preg_replace('/[^a-zA-Z]/', '', $courier), 0, 3));
+            $updateData['tracking_number'] = ($prefix ?: 'EXP') . '-' . date('Ymd') . '-' . rand(1000, 9999);
         }
 
         $order->update($updateData);
 
         return back()->with('success', 'Detail & status pesanan ' . $order->invoice_number . ' telah diperbarui!');
+    }
+
+    public function markShipped(Request $request, Order $order)
+    {
+        $trackingNumber = $request->input('tracking_number');
+        if (empty($trackingNumber)) {
+            $trackingNumber = $order->tracking_number;
+        }
+        if (empty($trackingNumber)) {
+            $courier = $order->courier_name ?? 'Kurir Toko';
+            $prefix = \Illuminate\Support\Str::upper(substr(preg_replace('/[^a-zA-Z]/', '', $courier), 0, 3));
+            $trackingNumber = ($prefix ?: 'EXP') . '-' . date('Ymd') . '-' . rand(1000, 9999);
+        }
+
+        $courierName = $request->input('courier_name', $order->courier_name);
+
+        $order->update([
+            'order_status' => 'shipping',
+            'courier_name' => $courierName,
+            'tracking_number' => $trackingNumber,
+        ]);
+
+        // Clean customer phone for WhatsApp notification
+        $phone = preg_replace('/[^0-9]/', '', $order->customer_phone);
+        if (str_starts_with($phone, '0')) {
+            $phone = '62' . substr($phone, 1);
+        }
+
+        $trackUrl = route('track', ['invoice' => $order->invoice_number]);
+        $waMsg = "Halo Kak {$order->customer_name},\n\n"
+               . "Kabar gembira! Pesanan hampers Anda *#{$order->invoice_number}* telah diserahkan dan saat ini *SEDANG DIBAWA KURIR EKSPEDISI* menuju alamat Anda.\n\n"
+               . "🚚 *Ekspedisi:* {$order->courier_name}\n"
+               . "🏷️ *Nomor Resi / AWB:* {$order->tracking_number}\n"
+               . "📍 *Alamat Pengiriman:* {$order->address}\n\n"
+               . "Lacak perjalanan kurir secara real-time di sini:\n"
+               . "{$trackUrl}\n\n"
+               . "Terima kasih telah mempercayakan perayaan istimewa Anda kepada Pusat Hampers Indonesia!";
+
+        $waLink = "https://wa.me/{$phone}?text=" . urlencode($waMsg);
+
+        return back()->with('success', '🚚 Pesanan #' . $order->invoice_number . ' telah diserahkan ke kurir dan berstatus SEDANG DIBAWA KURIR (Shipping)!')
+                     ->with('dispatch_wa_link', $waLink)
+                     ->with('dispatched_invoice', $order->invoice_number);
+    }
+
+    public function shippingLabel(Order $order)
+    {
+        $order->load(['items', 'items.product']);
+        return view('admin.orders.shipping_label', compact('order'));
     }
 
     public function destroy(Order $order)

@@ -118,6 +118,7 @@
   }
   .badge-pending    { background: #fef3c7; color: #92400e; }
   .badge-processing { background: #dbeafe; color: #1e40af; }
+  .badge-shipping   { background: #e0f2fe; color: #0369a1; border: 1px solid #38bdf8; font-weight: 800; }
   .badge-completed  { background: #dcfce7; color: #166534; }
   .badge-cancelled  { background: #fee2e2; color: #991b1b; }
   .badge-paid                 { background: #dcfce7; color: #166534; }
@@ -234,7 +235,19 @@
             <div class="order-meta">
               <div class="meta-item">
                 <label>Status Pesanan</label>
-                <span class="badge-status badge-{{ $order->order_status }}">{{ ucfirst($order->order_status) }}</span>
+                <span class="badge-status badge-{{ $order->order_status }}">
+                  @if($order->order_status === 'shipping')
+                    🚚 Dikirim Kurir
+                  @elseif($order->order_status === 'processing')
+                    ⚙️ Diproses
+                  @elseif($order->order_status === 'completed')
+                    ✅ Selesai
+                  @elseif($order->order_status === 'cancelled')
+                    ❌ Dibatalkan
+                  @else
+                    ⏳ Menunggu
+                  @endif
+                </span>
               </div>
               <div class="meta-item">
                 <label>Status Bayar</label>
@@ -278,9 +291,16 @@
                 <div class="total-label">Total Pembayaran</div>
                 <div class="total-amount">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</div>
               </div>
-              <a href="{{ route('order.show', $order->invoice_number) }}" class="btn-view-order">
-                Lihat Detail & Bayar →
-              </a>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                @if($order->order_status === 'shipping' || $order->tracking_number)
+                  <a href="{{ route('order.track', ['invoice' => $order->invoice_number]) }}" class="btn-view-order" style="background:#0284c7;color:#fff;">
+                    🚚 Lacak Kurir
+                  </a>
+                @endif
+                <a href="{{ route('order.show', $order->invoice_number) }}" class="btn-view-order">
+                  Lihat Detail →
+                </a>
+              </div>
             </div>
           </div>
         </div>
