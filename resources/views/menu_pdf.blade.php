@@ -441,7 +441,7 @@
     -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
   }
 
-  /* Bottom Sticky Action Buttons */
+  /* Bottom Sticky Action Button */
   .pricelist-cta-section {
     display: flex;
     justify-content: center;
@@ -449,48 +449,6 @@
     gap: 14px;
     margin-top: 32px;
     flex-wrap: wrap;
-  }
-  .btn-cta-tokopedia {
-    background: #03ac0e;
-    color: #ffffff;
-    font-size: 13.5px;
-    font-weight: 700;
-    padding: 12px 26px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 14px rgba(3, 172, 14, 0.35);
-    transition: all 0.2s ease;
-  }
-  .btn-cta-tokopedia:hover {
-    background: #02940c;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(3, 172, 14, 0.45);
-    color: #ffffff;
-  }
-  .btn-cta-website {
-    background: #25050d;
-    background: linear-gradient(135deg, #320712 0%, #190207 100%);
-    border: 1px solid #e6ca65;
-    color: #fef08a;
-    font-size: 13.5px;
-    font-weight: 700;
-    padding: 12px 26px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 14px rgba(50, 7, 18, 0.4);
-    transition: all 0.2s ease;
-  }
-  .btn-cta-website:hover {
-    background: linear-gradient(135deg, #780d26 0%, #9f183c 100%);
-    color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(159, 24, 60, 0.5);
   }
   .btn-cta-print {
     background: #ffffff;
@@ -924,19 +882,9 @@
     </div>
 
     <!-- ==========================================
-         ACTION BUTTONS (Tokopedia & Website Order)
+         ACTION BUTTON (Cetak / Unduh PDF)
          ========================================== -->
     <div class="pricelist-cta-section">
-      <a href="{{ config('site.tokopedia_url', 'https://www.tokopedia.com') }}" target="_blank" rel="noopener noreferrer" class="btn-cta-tokopedia" title="Beli di Tokopedia Resmi">
-        <span>🛍️</span>
-        <span>Pesan di Tokopedia</span>
-      </a>
-
-      <a href="{{ route('shop') }}" class="btn-cta-website" title="Pesan Langsung Lewat Website">
-        <span>✨</span>
-        <span>Pesan di Website</span>
-      </a>
-
       <button type="button" onclick="window.print()" class="btn-cta-print" title="Cetak atau Simpan sebagai PDF">
         <span>🖨️</span>
         <span>Cetak / Unduh PDF</span>

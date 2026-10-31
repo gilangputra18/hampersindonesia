@@ -713,15 +713,15 @@ class BakerySystemTest extends TestCase
         $res1->assertSee('Lapis Plum Big');
         $res1->assertSee('Risoles');
         $res1->assertSee('Risoles Beef Mayo');
-        $res1->assertSee('Pesan di Tokopedia');
-        $res1->assertSee('Pesan di Website');
+        $res1->assertDontSee('Pesan di Tokopedia');
+        $res1->assertDontSee('Pesan di Website');
         $res1->assertSee('Cetak / Unduh PDF');
 
         $res2 = $this->get('/menu-pdf');
         $res2->assertStatus(200);
         $res2->assertSee('Pricelist');
-        $res2->assertSee('Pesan di Tokopedia');
-        $res2->assertSee('Pesan di Website');
+        $res2->assertDontSee('Pesan di Tokopedia');
+        $res2->assertDontSee('Pesan di Website');
     }
 
     public function test_terms_and_conditions_page_renders_matching_reference_concept(): void
