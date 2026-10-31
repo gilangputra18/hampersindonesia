@@ -191,12 +191,35 @@ class Product extends Model
             if (file_exists(public_path($thumbPath))) {
                 return asset($thumbPath);
             }
+
+            // Auto-generate thumbnail if source image exists
+            $sourceCandidate = public_path('images/' . $baseName);
+            if (file_exists($sourceCandidate) && class_exists(\App\Helpers\ImageOptimizer::class)) {
+                try {
+                    if (\App\Helpers\ImageOptimizer::createThumbnail($sourceCandidate, public_path($thumbPath), 320, 80)) {
+                        return asset($thumbPath);
+                    }
+                } catch (\Throwable $e) {}
+            }
         }
 
         if (!empty($this->slug)) {
             $thumbSlug = 'images/thumbs/' . $this->slug . '.jpg';
             if (file_exists(public_path($thumbSlug))) {
                 return asset($thumbSlug);
+            }
+        }
+
+        // Check if the resolved primary image has a lightweight thumbnail
+        $resolved = $this->image_url;
+        if (!empty($resolved) && is_string($resolved)) {
+            $resolvedPath = parse_url($resolved, PHP_URL_PATH);
+            if ($resolvedPath) {
+                $resolvedBase = basename($resolvedPath);
+                $thumbResolved = 'images/thumbs/' . $resolvedBase;
+                if (file_exists(public_path($thumbResolved))) {
+                    return asset($thumbResolved);
+                }
             }
         }
 
@@ -309,7 +332,7 @@ class Product extends Model
             return asset($isPrimary ? 'images/cat-mooncake.jpg' : 'images/box-of-6.jpg');
         }
 
-        // Luxury Hampers keywords
+        // Specific Luxury Hampers keywords
         if (str_contains($nameLower, 'rose')) {
             return asset('images/rose.jpg');
         }
@@ -325,22 +348,29 @@ class Product extends Model
         if (str_contains($nameLower, 'iris')) {
             return asset('images/iris.jpg');
         }
-        if (str_contains($nameLower, 'hamper') || $catLower === 'hampers') {
-            return asset($isPrimary ? 'images/cat-hampers.jpg' : 'images/rose.jpg');
-        }
 
-        // Cookies keywords
-        if (str_contains($nameLower, 'nastar') || str_contains($nameLower, 'pineapple')) {
+        // Specific Item keywords (Cookies, Cakes, Lapis) - check before generic hamper fallback
+        if (str_contains($nameLower, 'nastar') || str_contains($nameLower, 'harmonis') || str_contains($nameLower, 'pineapple')) {
             return asset('images/nastar-pineapple.jpg');
         }
         if (str_contains($nameLower, 'kaas') || str_contains($nameLower, 'edam')) {
             return asset('images/kaastengel.jpg');
         }
-        if (str_contains($nameLower, 'cookie') || str_contains($nameLower, 'butter') || $catLower === 'cookies') {
+        if (str_contains($nameLower, 'cookie') || str_contains($nameLower, 'butter')) {
             return asset('images/butter-cookies-jar.jpg');
         }
+        if (str_contains($nameLower, 'lapis') || str_contains($nameLower, 'legit')) {
+            return asset($isPrimary ? 'images/cat-cakes.jpg' : 'images/cat-hampers.jpg');
+        }
 
-        // Cake keywords
+        // Generic Hampers category fallback
+        if (str_contains($nameLower, 'hamper') || $catLower === 'hampers') {
+            return asset($isPrimary ? 'images/cat-hampers.jpg' : 'images/rose.jpg');
+        }
+
+        if ($catLower === 'cookies') {
+            return asset('images/butter-cookies-jar.jpg');
+        }
         if (str_contains($nameLower, 'cheese') || str_contains($nameLower, 'burnt')) {
             return asset('images/basque-burnt-cheesecake.jpg');
         }

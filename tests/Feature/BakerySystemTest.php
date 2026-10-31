@@ -1231,4 +1231,36 @@ class BakerySystemTest extends TestCase
         $this->assertStringContainsString('Kota Surabaya', $order->address);
         $this->assertStringContainsString('Jl. Raya Darmo No. 45', $order->address);
     }
+
+    public function test_product_cards_use_fast_loading_thumbnails_and_eager_priority(): void
+    {
+        // 1. Verify models generate fast thumbnail URLs
+        $category = Category::first();
+        $p1 = new Product([
+            'category_id' => $category->id,
+            'name' => 'Lapis Legit Original Big 36 Bites',
+            'slug' => 'lapis-legit-original-big-36-bites',
+            'price' => 450000,
+            'image' => 'lapis-legit-original-big-36-bites.jpg',
+        ]);
+        $this->assertStringContainsString('images/thumbs/', $p1->thumbnail_url);
+
+        $p2 = new Product([
+            'category_id' => $category->id,
+            'name' => 'Nastar Harmonis Box 36',
+            'slug' => 'nastar-harmonis-box-36',
+            'price' => 240000,
+            'image' => 'nastar-harmonis-box-36.jpg',
+        ]);
+        $this->assertStringContainsString('images/thumbs/nastar-pineapple.jpg', $p2->thumbnail_url);
+
+        // 2. Verify /shop page outputs fast thumbnails, eager loading, and fetchpriority for above-the-fold cards
+        $res = $this->get('/shop');
+        $res->assertStatus(200);
+        $res->assertSee('images/thumbs/');
+        $res->assertSee('fetchpriority="high"', false);
+        $res->assertSee('loading="eager"', false);
+        $res->assertSee('width="320"', false);
+        $res->assertSee('height="320"', false);
+    }
 }

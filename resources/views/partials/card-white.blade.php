@@ -5,6 +5,11 @@
   $imageUrl = is_array($item) 
     ? asset('images/' . \Illuminate\Support\Str::slug($item[0]) . '.jpg') 
     : $item->image_url;
+  $thumbUrl = is_array($item) 
+    ? (file_exists(public_path('images/thumbs/' . \Illuminate\Support\Str::slug($item[0]) . '.jpg'))
+        ? asset('images/thumbs/' . \Illuminate\Support\Str::slug($item[0]) . '.jpg')
+        : $imageUrl)
+    : ($item->thumbnail_url ?: $item->image_url);
   $secondaryUrl = is_array($item)
     ? asset('images/cat-' . ($slug ?? 'cakes') . '.jpg')
     : $item->secondary_image_url;
@@ -49,7 +54,13 @@
 
 <div class="ref-white-card" data-product-id="{{ $id }}">
   <a href="{{ $detailUrl }}" class="ref-white-img-wrap" title="{{ $name }}">
-    <img src="{{ $imageUrl }}" alt="{{ $name }}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';">
+    <img src="{{ $thumbUrl }}" 
+         alt="{{ $name }}" 
+         width="320" 
+         height="320" 
+         loading="lazy" 
+         decoding="async" 
+         onerror="this.onerror=null; this.src='{{ asset('images/thumbs/cat-hampers.jpg') }}';">
   </a>
   <div class="ref-white-body">
     <a href="{{ $detailUrl }}" style="text-decoration: none; color: inherit;" title="{{ $name }}">

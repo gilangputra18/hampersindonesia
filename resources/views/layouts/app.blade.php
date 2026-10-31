@@ -88,16 +88,44 @@
     background: #f8fafc !important;
     margin-bottom: 0 !important;
   }
-  .shop-card-luxury .card-img-primary,
-  .shop-card-luxury .card-img-secondary {
+  .shop-card-luxury .card-img-primary {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
     display: block !important;
-    transition: opacity 0.4s ease, transform 0.4s ease !important;
+    opacity: 1 !important;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
   }
-  .shop-card-luxury:hover .card-img-primary {
-    transform: scale(1.04) !important;
+  .shop-card-luxury .card-img-secondary {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card-hover-flip:hover .card-img-primary {
+      opacity: 0 !important;
+    }
+    .card-hover-flip:hover .card-img-secondary {
+      opacity: 1 !important;
+      transform: scale(1.04) !important;
+    }
+  }
+  @media (hover: none) or (pointer: coarse) {
+    .card-hover-flip .card-img-primary,
+    .card-hover-flip:hover .card-img-primary,
+    .card-hover-flip:active .card-img-primary {
+      opacity: 1 !important;
+      display: block !important;
+    }
+    .card-hover-flip .card-img-secondary {
+      display: none !important;
+    }
   }
   .shop-card-luxury .card-title-text {
     font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif !important;

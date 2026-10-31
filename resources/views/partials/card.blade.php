@@ -5,9 +5,19 @@
   $imageUrl = is_array($item) 
     ? asset('images/' . \Illuminate\Support\Str::slug($item[0]) . '.jpg') 
     : $item->image_url;
+  $thumbUrl = is_array($item)
+    ? (file_exists(public_path('images/thumbs/' . \Illuminate\Support\Str::slug($item[0]) . '.jpg'))
+        ? asset('images/thumbs/' . \Illuminate\Support\Str::slug($item[0]) . '.jpg')
+        : $imageUrl)
+    : ($item->thumbnail_url ?: $item->image_url);
   $secondaryUrl = is_array($item)
     ? asset('images/cat-' . ($slug ?? 'cakes') . '.jpg')
     : $item->secondary_image_url;
+  $secondaryThumb = is_array($item)
+    ? (file_exists(public_path('images/thumbs/cat-' . ($slug ?? 'cakes') . '.jpg'))
+        ? asset('images/thumbs/cat-' . ($slug ?? 'cakes') . '.jpg')
+        : $secondaryUrl)
+    : ($secondaryUrl ? (file_exists(public_path('images/thumbs/' . basename(parse_url($secondaryUrl, PHP_URL_PATH) ?? ''))) ? asset('images/thumbs/' . basename(parse_url($secondaryUrl, PHP_URL_PATH) ?? '')) : $secondaryUrl) : null);
   $itemSlug = is_array($item) ? ($slug ?? 'cakes') : ($item->category->slug ?? ($slug ?? 'cakes'));
   $includedItems = is_array($item) ? [] : ($item->included_items ?? []);
   $flavor = is_array($item) ? 'Original' : ($item->flavor ?? 'Original');
@@ -50,14 +60,34 @@
   }
   $prodSlug = is_array($item) ? \Illuminate\Support\Str::slug($name) : ($item->slug ?: \Illuminate\Support\Str::slug($name));
   $detailUrl = route('product.detail', $prodSlug);
+  $isAboveFold = isset($loop) ? ($loop->index < 6) : true;
 @endphp
 <div class="card card-hover-flip shop-card-luxury" data-product-id="{{ $id }}">
   <div class="shop-card-top">
     <a href="{{ $detailUrl }}" class="card-clickable-area" title="{{ $name }}">
       <span class="ph card-ph">
-        <img src="{{ $imageUrl }}" alt="{{ $name }}" class="card-img-primary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-hampers.jpg') }}';">
+        <img src="{{ $thumbUrl }}" 
+             alt="{{ $name }}" 
+             class="card-img-primary" 
+             width="320" 
+             height="320"
+             @if ($isAboveFold)
+               loading="eager" 
+               fetchpriority="high"
+             @else
+               loading="lazy" 
+             @endif
+             decoding="async" 
+             onerror="this.onerror=null; this.src='{{ asset('images/thumbs/cat-hampers.jpg') }}';">
         @if ($secondaryUrl && $secondaryUrl !== $imageUrl)
-          <img src="{{ $secondaryUrl }}" alt="{{ $name }} Alternative" class="card-img-secondary" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='{{ asset('images/cat-mooncake.jpg') }}';">
+          <img src="{{ $secondaryThumb ?: $secondaryUrl }}" 
+               alt="{{ $name }} Alternative" 
+               class="card-img-secondary" 
+               width="320" 
+               height="320"
+               loading="lazy" 
+               decoding="async" 
+               onerror="this.onerror=null; this.src='{{ asset('images/thumbs/cat-mooncake.jpg') }}';">
         @endif
       </span>
       <span class="n card-title-text">{{ $name }}</span>
